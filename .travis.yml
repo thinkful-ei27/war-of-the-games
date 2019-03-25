@@ -1,12 +1,2 @@
 language: node_js
 node_js: node
-notifications:
-  email: false
-before_script: cd server && npm i
-deploy:
-  provider: heroku
-  api_key:
-    secure: mM1ZuatRTQiHgDYV1RaXNNI+Zjh/QfukccWfGSSSLcPd+XtYM59DOG43zyUNNiokDq0Jx5rkkoKG5LZsaMhHOvsrAIUQwQrvt3pxB71bsmf051Q/jTKYoBLLZWU4myen6uVFZDbrEuH/8+W4B+UeJJ85Ausk43S1pVz7HEYyRoZ1oTQe6shmi457Q+LUTcwgI8lcSN/hNT8cdNk8iY05fUma5ieBHUijb30xq6nzODTFrV7xHkjlet7RLNcgEJFgV8ZBltvAIkfvub5gs/D7JgVJRSf+Tm7PikrpgLsgmLOKc3HYZMbYGB7UozL8x3FkA9KBqHE03aAvqMCS4af0b3IYBTXp+9m0W999YkpYRMREa1T/vqTwpYnm458SDE7U3dhGROHzQ2ItFdsN2ke1tZuGLcXRb0aACyjdL8+Z/vXubrx6SdxIxc8TMj4IaL9ZefzzUVpztmxitjPINv8TOnppjReXJqmjvtQo90BgV08LzfRlvMCXlJengMuHOMI6vGga9lZPCDyoT64cslhWmPJhE9HbJRrhRJSeln+3ulrIaxiWkeYai27SMpyGbh74N/akQvwV+drq0R6FgK6xBhUWUxV7QIprKUf0lphmQKvpaEOTGGi9GaLWOstimvfrjsxgPewgkU8opsQMPe+YcEwTlH0g/FmO3T3a7LEgSd4=
-  app: davidj-johny-spaced
-  on:
-    repo: thinkful-ei27/david-john-spaced-rep
