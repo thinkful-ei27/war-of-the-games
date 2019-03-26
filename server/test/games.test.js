@@ -109,6 +109,26 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
+    it("should return different games each time it is called", function() {
+      return Promise.all([
+        chai.request(app).get("/api/games/battle"),
+        chai.request(app).get("/api/games/battle"),
+        chai.request(app).get("/api/games/battle")
+      ]).then(([res1, res2, res3]) => {
+        expect(res1.body).to.be.an("array");
+        expect(res2.body).to.be.an("array");
+        expect(res3.body).to.be.an("array");
+        expect(
+          res1.body[0].id === res2.body[0].id &&
+            res2.body[0].id === res3.body[0].id
+        ).to.equal(false);
+        expect(
+          res1.body[1].id === res2.body[1].id &&
+            res2.body[1].id === res3.body[1].id
+        ).to.equal(false);
+      });
+    });
+
     it("shold catch errors and respond properly", function() {
       sandbox.stub(Game.schema.options.toJSON, "transform").throws("FakeError");
 
