@@ -9,7 +9,8 @@
     "test": "cross-env NODE_ENV=test mocha --exit --timeout 5000",
     "cover": "nodemon --exec nyc --reporter=lcov --reporter=text-summary npm run mocha-exit0",
     "heroku": "node index.js",
-    "travis": "npm run test"
+    "travis": "npm run test",
+    "seed": "cd utils/ && node seedDatabase.js"
   },
   "author": "Joe Turner <jturner@thinkful.com>",
   "license": "MIT",

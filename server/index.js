@@ -10,9 +10,10 @@ const { dbConnect } = require("./db-mongoose");
 // const {dbConnect} = require('./db-knex');
 
 // Routers
-const usersRouter = require("./routes/users");
+const usersRouter = require('./routes/users');
+const authRouter = require('./routes/auth');
+const historyRouter = require('./routes/history');
 const gamesRouter = require("./routes/games");
-const authRouter = require("./routes/auth");
 
 const app = express();
 
@@ -36,9 +37,10 @@ passport.use(localStrategy);
 passport.use(jwtStrategy);
 
 // Mount routers
-app.use("/api/users", usersRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/history', historyRouter);
 app.use("/api/games", gamesRouter);
-app.use("/api", authRouter);
+app.use('/api', authRouter);
 
 // Catch-all 404
 app.use(function(req, res, next) {
