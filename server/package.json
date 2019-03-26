@@ -4,8 +4,9 @@
   "description": "Template for an Express backend",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon index.js",
     "start": "nodemon index.js",
-    "test": "cross-env NODE_ENV=test mocha",
+    "test": "cross-env NODE_ENV=test mocha --exit --timeout 5000",
     "cover": "nodemon --exec nyc --reporter=lcov --reporter=text-summary npm run mocha-exit0",
     "heroku": "node index.js",
     "travis": "npm run test",
