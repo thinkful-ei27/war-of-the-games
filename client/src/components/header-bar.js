@@ -38,6 +38,7 @@ export class HeaderBar extends Component {
 
     return (
       <header className="header">
+        <h1 className="app-title">Foo App?</h1>
         <Menu
           className="bm-burger-button"
           right
