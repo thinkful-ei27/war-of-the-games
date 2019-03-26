@@ -14,7 +14,7 @@ export const fetchGamesSuccess = games => ({
 
 export const fetchGames = () => (dispatch, getState) => {
   axios({
-    url: "our server url",
+    url: API_BASE_URL,
     method: "GET"
   })
     .then(response => {
@@ -27,17 +27,20 @@ export const fetchGames = () => (dispatch, getState) => {
 
 export const HANDLE_VOTE = "HANDLE_VOTE";
 
-export const handleVote = (game1, game2, choice) => (dispatch, getState) => {
+export const handleVote = (gameOne, gameTwo, choice) => (
+  dispatch,
+  getState
+) => {
   axios
-    .post("url", {
-      game1,
-      game2,
+    .post(`${API_BASE_URL}/history`, {
+      gameOne,
+      gameTwo,
       choice
     })
-    .then(function(response) {
+    .then(function (response) {
       console.log(response);
     })
-    .catch(function(error) {
+    .catch(function (error) {
       console.log(error);
     });
 };
