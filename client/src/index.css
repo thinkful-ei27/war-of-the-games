@@ -1,5 +1,29 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.battle-container {
+  display: flex;
+  justify-content: space-evenly;
+  height: 800px;
+  width: 1000px;
+  margin: 20px auto;
+}
+
+.vs {
+  font-size: 28px;
+  padding-top: 50px;
+}
+
+.game-img {
+  height: 300px;
+  width: 300px;
+  margin-bottom: 20px;
+}
+
+.game-title {
+  font-size: 28px;
+  text-align: center;
 }
