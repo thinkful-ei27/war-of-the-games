@@ -13,6 +13,7 @@
     "react-scripts": "2.1.8"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "jwt-decode": "^2.2.0",
     "nes.css": "^2.1.1",
     "react": "^16.8.5",
