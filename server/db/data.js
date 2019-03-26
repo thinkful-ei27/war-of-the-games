@@ -26,43 +26,60 @@ const users = [
 const games = [
   {
     name: "Super Mario 64",
-    igdbId: 1074
+    igdbId: 1074,
+    coverUrl:
+      "https://images.igdb.com/igdb/image/upload/t_720p/scutr4p9gytl4txb2soy.jpg"
   },
   {
     name: "The Legend of Zelda",
-    igdbId: 1022
+    igdbId: 1022,
+    coverUrl:
+      "https://images.igdb.com/igdb/image/upload/t_720p/bfeef9eun1ybhuwufqxm.jpg"
   },
   {
     name: "Mortal Kombat",
-    igdbId: 119
+    igdbId: 1618,
+    coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/co1hno.jpg"
   },
   {
     name: "Street Fighter II",
-    igdbId: 3186
+    igdbId: 3186,
+    coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/co1hq8.jpg"
   },
   {
     name: "Halo: Combat Evolved",
-    igdbId: 740
+    igdbId: 740,
+    coverUrl:
+      "https://images.igdb.com/igdb/image/upload/t_720p/bcotwv6rapvdglcahxi3.jpg"
   },
   {
     name: "Superman",
-    igdbId: 3005
+    igdbId: 3005,
+    coverUrl:
+      "https://images.igdb.com/igdb/image/upload/t_720p/wej8g7hq46wb0ueyblin.jpg"
   },
   {
     name: "Final Fantasy VII",
-    igdbId: 427
+    igdbId: 427,
+    coverUrl:
+      "https://images.igdb.com/igdb/image/upload/t_720p/idzdf1alxvetz3ow2ugy.jpg"
   },
   {
     name: "WWF No Mercy",
-    igdbId: 3644
+    igdbId: 3644,
+    coverUrl:
+      "https://images.igdb.com/igdb/image/upload/t_720p/clajigg1q7mm9uxz14kx.jpg"
   },
   {
     name: "Super Smash Bros.",
-    igdbId: 1626
+    igdbId: 1626,
+    coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/co1hzi.jpg"
   },
   {
     name: "Candy Crush Saga",
-    igdbId: 5636
+    igdbId: 5636,
+    coverUrl:
+      "https://images.igdb.com/igdb/image/upload/t_720p/u9s7ap9gi5kestfxhxdf.jpg"
   }
 ];
 
