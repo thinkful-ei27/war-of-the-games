@@ -12,7 +12,6 @@ export class LandingPage extends React.Component {
   // <div className="home">
   render() {
     const { games } = this.props;
-    console.log(games);
     return (
       //     <h2>Welcome to Foo App</h2>
       //     <LoginForm />
