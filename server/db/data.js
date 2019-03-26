@@ -25,34 +25,44 @@ const users = [
 
 const games = [
   {
-    name: "Super Mario 64"
+    name: "Super Mario 64",
+    igdbId: 1074
   },
   {
-    name: "The Legend of Zelda"
+    name: "The Legend of Zelda",
+    igdbId: 1022
   },
   {
-    name: "Mortal Kombat"
+    name: "Mortal Kombat",
+    igdbId: 119
   },
   {
-    name: "Street Fighter II"
+    name: "Street Fighter II",
+    igdbId: 3186
   },
   {
-    name: "Halo"
+    name: "Halo: Combat Evolved",
+    igdbId: 740
   },
   {
-    name: "Superman 64"
+    name: "Superman",
+    igdbId: 3005
   },
   {
-    name: "Final Fantasy VII"
+    name: "Final Fantasy VII",
+    igdbId: 427
   },
   {
-    name: "WWF No Mercy"
+    name: "WWF No Mercy",
+    igdbId: 3644
   },
   {
-    name: "Super Smash Bros"
+    name: "Super Smash Bros.",
+    igdbId: 1626
   },
   {
-    name: "Candy Crush"
+    name: "Candy Crush Saga",
+    igdbId: 5636
   }
 ];
 
