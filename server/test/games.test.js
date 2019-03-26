@@ -75,4 +75,52 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
   });
+
+  describe("GET /api/games/battle", function() {
+    it("should return two games", function() {
+      return chai
+        .request(app)
+        .get("/api/games/battle")
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a("array");
+          expect(res.body).to.have.length(2);
+        });
+    });
+
+    it("should return different games with the correct fields", function() {
+      return chai
+        .request(app)
+        .get("/api/games/battle")
+        .then(res => {
+          expect(res.body).to.be.a("array");
+          res.body.forEach(function(item) {
+            expect(item).to.be.a("object");
+            expect(item).to.include.all.keys(
+              "id",
+              "name",
+              "createdAt",
+              "updatedAt"
+            );
+          });
+          expect(res.body[0].id).to.not.equal(res.body[1].id);
+          expect(res.body[0].name).to.not.equal(res.body[1].name);
+        });
+    });
+
+    it("shold catch errors and respond properly", function() {
+      sandbox.stub(Game.schema.options.toJSON, "transform").throws("FakeError");
+
+      return chai
+        .request(app)
+        .get("/api/games/battle")
+        .then(res => {
+          expect(res).to.have.status(500);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Internal Server Error");
+        });
+    });
+  });
 });
