@@ -14,7 +14,7 @@ describe("ASYNC Capstone API - Games", function() {
   beforeEach(() => Game.insertMany(games));
   afterEach(() => dbDrop());
   after(() => dbDisconnect());
-  describe("GET /api/games", function() {
+  describe.only("GET /api/games", function() {
     it("should return the correct number of games", function() {
       return Promise.all([
         Game.find(),
@@ -26,9 +26,33 @@ describe("ASYNC Capstone API - Games", function() {
         expect(res.body).to.have.length(data.length);
       });
     });
-    it(
-      "should return those games in the correct order and with the correct fields"
-    );
+
+    it("should return those games in the correct order and with the correct fields", function() {
+      return Promise.all([
+        Game.find().sort({ name: "asc" }),
+        chai.request(app).get("/api/games")
+      ]).then(([data, res]) => {
+        expect(res).to.have.status(200);
+        expect(res).to.be.json;
+        expect(res.body).to.be.a("array");
+        expect(res.body).to.have.length(data.length);
+        res.body.forEach(function(item, i) {
+          expect(item).to.be.a("object");
+          // Note: folderId, tags and content are optional
+          expect(item).to.include.all.keys(
+            "id",
+            "name",
+            "createdAt",
+            "updatedAt"
+          );
+          expect(item.id).to.equal(data[i].id);
+          expect(item.name).to.equal(data[i].name);
+          expect(new Date(item.createdAt)).to.eql(data[i].createdAt);
+          expect(new Date(item.updatedAt)).to.eql(data[i].updatedAt);
+        });
+      });
+    });
+
     it("should return correct search results for a searchTerm query");
     it("should return the correct results for any filters applied");
     it("should return an empty array for an incorrect query");
