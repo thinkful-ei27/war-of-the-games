@@ -8,7 +8,8 @@
     "test": "cross-env NODE_ENV=test mocha",
     "cover": "nodemon --exec nyc --reporter=lcov --reporter=text-summary npm run mocha-exit0",
     "heroku": "node index.js",
-    "travis": "npm run test"
+    "travis": "npm run test",
+    "seed": "cd utils/ && node seedDatabase.js"
   },
   "author": "Joe Turner <jturner@thinkful.com>",
   "license": "MIT",
@@ -34,6 +35,7 @@
     "chai-http": "^4.2.1",
     "cross-env": "^5.2.0",
     "mocha": "^6.0.2",
-    "nyc": "^13.3.0"
+    "nyc": "^13.3.0",
+    "sinon": "^7.3.0"
   }
 }
