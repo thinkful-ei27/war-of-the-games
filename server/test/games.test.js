@@ -76,8 +76,7 @@ describe("ASYNC Capstone API - Games", function() {
     });
   });
 
-  // TODO: Remove `.only`
-  describe.only("GET /api/games/battle", function() {
+  describe("GET /api/games/battle", function() {
     it("should return two games", function() {
       return chai
         .request(app)
@@ -110,6 +109,18 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
-    it("shold catch errors and respond properly");
+    it("shold catch errors and respond properly", function() {
+      sandbox.stub(Game.schema.options.toJSON, "transform").throws("FakeError");
+
+      return chai
+        .request(app)
+        .get("/api/games/battle")
+        .then(res => {
+          expect(res).to.have.status(500);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Internal Server Error");
+        });
+    });
   });
 });

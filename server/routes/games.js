@@ -13,7 +13,8 @@ router.get("/", (req, res, next) => {
 router.get("/battle", (req, res, next) => {
   Game.find()
     .limit(2)
-    .then(results => res.json(results));
+    .then(results => res.json(results))
+    .catch(err => next(err));
 });
 
 module.exports = router;
