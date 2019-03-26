@@ -78,17 +78,6 @@ router.put('/:id', isValidId, missingChoice, (req, res, next) => {
   const { choice } = req.body;
 
   const updateChoice = { choice };
-  
-  // const games = await History.findOne({ _id: id })
-  // if (!games) next();
-  // const gameOne = games.gameOne;
-  // const gameTwo = games.gameTwo;
-
-  // if (choice !== gameOne && choice !== gameTwo) {
-  //   const err = new Error('Choice does not equal game one or game two');
-  //   err.status = 400;
-  //   return next(err);
-  // }
 
   History
     .findOne({ _id: id })
@@ -117,18 +106,6 @@ router.put('/:id', isValidId, missingChoice, (req, res, next) => {
     .catch(err => {
       next(err);
     });
-
-  // History.findOneAndUpdate({ _id: id }, updateChoice, { new: true })
-  //   .then(result => {
-  //     if (result) {
-  //       res.json(result);
-  //     } else {
-  //       next();
-  //     }
-  //   })
-  //   .catch(err => {
-  //     next(err);
-  //   });
 });
 
 /* ========== DELETE AN ITEM ========== */

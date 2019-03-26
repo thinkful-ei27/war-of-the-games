@@ -66,8 +66,6 @@ describe('ASYNC Capstone API - History)', function() {
         });
     });
 
-    it('should return an empty array for an incorrect query');
-
     it('should catch errors and respond properly', function() {
       sandbox.stub(History.schema.options.toJSON, 'transform').throws('FakeError');
 
@@ -269,7 +267,6 @@ describe('ASYNC Capstone API - History)', function() {
 
       return History.findOne()
         .then(data => {
-          console.log(data);
           const {gameOne, gameTwo, choice} = data;
           const updateItem = {
             gameOne,
