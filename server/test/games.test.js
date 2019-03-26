@@ -90,7 +90,25 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
-    it("should return different games with the correct fields");
+    it("should return different games with the correct fields", function() {
+      return chai
+        .request(app)
+        .get("/api/games/battle")
+        .then(res => {
+          expect(res.body).to.be.a("array");
+          res.body.forEach(function(item) {
+            expect(item).to.be.a("object");
+            expect(item).to.include.all.keys(
+              "id",
+              "name",
+              "createdAt",
+              "updatedAt"
+            );
+          });
+          expect(res.body[0].id).to.not.equal(res.body[1].id);
+          expect(res.body[0].name).to.not.equal(res.body[1].name);
+        });
+    });
 
     it("shold catch errors and respond properly");
   });
