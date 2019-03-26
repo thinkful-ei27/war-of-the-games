@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { handleVote } from '../actions/gameActions'
+import { handleVote } from "../actions/gameActions";
 
 export function Card(props) {
   const { src, alt, title, dispatch, games } = props;

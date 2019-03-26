@@ -1,22 +1,13 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from "react";
 import { connect } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
 import Card from "./card";
-
-import LoginForm from "./login-form";
+import "./styles/card.css";
 
 export class LandingPage extends React.Component {
-  // If we are logged in redirect straight to the user's dashboard
-
-  // <div className="home">
   render() {
     const { games } = this.props;
     return (
-      //     <h2>Welcome to Foo App</h2>
-      //     <LoginForm />
-      //     <Link to="/register">Register</Link>
-      // </div>
       <div className="battle-container">
         <Card src={games[0].src} alt={games[0].title} title={games[0].title} />
         <span className="vs">VS</span>
