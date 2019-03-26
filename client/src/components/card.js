@@ -3,15 +3,16 @@ import { connect } from "react-redux";
 import { handleVote } from "../actions/gameActions";
 
 export function Card(props) {
-  const { src, alt, title, dispatch, games } = props;
+
+  const { src, alt, name, dispatch, games } = props;
 
   function handleVoteClick() {
-    dispatch(handleVote(games[0].title, games[1].title, title));
+    dispatch(handleVote(games[0].name, games[1].name, name));
   }
 
   return (
     <div className="card">
-      <h1 className="game-title">{title || "Game title"}</h1>
+      <h1 className="game-title">{name || "Game title"}</h1>
       <img className="game-img" src={src} alt={alt} />
       <button
         id="vote-button"
