@@ -22,10 +22,6 @@ function dbGet() {
   return mongoose;
 }
 
-function dbDrop() {
-  return mongoose.connection.db.dropDatabase();
-}
-
 module.exports = {
   dbConnect,
   dbDisconnect,
