@@ -6,7 +6,8 @@ const router = express.Router();
 router.get("/", (req, res, next) => {
   Game.find()
     .sort({ name: "asc" })
-    .then(results => res.json(results));
+    .then(results => res.json(results))
+    .catch(err => next(err));
 });
 
 module.exports = router;

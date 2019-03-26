@@ -1,5 +1,6 @@
 const chai = require("chai");
 const chaiHttp = require("chai-http");
+const sinon = require("sinon");
 const { dbConnect, dbDisconnect, dbDrop } = require("../db-mongoose");
 const { TEST_DATABASE_URL } = require("../config");
 const Game = require("../models/game");
@@ -8,13 +9,21 @@ const { app } = require("../index");
 
 chai.use(chaiHttp);
 const expect = chai.expect;
+const sandbox = sinon.createSandbox();
 
 describe("ASYNC Capstone API - Games", function() {
   before(() => dbConnect(TEST_DATABASE_URL));
+
   beforeEach(() => Game.insertMany(games));
-  afterEach(() => dbDrop());
+
+  afterEach(() => {
+    sandbox.restore();
+    return dbDrop();
+  });
+
   after(() => dbDisconnect());
-  describe.only("GET /api/games", function() {
+
+  describe("GET /api/games", function() {
     it("should return the correct number of games", function() {
       return Promise.all([
         Game.find(),
@@ -38,7 +47,6 @@ describe("ASYNC Capstone API - Games", function() {
         expect(res.body).to.have.length(data.length);
         res.body.forEach(function(item, i) {
           expect(item).to.be.a("object");
-          // Note: folderId, tags and content are optional
           expect(item).to.include.all.keys(
             "id",
             "name",
@@ -53,47 +61,18 @@ describe("ASYNC Capstone API - Games", function() {
       });
     });
 
-    it("should return correct search results for a searchTerm query");
-    it("should return the correct results for any filters applied");
-    it("should return an empty array for an incorrect query");
-    it("should catch errors and respond properly");
-  });
-  describe("GET /api/games/:id", function() {
-    it("should return the correct game");
-    it(
-      "should respond with status 400 and an error message when 'id' is not valid"
-    );
-    it("should repsond with status 404 for an id that does not exist");
-    it("should catch errors and respond properly");
-  });
-  describe("POST /api/games/", function() {
-    it("should create and return a new game when provided valid data");
-    it("should return an error when required fields are missing");
-    it("should return an error when required fields are empty");
-    it("should return an error when fields are given the wrong type of data");
-    it(
-      "should return an error when any other required validations are not met"
-    );
-    it("should catch errors and respond properly");
-  });
-  describe("PUT /api/games/:id", function() {
-    it("should update the game when provided with valid data");
-    it(
-      "should respond with status 400 and an error message when 'id' is not valid"
-    );
-    it("should respond with status 404 for an id that does not exist");
-    it("should return an error when required fields are empty");
-    it("should return an error when fields are given the wrong type of data");
-    it(
-      "should return an error when any other required validations are not met"
-    );
-    it("should catch errors and respond properly");
-  });
-  describe("DELETE /api/games/:id", function() {
-    it("should delete an existing game and respond with status 204");
-    it(
-      "should respond with status 400 and an error message when 'id' is not valid"
-    );
-    it("should catch errors and respond properly");
+    it("should catch errors and respond properly", function() {
+      sandbox.stub(Game.schema.options.toJSON, "transform").throws("FakeError");
+
+      return chai
+        .request(app)
+        .get("/api/games")
+        .then(res => {
+          expect(res).to.have.status(500);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Internal Server Error");
+        });
+    });
   });
 });
