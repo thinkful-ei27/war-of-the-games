@@ -27,20 +27,17 @@ export const fetchGames = () => (dispatch, getState) => {
 
 export const HANDLE_VOTE = "HANDLE_VOTE";
 
-export const handleVote = (game1, game2, userChoice) => (
-  dispatch,
-  getState
-) => {
+export const handleVote = (game1, game2, choice) => (dispatch, getState) => {
   axios
     .post("url", {
       game1,
       game2,
-      userChoice
+      choice
     })
-    .then(function (response) {
+    .then(function(response) {
       console.log(response);
     })
-    .catch(function (error) {
+    .catch(function(error) {
       console.log(error);
     });
 };
