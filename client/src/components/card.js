@@ -8,7 +8,7 @@ export default function Card(props) {
       <div>
         <img className="game-img" src={src} alt={alt} />
       </div>
-      <button className="vote-btn" type="button">
+      <button className="nes-btn is-warning" type="button">
         Vote
       </button>
     </div>

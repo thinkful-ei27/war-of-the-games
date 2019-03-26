@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Press Start 2P', cursive;
 }
 
 .battle-container {
@@ -10,11 +10,10 @@ body {
   height: 800px;
   width: 1000px;
   margin: 20px auto;
-
 }
 
 .vs {
-  font-size: 38px;
+  font-size: 28px;
   padding-top: 50px;
 }
 
@@ -25,6 +24,6 @@ body {
 }
 
 .game-title {
-  font-size: 42px;
+  font-size: 28px;
   text-align: center;
 }

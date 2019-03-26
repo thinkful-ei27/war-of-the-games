@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import App from "./components/app";
+import "../node_modules/nes.css/css/nes.css";
 import store from "./store";
 import "./index.css";
 

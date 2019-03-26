@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "jwt-decode": "^2.2.0",
+    "nes.css": "^2.1.1",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
     "react-redux": "^6.0.1",
