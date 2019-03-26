@@ -8,6 +8,12 @@ const findRandGame = count => {
   return Game.findOne().skip(rand);
 };
 
+const findTwoRandGames = count => {
+  return Promise.all([findRandGame(count), findRandGame(count)]).then(results =>
+    results[0].id === results[1].id ? findTwoRandGames(count) : results
+  );
+};
+
 router.get("/", (req, res, next) => {
   Game.find()
     .sort({ name: "asc" })
@@ -17,9 +23,7 @@ router.get("/", (req, res, next) => {
 
 router.get("/battle", (req, res, next) => {
   return Game.countDocuments()
-    .then(count => {
-      return Promise.all([findRandGame(count), findRandGame(count)]);
-    })
+    .then(count => findTwoRandGames(count))
     .then(results => res.json(results))
     .catch(err => next(err));
 });
