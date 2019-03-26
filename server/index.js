@@ -1,26 +1,24 @@
-'use strict';
+const express = require("express");
+const cors = require("cors");
+const morgan = require("morgan");
+const passport = require("passport");
+const localStrategy = require("./passport/local");
+const jwtStrategy = require("./passport/jwt");
 
-const express = require('express');
-const cors = require('cors');
-const morgan = require('morgan');
-const mongoose = require('mongoose');
-const passport = require('passport');
-const localStrategy = require('./passport/local');
-const jwtStrategy = require('./passport/jwt');
-
-const { PORT, CLIENT_ORIGIN } = require('./config');
-const { dbConnect } = require('./db-mongoose');
+const { PORT, CLIENT_ORIGIN } = require("./config");
+const { dbConnect } = require("./db-mongoose");
 // const {dbConnect} = require('./db-knex');
 
 // Routers
-const usersRouter = require('./routes/users');
-const authRouter = require('./routes/auth');
+const usersRouter = require("./routes/users");
+const gamesRouter = require("./routes/games");
+const authRouter = require("./routes/auth");
 
 const app = express();
 
 app.use(
-  morgan(process.env.NODE_ENV === 'production' ? 'common' : 'dev', {
-    skip: (req, res) => process.env.NODE_ENV === 'test'
+  morgan(process.env.NODE_ENV === "production" ? "common" : "dev", {
+    skip: (req, res) => process.env.NODE_ENV === "test"
   })
 );
 
@@ -38,12 +36,13 @@ passport.use(localStrategy);
 passport.use(jwtStrategy);
 
 // Mount routers
-app.use('/api/users', usersRouter);
-app.use('/api', authRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/games", gamesRouter);
+app.use("/api", authRouter);
 
 // Catch-all 404
-app.use(function (req, res, next) {
-  const err = new Error('Not Found');
+app.use(function(req, res, next) {
+  const err = new Error("Not Found");
   err.status = 404;
   next(err);
 });
@@ -54,7 +53,7 @@ app.use((err, req, res, next) => {
     const errBody = Object.assign({}, err, { message: err.message });
     res.status(err.status).json(errBody);
   } else {
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
@@ -63,8 +62,8 @@ function runServer(port = PORT) {
     .listen(port, () => {
       console.info(`App listening on port ${server.address().port}`);
     })
-    .on('error', err => {
-      console.error('Express failed to start');
+    .on("error", err => {
+      console.error("Express failed to start");
       console.error(err);
     });
 }
