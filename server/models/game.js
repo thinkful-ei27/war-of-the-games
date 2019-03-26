@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
   name: String,
-  igdbId: Number
+  igdbId: Number,
+  coverUrl: String
 });
 
 schema.set("timestamps", true);
