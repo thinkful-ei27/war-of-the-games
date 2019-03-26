@@ -10,4 +10,10 @@ router.get("/", (req, res, next) => {
     .catch(err => next(err));
 });
 
+router.get("/battle", (req, res, next) => {
+  Game.find()
+    .limit(2)
+    .then(results => res.json(results));
+});
+
 module.exports = router;

@@ -75,4 +75,23 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
   });
+
+  // TODO: Remove `.only`
+  describe.only("GET /api/games/battle", function() {
+    it("should return two games", function() {
+      return chai
+        .request(app)
+        .get("/api/games/battle")
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a("array");
+          expect(res.body).to.have.length(2);
+        });
+    });
+
+    it("should return different games with the correct fields");
+
+    it("shold catch errors and respond properly");
+  });
 });
