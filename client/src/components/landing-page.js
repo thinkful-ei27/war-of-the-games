@@ -21,12 +21,14 @@ export class LandingPage extends React.Component {
             src={games[0].coverUrl}
             alt={games[0].name}
             name={games[0].name}
+            id={games[0].id}
           />
           <span className="vs">VS</span>
           <Card
             src={games[1].coverUrl}
             alt={games[1].name}
             name={games[1].name}
+            id={games[1].id}
           />
         </div>
       );
