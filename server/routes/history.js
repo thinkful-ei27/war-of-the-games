@@ -66,6 +66,14 @@ router.post('/', (req, res, next) => {
     return next(err);
   }
 
+  // Validate that gameOne, gameTwo, and choice are valid MongoIDs
+  const validate = mongoose.Types.ObjectId.isValid(gameOne) && mongoose.Types.ObjectId.isValid(gameTwo) && mongoose.Types.ObjectId.isValid(choice);
+  if (!validate) {
+    const err = new Error('The `id` is not valid');
+    err.status = 400;
+    return next(err);
+  }
+
   History.create(newHist)
     .then(result => {
       res.location(`${req.originalUrl}/${result.id}`).status(201).json(result);
