@@ -14,7 +14,7 @@ export const fetchGamesSuccess = games => ({
 
 export const fetchGames = () => (dispatch, getState) => {
   axios({
-    url: API_BASE_URL,
+    url: 'http://localhost:8080/api/games/battle',
     method: "GET"
   })
     .then(response => {
