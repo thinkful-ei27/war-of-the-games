@@ -1,17 +1,23 @@
 .sign-up-prompt{
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
+  height: 500px;
+  background: url('../../assets/cyberpunk-street.png') no-repeat center center ; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; 
+  margin-left: 8px;
+  margin-right: 8px;
 }
 
 .sign-up-prompt-header{
   text-align: center;
+  color: white
 }
 
-.sign-up-prompt-button{
-  
-}
 
 .nes-btn{
   margin-left: auto;
@@ -19,8 +25,5 @@
 }
 
 #sign-up-prompt-btn{
-  /* margin-left: auto;
-  margin-right: auto; */
-  /* left: 45%;
-  right: 50%; */
+ 
 }

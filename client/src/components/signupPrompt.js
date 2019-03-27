@@ -8,7 +8,9 @@ export class SignupPrompt extends React.Component {
   render() {
     return (
       <div className="sign-up-prompt">
-        <header className="sign-up-prompt-header">Sign up Bitch!</header>
+        <div class="nes-container is-rounded is-dark">
+          <p>Create an Account to Get Back to Voting!</p>
+        </div>
         <Link to="/register">
           <button
             id="sign-up-prompt-btn"

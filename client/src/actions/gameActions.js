@@ -37,16 +37,10 @@ export const handleVote = (gameOne, gameTwo, choice) => (
       gameTwo,
       choice
     })
-    .then(function(response) {
+    .then(function (response) {
       console.log(response);
     })
-    .catch(function(error) {
+    .catch(function (error) {
       console.log(error);
     });
 };
-
-export const INCREMENT_SESSION_COUNT = "INCREMENT_SESSION_COUNT"
-
-export const incrementSessionCount = () => ({
-  type: INCREMENT_SESSION_COUNT
-})

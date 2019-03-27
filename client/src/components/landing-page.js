@@ -5,15 +5,18 @@ import Card from "./card";
 import { SignupPrompt } from './signupPrompt'
 import "./styles/card.css";
 import { fetchGames } from "../actions/gameActions";
-
+import { loadVoteCount, setVoteLocalStorageVariable } from '../local-storage'
 export class LandingPage extends React.Component {
+
   componentDidMount() {
+    setVoteLocalStorageVariable();
     const { dispatch } = this.props;
     dispatch(fetchGames());
   }
 
   render() {
-    const { games, count, loggedIn } = this.props;
+    const { games, loggedIn } = this.props;
+    let count = parseInt(loadVoteCount());
     let content;
     if (count >= 5 && !loggedIn) {
       content = (
