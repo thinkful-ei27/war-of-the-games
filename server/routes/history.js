@@ -20,8 +20,8 @@ const missingChoice = (req, res, next) => {
 
 const router = express.Router();
 
-const passport = require('passport');
-router.use('/', passport.authenticate('jwt', {session: false, failWithError: true}));
+// const passport = require('passport');
+// router.use('/', passport.authenticate('jwt', {session: false, failWithError: true}));
 
 /* ========== GET/READ ALL ITEMS ========== */
 router.get('/', (req, res, next) => {
@@ -48,9 +48,9 @@ router.get('/:id', isValidId, (req, res, next) => {
 /* ========== POST/CREATE AN ITEM ========== */
 router.post('/', (req, res, next) => {
   const { gameOne, gameTwo, choice } = req.body;
-  const userId = req.user.id;
+  // const userId = req.user.id;
 
-  const newHist = { gameOne, gameTwo, choice, userId };
+  const newHist = { gameOne, gameTwo, choice };
 
   /***** Never trust users - validate input *****/
   if (!gameOne || !gameTwo || !choice) {

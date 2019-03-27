@@ -10,6 +10,9 @@ const { users } = require('../db/data');
 const History = require('../models/history');
 const { histories } = require('../db/data');
 
+const Game = require('../models/game');
+const { games } = require('../db/data');
+
 console.log(`Connecting to mongodb at ${DATABASE_URL}`);
 mongoose.connect(DATABASE_URL, { useNewUrlParser: true, useCreateIndex : true })
   .then(() => {
@@ -21,6 +24,7 @@ mongoose.connect(DATABASE_URL, { useNewUrlParser: true, useCreateIndex : true })
     return Promise.all([
       User.ensureIndexes(),
       History.ensureIndexes(),
+      Game.ensureIndexes(),
     ]);
   })
   .then(() => {
@@ -28,6 +32,7 @@ mongoose.connect(DATABASE_URL, { useNewUrlParser: true, useCreateIndex : true })
     return Promise.all([
       User.insertMany(users),
       History.insertMany(histories),
+      Game.insertMany(games),
     ]);
   })
   .then(results => {
