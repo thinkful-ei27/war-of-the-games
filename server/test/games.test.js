@@ -1,20 +1,50 @@
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const sinon = require("sinon");
+const jwt = require("jsonwebtoken");
 const { dbConnect, dbDisconnect, dbDrop } = require("../db-mongoose");
-const { TEST_DATABASE_URL } = require("../config");
+const { JWT_SECRET, TEST_DATABASE_URL } = require("../config");
 const Game = require("../models/game");
-const { games } = require("../db/data");
+const User = require("../models/user");
+const { games, users } = require("../db/data");
 const { app } = require("../index");
+const igdbApi = require("../utils/gameApi");
 
 chai.use(chaiHttp);
 const expect = chai.expect;
 const sandbox = sinon.createSandbox();
 
 describe("ASYNC Capstone API - Games", function() {
-  before(() => dbConnect(TEST_DATABASE_URL));
+  let user = {};
+  let token;
+  const getCoverRes = {
+    id: 3592,
+    image_id: "sgpdlhpeaohxwr6ectsy"
+  };
+  const getGameRes = {
+    id: 3480,
+    cover: 3592,
+    name: "Earthworm Jim",
+    slug: "earthworm-jim"
+  };
 
-  beforeEach(() => Game.insertMany(games));
+  before(() => {
+    sinon.stub(igdbApi, "getGame").resolves(getGameRes);
+    sinon.stub(igdbApi, "getCover").resolves(getCoverRes);
+    return dbConnect(TEST_DATABASE_URL);
+  });
+
+  beforeEach(() => {
+    return Promise.all([
+      User.insertMany(users),
+      Game.insertMany(games),
+      User.createIndexes(),
+      Game.createIndexes()
+    ]).then(([users]) => {
+      user = users[0];
+      token = jwt.sign({ user }, JWT_SECRET, { subject: user.username });
+    });
+  });
 
   afterEach(() => {
     sandbox.restore();
@@ -22,6 +52,28 @@ describe("ASYNC Capstone API - Games", function() {
   });
 
   after(() => dbDisconnect());
+
+  describe("IGDB Sinon Stubs", function() {
+    it("should replace the getGame method", function() {
+      return igdbApi.getGame(3480).then(res => {
+        expect(res).to.be.an("object");
+        expect(res).to.have.keys("id", "cover", "name", "slug");
+        expect(res.id).to.equal(getGameRes.id);
+        expect(res.name).to.equal(getGameRes.name);
+        expect(res.cover).to.equal(getGameRes.cover);
+        expect(res.slug).to.equal(getGameRes.slug);
+      });
+    });
+
+    it("should replace the getCover method", function() {
+      return igdbApi.getCover(3592).then(res => {
+        expect(res).to.be.an("object");
+        expect(res).to.have.keys("id", "image_id");
+        expect(res.id).to.equal(getCoverRes.id);
+        expect(res.image_id).to.equal(getCoverRes.image_id);
+      });
+    });
+  });
 
   describe("GET /api/games", function() {
     it("should return the correct number of games", function() {
@@ -141,6 +193,126 @@ describe("ASYNC Capstone API - Games", function() {
       return chai
         .request(app)
         .get("/api/games/battle")
+        .then(res => {
+          expect(res).to.have.status(500);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Internal Server Error");
+        });
+    });
+  });
+
+  describe("POST /api/games", function() {
+    it("should create and return a new game when provided valid data", function() {
+      const newGame = {
+        igdbId: 3480
+      };
+      let res;
+      return chai
+        .request(app)
+        .post("/api/games")
+        .set("Authorization", `Bearer ${token}`)
+        .send(newGame)
+        .then(function(_res) {
+          res = _res;
+          expect(res).to.have.status(201);
+          expect(res).to.have.header("location");
+          expect(res).to.be.json;
+          expect(res.body).to.be.a("object");
+          expect(res.body).to.have.all.keys(
+            "id",
+            "name",
+            "createdAt",
+            "updatedAt",
+            "igdb",
+            "coverUrl"
+          );
+          return Game.findOne({ _id: res.body.id });
+        })
+        .then(data => {
+          expect(res.body.id).to.equal(data.id);
+          expect(res.body.name).to.equal(data.name);
+          expect(new Date(res.body.createdAt)).to.eql(data.createdAt);
+          expect(new Date(res.body.updatedAt)).to.eql(data.updatedAt);
+          expect(res.body.coverUrl).to.equal(data.coverUrl);
+          expect(data.igdb.id).to.equal(newGame.igdbId);
+          expect(data.igdb.slug).to.equal(res.body.igdb.slug);
+        });
+    });
+
+    it('should return an error when missing "igdbId" field', function() {
+      const newGame = {};
+      return chai
+        .request(app)
+        .post("/api/games")
+        .set("Authorization", `Bearer ${token}`)
+        .send(newGame)
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Missing `igdbId` in request body");
+        });
+    });
+
+    it('should return an error when "igdbId" is not a number', function() {
+      const newGame = {
+        igdbId: "not a number"
+      };
+      return chai
+        .request(app)
+        .post("/api/games")
+        .set("Authorization", `Bearer ${token}`)
+        .send(newGame)
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("`igdbId` should be a number");
+        });
+    });
+
+    it("should reject duplicate games", function() {
+      return Game.create({
+        name: getGameRes.name,
+        igdb: {
+          id: getGameRes.id,
+          slug: getGameRes.slug
+        },
+        coverUrl: `https://images.igdb.com/igdb/image/upload/t_720p/${
+          getCoverRes.image_id
+        }.jpg`
+      })
+        .then(() => {
+          const newGame = {
+            igdbId: getGameRes.id
+          };
+          return chai
+            .request(app)
+            .post("/api/games")
+            .set("Authorization", `Bearer ${token}`)
+            .send(newGame);
+        })
+        .then(res => {
+          expect(res).to.have.status(422);
+          expect(res.body.reason).to.equal("ValidationError");
+          expect(res.body.message).to.equal("Game already exists");
+          expect(res.body.location).to.equal("igdbId");
+        });
+    });
+
+    it("should catch errors and respond properly", function() {
+      sandbox.stub(Game.schema.options.toJSON, "transform").throws("FakeError");
+
+      const newGame = {
+        igdbId: getGameRes.id
+      };
+
+      return chai
+        .request(app)
+        .post("/api/games")
+        .set("Authorization", `Bearer ${token}`)
+        .send(newGame)
         .then(res => {
           expect(res).to.have.status(500);
           expect(res).to.be.json;

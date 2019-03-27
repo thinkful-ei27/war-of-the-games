@@ -1,17 +1,17 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
-  name: String,
+  name: { type: String, required: true },
   igdb: {
-    id: Number,
-    slug: String
+    id: { type: Number, required: true, unique: true },
+    slug: { type: String, required: true }
   },
-  coverUrl: String
+  coverUrl: { type: String, required: true }
 });
 
-schema.set('timestamps', true);
+schema.set("timestamps", true);
 
-schema.set('toJSON', {
+schema.set("toJSON", {
   virtuals: true,
   transform: (doc, result) => {
     delete result._id;
@@ -19,4 +19,4 @@ schema.set('toJSON', {
   }
 });
 
-module.exports = mongoose.model('Game', schema);
+module.exports = mongoose.model("Game", schema);

@@ -187,7 +187,7 @@ describe('ASYNC Capstone API - History)', function() {
     it('should catch errors and respond properly', function () {
       sandbox.stub(History.schema.options.toJSON, 'transform').throws('FakeError');
 
-      const newItem = { gameOne: 'gameOne', gameTwo: 'gameTwo', choice: 'gameOne' };
+      const newItem = { gameOne: '5c9bbb7800c67230ce67a5bf', gameTwo: '5c9bc34d00c67230ce67a5c0', choice: '5c9bc34d00c67230ce67a5c0' };
       return chai.request(app)
         .post('/api/history')
         .set('Authorization', `Bearer ${token}`)

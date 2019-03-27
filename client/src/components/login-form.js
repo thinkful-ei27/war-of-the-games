@@ -30,7 +30,6 @@ class LoginForm extends React.Component {
         onSubmit={this.props.handleSubmit(values => this.onSubmit(values))}
       >
         {error}
-
         <Field
           component={Input}
           type="text"
@@ -39,7 +38,6 @@ class LoginForm extends React.Component {
           id="username"
           validate={[required, nonEmpty]}
         />
-
         <Field
           component={Input}
           type="password"
@@ -62,6 +60,6 @@ const connectMapStateToProps = state => ({
 
 LoginForm = connect(connectMapStateToProps)(LoginForm);
 export default reduxForm({
-  form: 'login',
-  onSubmitFail: (errors, dispatch) => dispatch(focus('login', 'username'))
+  form: "login",
+  onSubmitFail: (errors, dispatch) => dispatch(focus("login", "username"))
 })(LoginForm);
