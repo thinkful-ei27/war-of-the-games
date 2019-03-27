@@ -27,6 +27,7 @@ const router = express.Router();
 router.get('/', (req, res, next) => {
 
   History.find()
+    .populate('gameOne', 'name')
     .then(results => {
       res.json(results);
     })
