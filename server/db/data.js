@@ -1,11 +1,5 @@
 const users = [
-  {
-    _id: "222222222222222222222200",
-    firstName: "Johnny",
-    lastName: "Salt",
-    username: "johnnysalt",
-    password: "$2a$10$F3WxoCmNFelMJuUbFMTXWO.nrEhQg1GNfuwgItE3l6fb8Bfso0cLa"
-  },
+  // Bob User is used for authentication during tests. Please do not alter him.
   {
     _id: "333333333333333333333300",
     firstName: "Bob",
@@ -13,6 +7,13 @@ const users = [
     username: "bobuser",
     // hash digest for the string 'password'
     password: "$2a$10$0S5GdCkGJTDeaAH272/bmeZmmpC4rv6ItXIOZKwVQIfQOqSURhkhu"
+  },
+  {
+    _id: "222222222222222222222200",
+    firstName: "Johnny",
+    lastName: "Salt",
+    username: "johnnysalt",
+    password: "$2a$10$F3WxoCmNFelMJuUbFMTXWO.nrEhQg1GNfuwgItE3l6fb8Bfso0cLa"
   },
   {
     _id: "5c3f5ca9ec37422f44bdaa82",

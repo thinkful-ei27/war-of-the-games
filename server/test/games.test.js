@@ -1,10 +1,12 @@
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const sinon = require("sinon");
+const jwt = require("jsonwebtoken");
 const { dbConnect, dbDisconnect, dbDrop } = require("../db-mongoose");
-const { TEST_DATABASE_URL } = require("../config");
+const { JWT_SECRET, TEST_DATABASE_URL } = require("../config");
 const Game = require("../models/game");
-const { games } = require("../db/data");
+const User = require("../models/user");
+const { games, users } = require("../db/data");
 const { app } = require("../index");
 
 chai.use(chaiHttp);
@@ -12,9 +14,21 @@ const expect = chai.expect;
 const sandbox = sinon.createSandbox();
 
 describe("ASYNC Capstone API - Games", function() {
+  let user = {};
+  let token;
+
   before(() => dbConnect(TEST_DATABASE_URL));
 
-  beforeEach(() => Game.insertMany(games));
+  beforeEach(() => {
+    return Promise.all([
+      User.insertMany(users),
+      Game.insertMany(games),
+      User.createIndexes()
+    ]).then(([users]) => {
+      user = users[0];
+      token = jwt.sign({ user }, JWT_SECRET, { subject: user.username });
+    });
+  });
 
   afterEach(() => {
     sandbox.restore();
@@ -148,5 +162,54 @@ describe("ASYNC Capstone API - Games", function() {
           expect(res.body.message).to.equal("Internal Server Error");
         });
     });
+  });
+
+  describe("POST /api/games", function() {
+    it.only("should create and return a new game when provided valid data", function() {
+      const newGame = {
+        igdbId: 3480
+      };
+      let res;
+      return chai
+        .request(app)
+        .post("/api/games")
+        .set("Authorization", `Bearer ${token}`)
+        .send(newGame)
+        .then(function(_res) {
+          res = _res;
+          expect(res).to.have.status(201);
+          expect(res).to.have.header("location");
+          expect(res).to.be.json;
+          expect(res.body).to.be.a("object");
+          expect(res.body).to.have.all.keys(
+            "id",
+            "name",
+            "createdAt",
+            "updatedAt",
+            "igdb",
+            "coverUrl"
+          );
+          return Game.findOne({ _id: res.body.id });
+        })
+        .then(data => {
+          expect(res.body.id).to.equal(data.id);
+          expect(res.body.name).to.equal(data.name);
+          expect(new Date(res.body.createdAt)).to.eql(data.createdAt);
+          expect(new Date(res.body.updatedAt)).to.eql(data.updatedAt);
+          expect(res.body.coverUrl).to.equal(data.coverUrl);
+          expect(data.igdb.id).to.equal(newGame.igdbId);
+          expect(data.igdb.slug).to.equal(res.body.igdb.slug);
+        });
+    });
+
+    it('should return an error when missing "igdbId" field');
+
+    it('should return an error when "igdbId" is not a number');
+
+    it('should return an error when "igdbId" is not recognized by IGDB');
+
+    it("should reject duplicate games");
+
+    it("should catch errors and respond properly");
   });
 });
