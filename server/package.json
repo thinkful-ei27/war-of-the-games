@@ -31,7 +31,8 @@
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "pg": "^7.8.2"
+    "pg": "^7.8.2",
+    "swagger-jsdoc": "^3.2.8"
   },
   "devDependencies": {
     "chai": "^4.2.0",
