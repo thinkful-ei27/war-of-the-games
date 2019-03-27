@@ -1,4 +1,7 @@
-const apicalypse = require("../apicalypse/index");
+const apicalypseDefault = require("apicalypse");
+// const apicalypse = require("../apicalypse/index");
+
+const apicalypse = apicalypseDefault.default;
 
 const keys = [
   "22499d0daab9ad25a7e4c9cc140fe2f2",
