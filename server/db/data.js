@@ -28,7 +28,7 @@ const users = [
 const games = [
   {
     name: 'Super Mario 64',
-    'id': '5c9a959ba5d0dd09e07f45a7',
+    '_id': '5c9a959ba5d0dd09e07f45a7',
     igdb: {
       id: 1074,
       slug: 'super-mario-64'
@@ -38,7 +38,7 @@ const games = [
   },
   {
     name: 'The Legend of Zelda',
-    'id': '5c9a959ba5d0dd09e07f45a8',
+    '_id': '5c9a959ba5d0dd09e07f45a8',
     igdb: {
       id: 1022,
       slug: 'the-legend-of-zelda'
@@ -48,7 +48,7 @@ const games = [
   },
   {
     name: 'Mortal Kombat',
-    'id': '5c9a959ba5d0dd09e07f45a9',
+    '_id': '5c9a959ba5d0dd09e07f45a9',
     igdb: {
       id: 1618,
       slug: 'mortal-kombat--2'
@@ -57,7 +57,7 @@ const games = [
   },
   {
     name: 'Street Fighter II',
-    'id': '5c9a959ba5d0dd09e07f45a0',
+    '_id': '5c9a959ba5d0dd09e07f45a0',
     igdb: {
       id: 3186,
       slug: 'street-fighter-ii'
@@ -66,7 +66,7 @@ const games = [
   },
   {
     name: 'Halo: Combat Evolved',
-    'id': '5c9a959ba5d0dd09e07f45a1',
+    '_id': '5c9a959ba5d0dd09e07f45a1',
     igdb: {
       id: 740,
       slug: 'halo-combat-evolved'
@@ -76,7 +76,7 @@ const games = [
   },
   {
     name: 'Superman',
-    'id': '5c9a959ba5d0dd09e07f45a2',
+    '_id': '5c9a959ba5d0dd09e07f45a2',
     igdb: {
       id: 3005,
       slug: 'superman'
@@ -86,7 +86,7 @@ const games = [
   },
   {
     name: 'Final Fantasy VII',
-    'id': '5c9a959ba5d0dd09e07f45a3',
+    '_id': '5c9a959ba5d0dd09e07f45a3',
     igdb: {
       id: 427,
       slug: 'final-fantasy-vii'
@@ -96,7 +96,7 @@ const games = [
   },
   {
     name: 'WWF No Mercy',
-    'id': '5c9a959ba5d0dd09e07f45a4',
+    '_id': '5c9a959ba5d0dd09e07f45a4',
     igdb: {
       id: 3644,
       slug: 'wwf-no-mercy'
@@ -106,7 +106,7 @@ const games = [
   },
   {
     name: 'Super Smash Bros.',
-    'id': '5c9a959ba5d0dd09e07f45a5',
+    '_id': '5c9a959ba5d0dd09e07f45a5',
     igdb: {
       id: 1626,
       slug: 'super-smash-bros'
@@ -115,7 +115,7 @@ const games = [
   },
   {
     name: 'Candy Crush Saga',
-    'id': '5c9a959ba5d0dd09e07f45a6',
+    '_id': '5c9a959ba5d0dd09e07f45a6',
     igdb: {
       id: 5636,
       slug: 'candy-crush-saga'
