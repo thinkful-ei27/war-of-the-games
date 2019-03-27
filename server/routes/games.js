@@ -39,6 +39,12 @@ router.post("/", (req, res, next) => {
     return next(err);
   }
 
+  if (!Number(igdbId)) {
+    const err = new Error("`igdbId` should be a number");
+    err.status = 400;
+    return next(err);
+  }
+
   newGame.igdb.id = igdbId;
   return igdbApi
     .getGame(igdbId)

@@ -8,6 +8,7 @@ const Game = require("../models/game");
 const User = require("../models/user");
 const { games, users } = require("../db/data");
 const { app } = require("../index");
+const igdbApi = require("../utils/gameApi");
 
 chai.use(chaiHttp);
 const expect = chai.expect;
@@ -16,8 +17,22 @@ const sandbox = sinon.createSandbox();
 describe("ASYNC Capstone API - Games", function() {
   let user = {};
   let token;
+  const getCoverRes = {
+    id: 3592,
+    image_id: "sgpdlhpeaohxwr6ectsy"
+  };
+  const getGameRes = {
+    id: 3480,
+    cover: 3592,
+    name: "Earthworm Jim",
+    slug: "earthworm-jim"
+  };
 
-  before(() => dbConnect(TEST_DATABASE_URL));
+  before(() => {
+    sinon.stub(igdbApi, "getGame").resolves(getGameRes);
+    sinon.stub(igdbApi, "getCover").resolves(getCoverRes);
+    return dbConnect(TEST_DATABASE_URL);
+  });
 
   beforeEach(() => {
     return Promise.all([
@@ -36,6 +51,28 @@ describe("ASYNC Capstone API - Games", function() {
   });
 
   after(() => dbDisconnect());
+
+  describe("IGDB Sinon Stubs", function() {
+    it("should replace the getGame method", function() {
+      return igdbApi.getGame(3480).then(res => {
+        expect(res).to.be.an("object");
+        expect(res).to.have.keys("id", "cover", "name", "slug");
+        expect(res.id).to.equal(getGameRes.id);
+        expect(res.name).to.equal(getGameRes.name);
+        expect(res.cover).to.equal(getGameRes.cover);
+        expect(res.slug).to.equal(getGameRes.slug);
+      });
+    });
+
+    it("should replace the getCover method", function() {
+      return igdbApi.getCover(3592).then(res => {
+        expect(res).to.be.an("object");
+        expect(res).to.have.keys("id", "image_id");
+        expect(res.id).to.equal(getCoverRes.id);
+        expect(res.image_id).to.equal(getCoverRes.image_id);
+      });
+    });
+  });
 
   describe("GET /api/games", function() {
     it("should return the correct number of games", function() {
@@ -217,7 +254,22 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
-    it('should return an error when "igdbId" is not a number');
+    it('should return an error when "igdbId" is not a number', function() {
+      const newGame = {
+        igdbId: "not a number"
+      };
+      return chai
+        .request(app)
+        .post("/api/games")
+        .set("Authorization", `Bearer ${token}`)
+        .send(newGame)
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("`igdbId` should be a number");
+        });
+    });
 
     it('should return an error when "igdbId" is not recognized by IGDB');
 
