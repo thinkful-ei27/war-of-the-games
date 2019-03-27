@@ -1,0 +1,29 @@
+.vote-stats-container {
+  display: flex;
+  width: 600px;
+  margin: auto;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.vote-card-thumb {
+  max-height: 100px;
+  max-width: 100px;
+  height: auto;
+  width: auto;
+  margin: 0 auto;
+}
+
+.vote-card {
+  display: flex;
+  flex-direction: column
+}
+
+.vote-card-label {
+  font-size: 14px;
+}
+
+.voting-feedback {
+  font-size: 15px;
+}

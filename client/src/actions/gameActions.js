@@ -7,6 +7,12 @@ export const FETCH_GAMES_SUCCESS = "FETCH_GAMES_SUCCESS";
 
 export const FETCH_GAMES_ERROR = "FETCH_GAMES_ERROR";
 
+export const FETCH_FEEDBACK_SUCCESS = "FETCH_FEEDBACK_SUCCESS";
+export const fetchFeedbackSuccess = feedback => ({
+  type: FETCH_FEEDBACK_SUCCESS,
+  feedback
+});
+
 export const fetchGamesSuccess = games => ({
   type: FETCH_GAMES_SUCCESS,
   games
