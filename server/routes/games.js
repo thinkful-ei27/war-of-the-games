@@ -32,6 +32,13 @@ router.get("/battle", (req, res, next) => {
 router.post("/", (req, res, next) => {
   const newGame = { igdb: {} };
   const { igdbId } = req.body;
+
+  if (!igdbId) {
+    const err = new Error("Missing `igdbId` in request body");
+    err.status = 400;
+    return next(err);
+  }
+
   newGame.igdb.id = igdbId;
   return igdbApi
     .getGame(igdbId)

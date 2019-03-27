@@ -165,7 +165,7 @@ describe("ASYNC Capstone API - Games", function() {
   });
 
   describe("POST /api/games", function() {
-    it.only("should create and return a new game when provided valid data", function() {
+    it("should create and return a new game when provided valid data", function() {
       const newGame = {
         igdbId: 3480
       };
@@ -202,7 +202,20 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
-    it('should return an error when missing "igdbId" field');
+    it('should return an error when missing "igdbId" field', function() {
+      const newGame = {};
+      return chai
+        .request(app)
+        .post("/api/games")
+        .set("Authorization", `Bearer ${token}`)
+        .send(newGame)
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Missing `igdbId` in request body");
+        });
+    });
 
     it('should return an error when "igdbId" is not a number');
 
