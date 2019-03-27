@@ -1,7 +1,7 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from "react";
 import { connect } from "react-redux";
-import Card from "./card";
+import Battle from "./battle";
 import VoteStats from "./vote-stats";
 import "./styles/landing-page.css";
 import "./styles/card.css";
@@ -19,44 +19,14 @@ export class LandingPage extends React.Component {
     if (games.length && feedback) {
       content = (
         <div className="battle-vote">
-          <div className="battle-container">
-            <Card
-              src={games[0].coverUrl}
-              alt={games[0].name}
-              name={games[0].name}
-              id={games[0].id}
-            />
-            <span className="vs">VS</span>
-            <Card
-              src={games[1].coverUrl}
-              alt={games[1].name}
-              name={games[1].name}
-              id={games[1].id}
-            />
-          </div>
+          <Battle {...games} />
           <div className="vote-stats-container">
-            <VoteStats {...games} />
+            <VoteStats feedback={feedback} {...games} />
           </div>
         </div>
       );
     } else if (games.length) {
-      content = (
-        <div className="battle-container">
-          <Card
-            src={games[0].coverUrl}
-            alt={games[0].name}
-            name={games[0].name}
-            id={games[0].id}
-          />
-          <span className="vs">VS</span>
-          <Card
-            src={games[1].coverUrl}
-            alt={games[1].name}
-            name={games[1].name}
-            id={games[1].id}
-          />
-        </div>
-      );
+      content = <Battle {...games} />;
     } else {
       content = <div>loading...</div>;
     }
@@ -70,7 +40,7 @@ const mapStateToProps = state => ({
   games: state.games.battleGames,
   // If you want to show the Vote Stats Container, change `feedback`
   // below, to anything truthy and it will appear
-  feedback: state.games.feedback
+  feedback: /* state.games.feedback */ "sup"
 });
 
 export default connect(mapStateToProps)(LandingPage);
