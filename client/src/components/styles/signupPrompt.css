@@ -1,0 +1,26 @@
+.sign-up-prompt{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sign-up-prompt-header{
+  text-align: center;
+}
+
+.sign-up-prompt-button{
+  
+}
+
+.nes-btn{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#sign-up-prompt-btn{
+  /* margin-left: auto;
+  margin-right: auto; */
+  /* left: 45%;
+  right: 50%; */
+}

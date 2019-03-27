@@ -44,3 +44,9 @@ export const handleVote = (gameOne, gameTwo, choice) => (
       console.log(error);
     });
 };
+
+export const INCREMENT_SESSION_COUNT = "INCREMENT_SESSION_COUNT"
+
+export const incrementSessionCount = () => ({
+  type: INCREMENT_SESSION_COUNT
+})
