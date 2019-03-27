@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const mongoose = require('mongoose');
 
 const History = require('../models/history');
 
@@ -27,6 +28,9 @@ const router = express.Router();
 router.get('/', (req, res, next) => {
 
   History.find()
+    .populate('gameOne', 'name')
+    .populate('gameTwo', 'name')
+    .populate('choice', 'name')
     .then(results => {
       res.json(results);
     })
@@ -41,6 +45,9 @@ router.get('/:id', isValidId, (req, res, next) => {
   const { id } = req.params;
 
   History.findOne({ _id: id })
+    .populate('gameOne', 'name')
+    .populate('gameTwo', 'name')
+    .populate('choice', 'name')
     .then(result => result ? res.json(result) : next())
     .catch(err => next(err));
 });
@@ -83,9 +90,10 @@ router.put('/:id', isValidId, missingChoice, (req, res, next) => {
     .findOne({ _id: id })
     .then((games) => {
       if (!games) next();
-      const {gameOne, gameTwo} = games;
+      let {gameOne, gameTwo} = games;
 
-      if (choice !== gameOne && choice !== gameTwo) {
+      
+      if (choice !== gameOne.toString() && choice !== gameTwo.toString()) {
         const err = new Error('Choice does not equal game one or game two');
         err.status = 400;
         return next(err);

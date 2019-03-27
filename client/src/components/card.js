@@ -3,8 +3,7 @@ import { connect } from "react-redux";
 import { handleVote, fetchGames, incrementSessionCount } from "../actions/gameActions";
 
 export function Card(props) {
-
-  const { src, alt, name, dispatch, games } = props;
+  const { src, alt, name, dispatch, games, id } = props;
 
   function handleVoteClick() {
     dispatch(handleVote(games[0].name, games[1].name, name));

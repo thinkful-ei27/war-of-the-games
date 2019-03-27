@@ -1,14 +1,17 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
   name: String,
-  igdbId: Number,
+  igdb: {
+    id: Number,
+    slug: String
+  },
   coverUrl: String
 });
 
-schema.set("timestamps", true);
+schema.set('timestamps', true);
 
-schema.set("toJSON", {
+schema.set('toJSON', {
   virtuals: true,
   transform: (doc, result) => {
     delete result._id;
@@ -16,4 +19,4 @@ schema.set("toJSON", {
   }
 });
 
-module.exports = mongoose.model("Game", schema);
+module.exports = mongoose.model('Game', schema);
