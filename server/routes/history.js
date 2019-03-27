@@ -29,10 +29,11 @@ const router = express.Router();
 
 router.get('/', (req, res, next) => {
   History.find()
-    .populate('gameOne', 'name')
-    .populate('gameTwo', 'name')
-    .populate('choice', 'name')
+    // .populate('gameOne', 'name')
+    // .populate('gameTwo', 'name')
+    // .populate('choice', 'name')
     .then(results => {
+      console.log('results are ', results);
       res.json(results);
     })
     .catch(err => {

@@ -29,10 +29,4 @@ schema.set('toJSON', {
   }
 });
 
-schema.methods.gamesPlayed = id => {
-  return schema
-    .find({ $or: [{ gameOne: id }, { gameTwo: id }] })
-    .then(results => results);
-};
-
 module.exports = mongoose.model('History', schema);
