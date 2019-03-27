@@ -1,0 +1,20 @@
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  background-color: #c84c0c;
+}
+
+.header-bar {
+  margin: 8px;
+  background-color: #5c94fc;
+  color: white;
+}
+
+.nav-button {
+  text-decoration: none;
+  color: white;
+}
+
+.title {
+  color: black;
+}
