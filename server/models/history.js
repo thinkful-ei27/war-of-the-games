@@ -3,9 +3,17 @@
 const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
-  gameOne: { type: mongoose.Schema.Types.ObjectId, ref: 'Game', required:true },
-  gameTwo: { type: mongoose.Schema.Types.ObjectId, ref: 'Game', required:true },
-  choice: { type: mongoose.Schema.Types.ObjectId, ref: 'Game', required:true },
+  gameOne: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Game',
+    required: true
+  },
+  gameTwo: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Game',
+    required: true
+  },
+  choice: { type: mongoose.Schema.Types.ObjectId, ref: 'Game', required: true }
   // userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required:true}
 });
 
@@ -20,5 +28,11 @@ schema.set('toJSON', {
     delete result.__v;
   }
 });
+
+schema.methods.gamesPlayed = id => {
+  return schema
+    .find({ $or: [{ gameOne: id }, { gameTwo: id }] })
+    .then(results => results);
+};
 
 module.exports = mongoose.model('History', schema);
