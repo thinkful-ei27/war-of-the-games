@@ -1,5 +1,5 @@
-const express = require("express");
-const Game = require("../models/game");
+const express = require('express');
+const Game = require('../models/game');
 
 const router = express.Router();
 
@@ -14,14 +14,14 @@ const findTwoRandGames = count => {
   );
 };
 
-router.get("/", (req, res, next) => {
+router.get('/', (req, res, next) => {
   Game.find()
-    .sort({ name: "asc" })
+    .sort({ name: 'asc' })
     .then(results => res.json(results))
     .catch(err => next(err));
 });
 
-router.get("/battle", (req, res, next) => {
+router.get('/battle', (req, res, next) => {
   return Game.countDocuments()
     .then(count => findTwoRandGames(count))
     .then(results => res.json(results))
