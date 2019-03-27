@@ -38,7 +38,8 @@ describe("ASYNC Capstone API - Games", function() {
     return Promise.all([
       User.insertMany(users),
       Game.insertMany(games),
-      User.createIndexes()
+      User.createIndexes(),
+      Game.createIndexes()
     ]).then(([users]) => {
       user = users[0];
       token = jwt.sign({ user }, JWT_SECRET, { subject: user.username });
@@ -271,10 +272,53 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
-    it('should return an error when "igdbId" is not recognized by IGDB');
+    it("should reject duplicate games", function() {
+      return Game.create({
+        name: getGameRes.name,
+        igdb: {
+          id: getGameRes.id,
+          slug: getGameRes.slug
+        },
+        coverUrl: `https://images.igdb.com/igdb/image/upload/t_720p/${
+          getCoverRes.image_id
+        }.jpg`
+      })
+        .then(() => {
+          const newGame = {
+            igdbId: getGameRes.id
+          };
+          return chai
+            .request(app)
+            .post("/api/games")
+            .set("Authorization", `Bearer ${token}`)
+            .send(newGame);
+        })
+        .then(res => {
+          expect(res).to.have.status(422);
+          expect(res.body.reason).to.equal("ValidationError");
+          expect(res.body.message).to.equal("Game already exists");
+          expect(res.body.location).to.equal("igdbId");
+        });
+    });
 
-    it("should reject duplicate games");
+    it("should catch errors and respond properly", function() {
+      sandbox.stub(Game.schema.options.toJSON, "transform").throws("FakeError");
 
-    it("should catch errors and respond properly");
+      const newGame = {
+        igdbId: getGameRes.id
+      };
+
+      return chai
+        .request(app)
+        .post("/api/games")
+        .set("Authorization", `Bearer ${token}`)
+        .send(newGame)
+        .then(res => {
+          expect(res).to.have.status(500);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Internal Server Error");
+        });
+    });
   });
 });

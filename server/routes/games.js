@@ -51,7 +51,7 @@ router.post("/", (req, res, next) => {
     .then(res => {
       const { name, cover, slug } = res;
       newGame.name = name;
-      newGame.slug = slug;
+      newGame.igdb.slug = slug;
       return igdbApi.getCover(cover);
     })
     .then(cover => {
@@ -65,7 +65,15 @@ router.post("/", (req, res, next) => {
         .status(201)
         .json(game)
     )
-    .catch(err => next(err));
+    .catch(err => {
+      if (err.code === 11000) {
+        err = new Error("Game already exists");
+        err.status = 422;
+        err.reason = "ValidationError";
+        err.location = "igdbId";
+      }
+      next(err);
+    });
 });
 
 module.exports = router;
