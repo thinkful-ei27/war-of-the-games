@@ -17,13 +17,12 @@ export class HeaderBar extends React.Component {
     if (this.props.loggedIn) {
       logOutButton = <button onClick={() => this.logOut()}>Log out</button>;
     }
-    const about = <Link to="/about">About</Link>;
     return (
       <header className="header-bar">
         <div className="nes-container with-title is-centered">
           <h1 className="title">Foo App</h1>
-          <p>Some description here?</p>
-          <div className="nes-container nav-container">
+
+          <section className="nes-container nav-container">
             <Link className="nav-button" to="/">
               About
             </Link>
@@ -33,7 +32,7 @@ export class HeaderBar extends React.Component {
             <Link className="nav-button" to="/vote">
               Vote
             </Link>
-          </div>
+          </section>
         </div>
 
         {logOutButton}
