@@ -57,7 +57,7 @@ router.get('/:id/results', async (req, res, next) => {
   try {
     const wonGames = await gamesWon(id);
     const totalGames = await totalGamesPlayed(id);
-    const percentage = (wonGames + 1) / totalGames;
+    const percentage = wonGames / totalGames;
 
     res.json({
       percentage: Number(percentage.toFixed(2)),
