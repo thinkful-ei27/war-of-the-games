@@ -21,7 +21,16 @@ export class HeaderBar extends React.Component {
       <header className="header-bar">
         <div className="nes-container with-title is-centered">
           <h1 className="title">Foo App</h1>
-
+          {/* <i className="nes-mario" />
+          <i className="nes-icon coin is-medium" />
+          <i className="nes-icon coin is-medium" />
+          <i className="nes-icon coin is-medium" />
+          <i className="nes-icon coin is-medium" />
+          <i className="nes-icon coin is-medium" />
+          <i className="nes-icon coin is-medium" />
+          <i className="nes-icon coin is-medium" />
+          <i className="nes-icon coin is-medium" />
+          <i className="nes-icon coin is-medium" /> */}
           <section className="nes-container nav-container">
             <Link className="nav-button" to="/">
               About
