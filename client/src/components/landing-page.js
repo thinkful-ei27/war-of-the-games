@@ -3,17 +3,38 @@ import React from "react";
 import { connect } from "react-redux";
 import Card from "./card";
 import "./styles/card.css";
+import { fetchGames } from "../actions/gameActions";
 
 export class LandingPage extends React.Component {
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(fetchGames());
+  }
+
   render() {
     const { games } = this.props;
-    return (
-      <div className="battle-container">
-        <Card src={games[0].src} alt={games[0].title} title={games[0].title} />
-        <span className="vs">VS</span>
-        <Card src={games[1].src} alt={games[1].title} title={games[1].title} />
-      </div>
-    );
+    let content;
+    if (games.length) {
+      content = (
+        <div className="battle-container">
+          <Card
+            src={games[0].coverUrl}
+            alt={games[0].name}
+            name={games[0].name}
+          />
+          <span className="vs">VS</span>
+          <Card
+            src={games[1].coverUrl}
+            alt={games[1].name}
+            name={games[1].name}
+          />
+        </div>
+      );
+    } else {
+      content = <div>loading...</div>;
+    }
+
+    return content;
   }
 }
 
