@@ -50,14 +50,16 @@ describe("ASYNC Capstone API - Games", function() {
           expect(item).to.include.all.keys(
             "id",
             "name",
-            "igdbId",
+            "igdb",
             "coverUrl",
             "createdAt",
             "updatedAt"
           );
           expect(item.id).to.equal(data[i].id);
           expect(item.name).to.equal(data[i].name);
-          expect(item.igdbId).to.equal(data[i].igdbId);
+          expect(item.igdb).to.include.all.keys("id", "slug");
+          expect(item.igdb.id).to.equal(data[i].igdb.id);
+          expect(item.igdb.slug).to.equal(data[i].igdb.slug);
           expect(item.coverUrl).to.equal(data[i].coverUrl);
           expect(new Date(item.createdAt)).to.eql(data[i].createdAt);
           expect(new Date(item.updatedAt)).to.eql(data[i].updatedAt);

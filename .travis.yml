@@ -2,6 +2,10 @@ language: node_js
 node_js: node
 notifications:
   email: false
+branches:
+  only:
+    - master
+    - dev
 before_script: cd server && npm i
 deploy:
   provider: heroku

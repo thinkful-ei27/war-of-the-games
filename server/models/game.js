@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
   name: String,
-  igdbId: Number,
+  igdb: {
+    id: Number,
+    slug: String
+  },
   coverUrl: String
 });
 

@@ -27,84 +27,101 @@ const users = [
 
 const games = [
   {
-    'name': 'Candy Crush Saga',
-    'igdbId': 5636,
-    'coverUrl': 'https://images.igdb.com/igdb/image/upload/t_720p/u9s7ap9gi5kestfxhxdf.jpg',
-    'createdAt': '2019-03-26T21:11:55.508Z',
-    'updatedAt': '2019-03-26T21:11:55.508Z',
-    'id': '5c9a959ba5d0dd09e07f45a7'
+    name: 'Super Mario 64',
+    'id': '5c9a959ba5d0dd09e07f45a7',
+    igdb: {
+      id: 1074,
+      slug: 'super-mario-64'
+    },
+    coverUrl:
+      'https://images.igdb.com/igdb/image/upload/t_720p/scutr4p9gytl4txb2soy.jpg'
   },
   {
-    'name': 'Final Fantasy VII',
-    'igdbId': 427,
-    'coverUrl': 'https://images.igdb.com/igdb/image/upload/t_720p/idzdf1alxvetz3ow2ugy.jpg',
-    'createdAt': '2019-03-26T21:11:55.508Z',
-    'updatedAt': '2019-03-26T21:11:55.508Z',
-    'id': '5c9a959ba5d0dd09e07f45a4'
+    name: 'The Legend of Zelda',
+    'id': '5c9a959ba5d0dd09e07f45a8',
+    igdb: {
+      id: 1022,
+      slug: 'the-legend-of-zelda'
+    },
+    coverUrl:
+      'https://images.igdb.com/igdb/image/upload/t_720p/bfeef9eun1ybhuwufqxm.jpg'
   },
   {
-    'name': 'Halo: Combat Evolved',
-    'igdbId': 740,
-    'coverUrl': 'https://images.igdb.com/igdb/image/upload/t_720p/bcotwv6rapvdglcahxi3.jpg',
-    'createdAt': '2019-03-26T21:11:55.508Z',
-    'updatedAt': '2019-03-26T21:11:55.508Z',
-    'id': '5c9a959ba5d0dd09e07f45a2'
+    name: 'Mortal Kombat',
+    'id': '5c9a959ba5d0dd09e07f45a9',
+    igdb: {
+      id: 1618,
+      slug: 'mortal-kombat--2'
+    },
+    coverUrl: 'https://images.igdb.com/igdb/image/upload/t_720p/co1hno.jpg'
   },
   {
-    'name': 'Mortal Kombat',
-    'igdbId': 1618,
-    'coverUrl': 'https://images.igdb.com/igdb/image/upload/t_720p/co1hno.jpg',
-    'createdAt': '2019-03-26T21:11:55.508Z',
-    'updatedAt': '2019-03-26T21:11:55.508Z',
-    'id': '5c9a959ba5d0dd09e07f45a0'
+    name: 'Street Fighter II',
+    'id': '5c9a959ba5d0dd09e07f45a0',
+    igdb: {
+      id: 3186,
+      slug: 'street-fighter-ii'
+    },
+    coverUrl: 'https://images.igdb.com/igdb/image/upload/t_720p/co1hq8.jpg'
   },
   {
-    'name': 'Street Fighter II',
-    'igdbId': 3186,
-    'coverUrl': 'https://images.igdb.com/igdb/image/upload/t_720p/co1hq8.jpg',
-    'createdAt': '2019-03-26T21:11:55.508Z',
-    'updatedAt': '2019-03-26T21:11:55.508Z',
-    'id': '5c9a959ba5d0dd09e07f45a1'
+    name: 'Halo: Combat Evolved',
+    'id': '5c9a959ba5d0dd09e07f45a1',
+    igdb: {
+      id: 740,
+      slug: 'halo-combat-evolved'
+    },
+    coverUrl:
+      'https://images.igdb.com/igdb/image/upload/t_720p/bcotwv6rapvdglcahxi3.jpg'
   },
   {
-    'name': 'Super Mario 64',
-    'igdbId': 1074,
-    'coverUrl': 'https://images.igdb.com/igdb/image/upload/t_720p/scutr4p9gytl4txb2soy.jpg',
-    'createdAt': '2019-03-26T21:11:55.506Z',
-    'updatedAt': '2019-03-26T21:11:55.507Z',
-    'id': '5c9a959ba5d0dd09e07f459e'
+    name: 'Superman',
+    'id': '5c9a959ba5d0dd09e07f45a2',
+    igdb: {
+      id: 3005,
+      slug: 'superman'
+    },
+    coverUrl:
+      'https://images.igdb.com/igdb/image/upload/t_720p/wej8g7hq46wb0ueyblin.jpg'
   },
   {
-    'name': 'Super Smash Bros.',
-    'igdbId': 1626,
-    'coverUrl': 'https://images.igdb.com/igdb/image/upload/t_720p/co1hzi.jpg',
-    'createdAt': '2019-03-26T21:11:55.508Z',
-    'updatedAt': '2019-03-26T21:11:55.508Z',
-    'id': '5c9a959ba5d0dd09e07f45a6'
+    name: 'Final Fantasy VII',
+    'id': '5c9a959ba5d0dd09e07f45a3',
+    igdb: {
+      id: 427,
+      slug: 'final-fantasy-vii'
+    },
+    coverUrl:
+      'https://images.igdb.com/igdb/image/upload/t_720p/idzdf1alxvetz3ow2ugy.jpg'
   },
   {
-    'name': 'Superman',
-    'igdbId': 3005,
-    'coverUrl': 'https://images.igdb.com/igdb/image/upload/t_720p/wej8g7hq46wb0ueyblin.jpg',
-    'createdAt': '2019-03-26T21:11:55.508Z',
-    'updatedAt': '2019-03-26T21:11:55.508Z',
-    'id': '5c9a959ba5d0dd09e07f45a3'
+    name: 'WWF No Mercy',
+    'id': '5c9a959ba5d0dd09e07f45a4',
+    igdb: {
+      id: 3644,
+      slug: 'wwf-no-mercy'
+    },
+    coverUrl:
+      'https://images.igdb.com/igdb/image/upload/t_720p/clajigg1q7mm9uxz14kx.jpg'
   },
   {
-    'name': 'The Legend of Zelda',
-    'igdbId': 1022,
-    'coverUrl': 'https://images.igdb.com/igdb/image/upload/t_720p/bfeef9eun1ybhuwufqxm.jpg',
-    'createdAt': '2019-03-26T21:11:55.507Z',
-    'updatedAt': '2019-03-26T21:11:55.507Z',
-    'id': '5c9a959ba5d0dd09e07f459f'
+    name: 'Super Smash Bros.',
+    'id': '5c9a959ba5d0dd09e07f45a5',
+    igdb: {
+      id: 1626,
+      slug: 'super-smash-bros'
+    },
+    coverUrl: 'https://images.igdb.com/igdb/image/upload/t_720p/co1hzi.jpg'
   },
   {
-    'name': 'WWF No Mercy',
-    'igdbId': 3644,
-    'coverUrl': 'https://images.igdb.com/igdb/image/upload/t_720p/clajigg1q7mm9uxz14kx.jpg',
-    'createdAt': '2019-03-26T21:11:55.508Z',
-    'updatedAt': '2019-03-26T21:11:55.508Z',
-    'id': '5c9a959ba5d0dd09e07f45a5'
+    name: 'Candy Crush Saga',
+    'id': '5c9a959ba5d0dd09e07f45a6',
+    igdb: {
+      id: 5636,
+      slug: 'candy-crush-saga'
+    },
+    coverUrl:
+      'https://images.igdb.com/igdb/image/upload/t_720p/u9s7ap9gi5kestfxhxdf.jpg'
   }
 ];
 
@@ -112,23 +129,23 @@ const histories = [
   {
     '_id': '222222222222222222222200',
     'userId': '333333333333333333333300',
-    'gameOne': '5c9a959ba5d0dd09e07f45a5',
-    'gameTwo': '5c9a959ba5d0dd09e07f459f',
-    'choice': '5c9a959ba5d0dd09e07f459f'
+    'gameOne': '5c9a959ba5d0dd09e07f45a6',
+    'gameTwo': '5c9a959ba5d0dd09e07f45a5',
+    'choice': '5c9a959ba5d0dd09e07f45a6'
   },
   {
     '_id': '222222222222222222222201',
     'userId': '5c3f5ca9ec37422f44bdaa82',
-    'gameOne': '5c9a959ba5d0dd09e07f45a6',
-    'gameTwo': '5c9a959ba5d0dd09e07f459e',
-    'choice': '5c9a959ba5d0dd09e07f45a6'
+    'gameOne': '5c9a959ba5d0dd09e07f45a4',
+    'gameTwo': '5c9a959ba5d0dd09e07f45a3',
+    'choice': '5c9a959ba5d0dd09e07f45a4'
   },
   {
     '_id': '222222222222222222222202',
     'userId': '5c3f5ca9ec37422f44bdaa82',
-    'gameOne': '5c9a959ba5d0dd09e07f45a1',
-    'gameTwo': '5c9a959ba5d0dd09e07f45a0',
-    'choice': '5c9a959ba5d0dd09e07f45a0'
+    'gameOne': '5c9a959ba5d0dd09e07f45a2',
+    'gameTwo': '5c9a959ba5d0dd09e07f45a1',
+    'choice': '5c9a959ba5d0dd09e07f45a1'
   }
 ];
 
