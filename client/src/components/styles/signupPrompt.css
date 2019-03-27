@@ -9,8 +9,9 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover; 
-  margin-left: 8px;
-  margin-right: 8px;
+  border-color: black;
+  border-style: solid;
+  border-width: 4px;
 }
 
 .sign-up-prompt-header{
