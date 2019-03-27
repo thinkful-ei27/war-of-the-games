@@ -3,6 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import Card from "./card";
 import VoteStats from "./vote-stats";
+import "./styles/landing-page.css";
 import "./styles/card.css";
 import { fetchGames } from "../actions/gameActions";
 
