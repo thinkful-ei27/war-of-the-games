@@ -3,9 +3,9 @@
 const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
-  gameOne: { type: String, required: true },
-  gameTwo: { type: String, required: true },
-  choice: {type: String, required: true},
+  gameOne: { type: mongoose.Schema.Types.ObjectId, ref: 'Game', required:true },
+  gameTwo: { type: mongoose.Schema.Types.ObjectId, ref: 'Game', required:true },
+  choice: { type: mongoose.Schema.Types.ObjectId, ref: 'Game', required:true },
   // userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required:true}
 });
 

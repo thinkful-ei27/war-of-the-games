@@ -144,9 +144,9 @@ describe('ASYNC Capstone API - History)', function() {
   describe('POST /api/history/', function() {
     it('should create and return a new item when provided valid data', function () {
       const newItem = {
-        'gameOne': 'Metal Gear Solid',
-        'gameTwo': 'World of Warcraft',
-        'choice': 'World of Warcraft'
+        'gameOne': '5c9a959ba5d0dd09e07f45a4',
+        'gameTwo': '5c9a959ba5d0dd09e07f45a3',
+        'choice': '5c9a959ba5d0dd09e07f45a3'
       };
       let body;
       return chai.request(app)
