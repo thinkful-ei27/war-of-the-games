@@ -14,9 +14,9 @@ export class LandingPage extends React.Component {
   }
 
   render() {
-    const { games } = this.props;
+    const { games, feedback } = this.props;
     let content;
-    if (games.length) {
+    if (games.length && feedback) {
       content = (
         <div className="battle-vote">
           <div className="battle-container">
@@ -39,6 +39,24 @@ export class LandingPage extends React.Component {
           </div>
         </div>
       );
+    } else if (games.length) {
+      content = (
+        <div className="battle-container">
+          <Card
+            src={games[0].coverUrl}
+            alt={games[0].name}
+            name={games[0].name}
+            id={games[0].id}
+          />
+          <span className="vs">VS</span>
+          <Card
+            src={games[1].coverUrl}
+            alt={games[1].name}
+            name={games[1].name}
+            id={games[1].id}
+          />
+        </div>
+      );
     } else {
       content = <div>loading...</div>;
     }
@@ -49,7 +67,10 @@ export class LandingPage extends React.Component {
 
 const mapStateToProps = state => ({
   loggedIn: state.auth.currentUser !== null,
-  games: state.games.battleGames
+  games: state.games.battleGames,
+  // If you want to show the Vote Stats Container, change `feedback`
+  // below, to anything truthy and it will appear
+  feedback: state.games.feedback
 });
 
 export default connect(mapStateToProps)(LandingPage);

@@ -13,6 +13,12 @@ export const fetchFeedbackSuccess = feedback => ({
   feedback
 });
 
+export const FETCH_FEEDBACK_ERROR = "FETCH_FEEDBACK_ERROR";
+export const fetchFeedbackError = error => ({
+  type: FETCH_FEEDBACK_ERROR,
+  error
+});
+
 export const fetchGamesSuccess = games => ({
   type: FETCH_GAMES_SUCCESS,
   games
@@ -49,4 +55,11 @@ export const handleVote = (gameOne, gameTwo, choice) => (
     .catch(function(error) {
       console.log(error);
     });
+};
+
+export const fetchFeedback = game => dispatch => {
+  axios
+    .get(`${API_BASE_URL}/history/${game}/results`)
+    .then(response => dispatch(fetchFeedbackSuccess(response)))
+    .catch(err => dispatch(fetchFeedbackError(err)));
 };
