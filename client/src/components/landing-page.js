@@ -2,6 +2,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Card from "./card";
+import VoteStats from "./vote-stats";
 import "./styles/card.css";
 import { fetchGames } from "../actions/gameActions";
 
@@ -16,20 +17,25 @@ export class LandingPage extends React.Component {
     let content;
     if (games.length) {
       content = (
-        <div className="battle-container">
-          <Card
-            src={games[0].coverUrl}
-            alt={games[0].name}
-            name={games[0].name}
-            id={games[0].id}
-          />
-          <span className="vs">VS</span>
-          <Card
-            src={games[1].coverUrl}
-            alt={games[1].name}
-            name={games[1].name}
-            id={games[1].id}
-          />
+        <div className="battle-vote">
+          <div className="battle-container">
+            <Card
+              src={games[0].coverUrl}
+              alt={games[0].name}
+              name={games[0].name}
+              id={games[0].id}
+            />
+            <span className="vs">VS</span>
+            <Card
+              src={games[1].coverUrl}
+              alt={games[1].name}
+              name={games[1].name}
+              id={games[1].id}
+            />
+          </div>
+          <div className="vote-stats-container">
+            <VoteStats {...games} />
+          </div>
         </div>
       );
     } else {
