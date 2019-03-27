@@ -26,58 +26,88 @@ const users = [
 const games = [
   {
     name: "Super Mario 64",
-    igdbId: 1074,
+    igdb: {
+      id: 1074,
+      slug: "super-mario-64"
+    },
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/scutr4p9gytl4txb2soy.jpg"
   },
   {
     name: "The Legend of Zelda",
-    igdbId: 1022,
+    igdb: {
+      id: 1022,
+      slug: "the-legend-of-zelda"
+    },
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/bfeef9eun1ybhuwufqxm.jpg"
   },
   {
     name: "Mortal Kombat",
-    igdbId: 1618,
+    igdb: {
+      id: 1618,
+      slug: "mortal-kombat--2"
+    },
     coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/co1hno.jpg"
   },
   {
     name: "Street Fighter II",
-    igdbId: 3186,
+    igdb: {
+      id: 3186,
+      slug: "street-fighter-ii"
+    },
     coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/co1hq8.jpg"
   },
   {
     name: "Halo: Combat Evolved",
-    igdbId: 740,
+    igdb: {
+      id: 740,
+      slug: "halo-combat-evolved"
+    },
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/bcotwv6rapvdglcahxi3.jpg"
   },
   {
     name: "Superman",
-    igdbId: 3005,
+    igdb: {
+      id: 3005,
+      slug: "superman"
+    },
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/wej8g7hq46wb0ueyblin.jpg"
   },
   {
     name: "Final Fantasy VII",
-    igdbId: 427,
+    igdb: {
+      id: 427,
+      slug: "final-fantasy-vii"
+    },
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/idzdf1alxvetz3ow2ugy.jpg"
   },
   {
     name: "WWF No Mercy",
-    igdbId: 3644,
+    igdb: {
+      id: 3644,
+      slug: "wwf-no-mercy"
+    },
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/clajigg1q7mm9uxz14kx.jpg"
   },
   {
     name: "Super Smash Bros.",
-    igdbId: 1626,
+    igdb: {
+      id: 1626,
+      slug: "super-smash-bros"
+    },
     coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/co1hzi.jpg"
   },
   {
     name: "Candy Crush Saga",
-    igdbId: 5636,
+    igdb: {
+      id: 5636,
+      slug: "candy-crush-saga"
+    },
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/u9s7ap9gi5kestfxhxdf.jpg"
   }
@@ -85,47 +115,47 @@ const games = [
 
 const histories = [
   {
-    '_id': '222222222222222222222200',
-    'userId': '333333333333333333333300',
-    'gameOne': 'The Legend of Zelda: Ocarina of Time',
-    'gameTwo': 'Super Mario Bros',
-    'choice': 'The Legend of Zelda: Ocarina of Time'
+    _id: "222222222222222222222200",
+    userId: "333333333333333333333300",
+    gameOne: "The Legend of Zelda: Ocarina of Time",
+    gameTwo: "Super Mario Bros",
+    choice: "The Legend of Zelda: Ocarina of Time"
   },
   {
-    '_id': '222222222222222222222201',
-    'userId': '5c3f5ca9ec37422f44bdaa82',
-    'gameOne': 'The Legend of Zelda: Ocarina of Time',
-    'gameTwo': 'Gears of War',
-    'choice': 'The Legend of Zelda: Ocarina of Time'
+    _id: "222222222222222222222201",
+    userId: "5c3f5ca9ec37422f44bdaa82",
+    gameOne: "The Legend of Zelda: Ocarina of Time",
+    gameTwo: "Gears of War",
+    choice: "The Legend of Zelda: Ocarina of Time"
   },
   {
-    '_id': '222222222222222222222202',
-    'userId': '5c3f5ca9ec37422f44bdaa82',
-    'gameOne': 'Metal Gear Solid',
-    'gameTwo': 'Super Mario Bros',
-    'choice': 'Metal Gear Solid'
+    _id: "222222222222222222222202",
+    userId: "5c3f5ca9ec37422f44bdaa82",
+    gameOne: "Metal Gear Solid",
+    gameTwo: "Super Mario Bros",
+    choice: "Metal Gear Solid"
   },
   {
-    '_id': '222222222222222222222203',
-    'userId': '5c3f5ca9ec37422f44bdaa82',
-    'gameOne': 'Metal Gear Solid',
-    'gameTwo': 'World of Warcraft',
-    'choice': 'World of Warcraft'
+    _id: "222222222222222222222203",
+    userId: "5c3f5ca9ec37422f44bdaa82",
+    gameOne: "Metal Gear Solid",
+    gameTwo: "World of Warcraft",
+    choice: "World of Warcraft"
   },
   {
-    '_id': '222222222222222222222204',
-    'userId': '5c3f5ca9ec37422f44bdaa82',
-    'gameOne': 'Super Mario 64',
-    'gameTwo': 'Super Mario Bros',
-    'choice': 'Super Mario 64'
+    _id: "222222222222222222222204",
+    userId: "5c3f5ca9ec37422f44bdaa82",
+    gameOne: "Super Mario 64",
+    gameTwo: "Super Mario Bros",
+    choice: "Super Mario 64"
   },
   {
-    '_id': '222222222222222222222205',
-    'userId': '5c3f5ca9ec37422f44bdaa82',
-    'gameOne': 'The Legend of Zelda: Link\'s Awakening',
-    'gameTwo': 'Super Mario Bros',
-    'choice': 'Super Mario Bros'
-  },
+    _id: "222222222222222222222205",
+    userId: "5c3f5ca9ec37422f44bdaa82",
+    gameOne: "The Legend of Zelda: Link's Awakening",
+    gameTwo: "Super Mario Bros",
+    choice: "Super Mario Bros"
+  }
 ];
 
 module.exports = {
