@@ -6,10 +6,11 @@ export function Card(props) {
   const { src, alt, name, dispatch, games, id } = props;
 
   function handleVoteClick() {
-    dispatch(handleVote(games[0].name, games[1].name, name));
-    dispatch(fetchGames())
-    dispatch(incrementSessionCount());
+    dispatch(handleVote(games[0].id, games[1].id, id));
+    dispatch(fetchGames());
+    dispatch(incrementSessionCount())
   }
+
 
   return (
     <div className="card">
