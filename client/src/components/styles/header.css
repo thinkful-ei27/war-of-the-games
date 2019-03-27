@@ -1,5 +1,5 @@
 .header-bar {
-  margin: 8px, 8px, 0, 8px;
+  margin: 15px;
   background-color: #5c94fc;
   /* background-image: url('https://i.pinimg.com/originals/5e/93/44/5e93446c8e04d4eebb641b953266846c.jpg'); */
 
@@ -9,7 +9,10 @@
 }
 
 .nav-container {
+  list-style: none;
+  text-decoration: none;
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   background-color: #c84c0c;
   width: 90%;
