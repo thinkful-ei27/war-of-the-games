@@ -24,7 +24,7 @@ const getGames = async () => {
       .fields(['name', 'url', 'slug'])
       // .limit(2)
       // .sort('name', 'desc') // sorts by name, descending
-      .where([`slug = bioshock-infinite`])
+      .where([`slug ~ "bioshock-infinite"`])
       .request('/games');
     
     console.log(response.data);
@@ -33,30 +33,35 @@ const getGames = async () => {
   }
 }
 
-// let games = [];
-// // Extract name, url, slug based on slug
-// const getGamesFromSlugs = async (slug) => {
-//   try {
-//     const response = await apicalypse(requestOptions)
-//       .fields(['name', 'url', 'slug'])
-//       // .limit(2)
-//       // .sort('name', 'desc') // sorts by name, descending
-//       .where([`slug = ${slug}`])
-//       .request('/games');
+let games = [];
+// Extract name, url, slug based on slug
+const getGamesFromSlugs = async (slug) => {
+  try {
+    const response = await apicalypse(requestOptions)
+      .fields(['name', 'url', 'slug'])
+      // .limit(2)
+      // .sort('name', 'desc') // sorts by name, descending
+      .where([`slug ~ "${slug}"`])
+      .request('/games');
     
-//     await games.push(response.data);
-//   } catch (e) {
-//     console.error(e);
-//   }
-// }
+    await games.push(response.data);
+  } catch (e) {
+    console.error(e);
+  }
+}
 
-// const allGames = async (arr) => {
-//   for await (let slug of arr) {
-//     getGamesFromSlugs(slug);
-//   }
-//   console.log(games);
-// }
+const allGames = async (arr) => {
+  for await (let slug of arr) {
+    getGamesFromSlugs(slug);
+  }
+  return arr;
+}
 
-// console.log(slugs);
-// allGames(slugs);
-getGames();
+const makeRequest = async () => {
+  console.log(await allGames(slugs));
+  return "done"
+}
+
+makeRequest()
+
+// getGames();
