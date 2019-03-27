@@ -27,6 +27,7 @@ const users = [
 const games = [
   {
     name: "Super Mario 64",
+    _id: "5c9a959ba5d0dd09e07f45a7",
     igdb: {
       id: 1074,
       slug: "super-mario-64"
@@ -36,6 +37,7 @@ const games = [
   },
   {
     name: "The Legend of Zelda",
+    _id: "5c9a959ba5d0dd09e07f45a8",
     igdb: {
       id: 1022,
       slug: "the-legend-of-zelda"
@@ -45,6 +47,7 @@ const games = [
   },
   {
     name: "Mortal Kombat",
+    _id: "5c9a959ba5d0dd09e07f45a9",
     igdb: {
       id: 1618,
       slug: "mortal-kombat--2"
@@ -53,6 +56,7 @@ const games = [
   },
   {
     name: "Street Fighter II",
+    _id: "5c9a959ba5d0dd09e07f45a0",
     igdb: {
       id: 3186,
       slug: "street-fighter-ii"
@@ -61,6 +65,7 @@ const games = [
   },
   {
     name: "Halo: Combat Evolved",
+    _id: "5c9a959ba5d0dd09e07f45a1",
     igdb: {
       id: 740,
       slug: "halo-combat-evolved"
@@ -70,6 +75,7 @@ const games = [
   },
   {
     name: "Superman",
+    _id: "5c9a959ba5d0dd09e07f45a2",
     igdb: {
       id: 3005,
       slug: "superman"
@@ -79,6 +85,7 @@ const games = [
   },
   {
     name: "Final Fantasy VII",
+    _id: "5c9a959ba5d0dd09e07f45a3",
     igdb: {
       id: 427,
       slug: "final-fantasy-vii"
@@ -88,6 +95,7 @@ const games = [
   },
   {
     name: "WWF No Mercy",
+    _id: "5c9a959ba5d0dd09e07f45a4",
     igdb: {
       id: 3644,
       slug: "wwf-no-mercy"
@@ -97,6 +105,7 @@ const games = [
   },
   {
     name: "Super Smash Bros.",
+    _id: "5c9a959ba5d0dd09e07f45a5",
     igdb: {
       id: 1626,
       slug: "super-smash-bros"
@@ -105,6 +114,7 @@ const games = [
   },
   {
     name: "Candy Crush Saga",
+    _id: "5c9a959ba5d0dd09e07f45a6",
     igdb: {
       id: 5636,
       slug: "candy-crush-saga"
@@ -118,44 +128,23 @@ const histories = [
   {
     _id: "222222222222222222222200",
     userId: "333333333333333333333300",
-    gameOne: "The Legend of Zelda: Ocarina of Time",
-    gameTwo: "Super Mario Bros",
-    choice: "The Legend of Zelda: Ocarina of Time"
+    gameOne: "5c9a959ba5d0dd09e07f45a6",
+    gameTwo: "5c9a959ba5d0dd09e07f45a5",
+    choice: "5c9a959ba5d0dd09e07f45a6"
   },
   {
     _id: "222222222222222222222201",
     userId: "5c3f5ca9ec37422f44bdaa82",
-    gameOne: "The Legend of Zelda: Ocarina of Time",
-    gameTwo: "Gears of War",
-    choice: "The Legend of Zelda: Ocarina of Time"
+    gameOne: "5c9a959ba5d0dd09e07f45a4",
+    gameTwo: "5c9a959ba5d0dd09e07f45a3",
+    choice: "5c9a959ba5d0dd09e07f45a4"
   },
   {
     _id: "222222222222222222222202",
     userId: "5c3f5ca9ec37422f44bdaa82",
-    gameOne: "Metal Gear Solid",
-    gameTwo: "Super Mario Bros",
-    choice: "Metal Gear Solid"
-  },
-  {
-    _id: "222222222222222222222203",
-    userId: "5c3f5ca9ec37422f44bdaa82",
-    gameOne: "Metal Gear Solid",
-    gameTwo: "World of Warcraft",
-    choice: "World of Warcraft"
-  },
-  {
-    _id: "222222222222222222222204",
-    userId: "5c3f5ca9ec37422f44bdaa82",
-    gameOne: "Super Mario 64",
-    gameTwo: "Super Mario Bros",
-    choice: "Super Mario 64"
-  },
-  {
-    _id: "222222222222222222222205",
-    userId: "5c3f5ca9ec37422f44bdaa82",
-    gameOne: "The Legend of Zelda: Link's Awakening",
-    gameTwo: "Super Mario Bros",
-    choice: "Super Mario Bros"
+    gameOne: "5c9a959ba5d0dd09e07f45a2",
+    gameTwo: "5c9a959ba5d0dd09e07f45a1",
+    choice: "5c9a959ba5d0dd09e07f45a1"
   }
 ];
 
