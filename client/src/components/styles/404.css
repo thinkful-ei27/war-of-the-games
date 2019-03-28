@@ -1,0 +1,25 @@
+.box-404{
+  background-color: black;
+  color: white;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.bricks-404-holder{
+  height: 40px;
+  background: url('../../assets/bricks.png');
+  background-size: 100px;
+}
+
+.bricks-404-holder-2{
+  height: 40px;
+  background: url('../../assets/bricks.png');
+  background-size: 65px;
+  
+}
+
+.text-404{
+  margin: auto;
+}
