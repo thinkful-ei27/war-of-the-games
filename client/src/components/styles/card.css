@@ -45,3 +45,8 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+.landing-page-loader{
+  text-align: center;
+  font-size: 25px;
+}
