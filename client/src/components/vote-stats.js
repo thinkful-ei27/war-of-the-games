@@ -10,18 +10,15 @@ export default function VoteStats(props) {
   };
   const { feedback } = props;
   const { name, coverUrl, percent } = dummyData;
-
-  /*
-  Once this is dyanmic all you have to do to get it working is change
-  gameOne, gameTwo to props[0] and props[1] respectively
-  */
+  const { data } = feedback;
+  // const { percentage } = data;
 
   return (
     <div className="vote-stats-container">
       <VoteCard name={name} src={coverUrl} />
       {/* <VoteCard name={gameTwo.name} src={gameTwo.coverUrl} /> */}
       <p className="voting-feedback">
-        {`${percent} or users picked ${name} as a winner`}
+        {`${name} has won ${percent} of all battles`}
       </p>
     </div>
   );

@@ -49,10 +49,10 @@ export const handleVote = (gameOne, gameTwo, choice) => (
       gameTwo,
       choice
     })
-    .then(function (response) {
+    .then(function(response) {
       console.log(response);
     })
-    .catch(function (error) {
+    .catch(function(error) {
       console.log(error);
     });
 };
@@ -60,6 +60,6 @@ export const handleVote = (gameOne, gameTwo, choice) => (
 export const fetchFeedback = game => dispatch => {
   axios
     .get(`${API_BASE_URL}/history/${game}/results`)
-    .then(response => dispatch(fetchFeedbackSuccess(response)))
+    .then(response => dispatch(fetchFeedbackSuccess(response.data)))
     .catch(err => dispatch(fetchFeedbackError(err)));
 };

@@ -3,6 +3,7 @@ import React from "react";
 import Card from "./card";
 
 export default function Battle(props) {
+  const { fetchFeedback } = props;
   return (
     <div className="battle-container">
       <Card
@@ -10,6 +11,7 @@ export default function Battle(props) {
         alt={props[0].name}
         name={props[0].name}
         id={props[0].id}
+        fetchFeedback={id => fetchFeedback(id)}
       />
       <span className="vs">VS</span>
       <Card
@@ -17,6 +19,7 @@ export default function Battle(props) {
         alt={props[1].name}
         name={props[1].name}
         id={props[1].id}
+        fetchFeedback={id => fetchFeedback(id)}
       />
     </div>
   );

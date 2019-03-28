@@ -6,7 +6,7 @@ import VoteStats from "./vote-stats";
 import "./styles/landing-page.css";
 import { SignupPrompt } from "./signupPrompt";
 import "./styles/card.css";
-import { fetchGames } from "../actions/gameActions";
+import { fetchGames, fetchFeedback } from "../actions/gameActions";
 import { loadVoteCount, setVoteLocalStorageVariable } from "../local-storage";
 
 export class LandingPage extends React.Component {
@@ -16,23 +16,36 @@ export class LandingPage extends React.Component {
     dispatch(fetchGames());
   }
 
+  handleFetchFeedback(game) {
+    const { dispatch } = this.props;
+    dispatch(fetchFeedback(game));
+  }
+
   render() {
     const { games, loggedIn, feedback } = this.props;
     let content;
     const count = parseInt(loadVoteCount(), 10);
-    if (count >= 5 && !loggedIn) {
+    if (count >= 100 && !loggedIn) {
       content = <SignupPrompt />;
     } else if (games.length && feedback) {
       content = (
         <div className="battle-vote">
-          <Battle {...games} />
+          <Battle
+            fetchFeedback={game => this.handleFetchFeedback(game)}
+            {...games}
+          />
           <div className="vote-stats-container">
             <VoteStats feedback={feedback} {...games} />
           </div>
         </div>
       );
     } else if (games.length) {
-      content = <Battle {...games} />;
+      content = (
+        <Battle
+          fetchFeedback={game => this.handleFetchFeedback(game)}
+          {...games}
+        />
+      );
     } else {
       content = <div>loading...</div>;
     }
@@ -44,9 +57,7 @@ export class LandingPage extends React.Component {
 const mapStateToProps = state => ({
   loggedIn: state.auth.currentUser !== null,
   games: state.games.battleGames,
-  // If you want to show the Vote Stats Container, change `feedback`
-  // below, to anything truthy and it will appear
-  feedback: state.games.feedback || "sup",
+  feedback: state.games.feedback,
   count: state.games.sessionVoteCount
 });
 
