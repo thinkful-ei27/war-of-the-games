@@ -1,14 +1,21 @@
 .battle-container {
   display: flex;
   justify-content: space-between;
-  height: 800px;
+  height: 625px;
   width: 1000px;
   margin: 20px auto;
 }
 
+.vs-skip-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
 .vs {
   font-size: 28px;
-  padding-top: 20%;
+  padding-top: 15%;
 }
 
 .game-img {
@@ -21,27 +28,28 @@
 .game-title {
   font-size: 28px;
   text-align: center;
-  height: 50px;
+  height: 195px;
 }
 
 .card{
   width: 50%;
   display: flex;
+  padding: 20px;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
 .img-holder{
   text-align: center
 }
 
-.nes-btn{
-  margin-left: auto;
-  margin-left: auto;
-}
-
 #vote-button{
   margin-left: auto;
   margin-right: auto;
+}
+
+.landing-page-loader{
+  text-align: center;
+  font-size: 25px;
 }
