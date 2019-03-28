@@ -3,48 +3,42 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { clearAuth } from '../actions/auth';
 import { clearAuthToken } from '../local-storage';
+import Menu from './Menu';
 import './styles/header.css';
 
 export class HeaderBar extends React.Component {
-  logOut() {
-    this.props.dispatch(clearAuth());
-    clearAuthToken();
+  state = {
+    menuItems: [
+      { name: 'Vote', link: '/', key: '0' },
+      { name: 'About', link: '/about', key: '1' },
+      { name: 'Sign Up', link: '/register', key: '2' },
+      { name: 'Login', link: '/login', key: '3' },
+      { name: 'Sign Out', link: '/login', key: '4' }
+    ]
+  };
+
+  handleLinks() {
+    const { menuItems } = this.state;
+    if (this.props.loggedIn) {
+      const hidden = ['Sign Up', 'Login'];
+      return menuItems.filter(item => !hidden.includes(item.name));
+    }
+    const hidden = ['Sign Out'];
+    return menuItems.filter(item => !hidden.includes(item.name));
   }
 
   render() {
     // Only render the log out button if we are logged in
-    let logOutButton;
-    if (this.props.loggedIn) {
-      logOutButton = <button onClick={() => this.logOut()}>Log out</button>;
-    }
+
     return (
       <header className="header-bar">
         <div className="nes-container with-title is-centered">
           <h1 className="title">Foo App</h1>
-          {/* <i className="nes-mario" />
-          <i className="nes-icon coin is-medium" />
-          <i className="nes-icon coin is-medium" />
-          <i className="nes-icon coin is-medium" />
-          <i className="nes-icon coin is-medium" />
-          <i className="nes-icon coin is-medium" />
-          <i className="nes-icon coin is-medium" />
-          <i className="nes-icon coin is-medium" />
-          <i className="nes-icon coin is-medium" />
-          <i className="nes-icon coin is-medium" /> */}
+
           <section className="nes-container nav-container">
-            <Link className="nav-button" to="/">
-              About
-            </Link>
-            <Link className="nav-button" to="/register">
-              Sign Up
-            </Link>
-            <Link className="nav-button" to="/vote">
-              Vote
-            </Link>
+            <Menu menuItems={this.handleLinks()} />
           </section>
         </div>
-
-        {logOutButton}
       </header>
     );
   }
