@@ -47,7 +47,7 @@ export class LandingPage extends React.Component {
         />
       );
     } else {
-      content = <div>loading...</div>;
+      content = <div className="landing-page-loader">loading...</div>;
     }
 
     return content;

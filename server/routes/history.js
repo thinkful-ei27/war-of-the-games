@@ -2,7 +2,12 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
-const { totalGamesPlayed, gamesWon } = require('../utils/queries');
+const {
+  totalGamesPlayed,
+  gamesWon,
+  gameName,
+  gamePic
+} = require('../utils/queries');
 
 const History = require('../models/history');
 
@@ -59,11 +64,15 @@ router.get('/:id/results', async (req, res, next) => {
     const wonGames = await gamesWon(id);
     const totalGames = await totalGamesPlayed(id);
     const percentage = wonGames / totalGames;
+    const [name] = await gameName(id);
+    const coverUrl = await gamePic(id);
 
     res.json({
       percentage: Number(percentage.toFixed(2)),
       wonGames,
-      totalGames
+      totalGames,
+      name,
+      coverUrl
     });
   } catch (e) {
     next(e);
@@ -85,7 +94,10 @@ router.post('/', (req, res, next) => {
   }
 
   // Validate that gameOne, gameTwo, and choice are valid MongoIDs
-  const validate = mongoose.Types.ObjectId.isValid(gameOne) && mongoose.Types.ObjectId.isValid(gameTwo) && mongoose.Types.ObjectId.isValid(choice);
+  const validate =
+    mongoose.Types.ObjectId.isValid(gameOne) &&
+    mongoose.Types.ObjectId.isValid(gameTwo) &&
+    mongoose.Types.ObjectId.isValid(choice);
   if (!validate) {
     const err = new Error('The `id` is not valid');
     err.status = 400;

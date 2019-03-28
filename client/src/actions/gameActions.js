@@ -19,6 +19,12 @@ export const fetchFeedbackError = error => ({
   error
 });
 
+export const CLEAR_GAMES = "CLEAR_GAMES";
+
+export const clearGames = () => ({
+  type: CLEAR_GAMES
+});
+
 export const fetchGamesSuccess = games => ({
   type: FETCH_GAMES_SUCCESS,
   games

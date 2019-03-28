@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchGames, handleVote } from "../actions/gameActions";
+import { fetchGames, handleVote, clearGames } from "../actions/gameActions";
 import { incrementVoteCount } from "../local-storage";
 
 export function Card(props) {
@@ -11,6 +11,7 @@ export function Card(props) {
     dispatch(fetchGames());
     fetchFeedback(id);
     incrementVoteCount();
+    dispatch(clearGames());
   }
 
   return (
