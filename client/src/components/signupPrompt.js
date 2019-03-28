@@ -19,6 +19,14 @@ export class SignupPrompt extends React.Component {
             Sign up
           </button>
         </Link>
+        <Link to="/login">
+          <button
+            id="sign-up-prompt-btn"
+            className="nes-btn is-primary"
+            type="button">
+            Log in
+          </button>
+        </Link>
       </div>
     )
   }
