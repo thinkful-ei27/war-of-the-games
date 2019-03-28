@@ -2,7 +2,12 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
-const { totalGamesPlayed, gamesWon, gameName } = require('../utils/queries');
+const {
+  totalGamesPlayed,
+  gamesWon,
+  gameName,
+  gamePic
+} = require('../utils/queries');
 
 const History = require('../models/history');
 
@@ -60,12 +65,14 @@ router.get('/:id/results', async (req, res, next) => {
     const totalGames = await totalGamesPlayed(id);
     const percentage = wonGames / totalGames;
     const [name] = await gameName(id);
+    const coverUrl = await gamePic(id);
 
     res.json({
       percentage: Number(percentage.toFixed(2)),
       wonGames,
       totalGames,
-      name
+      name,
+      coverUrl
     });
   } catch (e) {
     next(e);

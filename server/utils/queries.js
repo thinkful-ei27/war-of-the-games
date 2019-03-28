@@ -17,4 +17,9 @@ const gameName = async id => {
   return choice.map(game => game.choice.name);
 };
 
-module.exports = { totalGamesPlayed, gamesWon, gameName };
+const gamePic = async id => {
+  const picture = await History.find({ choice: id }).populate('choice');
+  return picture[0].choice.coverUrl;
+};
+
+module.exports = { totalGamesPlayed, gamesWon, gameName, gamePic };
