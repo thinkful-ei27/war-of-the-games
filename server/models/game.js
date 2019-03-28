@@ -6,7 +6,22 @@ const schema = new mongoose.Schema({
     id: { type: Number, required: true, unique: true },
     slug: { type: String, required: true }
   },
-  coverUrl: { type: String, required: true }
+  coverUrl: { type: String, required: true },
+  summary: String,
+  genres: [
+    {
+      id: Number,
+      name: String
+    }
+  ],
+  platforms: [
+    {
+      id: Number,
+      name: String
+    }
+  ],
+  // An array of IGDB ID numbers
+  similar_games: [{ type: Number }]
 });
 
 schema.set("timestamps", true);
