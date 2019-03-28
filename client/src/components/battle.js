@@ -2,7 +2,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Card from "./card";
-import { fetchGames } from "../actions/gameActions";
+import { fetchGames, clearGames } from "../actions/gameActions";
 
 export function Battle(props) {
   const { fetchFeedback, dispatch } = props;
@@ -18,7 +18,10 @@ export function Battle(props) {
       <div className="vs-skip-container">
         <span className="vs">VS</span>
         <button
-          onClick={() => dispatch(fetchGames())}
+          onClick={() => {
+            dispatch(clearGames());
+            dispatch(fetchGames());
+          }}
           className="nes-btn is-primary"
           type="button"
         >

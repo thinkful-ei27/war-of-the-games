@@ -9,13 +9,13 @@
 .vs-skip-container{
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
 }
 
 .vs {
   font-size: 28px;
-  padding-top: 15%;
+  padding-top: 125%;
 }
 
 .game-img {
