@@ -11,9 +11,7 @@ export function GameInfo(props) {
   if (loading || games.length < 1) {
     content = <div>loading</div>;
   } else {
-    console.log("we have a slug ", gameSlug);
     const game = games.find(g => g.igdb.slug === gameSlug);
-    console.log("we found a game ", game);
     const { name, coverUrl, slug } = game;
     content = (
       <>
