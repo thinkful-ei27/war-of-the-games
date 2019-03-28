@@ -43,4 +43,11 @@ const getCover = async id =>
     .request("/covers")
     .then(res => res.data[0]);
 
-module.exports = { getGames, getGame, getCover };
+const getAllBySlug = async id =>
+  await apicalypse(requestOptions)
+    .fields(['*'])
+    .where(`id = ${id}`)
+    .request("/games")
+    .then(res => res.data[0]);
+
+module.exports = { getGames, getGame, getCover, getAllBySlug };
