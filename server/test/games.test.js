@@ -161,13 +161,10 @@ describe("ASYNC Capstone API - Games", function() {
           expect(res.body.platforms).to.be.an("array");
           expect(res.body.platforms.length).to.equal(data.platforms.length);
           expect(res.body.similar_games).to.be.an("array");
-          expect(res.body.similar_games.length).to.equal(
-            data.similar_games.length
-          );
         });
     });
 
-    it.only("should expand the similar games list with additional information", function() {
+    it("should expand the similar games list with additional information", function() {
       return Game.findOne()
         .then(data => chai.request(app).get(`/api/games/${data.id}`))
         .then(res => {
@@ -191,9 +188,16 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
-    it(
-      "should respond with status 400 and an error message when id is not valid"
-    );
+    it.only("should respond with status 400 and an error message when id is not valid", function() {
+      return chai
+        .request(app)
+        .get("/api/games/NOT-A-VALID-ID")
+        .set("Authorization", `Bearer ${token}`)
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).to.equal("The `id` is not valid");
+        });
+    });
 
     it("should respond with status 404 for an id that does not exist");
 

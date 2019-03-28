@@ -1,6 +1,7 @@
 const express = require("express");
 const Game = require("../models/game");
 const igdbApi = require("../utils/gameApi");
+const { isValidId } = require("./validators");
 
 const router = express.Router();
 
@@ -30,20 +31,39 @@ router.get("/battle", (req, res, next) => {
     .catch(err => next(err));
 });
 
-router.get("/:id", (req, res, next) => {
+router.get("/:id", isValidId, (req, res, next) => {
+  const { id } = req.params;
   let game, gameInfo;
-  Game.findOne()
+  Game.findOne({ _id: id })
     .then(_game => {
       game = _game;
       return Game.find({ "igdb.id": { $in: game.similar_games } }).then(
         similar_games => {
-          const { name, igdb } = game;
-          gameInfo = {
+          const {
             name,
             igdb,
-            similar_games
-          };
-          console.log(gameInfo);
+            coverUrl,
+            platforms,
+            genres,
+            summary,
+            createdAt,
+            updatedAt
+          } = game;
+          gameInfo = Object.assign(
+            {},
+            {
+              id,
+              name,
+              igdb,
+              platforms,
+              coverUrl,
+              genres,
+              summary,
+              createdAt,
+              updatedAt
+            },
+            { similar_games }
+          );
           res.json(gameInfo);
         }
       );
