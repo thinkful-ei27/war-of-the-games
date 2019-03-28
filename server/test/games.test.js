@@ -124,6 +124,18 @@ describe("ASYNC Capstone API - Games", function() {
     });
   });
 
+  describe("GET /api/games/:id", function() {
+    it("should return the correct game");
+
+    it(
+      "should respond with status 400 and an error message when id is not valid"
+    );
+
+    it("should respond with status 404 for an id that does not exist");
+
+    it("should catch errors and respond properly");
+  });
+
   describe("GET /api/games/battle", function() {
     it("should return two games", function() {
       return chai
