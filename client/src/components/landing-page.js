@@ -25,7 +25,7 @@ export class LandingPage extends React.Component {
     const { games, loggedIn, feedback } = this.props;
     let content;
     const count = parseInt(loadVoteCount(), 10);
-    if (count >= 100 && !loggedIn) {
+    if (count >= 5 && !loggedIn) {
       content = <SignupPrompt />;
     } else if (games.length && feedback) {
       content = (
