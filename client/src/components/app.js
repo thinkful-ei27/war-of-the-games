@@ -1,12 +1,13 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Route, withRouter } from 'react-router-dom';
+import React from "react";
+import { connect } from "react-redux";
+import { Route, withRouter } from "react-router-dom";
 import LoginForm from "./login-form";
-import HeaderBar from './header-bar';
-import LandingPage from './landing-page';
-import Dashboard from './dashboard';
-import RegistrationPage from './registration-page';
-import { refreshAuthToken } from '../actions/auth';
+import HeaderBar from "./header-bar";
+import LandingPage from "./landing-page";
+import Dashboard from "./dashboard";
+import RegistrationPage from "./registration-page";
+import { refreshAuthToken } from "../actions/auth";
+import GameInfo from "./GameInfo";
 
 export class App extends React.Component {
   componentDidUpdate(prevProps) {
@@ -46,6 +47,7 @@ export class App extends React.Component {
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/login" component={LoginForm} />
         <Route exact path="/register" component={RegistrationPage} />
+        <Route exact path="/game" component={GameInfo} />
       </div>
     );
   }
