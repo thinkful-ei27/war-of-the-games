@@ -36,7 +36,7 @@ router.get("/:id", isValidId, (req, res, next) => {
   let game, gameInfo;
   Game.findOne({ _id: id })
     .then(_game => {
-      game = _game;
+      _game ? (game = _game) : next();
       return Game.find({ "igdb.id": { $in: game.similar_games } }).then(
         similar_games => {
           const {

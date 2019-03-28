@@ -188,7 +188,7 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
-    it.only("should respond with status 400 and an error message when id is not valid", function() {
+    it("should respond with status 400 and an error message when id is not valid", function() {
       return chai
         .request(app)
         .get("/api/games/NOT-A-VALID-ID")
@@ -199,7 +199,16 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
-    it("should respond with status 404 for an id that does not exist");
+    it("should respond with status 404 for an id that does not exist", function() {
+      // The string "DOESNOTEXIST" is 12 bytes which is a valid Mongo ObjectId
+      return chai
+        .request(app)
+        .get("/api/games/DOESNOTEXIST")
+        .set("Authorization", `Bearer ${token}`)
+        .then(res => {
+          expect(res).to.have.status(404);
+        });
+    });
 
     it("should catch errors and respond properly");
   });
