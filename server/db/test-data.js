@@ -71,7 +71,8 @@ const getGameRes = {
       id: 64,
       name: "Sega Master System"
     }
-  ]
+  ],
+  similar_games: [358, 1185, 1331, 3166, 3192, 3481, 4598, 7342, 11065, 13677]
 };
 
 module.exports = { getGameRes };

@@ -54,7 +54,8 @@ describe("ASYNC Capstone API - Games", function() {
           "slug",
           "summary",
           "genres",
-          "platforms"
+          "platforms",
+          "similar_games"
         );
         expect(res.id).to.equal(getGameRes.id);
         expect(res.name).to.equal(getGameRes.name);
@@ -217,7 +218,8 @@ describe("ASYNC Capstone API - Games", function() {
             "coverUrl",
             "summary",
             "genres",
-            "platforms"
+            "platforms",
+            "similar_games"
           );
           return Game.findOne({ _id: res.body.id });
         })
@@ -234,6 +236,8 @@ describe("ASYNC Capstone API - Games", function() {
           expect(data.genres.length).to.not.equal(0);
           expect(data.platforms).to.be.an("array");
           expect(data.platforms.length).to.not.equal(0);
+          expect(data.similar_games).to.be.an("array");
+          expect(data.similar_games.length).to.not.equal(0);
         });
     });
 

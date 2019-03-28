@@ -19,7 +19,9 @@ const schema = new mongoose.Schema({
       id: Number,
       name: String
     }
-  ]
+  ],
+  // An array of IGDB ID numbers
+  similar_games: [{ type: Number }]
 });
 
 schema.set("timestamps", true);
