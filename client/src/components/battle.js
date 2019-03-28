@@ -1,9 +1,11 @@
 /* eslint-disable react/destructuring-assignment */
 import React from "react";
+import { connect } from "react-redux";
 import Card from "./card";
+import { fetchGames } from "../actions/gameActions";
 
-export default function Battle(props) {
-  const { fetchFeedback } = props;
+export function Battle(props) {
+  const { fetchFeedback, dispatch } = props;
   return (
     <div className="battle-container">
       <Card
@@ -13,7 +15,16 @@ export default function Battle(props) {
         id={props[0].id}
         fetchFeedback={id => fetchFeedback(id)}
       />
-      <span className="vs">VS</span>
+      <div className="vs-skip-container">
+        <span className="vs">VS</span>
+        <button
+          onClick={() => dispatch(fetchGames())}
+          className="nes-btn is-primary"
+          type="button"
+        >
+          Skip
+        </button>
+      </div>
       <Card
         src={props[1].coverUrl}
         alt={props[1].name}
@@ -24,3 +35,5 @@ export default function Battle(props) {
     </div>
   );
 }
+
+export default connect()(Battle);
