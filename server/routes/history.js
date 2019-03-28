@@ -46,6 +46,25 @@ router.get('/', (req, res, next) => {
     });
 });
 
+router.get('/results/all', (req, res, next) => {
+  History.aggregate([
+    {
+      $group: {
+        _id: "$gameOne", 
+        // history: { $push: "$$ROOT"},
+        count: {$sum: 1}
+      }
+    }
+  ])
+    .then(results => {
+      console.log('results are ', results);
+      res.json(results);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
 /* ========== GET/READ ONE ITEM ========== */
 router.get('/:id', isValidId, (req, res, next) => {
   const { id } = req.params;

@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Game(props) {
-  console.log("props are ", props);
   const { coverUrl, slug, name } = props;
   const url = `/games/${slug}`;
   return (
