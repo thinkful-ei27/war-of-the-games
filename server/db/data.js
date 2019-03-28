@@ -32,6 +32,48 @@ const games = [
       id: 1074,
       slug: "super-mario-64"
     },
+    summary:
+      "Mario is invited by Princess Peach to her castle, but once he arrives he finds out that Bowser has kidnapped her. Mario has to overcome many challenges and collect Power Stars hidden in the castle's paintings and walls to defeat Bowser and rescue Peach in this seminal 3D platformer.",
+    similar_games: [
+      1068,
+      1077,
+      19150,
+      20342,
+      24426,
+      26226,
+      26758,
+      28309,
+      33269,
+      56033
+    ],
+    genres: [
+      {
+        id: 8,
+        name: "Platform"
+      },
+      {
+        id: 31,
+        name: "Adventure"
+      }
+    ],
+    platforms: [
+      {
+        id: 4,
+        name: "Nintendo 64"
+      },
+      {
+        id: 5,
+        name: "Wii"
+      },
+      {
+        id: 41,
+        name: "Wii U"
+      },
+      {
+        id: 47,
+        name: "Virtual Console (Nintendo)"
+      }
+    ],
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/scutr4p9gytl4txb2soy.jpg"
   },

@@ -125,7 +125,51 @@ describe("ASYNC Capstone API - Games", function() {
   });
 
   describe("GET /api/games/:id", function() {
-    it("should return the correct game");
+    it.only("should return the correct game", function() {
+      let data;
+      return Game.findOne()
+        .then(_data => {
+          data = _data;
+          return chai
+            .request(app)
+            .get(`/api/games/${data.id}`)
+            .set("Authorization", `Bearer ${token}`);
+        })
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res).to.be.json;
+          expect(res.body).to.be.an("object");
+          expect(res.body).to.include.all.keys(
+            "id",
+            "name",
+            "createdAt",
+            "updatedAt",
+            "coverUrl",
+            "genres",
+            "igdb",
+            "platforms",
+            "similar_games"
+          );
+          expect(res.body.id).to.equal(data.id);
+          expect(res.body.name).to.equal(data.name);
+          expect(new Date(res.body.createdAt)).to.eql(data.createdAt);
+          expect(new Date(res.body.updatedAt)).to.eql(data.updatedAt);
+          expect(res.body.coverUrl).to.equal(data.coverUrl);
+          expect(res.body.igdb).to.be.an("object");
+          expect(res.body.igdb.id).to.equal(data.igdb.id);
+          expect(res.body.igdb.slug).to.equal(data.igdb.slug);
+          expect(res.body.genres).to.be.an("array");
+          expect(res.body.genres.length).to.equal(data.genres.length);
+          expect(res.body.platforms).to.be.an("array");
+          expect(res.body.platforms.length).to.equal(data.platforms.length);
+          expect(res.body.similar_games).to.be.an("array");
+          expect(res.body.similar_games.length).to.equal(
+            data.similar_games.length
+          );
+        });
+    });
+
+    it("should expand the similar games list with additional information");
 
     it(
       "should respond with status 400 and an error message when id is not valid"
