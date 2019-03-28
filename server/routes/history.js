@@ -1,18 +1,23 @@
-'use strict';
+"use strict";
 
-const express = require('express');
-const mongoose = require('mongoose');
-const { totalGamesPlayed, gamesWon } = require('../utils/queries');
+const express = require("express");
+const mongoose = require("mongoose");
+const {
+  totalGamesPlayed,
+  gamesWon,
+  gameName,
+  gamePic
+} = require("../utils/queries");
 
-const History = require('../models/history');
+const History = require("../models/history");
 
-const { isValidId } = require('./validators');
+const { isValidId } = require("./validators");
 
 const missingChoice = (req, res, next) => {
   const { choice } = req.body;
 
   if (!choice) {
-    const err = new Error('Missing `choice` in request body');
+    const err = new Error("Missing `choice` in request body");
     err.status = 400;
     return next(err);
   } else {
@@ -27,13 +32,12 @@ const router = express.Router();
 
 /* ========== GET/READ ALL ITEMS ========== */
 
-router.get('/', (req, res, next) => {
+router.get("/", (req, res, next) => {
   History.find()
     // .populate('gameOne', 'name')
     // .populate('gameTwo', 'name')
     // .populate('choice', 'name')
     .then(results => {
-      console.log('results are ', results);
       res.json(results);
     })
     .catch(err => {
@@ -42,28 +46,32 @@ router.get('/', (req, res, next) => {
 });
 
 /* ========== GET/READ ONE ITEM ========== */
-router.get('/:id', isValidId, (req, res, next) => {
+router.get("/:id", isValidId, (req, res, next) => {
   const { id } = req.params;
 
   History.findOne({ _id: id })
-    .populate('gameOne', 'name')
-    .populate('gameTwo', 'name')
-    .populate('choice', 'name')
+    .populate("gameOne", "name")
+    .populate("gameTwo", "name")
+    .populate("choice", "name")
     .then(result => (result ? res.json(result) : next()))
     .catch(err => next(err));
 });
 
-router.get('/:id/results', async (req, res, next) => {
+router.get("/:id/results", async (req, res, next) => {
   const { id } = req.params;
   try {
     const wonGames = await gamesWon(id);
     const totalGames = await totalGamesPlayed(id);
     const percentage = wonGames / totalGames;
+    const [name] = await gameName(id);
+    const coverUrl = await gamePic(id);
 
     res.json({
       percentage: Number(percentage.toFixed(2)),
       wonGames,
-      totalGames
+      totalGames,
+      name,
+      coverUrl
     });
   } catch (e) {
     next(e);
@@ -71,7 +79,7 @@ router.get('/:id/results', async (req, res, next) => {
 });
 
 /* ========== POST/CREATE AN ITEM ========== */
-router.post('/', (req, res, next) => {
+router.post("/", (req, res, next) => {
   const { gameOne, gameTwo, choice } = req.body;
   // const userId = req.user.id;
 
@@ -79,15 +87,18 @@ router.post('/', (req, res, next) => {
 
   /***** Never trust users - validate input *****/
   if (!gameOne || !gameTwo || !choice) {
-    const err = new Error('Missing field in request body');
+    const err = new Error("Missing field in request body");
     err.status = 400;
     return next(err);
   }
 
   // Validate that gameOne, gameTwo, and choice are valid MongoIDs
-  const validate = mongoose.Types.ObjectId.isValid(gameOne) && mongoose.Types.ObjectId.isValid(gameTwo) && mongoose.Types.ObjectId.isValid(choice);
+  const validate =
+    mongoose.Types.ObjectId.isValid(gameOne) &&
+    mongoose.Types.ObjectId.isValid(gameTwo) &&
+    mongoose.Types.ObjectId.isValid(choice);
   if (!validate) {
-    const err = new Error('The `id` is not valid');
+    const err = new Error("The `id` is not valid");
     err.status = 400;
     return next(err);
   }
@@ -109,7 +120,7 @@ router.post('/', (req, res, next) => {
 });
 
 /* ========== PUT/UPDATE AN ITEM ========== */
-router.put('/:id', isValidId, missingChoice, (req, res, next) => {
+router.put("/:id", isValidId, missingChoice, (req, res, next) => {
   const { id } = req.params;
   const { choice } = req.body;
 
@@ -121,7 +132,7 @@ router.put('/:id', isValidId, missingChoice, (req, res, next) => {
       let { gameOne, gameTwo } = games;
 
       if (choice !== gameOne.toString() && choice !== gameTwo.toString()) {
-        const err = new Error('Choice does not equal game one or game two');
+        const err = new Error("Choice does not equal game one or game two");
         err.status = 400;
         return next(err);
       }
@@ -144,7 +155,7 @@ router.put('/:id', isValidId, missingChoice, (req, res, next) => {
 });
 
 /* ========== DELETE AN ITEM ========== */
-router.delete('/:id', isValidId, (req, res, next) => {
+router.delete("/:id", isValidId, (req, res, next) => {
   const { id } = req.params;
 
   History.findOneAndDelete({ _id: id })

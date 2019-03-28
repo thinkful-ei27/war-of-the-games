@@ -9,6 +9,7 @@ const User = require("../models/user");
 const { games, users } = require("../db/data");
 const { app } = require("../index");
 const igdbApi = require("../utils/gameApi");
+const { getGameRes } = require("../db/test-data");
 
 chai.use(chaiHttp);
 const expect = chai.expect;
@@ -17,20 +18,9 @@ const sandbox = sinon.createSandbox();
 describe("ASYNC Capstone API - Games", function() {
   let user = {};
   let token;
-  const getCoverRes = {
-    id: 3592,
-    image_id: "sgpdlhpeaohxwr6ectsy"
-  };
-  const getGameRes = {
-    id: 3480,
-    cover: 3592,
-    name: "Earthworm Jim",
-    slug: "earthworm-jim"
-  };
 
   before(() => {
     sinon.stub(igdbApi, "getGame").resolves(getGameRes);
-    sinon.stub(igdbApi, "getCover").resolves(getCoverRes);
     return dbConnect(TEST_DATABASE_URL);
   });
 
@@ -57,20 +47,20 @@ describe("ASYNC Capstone API - Games", function() {
     it("should replace the getGame method", function() {
       return igdbApi.getGame(3480).then(res => {
         expect(res).to.be.an("object");
-        expect(res).to.have.keys("id", "cover", "name", "slug");
+        expect(res).to.have.keys(
+          "id",
+          "cover",
+          "name",
+          "slug",
+          "summary",
+          "genres",
+          "platforms",
+          "similar_games"
+        );
         expect(res.id).to.equal(getGameRes.id);
         expect(res.name).to.equal(getGameRes.name);
         expect(res.cover).to.equal(getGameRes.cover);
         expect(res.slug).to.equal(getGameRes.slug);
-      });
-    });
-
-    it("should replace the getCover method", function() {
-      return igdbApi.getCover(3592).then(res => {
-        expect(res).to.be.an("object");
-        expect(res).to.have.keys("id", "image_id");
-        expect(res.id).to.equal(getCoverRes.id);
-        expect(res.image_id).to.equal(getCoverRes.image_id);
       });
     });
   });
@@ -225,7 +215,11 @@ describe("ASYNC Capstone API - Games", function() {
             "createdAt",
             "updatedAt",
             "igdb",
-            "coverUrl"
+            "coverUrl",
+            "summary",
+            "genres",
+            "platforms",
+            "similar_games"
           );
           return Game.findOne({ _id: res.body.id });
         })
@@ -237,6 +231,13 @@ describe("ASYNC Capstone API - Games", function() {
           expect(res.body.coverUrl).to.equal(data.coverUrl);
           expect(data.igdb.id).to.equal(newGame.igdbId);
           expect(data.igdb.slug).to.equal(res.body.igdb.slug);
+          expect(data.summary).to.equal(res.body.summary);
+          expect(data.genres).to.be.an("array");
+          expect(data.genres.length).to.not.equal(0);
+          expect(data.platforms).to.be.an("array");
+          expect(data.platforms.length).to.not.equal(0);
+          expect(data.similar_games).to.be.an("array");
+          expect(data.similar_games.length).to.not.equal(0);
         });
     });
 
@@ -280,7 +281,7 @@ describe("ASYNC Capstone API - Games", function() {
           slug: getGameRes.slug
         },
         coverUrl: `https://images.igdb.com/igdb/image/upload/t_720p/${
-          getCoverRes.image_id
+          getGameRes.cover.image_id
         }.jpg`
       })
         .then(() => {

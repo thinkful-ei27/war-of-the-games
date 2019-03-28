@@ -1,0 +1,4 @@
+.battle-vote {
+  display: flex;
+  flex-direction: column;
+}

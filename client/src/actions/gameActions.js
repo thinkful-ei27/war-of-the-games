@@ -7,6 +7,24 @@ export const FETCH_GAMES_SUCCESS = "FETCH_GAMES_SUCCESS";
 
 export const FETCH_GAMES_ERROR = "FETCH_GAMES_ERROR";
 
+export const FETCH_FEEDBACK_SUCCESS = "FETCH_FEEDBACK_SUCCESS";
+export const fetchFeedbackSuccess = feedback => ({
+  type: FETCH_FEEDBACK_SUCCESS,
+  feedback
+});
+
+export const FETCH_FEEDBACK_ERROR = "FETCH_FEEDBACK_ERROR";
+export const fetchFeedbackError = error => ({
+  type: FETCH_FEEDBACK_ERROR,
+  error
+});
+
+export const CLEAR_GAMES = "CLEAR_GAMES";
+
+export const clearGames = () => ({
+  type: CLEAR_GAMES
+});
+
 export const fetchGamesSuccess = games => ({
   type: FETCH_GAMES_SUCCESS,
   games
@@ -37,10 +55,17 @@ export const handleVote = (gameOne, gameTwo, choice) => (
       gameTwo,
       choice
     })
-    .then(function (response) {
+    .then(function(response) {
       console.log(response);
     })
-    .catch(function (error) {
+    .catch(function(error) {
       console.log(error);
     });
+};
+
+export const fetchFeedback = game => dispatch => {
+  axios
+    .get(`${API_BASE_URL}/history/${game}/results`)
+    .then(response => dispatch(fetchFeedbackSuccess(response.data)))
+    .catch(err => dispatch(fetchFeedbackError(err)));
 };
