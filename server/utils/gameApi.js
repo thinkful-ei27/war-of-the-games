@@ -9,12 +9,17 @@ const {
 
 const apicalypse = apicalypseDefault.default;
 
+// const keys = [
+//   IGDB_KEY1,
+//   // IGDB_KEY2,
+//   // IGDB_KEY3,
+//   // IGDB_KEY4,
+//   // IGDB_KEY5
+// ];
+
 const keys = [
-  IGDB_KEY1,
-  // IGDB_KEY2,
-  // IGDB_KEY3,
-  // IGDB_KEY4,
-  // IGDB_KEY5
+  "22499d0daab9ad25a7e4c9cc140fe2f2",
+  "515a661fa441d2e94e33056910808b10"
 ];
 
 const randomKey = arr => arr[Math.floor(Math.random() * arr.length)];
@@ -52,4 +57,11 @@ const getCover = async id =>
     .request("/covers")
     .then(res => res.data[0]);
 
-module.exports = { getGames, getGame, getCover };
+const getAllBySlug = async id =>
+  await apicalypse(requestOptions)
+    .fields(['*'])
+    .where(`id = ${id}`)
+    .request("/games")
+    .then(res => res.data[0]);
+
+module.exports = { getGames, getGame, getCover, getAllBySlug };
