@@ -6,17 +6,6 @@
   margin: 20px auto;
 }
 
-.vs-skip-container{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.vs {
-  font-size: 28px;
-  padding-top: 125%;
-}
 
 .game-img {
   height: 300px;
@@ -25,10 +14,16 @@
   text-align: center;
 }
 
-.game-title {
-  font-size: 28px;
-  text-align: center;
+.title-container {
+  /* display: flex;
+  justify-items: center; */
+  margin-bottom: 20px;
   height: 195px;
+} 
+.game-title {
+  font-size: 26px;
+  text-align: center;
+  margin-bottom: 0;
 }
 
 .card{
@@ -54,6 +49,20 @@
   font-size: 25px;
 }
 
+.vs-skip-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 15px;
+  padding: 20px 0;
+}
+
+.vs {
+  font-size: 28px;
+  padding-top: 135%;
+}
+
 #skip-btn {
   height: 32px;
   width: 64px;
@@ -64,6 +73,7 @@
 
 #skip-btn::after{
   box-shadow: inset -2px -2px #006bb3;
+  align-self: flex-end;
 }
 
 #skip-btn:hover::after {
