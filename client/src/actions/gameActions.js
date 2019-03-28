@@ -7,6 +7,12 @@ export const FETCH_GAMES_SUCCESS = "FETCH_GAMES_SUCCESS";
 
 export const FETCH_GAMES_ERROR = "FETCH_GAMES_ERROR";
 
+export const CLEAR_GAMES = 'CLEAR_GAMES';
+
+export const clearGames = () => ({
+  type: CLEAR_GAMES
+});
+
 export const fetchGamesSuccess = games => ({
   type: FETCH_GAMES_SUCCESS,
   games
