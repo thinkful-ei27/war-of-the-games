@@ -34,6 +34,48 @@ const games = [
       id: 1074,
       slug: 'super-mario-64'
     },
+    summary:
+      "Mario is invited by Princess Peach to her castle, but once he arrives he finds out that Bowser has kidnapped her. Mario has to overcome many challenges and collect Power Stars hidden in the castle's paintings and walls to defeat Bowser and rescue Peach in this seminal 3D platformer.",
+    similar_games: [
+      1068,
+      1077,
+      19150,
+      20342,
+      24426,
+      26226,
+      26758,
+      28309,
+      33269,
+      56033
+    ],
+    genres: [
+      {
+        id: 8,
+        name: "Platform"
+      },
+      {
+        id: 31,
+        name: "Adventure"
+      }
+    ],
+    platforms: [
+      {
+        id: 4,
+        name: "Nintendo 64"
+      },
+      {
+        id: 5,
+        name: "Wii"
+      },
+      {
+        id: 41,
+        name: "Wii U"
+      },
+      {
+        id: 47,
+        name: "Virtual Console (Nintendo)"
+      }
+    ],
     coverUrl:
       'https://images.igdb.com/igdb/image/upload/t_720p/scutr4p9gytl4txb2soy.jpg'
   },
@@ -122,7 +164,59 @@ const games = [
       slug: 'candy-crush-saga'
     },
     coverUrl:
-      'https://images.igdb.com/igdb/image/upload/t_720p/u9s7ap9gi5kestfxhxdf.jpg'
+      "https://images.igdb.com/igdb/image/upload/t_720p/u9s7ap9gi5kestfxhxdf.jpg"
+  },
+  {
+    name: "Super Mario Bros. 3",
+    coverUrl:
+      "https://images.igdb.com/igdb/image/upload/t_720p/u9s7ap9gi5kestfxhxdf.jpg",
+    igdb: {
+      id: 1068,
+      slug: "super-mario-bros-3"
+    },
+    summary:
+      "Super Mario Bros. 3 is a platform video game for the Nintendo Entertainment System (NES) video game console. Mario and Luigi embark on a quest to save Princess Toadstool and the rulers of seven different kingdoms from the antagonist Bowser and his children, the Koopalings. The player, as Mario or Luigi, is able to defeat enemies by stomping them or using items that bestow magical powers. Mario and Luigi are given a wider range of abilities than in previous Super Mario games, including flying or sliding down slopes. In addition, Super Mario Bros. 3 introduces numerous elements, such as new enemy characters and the use of a world map to transition between levels, that have reappeared in or have influenced subsequent Mario games.",
+    similar_games: [358, 1067, 1074, 1077, 1078, 1079, 2180, 3340, 3349, 22301],
+    genres: [
+      {
+        id: 8,
+        name: "Platform"
+      },
+      {
+        id: 31,
+        name: "Adventure"
+      }
+    ],
+    platforms: [
+      {
+        id: 5,
+        name: "Wii"
+      },
+      {
+        id: 18,
+        name: "Nintendo Entertainment System (NES)"
+      },
+      {
+        id: 19,
+        name: "Super Nintendo Entertainment System (SNES)"
+      },
+      {
+        id: 24,
+        name: "Game Boy Advance"
+      },
+      {
+        id: 37,
+        name: "Nintendo 3DS"
+      },
+      {
+        id: 41,
+        name: "Wii U"
+      },
+      {
+        id: 47,
+        name: "Virtual Console (Nintendo)"
+      }
+    ]
   }
 ];
 

@@ -1,6 +1,7 @@
 const express = require("express");
 const Game = require("../models/game");
 const igdbApi = require("../utils/gameApi");
+const { isValidId } = require("./validators");
 
 const router = express.Router();
 
@@ -22,10 +23,51 @@ router.get("/", (req, res, next) => {
     .catch(err => next(err));
 });
 
+// GET /api/games/battle must go before GET /api/games/:id or else it will never get called.
 router.get("/battle", (req, res, next) => {
   return Game.countDocuments()
     .then(count => findTwoRandGames(count))
     .then(results => res.json(results))
+    .catch(err => next(err));
+});
+
+router.get("/:id", isValidId, (req, res, next) => {
+  const { id } = req.params;
+  let game, gameInfo;
+  Game.findOne({ _id: id })
+    .then(_game => {
+      _game ? (game = _game) : next();
+      return Game.find({ "igdb.id": { $in: game.similar_games } }).then(
+        similar_games => {
+          const {
+            name,
+            igdb,
+            coverUrl,
+            platforms,
+            genres,
+            summary,
+            createdAt,
+            updatedAt
+          } = game;
+          gameInfo = Object.assign(
+            {},
+            {
+              id,
+              name,
+              igdb,
+              platforms,
+              coverUrl,
+              genres,
+              summary,
+              createdAt,
+              updatedAt
+            },
+            { similar_games }
+          );
+          res.json(gameInfo);
+        }
+      );
+    })
     .catch(err => next(err));
 });
 

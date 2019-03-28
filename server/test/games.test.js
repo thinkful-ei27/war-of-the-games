@@ -124,6 +124,110 @@ describe("ASYNC Capstone API - Games", function() {
     });
   });
 
+  describe("GET /api/games/:id", function() {
+    it("should return the correct game", function() {
+      let data;
+      return Game.findOne()
+        .then(_data => {
+          data = _data;
+          return chai.request(app).get(`/api/games/${data.id}`);
+        })
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res).to.be.json;
+          expect(res.body).to.be.an("object");
+          expect(res.body).to.include.all.keys(
+            "id",
+            "name",
+            "createdAt",
+            "updatedAt",
+            "coverUrl",
+            "genres",
+            "igdb",
+            "platforms",
+            "summary",
+            "similar_games"
+          );
+          expect(res.body.id).to.equal(data.id);
+          expect(res.body.name).to.equal(data.name);
+          expect(new Date(res.body.createdAt)).to.eql(data.createdAt);
+          expect(new Date(res.body.updatedAt)).to.eql(data.updatedAt);
+          expect(res.body.coverUrl).to.equal(data.coverUrl);
+          expect(res.body.igdb).to.be.an("object");
+          expect(res.body.igdb.id).to.equal(data.igdb.id);
+          expect(res.body.igdb.slug).to.equal(data.igdb.slug);
+          expect(res.body.genres).to.be.an("array");
+          expect(res.body.genres.length).to.equal(data.genres.length);
+          expect(res.body.platforms).to.be.an("array");
+          expect(res.body.platforms.length).to.equal(data.platforms.length);
+          expect(res.body.similar_games).to.be.an("array");
+        });
+    });
+
+    it("should expand the similar games list with additional information", function() {
+      return Game.findOne()
+        .then(data => chai.request(app).get(`/api/games/${data.id}`))
+        .then(res => {
+          expect(res.body.similar_games).to.be.an("array");
+          res.body.similar_games.forEach(game => {
+            expect(game).to.be.an("object");
+            expect(game).to.have.keys(
+              "id",
+              "name",
+              "createdAt",
+              "updatedAt",
+              "coverUrl",
+              "genres",
+              "igdb",
+              "platforms",
+              "summary",
+              "similar_games"
+            );
+            expect(game.igdb).to.have.keys("id", "slug");
+          });
+        });
+    });
+
+    it("should respond with status 400 and an error message when id is not valid", function() {
+      return chai
+        .request(app)
+        .get("/api/games/NOT-A-VALID-ID")
+        .set("Authorization", `Bearer ${token}`)
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).to.equal("The `id` is not valid");
+        });
+    });
+
+    it("should respond with status 404 for an id that does not exist", function() {
+      // The string "DOESNOTEXIST" is 12 bytes which is a valid Mongo ObjectId
+      return chai
+        .request(app)
+        .get("/api/games/DOESNOTEXIST")
+        .set("Authorization", `Bearer ${token}`)
+        .then(res => {
+          expect(res).to.have.status(404);
+        });
+    });
+
+    it("should catch errors and respond properly", function() {
+      sandbox.stub(Game.schema.options.toJSON, "transform").throws("FakeError");
+      return Game.findOne()
+        .then(data => {
+          return chai
+            .request(app)
+            .get(`/api/games/${data.id}`)
+            .set("Authorization", `Bearer ${token}`);
+        })
+        .then(res => {
+          expect(res).to.have.status(500);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Internal Server Error");
+        });
+    });
+  });
+
   describe("GET /api/games/battle", function() {
     it("should return two games", function() {
       return chai
