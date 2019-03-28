@@ -1,4 +1,3 @@
-
 const express = require("express");
 const Game = require("../models/game");
 const igdbApi = require("../utils/gameApi");
@@ -16,14 +15,14 @@ const findTwoRandGames = count => {
   );
 };
 
-router.get('/', (req, res, next) => {
+router.get("/", (req, res, next) => {
   Game.find()
-    .sort({ name: 'asc' })
+    .sort({ name: "asc" })
     .then(results => res.json(results))
     .catch(err => next(err));
 });
 
-router.get('/battle', (req, res, next) => {
+router.get("/battle", (req, res, next) => {
   return Game.countDocuments()
     .then(count => findTwoRandGames(count))
     .then(results => res.json(results))
@@ -51,12 +50,9 @@ router.post("/", (req, res, next) => {
     .getGame(igdbId)
     .then(res => {
       const { name, cover, slug } = res;
+      const { image_id } = cover;
       newGame.name = name;
       newGame.igdb.slug = slug;
-      return igdbApi.getCover(cover);
-    })
-    .then(cover => {
-      const { image_id } = cover;
       newGame.coverUrl = `https://images.igdb.com/igdb/image/upload/t_720p/${image_id}.jpg`;
       return Game.create(newGame);
     })

@@ -31,7 +31,7 @@ const getGames = async () =>
 
 const getGame = async id =>
   await apicalypse(requestOptions)
-    .fields(["name", "cover", "slug"])
+    .fields(["name", "cover.image_id", "slug"])
     .where(`id = ${id}`)
     .request("/games")
     .then(res => res.data[0]);
