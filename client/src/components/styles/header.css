@@ -15,8 +15,9 @@
   flex-direction: row;
   justify-content: space-between;
   background-color: #c84c0c;
-  width: 90%;
+  width: 95%;
   margin: 10px auto;
+  padding: 0;
 }
 
 .nav-button {

@@ -13,6 +13,7 @@ export class HeaderBar extends React.Component {
       { name: 'About', link: '/about', key: '1' },
       { name: 'Sign Up', link: '/register', key: '2' },
       { name: 'Login', link: '/login', key: '3' },
+      { name: 'Profile', link: '/profile', key: '4' },
       { name: 'Sign Out', link: '/login', key: '4' }
     ]
   };
@@ -23,7 +24,7 @@ export class HeaderBar extends React.Component {
       const hidden = ['Sign Up', 'Login'];
       return menuItems.filter(item => !hidden.includes(item.name));
     }
-    const hidden = ['Sign Out'];
+    const hidden = ['Sign Out', 'Profile'];
     return menuItems.filter(item => !hidden.includes(item.name));
   }
 

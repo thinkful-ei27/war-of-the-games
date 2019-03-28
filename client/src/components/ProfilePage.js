@@ -5,8 +5,7 @@ import { fetchProtectedData } from '../actions/protected-data';
 
 export class ProfilePage extends React.Component {
   componentDidMount() {
-    // eslint-disable-next-line react/destructuring-assignment
-    this.props.dispatch(fetchProtectedData());
+    console.log('mounted');
   }
 
   render() {
