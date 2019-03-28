@@ -53,3 +53,19 @@
   text-align: center;
   font-size: 25px;
 }
+
+#skip-btn {
+  height: 32px;
+  width: 64px;
+  font-size: 10px;
+  box-shadow: -2px -2px;
+  border-width: 3px;
+}
+
+#skip-btn::after{
+  box-shadow: inset -2px -2px #006bb3;
+}
+
+#skip-btn:hover::after {
+  box-shadow: inset -3px -3px #006bb3;
+}

@@ -23,6 +23,7 @@ export function Battle(props) {
             dispatch(fetchGames());
           }}
           className="nes-btn is-primary"
+          id="skip-btn"
           type="button"
         >
           Skip
