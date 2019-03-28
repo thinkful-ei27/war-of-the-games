@@ -1,11 +1,20 @@
 const apicalypseDefault = require("apicalypse");
-// const apicalypse = require("../apicalypse/index");
+const { 
+  IGDB_KEY1, 
+  IGDB_KEY2, 
+  IGDB_KEY3, 
+  IGDB_KEY4, 
+  IGDB_KEY5 
+} = require('../config');
 
 const apicalypse = apicalypseDefault.default;
 
 const keys = [
-  "22499d0daab9ad25a7e4c9cc140fe2f2",
-  "515a661fa441d2e94e33056910808b10"
+  IGDB_KEY1,
+  // IGDB_KEY2,
+  // IGDB_KEY3,
+  // IGDB_KEY4,
+  // IGDB_KEY5
 ];
 
 const randomKey = arr => arr[Math.floor(Math.random() * arr.length)];
