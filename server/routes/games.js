@@ -1,7 +1,33 @@
-
 const express = require("express");
 const Game = require("../models/game");
 const igdbApi = require("../utils/gameApi");
+
+/**
+ * @swagger
+ *
+ * definitions:
+ *  NewGame:
+ *    type: object
+ *    required:
+ *      - name
+ *      - igdb
+ *      - coverUrl
+ *    properties:
+ *      name:
+ *        type: string
+ *      igdb:
+ *        type: object
+ *      coverUrl:
+ *        type: string
+ *  Game:
+ *    allOf:
+ *      - $ref: '#/definitions/NewGame'
+ *      - required:
+ *        - id
+ *      - properties:
+ *        id:
+ *          type: object
+ */
 
 const router = express.Router();
 
@@ -16,20 +42,80 @@ const findTwoRandGames = count => {
   );
 };
 
-router.get('/', (req, res, next) => {
+/**
+ * @swagger
+ *
+ * /games:
+ *  get:
+ *    summary: Returns games
+ *    produces:
+ *      - application/json
+ *    responses:
+ *      200:
+ *        description: A JSON array of games
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/definitions/Game'
+ */
+router.get("/", (req, res, next) => {
   Game.find()
-    .sort({ name: 'asc' })
+    .sort({ name: "asc" })
     .then(results => res.json(results))
     .catch(err => next(err));
 });
 
-router.get('/battle', (req, res, next) => {
+/**
+ * @swagger
+ *
+ * /games/battle:
+ *  get:
+ *    summary: Returns two games
+ *    produces:
+ *      - application/json
+ *    responses:
+ *      200:
+ *        description: A JSON array of two games
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/definitions/Game'
+ */
+router.get("/battle", (req, res, next) => {
   return Game.countDocuments()
     .then(count => findTwoRandGames(count))
     .then(results => res.json(results))
     .catch(err => next(err));
 });
 
+/**
+ * @swagger
+ *
+ * /games:
+ *  post:
+ *    summary: Creates a game
+ *    produces:
+ *      - application/json
+ *    parameters:
+ *      - name: igdbId
+ *        description: IGDB ID
+ *        in: body
+ *        required: true
+ *        type: number
+ *        schema:
+ *          $ref: '#/definitions/NewGame'
+ *    responses:
+ *      201:
+ *        description: game
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/definitions/Game'
+ */
 router.post("/", (req, res, next) => {
   const newGame = { igdb: {} };
   const { igdbId } = req.body;
