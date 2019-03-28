@@ -40,7 +40,7 @@ const mapStateToProps = state => ({
   games: state.games.battleGames,
   // If you want to show the Vote Stats Container, change `feedback`
   // below, to anything truthy and it will appear
-  feedback: state.games.feedback /* "sup" */
+  feedback: state.games.feedback || "sup"
 });
 
 export default connect(mapStateToProps)(LandingPage);
