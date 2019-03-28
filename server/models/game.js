@@ -7,7 +7,13 @@ const schema = new mongoose.Schema({
     slug: { type: String, required: true }
   },
   coverUrl: { type: String, required: true },
-  summary: String
+  summary: String,
+  genres: [
+    {
+      id: Number,
+      name: String
+    }
+  ]
 });
 
 schema.set("timestamps", true);

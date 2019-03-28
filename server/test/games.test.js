@@ -24,11 +24,27 @@ describe("ASYNC Capstone API - Games", function() {
       image_id: "sgpdlhpeaohxwr6ectsy"
     },
     name: "Earthworm Jim",
-    slug: "earthworm-jim"
+    slug: "earthworm-jim",
+    summary:
+      "A crow is chasing a worm named Jim while in outer space Psy-Crow is chasing a renegade ship. The ship's captain has stolen an ultra-high-tech-indestructible-super-space-cyber-suit and Queen Slug-for-a-Butt has ordered Psy-Crow to get it, since it can make her more beautiful than Princess-What's-Her-Name. Psy-Crow blasts the captain and the suit falls to Planet Earth. \n \nBack on earth Jim wonders if he is finally safe when an ultra-high-tech-indestructible-super-space-cyber-suit lands on him. Luckily Jim rests in the neck ring of the suit. Then the space particles begin interacting with Jim, causing a light-speed evolution. Jim soon realizes he is in control of the suit. \n \nJim overhears the Queen's plans for the suit and decides to meet this Princess...",
+    genres: [
+      {
+        id: 5,
+        name: "Shooter"
+      },
+      {
+        id: 8,
+        name: "Platform"
+      },
+      {
+        id: 31,
+        name: "Adventure"
+      }
+    ]
   };
 
   before(() => {
-    // sinon.stub(igdbApi, "getGame").resolves(getGameRes);
+    sinon.stub(igdbApi, "getGame").resolves(getGameRes);
     return dbConnect(TEST_DATABASE_URL);
   });
 
@@ -55,7 +71,14 @@ describe("ASYNC Capstone API - Games", function() {
     it("should replace the getGame method", function() {
       return igdbApi.getGame(3480).then(res => {
         expect(res).to.be.an("object");
-        expect(res).to.have.keys("id", "cover", "name", "slug");
+        expect(res).to.have.keys(
+          "id",
+          "cover",
+          "name",
+          "slug",
+          "summary",
+          "genres"
+        );
         expect(res.id).to.equal(getGameRes.id);
         expect(res.name).to.equal(getGameRes.name);
         expect(res.cover).to.equal(getGameRes.cover);
@@ -192,7 +215,7 @@ describe("ASYNC Capstone API - Games", function() {
   });
 
   describe("POST /api/games", function() {
-    it.only("should create and return a new game when provided valid data", function() {
+    it("should create and return a new game when provided valid data", function() {
       const newGame = {
         igdbId: 3480
       };
@@ -215,7 +238,8 @@ describe("ASYNC Capstone API - Games", function() {
             "updatedAt",
             "igdb",
             "coverUrl",
-            "summary"
+            "summary",
+            "genres"
           );
           return Game.findOne({ _id: res.body.id });
         })
@@ -228,6 +252,8 @@ describe("ASYNC Capstone API - Games", function() {
           expect(data.igdb.id).to.equal(newGame.igdbId);
           expect(data.igdb.slug).to.equal(res.body.igdb.slug);
           expect(data.summary).to.equal(res.body.summary);
+          expect(data.genres).to.be.an("array");
+          expect(data.genres.length).to.not.equal(0);
         });
     });
 

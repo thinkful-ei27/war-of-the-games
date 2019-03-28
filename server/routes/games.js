@@ -47,7 +47,7 @@ router.post("/", (req, res, next) => {
   return igdbApi
     .getGame(igdbId)
     .then(res => {
-      const { name, cover, slug, summary } = res;
+      const { name, cover, slug, summary, genres } = res;
       const { image_id } = cover;
       const newGame = {
         igdb: {
@@ -56,7 +56,8 @@ router.post("/", (req, res, next) => {
         },
         name,
         coverUrl: `https://images.igdb.com/igdb/image/upload/t_720p/${image_id}.jpg`,
-        summary
+        summary,
+        genres
       };
       return Game.create(newGame);
     })
