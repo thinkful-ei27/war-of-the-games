@@ -41,7 +41,6 @@ export class App extends React.Component {
   }
 
   render() {
-    const { games } = this.props;
     return (
       <div className="app">
         <HeaderBar />
