@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 import "./styles/gameInfo.css";
 import GameSimilar from "./GameSimilar";
 
-export default function GameInfo() {
+export default function GameInfo(props) {
+  const { gameSlug } = props.match.params;
+  console.log(gameSlug);
   const game = {
     id: 1074,
     category: 0,
@@ -21,14 +23,61 @@ export default function GameInfo() {
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/scutr4p9gytl4txb2soy.jpg"
   };
+  const related = [
+    {
+      name: "The Legend of Zelda",
+      igdb: {
+        id: 1022,
+        slug: "the-legend-of-zelda"
+      },
+      coverUrl:
+        "https://images.igdb.com/igdb/image/upload/t_720p/bfeef9eun1ybhuwufqxm.jpg"
+    },
+    {
+      name: "Mortal Kombat",
+      igdb: {
+        id: 1618,
+        slug: "mortal-kombat--2"
+      },
+      coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/co1hno.jpg"
+    },
+    {
+      name: "Street Fighter II",
+      igdb: {
+        id: 3186,
+        slug: "street-fighter-ii"
+      },
+      coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/co1hq8.jpg"
+    },
+    {
+      name: "Halo: Combat Evolved",
+      igdb: {
+        id: 740,
+        slug: "halo-combat-evolved"
+      },
+      coverUrl:
+        "https://images.igdb.com/igdb/image/upload/t_720p/bcotwv6rapvdglcahxi3.jpg"
+    }
+  ];
+
+  const found = related.find(g => g.igdb.slug === gameSlug);
+  console.log(found);
+
+  const similarGames = related.map(vgame => (
+    <GameSimilar
+      coverUrl={vgame.coverUrl}
+      slug={vgame.slug}
+      name={vgame.name}
+    />
+  ));
   return (
     <section className="game-container mx-auto">
       <div className="flex flex-row">
         <div className="w-1/3 m-4">
           <img
             className="game-info-img p-4 rounded shadow"
-            src={game.coverUrl}
-            alt={game.slug}
+            src={found.coverUrl}
+            alt={found.slug}
           />
           <h3 className="mt-4">Rating: {parseInt(game.total_rating)}</h3>
           <progress
@@ -38,7 +87,7 @@ export default function GameInfo() {
           />
         </div>
         <div className="flex flex-col p-4 w-2/3">
-          <h2>{game.name}</h2>
+          <h2>{found.name}</h2>
 
           <h3 className="mt-4">
             <i className="nes-icon star" />
@@ -55,33 +104,22 @@ export default function GameInfo() {
       </div>
       <div className="nes-container with-title is-centered mt-16">
         <p className="title">
-          <span className="nes-text is-primary">{game.name}</span> needs your
+          <span className="nes-text is-primary">{found.name}</span> needs your
           help!
         </p>
-        <button type="button" className="nes-btn is-primary">
-          Vote now!
-        </button>
+        <Link to="/">
+          <button type="button" className="nes-btn is-primary">
+            Vote now!
+          </button>
+        </Link>
       </div>
       <section className="mt-16">
         <h3 className="mt-4">
           <i className="nes-icon heart" />
-          Games similar to {game.name}
+          Games similar to {found.name}
         </h3>
-        <div className="flex justify-center content-start flex-wrap">
-          {/* <div className="similar-game w-1/3 p-4">
-            <Link to="/" className="flex flex-col items-center">
-              <img
-                className="similar m-4"
-                src={game.coverUrl}
-                alt={game.slug}
-              />
-              <p>
-                <span className="nes-text is-primary">{game.title}</span>
-                {game.name}
-              </p>
-            </Link>
-          </div> */}
-          <GameSimilar coverUrl="" title="" slug="" name="" />
+        <div className="flex justify-start content-start flex-wrap">
+          {similarGames}
         </div>
       </section>
     </section>

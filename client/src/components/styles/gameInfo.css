@@ -224,3 +224,8 @@
 .rounded {
   border-radius: .25rem;
 }
+
+/* Text */
+.text-center {
+  text-align: center;
+}

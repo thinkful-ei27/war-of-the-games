@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Route, withRouter } from "react-router-dom";
+import { Route, withRouter, Switch } from "react-router-dom";
 import LoginForm from "./login-form";
 import HeaderBar from "./header-bar";
 import LandingPage from "./landing-page";
@@ -43,11 +43,13 @@ export class App extends React.Component {
     return (
       <div className="app">
         <HeaderBar />
-        <Route exact path="/" component={LandingPage} />
-        <Route exact path="/dashboard" component={Dashboard} />
-        <Route exact path="/login" component={LoginForm} />
-        <Route exact path="/register" component={RegistrationPage} />
-        <Route exact path="/game" component={GameInfo} />
+        <Switch>
+          <Route exact path="/" component={LandingPage} />
+          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/login" component={LoginForm} />
+          <Route path="/register" component={RegistrationPage} />
+          <Route path="/games/:gameSlug" component={GameInfo} />
+        </Switch>
       </div>
     );
   }
