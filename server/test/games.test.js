@@ -210,7 +210,22 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
-    it("should catch errors and respond properly");
+    it("should catch errors and respond properly", function() {
+      sandbox.stub(Game.schema.options.toJSON, "transform").throws("FakeError");
+      return Game.findOne()
+        .then(data => {
+          return chai
+            .request(app)
+            .get(`/api/games/${data.id}`)
+            .set("Authorization", `Bearer ${token}`);
+        })
+        .then(res => {
+          expect(res).to.have.status(500);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Internal Server Error");
+        });
+    });
   });
 
   describe("GET /api/games/battle", function() {
