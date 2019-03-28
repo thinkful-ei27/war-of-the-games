@@ -130,10 +130,7 @@ describe("ASYNC Capstone API - Games", function() {
       return Game.findOne()
         .then(_data => {
           data = _data;
-          return chai
-            .request(app)
-            .get(`/api/games/${data.id}`)
-            .set("Authorization", `Bearer ${token}`);
+          return chai.request(app).get(`/api/games/${data.id}`);
         })
         .then(res => {
           expect(res).to.have.status(200);
@@ -148,6 +145,7 @@ describe("ASYNC Capstone API - Games", function() {
             "genres",
             "igdb",
             "platforms",
+            "summary",
             "similar_games"
           );
           expect(res.body.id).to.equal(data.id);
@@ -169,7 +167,29 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
-    it("should expand the similar games list with additional information");
+    it.only("should expand the similar games list with additional information", function() {
+      return Game.findOne()
+        .then(data => chai.request(app).get(`/api/games/${data.id}`))
+        .then(res => {
+          expect(res.body.similar_games).to.be.an("array");
+          res.body.similar_games.forEach(game => {
+            expect(game).to.be.an("object");
+            expect(game).to.have.keys(
+              "id",
+              "name",
+              "createdAt",
+              "updatedAt",
+              "coverUrl",
+              "genres",
+              "igdb",
+              "platforms",
+              "summary",
+              "similar_games"
+            );
+            expect(game.igdb).to.have.keys("id", "slug");
+          });
+        });
+    });
 
     it(
       "should respond with status 400 and an error message when id is not valid"

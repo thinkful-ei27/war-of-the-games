@@ -22,6 +22,7 @@ router.get("/", (req, res, next) => {
     .catch(err => next(err));
 });
 
+// GET /api/games/battle must go before GET /api/games/:id or else it will never get called.
 router.get("/battle", (req, res, next) => {
   return Game.countDocuments()
     .then(count => findTwoRandGames(count))
@@ -30,8 +31,23 @@ router.get("/battle", (req, res, next) => {
 });
 
 router.get("/:id", (req, res, next) => {
+  let game, gameInfo;
   Game.findOne()
-    .then(game => res.json(game))
+    .then(_game => {
+      game = _game;
+      return Game.find({ "igdb.id": { $in: game.similar_games } }).then(
+        similar_games => {
+          const { name, igdb } = game;
+          gameInfo = {
+            name,
+            igdb,
+            similar_games
+          };
+          console.log(gameInfo);
+          res.json(gameInfo);
+        }
+      );
+    })
     .catch(err => next(err));
 });
 
