@@ -14,7 +14,7 @@ class LoginForm extends React.Component {
   render() {
     const { loggedIn } = this.props;
     if (loggedIn) {
-      return <Redirect to="/" />;
+      return <Redirect to="/profile" />;
     }
     let error;
     if (this.props.error) {
@@ -60,6 +60,6 @@ const connectMapStateToProps = state => ({
 
 LoginForm = connect(connectMapStateToProps)(LoginForm);
 export default reduxForm({
-  form: "login",
-  onSubmitFail: (errors, dispatch) => dispatch(focus("login", "username"))
+  form: 'login',
+  onSubmitFail: (errors, dispatch) => dispatch(focus('login', 'username'))
 })(LoginForm);
