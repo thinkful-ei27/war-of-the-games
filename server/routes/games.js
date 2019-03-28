@@ -30,7 +30,6 @@ router.get("/battle", (req, res, next) => {
 });
 
 router.post("/", (req, res, next) => {
-  const newGame = { igdb: {} };
   const { igdbId } = req.body;
 
   if (!igdbId) {
@@ -45,15 +44,20 @@ router.post("/", (req, res, next) => {
     return next(err);
   }
 
-  newGame.igdb.id = igdbId;
   return igdbApi
     .getGame(igdbId)
     .then(res => {
-      const { name, cover, slug } = res;
+      const { name, cover, slug, summary } = res;
       const { image_id } = cover;
-      newGame.name = name;
-      newGame.igdb.slug = slug;
-      newGame.coverUrl = `https://images.igdb.com/igdb/image/upload/t_720p/${image_id}.jpg`;
+      const newGame = {
+        igdb: {
+          id: igdbId,
+          slug
+        },
+        name,
+        coverUrl: `https://images.igdb.com/igdb/image/upload/t_720p/${image_id}.jpg`,
+        summary
+      };
       return Game.create(newGame);
     })
     .then(game =>

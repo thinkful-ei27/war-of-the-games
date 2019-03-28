@@ -6,7 +6,8 @@ const schema = new mongoose.Schema({
     id: { type: Number, required: true, unique: true },
     slug: { type: String, required: true }
   },
-  coverUrl: { type: String, required: true }
+  coverUrl: { type: String, required: true },
+  summary: String
 });
 
 schema.set("timestamps", true);

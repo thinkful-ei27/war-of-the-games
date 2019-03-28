@@ -17,20 +17,18 @@ const sandbox = sinon.createSandbox();
 describe("ASYNC Capstone API - Games", function() {
   let user = {};
   let token;
-  const getCoverRes = {
-    id: 3592,
-    image_id: "sgpdlhpeaohxwr6ectsy"
-  };
   const getGameRes = {
     id: 3480,
-    cover: 3592,
+    cover: {
+      id: 3592,
+      image_id: "sgpdlhpeaohxwr6ectsy"
+    },
     name: "Earthworm Jim",
     slug: "earthworm-jim"
   };
 
   before(() => {
-    sinon.stub(igdbApi, "getGame").resolves(getGameRes);
-    sinon.stub(igdbApi, "getCover").resolves(getCoverRes);
+    // sinon.stub(igdbApi, "getGame").resolves(getGameRes);
     return dbConnect(TEST_DATABASE_URL);
   });
 
@@ -62,15 +60,6 @@ describe("ASYNC Capstone API - Games", function() {
         expect(res.name).to.equal(getGameRes.name);
         expect(res.cover).to.equal(getGameRes.cover);
         expect(res.slug).to.equal(getGameRes.slug);
-      });
-    });
-
-    it("should replace the getCover method", function() {
-      return igdbApi.getCover(3592).then(res => {
-        expect(res).to.be.an("object");
-        expect(res).to.have.keys("id", "image_id");
-        expect(res.id).to.equal(getCoverRes.id);
-        expect(res.image_id).to.equal(getCoverRes.image_id);
       });
     });
   });
@@ -203,7 +192,7 @@ describe("ASYNC Capstone API - Games", function() {
   });
 
   describe("POST /api/games", function() {
-    it("should create and return a new game when provided valid data", function() {
+    it.only("should create and return a new game when provided valid data", function() {
       const newGame = {
         igdbId: 3480
       };
@@ -225,7 +214,8 @@ describe("ASYNC Capstone API - Games", function() {
             "createdAt",
             "updatedAt",
             "igdb",
-            "coverUrl"
+            "coverUrl",
+            "summary"
           );
           return Game.findOne({ _id: res.body.id });
         })
@@ -237,6 +227,7 @@ describe("ASYNC Capstone API - Games", function() {
           expect(res.body.coverUrl).to.equal(data.coverUrl);
           expect(data.igdb.id).to.equal(newGame.igdbId);
           expect(data.igdb.slug).to.equal(res.body.igdb.slug);
+          expect(data.summary).to.equal(res.body.summary);
         });
     });
 
@@ -280,7 +271,7 @@ describe("ASYNC Capstone API - Games", function() {
           slug: getGameRes.slug
         },
         coverUrl: `https://images.igdb.com/igdb/image/upload/t_720p/${
-          getCoverRes.image_id
+          getGameRes.cover.image_id
         }.jpg`
       })
         .then(() => {

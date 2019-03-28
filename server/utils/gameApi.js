@@ -31,16 +31,16 @@ const getGames = async () =>
 
 const getGame = async id =>
   await apicalypse(requestOptions)
-    .fields(["name", "cover.image_id", "slug"])
+    .fields(["name", "cover.image_id", "slug", "summary"])
     .where(`id = ${id}`)
     .request("/games")
     .then(res => res.data[0]);
 
-const getCover = async id =>
-  await apicalypse(requestOptions)
-    .fields(["image_id"])
-    .where(`id = ${id}`)
-    .request("/covers")
-    .then(res => res.data[0]);
+// const getCover = async id =>
+//   await apicalypse(requestOptions)
+//     .fields(["image_id"])
+//     .where(`id = ${id}`)
+//     .request("/covers")
+//     .then(res => res.data[0]);
 
-module.exports = { getGames, getGame, getCover };
+module.exports = { getGames, getGame };
