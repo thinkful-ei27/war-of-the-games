@@ -1,7 +1,7 @@
 import { FETCH_GAMES_SUCCESS } from "../actions/gameActions";
 
 const initialState = {
-  battleGames: []
+  battleGames: [],
 };
 
 export default function reducer(state = initialState, action) {

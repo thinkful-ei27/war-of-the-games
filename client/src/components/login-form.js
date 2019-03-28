@@ -1,15 +1,21 @@
-import React from "react";
-import { Field, reduxForm, focus } from "redux-form";
-import Input from "./input";
-import { login } from "../actions/auth";
-import { required, nonEmpty } from "../validators";
+import React from 'react';
+import { Field, reduxForm, focus } from 'redux-form';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import Input from './input';
+import { login } from '../actions/auth';
+import { required, nonEmpty } from '../validators';
 
-export class LoginForm extends React.Component {
+class LoginForm extends React.Component {
   onSubmit(values) {
     return this.props.dispatch(login(values.username, values.password));
   }
 
   render() {
+    const { loggedIn } = this.props;
+    if (loggedIn) {
+      return <Redirect to="/" />;
+    }
     let error;
     if (this.props.error) {
       error = (
@@ -24,18 +30,18 @@ export class LoginForm extends React.Component {
         onSubmit={this.props.handleSubmit(values => this.onSubmit(values))}
       >
         {error}
-        <label htmlFor="username">Username</label>
         <Field
           component={Input}
           type="text"
+          label="username"
           name="username"
           id="username"
           validate={[required, nonEmpty]}
         />
-        <label htmlFor="password">Password</label>
         <Field
           component={Input}
           type="password"
+          label="password"
           name="password"
           id="password"
           validate={[required, nonEmpty]}
@@ -48,6 +54,11 @@ export class LoginForm extends React.Component {
   }
 }
 
+const connectMapStateToProps = state => ({
+  loggedIn: state.auth.currentUser !== null
+});
+
+LoginForm = connect(connectMapStateToProps)(LoginForm);
 export default reduxForm({
   form: "login",
   onSubmitFail: (errors, dispatch) => dispatch(focus("login", "username"))

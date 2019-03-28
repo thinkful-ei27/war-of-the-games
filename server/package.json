@@ -7,7 +7,7 @@
     "dev": "nodemon index.js",
     "start": "nodemon index.js",
     "test": "cross-env NODE_ENV=test mocha --exit --timeout 5000",
-    "cover": "nodemon --exec nyc --reporter=lcov --reporter=text-summary npm run mocha-exit0",
+    "cover": "nyc --reporter=lcov --reporter=text-summary npm test",
     "heroku": "node index.js",
     "travis": "npm run test",
     "seed": "cd utils/ && node seedDatabase.js"

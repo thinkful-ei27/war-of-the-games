@@ -2,10 +2,11 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
+const { totalGamesPlayed, gamesWon } = require('../utils/queries');
 
 const History = require('../models/history');
 
-const {isValidId} = require('./validators');
+const { isValidId } = require('./validators');
 
 const missingChoice = (req, res, next) => {
   const { choice } = req.body;
@@ -25,20 +26,20 @@ const router = express.Router();
 // router.use('/', passport.authenticate('jwt', {session: false, failWithError: true}));
 
 /* ========== GET/READ ALL ITEMS ========== */
-router.get('/', (req, res, next) => {
 
+router.get('/', (req, res, next) => {
   History.find()
-    .populate('gameOne', 'name')
-    .populate('gameTwo', 'name')
-    .populate('choice', 'name')
+    // .populate('gameOne', 'name')
+    // .populate('gameTwo', 'name')
+    // .populate('choice', 'name')
     .then(results => {
+      console.log('results are ', results);
       res.json(results);
     })
     .catch(err => {
       next(err);
     });
 });
-
 
 /* ========== GET/READ ONE ITEM ========== */
 router.get('/:id', isValidId, (req, res, next) => {
@@ -48,8 +49,25 @@ router.get('/:id', isValidId, (req, res, next) => {
     .populate('gameOne', 'name')
     .populate('gameTwo', 'name')
     .populate('choice', 'name')
-    .then(result => result ? res.json(result) : next())
+    .then(result => (result ? res.json(result) : next()))
     .catch(err => next(err));
+});
+
+router.get('/:id/results', async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const wonGames = await gamesWon(id);
+    const totalGames = await totalGamesPlayed(id);
+    const percentage = wonGames / totalGames;
+
+    res.json({
+      percentage: Number(percentage.toFixed(2)),
+      wonGames,
+      totalGames
+    });
+  } catch (e) {
+    next(e);
+  }
 });
 
 /* ========== POST/CREATE AN ITEM ========== */
@@ -76,7 +94,10 @@ router.post('/', (req, res, next) => {
 
   History.create(newHist)
     .then(result => {
-      res.location(`${req.originalUrl}/${result.id}`).status(201).json(result);
+      res
+        .location(`${req.originalUrl}/${result.id}`)
+        .status(201)
+        .json(result);
     })
     .catch(err => {
       // if (err.code === 11000) {
@@ -94,13 +115,11 @@ router.put('/:id', isValidId, missingChoice, (req, res, next) => {
 
   const updateChoice = { choice };
 
-  History
-    .findOne({ _id: id })
-    .then((games) => {
+  History.findOne({ _id: id })
+    .then(games => {
       if (!games) next();
-      let {gameOne, gameTwo} = games;
+      let { gameOne, gameTwo } = games;
 
-      
       if (choice !== gameOne.toString() && choice !== gameTwo.toString()) {
         const err = new Error('Choice does not equal game one or game two');
         err.status = 400;
@@ -109,7 +128,7 @@ router.put('/:id', isValidId, missingChoice, (req, res, next) => {
 
       return;
     })
-    .then (() => {
+    .then(() => {
       return History.findOneAndUpdate({ _id: id }, updateChoice, { new: true });
     })
     .then(result => {
