@@ -50,7 +50,8 @@ router.get('/results/all', (req, res, next) => {
   History.aggregate([
     {
       $group: {
-        _id: "$gameOne", 
+        // $or: [{ _id: "$gameOne" }, { _id: "$gameTwo" }],
+        _id: { $or: ["$gameOne", "$gameTwo"] }, 
         // history: { $push: "$$ROOT"},
         count: {$sum: 1}
       }
