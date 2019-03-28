@@ -125,7 +125,7 @@ describe("ASYNC Capstone API - Games", function() {
   });
 
   describe("GET /api/games/:id", function() {
-    it.only("should return the correct game", function() {
+    it("should return the correct game", function() {
       let data;
       return Game.findOne()
         .then(_data => {
