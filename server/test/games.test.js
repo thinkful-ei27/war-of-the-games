@@ -9,6 +9,7 @@ const User = require("../models/user");
 const { games, users } = require("../db/data");
 const { app } = require("../index");
 const igdbApi = require("../utils/gameApi");
+const { getGameRes } = require("../db/test-data");
 
 chai.use(chaiHttp);
 const expect = chai.expect;
@@ -17,31 +18,6 @@ const sandbox = sinon.createSandbox();
 describe("ASYNC Capstone API - Games", function() {
   let user = {};
   let token;
-  const getGameRes = {
-    id: 3480,
-    cover: {
-      id: 3592,
-      image_id: "sgpdlhpeaohxwr6ectsy"
-    },
-    name: "Earthworm Jim",
-    slug: "earthworm-jim",
-    summary:
-      "A crow is chasing a worm named Jim while in outer space Psy-Crow is chasing a renegade ship. The ship's captain has stolen an ultra-high-tech-indestructible-super-space-cyber-suit and Queen Slug-for-a-Butt has ordered Psy-Crow to get it, since it can make her more beautiful than Princess-What's-Her-Name. Psy-Crow blasts the captain and the suit falls to Planet Earth. \n \nBack on earth Jim wonders if he is finally safe when an ultra-high-tech-indestructible-super-space-cyber-suit lands on him. Luckily Jim rests in the neck ring of the suit. Then the space particles begin interacting with Jim, causing a light-speed evolution. Jim soon realizes he is in control of the suit. \n \nJim overhears the Queen's plans for the suit and decides to meet this Princess...",
-    genres: [
-      {
-        id: 5,
-        name: "Shooter"
-      },
-      {
-        id: 8,
-        name: "Platform"
-      },
-      {
-        id: 31,
-        name: "Adventure"
-      }
-    ]
-  };
 
   before(() => {
     sinon.stub(igdbApi, "getGame").resolves(getGameRes);
@@ -77,7 +53,8 @@ describe("ASYNC Capstone API - Games", function() {
           "name",
           "slug",
           "summary",
-          "genres"
+          "genres",
+          "platforms"
         );
         expect(res.id).to.equal(getGameRes.id);
         expect(res.name).to.equal(getGameRes.name);
@@ -239,7 +216,8 @@ describe("ASYNC Capstone API - Games", function() {
             "igdb",
             "coverUrl",
             "summary",
-            "genres"
+            "genres",
+            "platforms"
           );
           return Game.findOne({ _id: res.body.id });
         })
@@ -254,6 +232,8 @@ describe("ASYNC Capstone API - Games", function() {
           expect(data.summary).to.equal(res.body.summary);
           expect(data.genres).to.be.an("array");
           expect(data.genres.length).to.not.equal(0);
+          expect(data.platforms).to.be.an("array");
+          expect(data.platforms.length).to.not.equal(0);
         });
     });
 

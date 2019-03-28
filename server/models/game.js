@@ -13,6 +13,12 @@ const schema = new mongoose.Schema({
       id: Number,
       name: String
     }
+  ],
+  platforms: [
+    {
+      id: Number,
+      name: String
+    }
   ]
 });
 
