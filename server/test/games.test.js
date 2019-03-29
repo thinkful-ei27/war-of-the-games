@@ -552,6 +552,26 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
-    it("should catch errors and respond properly");
+    it("should catch errors and respond properly", function() {
+      sandbox.stub(Game.schema.options.toJSON, "transform").throws("FakeError");
+
+      return Game.findById("5c9a959ba5d0dd09e07f45a8")
+        .then(game => {
+          const updateItem = {
+            igdbId: game.igdb.id
+          };
+          return chai
+            .request(app)
+            .put(`/api/games/${game.id}`)
+            .set("Authorization", `Bearer ${token}`)
+            .send(updateItem);
+        })
+        .then(res => {
+          expect(res).to.have.status(500);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Internal Server Error");
+        });
+    });
   });
 });
