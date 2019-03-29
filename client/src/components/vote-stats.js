@@ -10,11 +10,7 @@ export default function VoteStats(props) {
 
   return (
     <div className="vote-stats-container">
-      <VoteCard src={coverUrl} />
-      {/* the feedback below should prob go in VoteCard */}
-      <p className="voting-feedback">
-        {`${name} has won ${percent}% of all battles`}
-      </p>
+      <VoteCard src={coverUrl} percent={percent} name={name} />
     </div>
   );
 }
