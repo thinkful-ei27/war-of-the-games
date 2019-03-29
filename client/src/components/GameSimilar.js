@@ -1,12 +1,14 @@
 import React from "react";
-import Game from "./Game";
+import ConnectedGame from "./Game";
 
 export default function GameSimilar(props) {
   const { currentGame } = props;
-  const { name, similar_games } = currentGame;
-  const similarDisplay = similar_games.map(vgame => {
-    console.log("vgame is ", vgame);
-    return <Game slug={vgame.igdb.slug} name={vgame.name} />;
+  const { name } = currentGame;
+  const similarGames = currentGame.similar_games;
+  const similarDisplay = similarGames.map(vgame => {
+    return (
+      <ConnectedGame key={vgame.id} slug={vgame.igdb.slug} name={vgame.name} />
+    );
   });
   return (
     <section className="mt-16">

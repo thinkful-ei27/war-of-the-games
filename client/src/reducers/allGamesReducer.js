@@ -42,6 +42,7 @@ export default function reducer(state = initialState, action) {
     });
   }
   if (action.type === FETCH_CURRENT_GAME_SUCCESS) {
+    console.log("fetchCurrentGameSuccess ran");
     return Object.assign({}, state, {
       currentGame: action.currentGame,
       loading: false

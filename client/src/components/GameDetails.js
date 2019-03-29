@@ -1,11 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
+import { updateGame } from "../actions/gameActions";
 
 export function GameDetails(props) {
-  const { game, feedback, error, loggedIn } = props;
+  const { dispatch, game, feedback, error, loggedIn } = props;
   const { name, coverUrl, slug, platforms, genres, summary } = game;
-  const genreDisplay = genres.map(gen => <span>{gen.name}, </span>);
-  const platformDisplay = platforms.map(plat => <span>{plat.name}, </span>);
+  const genreDisplay = genres.map(gen => (
+    <span key={gen.id}>{gen.name}, </span>
+  ));
+  const platformDisplay = platforms.map(plat => (
+    <span key={plat.id}>{plat.name}, </span>
+  ));
 
   const renderWinPercentage = () => {
     if (feedback) {
@@ -54,10 +59,7 @@ export function GameDetails(props) {
         {loggedIn ? (
           <small>
             Is this game missing some info? Try{" "}
-            <button
-              type="button"
-              onClick={() => console.log("refreshing the data was clicked")}
-            >
+            <button type="button" onClick={() => dispatch(updateGame(game))}>
               refreshing the data
             </button>
             .
