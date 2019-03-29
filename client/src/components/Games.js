@@ -12,15 +12,15 @@ export class Games extends Component {
 
   render() {
     const { loading, games } = this.props;
-    console.log(this.props);
     let allGames;
     if (loading || !games) {
       allGames = <div>Loading...</div>;
     } else {
       allGames = games.map(game => {
-        const { name, igdb } = game;
+        const { name, igdb, id } = game;
         const { slug } = igdb;
         const props = {
+          id,
           name,
           // coverUrl,
           slug

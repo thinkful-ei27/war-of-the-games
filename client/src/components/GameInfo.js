@@ -1,18 +1,35 @@
 import React from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./styles/gameInfo.css";
 import { connect } from "react-redux";
+import Game from "./Game";
 
 export function GameInfo(props) {
   let content;
   const { gameSlug } = props.match.params;
-  // const { name, coverUrl, slug } = props;
-  const { loading, games } = props;
+  const { loading, games, feedback, error } = props;
   if (loading || games.length < 1) {
     content = <div>loading</div>;
   } else {
     const game = games.find(g => g.igdb.slug === gameSlug);
-    const { name, coverUrl, slug } = game;
+    const {
+      name,
+      coverUrl,
+      slug,
+      platforms,
+      genres,
+      summary,
+      similar_games
+    } = game;
+    let percentage = !feedback ? "No ratings yet" : feedback.percentage;
+    percentage *= 100;
+    const genreDisplay = genres.map(gen => <span>{gen.name}, </span>);
+    const platformDisplay = platforms.map(plat => <span>{plat.name}, </span>);
+    const similarDisplay = similar_games.map(ident => {
+      const vgame = games.find(g => g.igdb.id === ident);
+      if (!vgame) return;
+      return <Game slug={vgame.igdb.slug} name={vgame.name} />;
+    });
     content = (
       <>
         <div className="flex flex-row">
@@ -22,10 +39,12 @@ export function GameInfo(props) {
               src={coverUrl}
               alt={slug}
             />
-            <h3 className="mt-4">Rating: {parseInt(game.total_rating)}</h3>
+            <h3 className="mt-4">
+              Rating: {error ? "No ratings yet" : parseInt(percentage)}
+            </h3>
             <progress
               className="nes-progress is-success"
-              value={game.total_rating}
+              value={percentage}
               max="100"
             />
           </div>
@@ -34,15 +53,15 @@ export function GameInfo(props) {
 
             <h3 className="mt-4">
               <i className="nes-icon star" />
-              Genre and Tags
+              Genres
             </h3>
-            <p className="">Action, Loot, Adventure...</p>
+            <p className="">{genreDisplay}</p>
             <h3 className="mt-4">
               <i className="nes-icon star" />
               Platforms
             </h3>
-            <p className="">Nintendo 64</p>
-            <p className="mt-4">{game.summary}</p>
+            <p className="">{platformDisplay}</p>
+            <p className="mt-4">{summary}</p>
           </div>
         </div>
         <div className="nes-container with-title is-centered mt-16">
@@ -61,27 +80,21 @@ export function GameInfo(props) {
             Games similar to {name}
           </h3>
           <div className="flex justify-start content-start flex-wrap">
-            {/* {similarGames} */}
+            {similarDisplay}
           </div>
         </section>
       </>
     );
   }
-
-  // const similarGames = related.map(vgame => (
-  //   <Game
-  //     coverUrl={vgame.coverUrl}
-  //     slug={vgame.slug}
-  //     name={vgame.name}
-  //   />
-  // ));
   return <section className="game-container mx-auto">{content}</section>;
 }
 
 const mapStateToProps = state => {
   return {
     games: state.allGames.games,
-    loading: state.allGames.loading
+    loading: state.allGames.loading,
+    feedback: state.games.feedback,
+    error: state.games.error
   };
 };
 
