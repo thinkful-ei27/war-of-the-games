@@ -1,14 +1,14 @@
-#sm {
-  height: 20px;
-  width: 125px;
+.nes-progress.lg {
+  height: 35px;
+  width: 500px;
 }
 
-#md {
+.nes-progress.md {
   height: 30px;
   width: 250px;
 }
 
-#lg {
-  height: 35px;
-  width: 500px;
+.nes-progress.sm {
+  height: 20px;
+  width: 125px;
 }

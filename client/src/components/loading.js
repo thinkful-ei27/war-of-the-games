@@ -10,10 +10,10 @@ export default class Loading extends Component {
   }
 
   componentDidMount() {
-    this.intervalId = setInterval(() => this.fillBar(), 10);
+    this.intervalId = setInterval(() => this.fillBar(), 25);
   }
 
-  componenetWillUnmount() {
+  componentWillUnmount() {
     clearInterval(this.intervalId);
   }
 
@@ -32,10 +32,10 @@ export default class Loading extends Component {
     const { progress } = this.state;
     const { size } = this.props;
     return (
-      <div className="load-sm">
+      <div>
+        <p>Loading...</p>
         <progress
-          className="nes-progress"
-          id={size}
+          className={`nes-progress ${size}`}
           value={progress}
           max="100"
         />

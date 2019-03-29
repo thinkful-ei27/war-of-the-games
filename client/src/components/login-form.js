@@ -38,7 +38,7 @@ class LoginForm extends React.Component {
 
     let loadingView;
     if (loading) {
-      loadingView = <Loading size="sm" />;
+      loadingView = <Loading size="md" />;
     }
 
     return (
