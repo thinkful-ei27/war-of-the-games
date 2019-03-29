@@ -16,7 +16,7 @@ export class GameInfo extends Component {
   }
 
   render() {
-    const { currentGame, feedback, error } = this.props;
+    const { currentGame, currentFeedback, error } = this.props;
     let content;
     if (error) {
       content = <Page404 />;
@@ -26,9 +26,13 @@ export class GameInfo extends Component {
     } else {
       content = (
         <>
-          <GameDetails game={currentGame} feedback={feedback} error={error} />
+          <GameDetails
+            game={currentGame}
+            feedback={currentFeedback}
+            error={error}
+          />
           <GameHelp game={currentGame} />
-          {/* <GameSimilar games={games} /> */}
+          <GameSimilar currentGame={currentGame} />
         </>
       );
     }
@@ -41,7 +45,7 @@ const mapStateToProps = state => {
     games: state.allGames.games,
     currentGame: state.allGames.currentGame,
     loading: state.allGames.loading,
-    feedback: state.allGames.feedback,
+    currentFeedback: state.allGames.currentFeedback,
     error: state.allGames.error
   };
 };

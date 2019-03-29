@@ -12,7 +12,7 @@ import {
 const initialState = {
   games: [],
   currentGame: null,
-  feedback: null,
+  currentFeedback: null,
   loading: false,
   error: null
 };
@@ -55,7 +55,7 @@ export default function reducer(state = initialState, action) {
   }
   if (action.type === FETCH_CURRENT_FEEDBACK_SUCCESS) {
     return Object.assign({}, state, {
-      feedback: action.feedback,
+      currentFeedback: action.currentFeedback,
       error: null
     });
   }
