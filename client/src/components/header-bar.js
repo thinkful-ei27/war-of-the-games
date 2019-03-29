@@ -8,21 +8,12 @@ import "./styles/gameInfo.css";
 export class HeaderBar extends React.Component {
   state = {
     menuItems: [
-<<<<<<< HEAD
-      { name: 'Vote', link: '/', key: '0' },
-      { name: 'About', link: '/about', key: '1' },
-      { name: 'Sign Up', link: '/register', key: '2' },
-      { name: 'Login', link: '/login', key: '3' },
-      { name: 'Profile', link: '/profile', key: '4' },
-      { name: 'Sign Out', link: '/login', key: '5' }
-=======
       { name: 'Vote', link: '/', key: 'vote' },
       { name: 'Games', link: '/games', key: 'games' },
       { name: 'About', link: '/about', key: 'about' },
       { name: 'Sign Up', link: '/register', key: 'signup' },
       { name: 'Login', link: '/login', key: 'login' },
       { name: 'Sign Out', link: '/login', key: 'signout' }
->>>>>>> dev
     ]
   };
 
@@ -42,10 +33,10 @@ export class HeaderBar extends React.Component {
     return (
       <header className="container mx-auto shadow">
         <div className="flex flex-row justify-between">
-          <Link to='/'>          
-          <h2 className="p-4">
-          <i class="nes-logo"></i>
-          War of the Games</h2>
+          <Link to='/'>
+            <h2 className="p-4">
+              <i class="nes-logo"></i>
+              War of the Games</h2>
           </Link>
           <section className="p-4">
             <Menu menuItems={this.handleLinks()} />

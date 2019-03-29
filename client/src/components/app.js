@@ -4,14 +4,8 @@ import { Route, withRouter, Switch } from "react-router-dom";
 import LoginForm from "./login-form";
 import HeaderBar from "./header-bar";
 import LandingPage from "./landing-page";
-<<<<<<< HEAD
-import Page404 from './404';
-import AboutPage from './about';
-=======
-import Dashboard from "./dashboard";
 import Page404 from "./404";
 import AboutPage from "./about";
->>>>>>> dev
 import RegistrationPage from "./registration-page";
 import { refreshAuthToken } from "../actions/auth";
 import GameInfo from "./GameInfo";
@@ -20,14 +14,9 @@ import { ProfilePage } from "./ProfilePage";
 
 export class App extends React.Component {
   componentDidUpdate(prevProps) {
-<<<<<<< HEAD
-    if (!prevProps.loggedIn && this.props.loggedIn) {
-      // When we are logged in, refresh the agit suth token periodically
-=======
     const { loggedIn } = this.props;
     if (!prevProps.loggedIn && loggedIn) {
       // When we are logged in, refresh the auth token periodically
->>>>>>> dev
       this.startPeriodicRefresh();
     } else if (prevProps.loggedIn && !loggedIn) {
       // Stop refreshing when we log out

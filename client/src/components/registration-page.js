@@ -1,29 +1,18 @@
-<<<<<<< HEAD
-import React from 'react';
-import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
-=======
 import React from "react";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import Loading from "./loading";
->>>>>>> dev
 
 import RegistrationForm from './registration-form';
 
 export function RegistrationPage(props) {
   // If we are logged in (which happens automatically when registration
   // is successful) redirect to the user's dashboard
-<<<<<<< HEAD
-  if (props.loggedIn) {
-    return <Redirect to="/profile" />;
-=======
 
   const { loggedIn, loading } = props;
   let loadingView;
   if (loggedIn) {
-    return <Redirect to="/dashboard" />;
->>>>>>> dev
+    return <Redirect to="/" />;
   }
 
   if (loading) {
