@@ -25,7 +25,7 @@ export class Games extends Component {
           // coverUrl,
           slug
         };
-        return <ConnectedGame {...props} />;
+        return <ConnectedGame key={id} {...props} />;
       });
     }
     return (

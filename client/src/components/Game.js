@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
 
-export function Game(props) {
+export default function Game(props) {
   const { slug, name } = props;
   const url = `/games/${slug}`;
   return (
@@ -17,5 +16,3 @@ export function Game(props) {
     </div>
   );
 }
-
-export default connect()(Game);

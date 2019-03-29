@@ -15,7 +15,7 @@ export class GameInfo extends Component {
   }
 
   render() {
-    const { currentGame, currentFeedback, error } = this.props;
+    const { currentGame, currentFeedback, error, location } = this.props;
     let content;
     if (error) {
       content = <Page404 />;
@@ -31,7 +31,7 @@ export class GameInfo extends Component {
             error={error}
           />
           <GameHelp game={currentGame} />
-          <GameSimilar currentGame={currentGame} />
+          <GameSimilar currentGame={currentGame} location={location} />
         </>
       );
     }
