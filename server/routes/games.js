@@ -28,6 +28,10 @@ const igdbIdRequired = (req, res, next) => {
     const err = new Error("Missing `igdbId` in request body");
     err.status = 400;
     return next(err);
+  } else if (!Number(igdbId)) {
+    const err = new Error("`igdbId` should be a number");
+    err.status = 400;
+    return next(err);
   } else {
     return next();
   }
@@ -90,12 +94,6 @@ router.get("/:id", isValidId, (req, res, next) => {
 
 router.post("/", jwtAuth, igdbIdRequired, (req, res, next) => {
   const { igdbId } = req.body;
-
-  if (!Number(igdbId)) {
-    const err = new Error("`igdbId` should be a number");
-    err.status = 400;
-    return next(err);
-  }
 
   return igdbApi
     .getGame(igdbId)
