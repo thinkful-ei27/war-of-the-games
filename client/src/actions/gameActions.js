@@ -1,25 +1,25 @@
-import axios from "axios";
-import { API_BASE_URL } from "../config";
+import axios from 'axios';
+import { API_BASE_URL } from '../config';
 
-export const FETCH_GAMES = "FETCH_GAMES";
+export const FETCH_GAMES = 'FETCH_GAMES';
 
-export const FETCH_GAMES_SUCCESS = "FETCH_GAMES_SUCCESS";
+export const FETCH_GAMES_SUCCESS = 'FETCH_GAMES_SUCCESS';
 
-export const FETCH_GAMES_ERROR = "FETCH_GAMES_ERROR";
+export const FETCH_GAMES_ERROR = 'FETCH_GAMES_ERROR';
 
-export const FETCH_FEEDBACK_SUCCESS = "FETCH_FEEDBACK_SUCCESS";
+export const FETCH_FEEDBACK_SUCCESS = 'FETCH_FEEDBACK_SUCCESS';
 export const fetchFeedbackSuccess = feedback => ({
   type: FETCH_FEEDBACK_SUCCESS,
   feedback
 });
 
-export const FETCH_FEEDBACK_ERROR = "FETCH_FEEDBACK_ERROR";
+export const FETCH_FEEDBACK_ERROR = 'FETCH_FEEDBACK_ERROR';
 export const fetchFeedbackError = error => ({
   type: FETCH_FEEDBACK_ERROR,
   error
 });
 
-export const CLEAR_GAMES = "CLEAR_GAMES";
+export const CLEAR_GAMES = 'CLEAR_GAMES';
 
 export const clearGames = () => ({
   type: CLEAR_GAMES
@@ -33,7 +33,7 @@ export const fetchGamesSuccess = games => ({
 export const fetchGames = () => (dispatch, getState) => {
   axios({
     url: `${API_BASE_URL}/games/battle`,
-    method: "GET"
+    method: 'GET'
   })
     .then(response => {
       dispatch(fetchGamesSuccess(response.data));
@@ -43,9 +43,9 @@ export const fetchGames = () => (dispatch, getState) => {
     });
 };
 
-export const HANDLE_VOTE = "HANDLE_VOTE";
+export const HANDLE_VOTE = 'HANDLE_VOTE';
 
-export const handleVote = (gameOne, gameTwo, choice) => (
+export const handleVote = (gameOne, gameTwo, choice, userId) => (
   dispatch,
   getState
 ) => {
@@ -55,14 +55,15 @@ export const handleVote = (gameOne, gameTwo, choice) => (
       gameOne,
       gameTwo,
       choice,
+      userId,
       headers: {
         Authorization: `Bearer ${authToken}`
       }
     })
-    .then(function (response) {
+    .then(function(response) {
       console.log(response);
     })
-    .catch(function (error) {
+    .catch(function(error) {
       console.log(error);
     });
 };
@@ -77,9 +78,9 @@ export const fetchFeedback = game => (dispatch, getState) => {
     });
 };
 
-export const SET_NON_USER_VOTES = "SET_NON_USER_VOTES"
+export const SET_NON_USER_VOTES = 'SET_NON_USER_VOTES';
 
-export const CLEAR_NON_USER_VOTES = 'CLEAR_NON_USER_VOTES'
+export const CLEAR_NON_USER_VOTES = 'CLEAR_NON_USER_VOTES';
 
 export const clearNonUserVotes = () => ({
   type: CLEAR_NON_USER_VOTES

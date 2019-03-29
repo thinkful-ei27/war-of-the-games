@@ -9,6 +9,7 @@ export class ProfilePage extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     const { username, history, name } = this.props;
     return (
       <div className="dashboard">
