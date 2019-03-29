@@ -22,21 +22,24 @@ export default class Stats extends Component {
   render() {
     const propertyNames = [
       "name",
-      "totalGamesPlayed",
-      "totalGamesWon",
+      // "totalGamesPlayed",
+      // "totalGamesWon",
       "percentage"
     ];
     return (
-      <div className="nes-table-responsive">
-        <MappedTable data={this.state.all} propertyNames={propertyNames} />
-        {/* <ul>
+      <section className="nes-container with-title">
+        <p className="title">Top 5</p>
+        <div className="nes-table-responsive">
+          <MappedTable data={this.state.all} propertyNames={propertyNames} />
+          {/* <ul>
           {this.state.all.map(el => (
             <li>
               {el.name}: {parseFloat(el.percentage)}
             </li>
           ))}
         </ul> */}
-      </div>
+        </div>
+      </section>
     );
   }
 }
