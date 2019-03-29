@@ -4,10 +4,29 @@ import { connect } from "react-redux";
 export function GameDetails(props) {
   const { game, feedback, error, loggedIn } = props;
   const { name, coverUrl, slug, platforms, genres, summary } = game;
-  let percentage = !feedback ? "No ratings yet" : feedback.percentage;
-  percentage *= 100;
   const genreDisplay = genres.map(gen => <span>{gen.name}, </span>);
   const platformDisplay = platforms.map(plat => <span>{plat.name}, </span>);
+
+  const renderWinPercentage = () => {
+    if (feedback) {
+      let { percentage } = feedback;
+      percentage *= 100;
+      return (
+        <section>
+          <h3 className="mt-4">
+            Rating: {error ? "No ratings yet" : parseInt(percentage, 10)}
+          </h3>
+          <progress
+            className="nes-progress is-success"
+            value={percentage}
+            max="100"
+          />
+        </section>
+      );
+    }
+    return <p>No ratings yet</p>;
+  };
+
   return (
     <section className="flex flex-row">
       <div className="w-1/3 m-4">
@@ -16,14 +35,7 @@ export function GameDetails(props) {
           src={coverUrl}
           alt={slug}
         />
-        <h3 className="mt-4">
-          Rating: {error ? "No ratings yet" : parseInt(percentage, 10)}
-        </h3>
-        <progress
-          className="nes-progress is-success"
-          value={percentage}
-          max="100"
-        />
+        {renderWinPercentage()}
       </div>
       <div className="flex flex-col p-4 w-2/3">
         <h2>{name}</h2>
@@ -42,7 +54,13 @@ export function GameDetails(props) {
         {loggedIn ? (
           <small>
             Is this game missing some info? Try{" "}
-            <a href="#">refreshing the data</a>.
+            <button
+              type="button"
+              onClick={() => console.log("refreshing the data was clicked")}
+            >
+              refreshing the data
+            </button>
+            .
           </small>
         ) : (
           ""

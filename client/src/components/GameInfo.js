@@ -1,18 +1,17 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import "./styles/gameInfo.css";
 import { connect } from "react-redux";
 import { fetchCurrentGame } from "../actions/allGames";
-import Game from "./Game";
 import GameHelp from "./GameHelp";
 import GameSimilar from "./GameSimilar";
-import GameDetails from "./GameDetails";
+import ConnectedGameDetails from "./GameDetails";
 import Page404 from "./404";
 
 export class GameInfo extends Component {
   componentDidMount() {
-    const { gameSlug } = this.props.match.params;
-    this.props.fetchCurrentGame(gameSlug);
+    const { dispatch, match } = this.props;
+    const { gameSlug } = match.params;
+    dispatch(fetchCurrentGame(gameSlug));
   }
 
   render() {
@@ -26,7 +25,7 @@ export class GameInfo extends Component {
     } else {
       content = (
         <>
-          <GameDetails
+          <ConnectedGameDetails
             game={currentGame}
             feedback={currentFeedback}
             error={error}
@@ -50,13 +49,4 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchCurrentGame: slug => dispatch(fetchCurrentGame(slug))
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(GameInfo);
+export default connect(mapStateToProps)(GameInfo);
