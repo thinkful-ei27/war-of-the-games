@@ -1,11 +1,13 @@
 import axios from "axios";
 import { API_BASE_URL } from "../config";
+import { fetchCurrentGameSuccess } from "./allGames";
 
 export const FETCH_GAMES = "FETCH_GAMES";
 
-export const FETCH_GAMES_SUCCESS = "FETCH_GAMES_SUCCESS";
-
-export const FETCH_GAMES_ERROR = "FETCH_GAMES_ERROR";
+export const FETCH_GAME_REQUEST = "FETCH_GAME_REQUEST";
+export const fetchGameRequest = () => ({
+  type: FETCH_GAME_REQUEST
+});
 
 export const FETCH_FEEDBACK_SUCCESS = "FETCH_FEEDBACK_SUCCESS";
 export const fetchFeedbackSuccess = feedback => ({
@@ -25,12 +27,13 @@ export const clearGames = () => ({
   type: CLEAR_GAMES
 });
 
+export const FETCH_GAMES_SUCCESS = "FETCH_GAMES_SUCCESS";
 export const fetchGamesSuccess = games => ({
   type: FETCH_GAMES_SUCCESS,
   games
 });
 
-export const fetchGames = () => (dispatch, getState) => {
+export const fetchGames = () => dispatch => {
   axios({
     url: `${API_BASE_URL}/games/battle`,
     method: "GET"
@@ -45,10 +48,7 @@ export const fetchGames = () => (dispatch, getState) => {
 
 export const HANDLE_VOTE = "HANDLE_VOTE";
 
-export const handleVote = (gameOne, gameTwo, choice) => (
-  dispatch,
-  getState
-) => {
+export const handleVote = (gameOne, gameTwo, choice) => () => {
   axios
     .post(`${API_BASE_URL}/history`, {
       gameOne,
@@ -67,6 +67,22 @@ export const fetchFeedback = game => dispatch => {
   axios
     .get(`${API_BASE_URL}/history/${game}/results`)
     .then(response => dispatch(fetchFeedbackSuccess(response.data)))
+    .catch(err => {
+      const { message } = err;
+      dispatch(fetchFeedbackError(message));
+    });
+};
+
+export const updateGame = game => (dispatch, getState) => {
+  const { authToken } = getState().auth;
+  dispatch(fetchGameRequest());
+  axios
+    .put(
+      `${API_BASE_URL}/games/${game.id}`,
+      { igdbId: game.igdb.id },
+      { headers: { Authorization: `Bearer ${authToken}` } }
+    )
+    .then(response => dispatch(fetchCurrentGameSuccess(response.data)))
     .catch(err => {
       const { message } = err;
       dispatch(fetchFeedbackError(message));

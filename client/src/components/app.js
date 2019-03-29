@@ -2,16 +2,21 @@ import React from "react";
 import { connect } from "react-redux";
 import { Route, withRouter, Switch } from "react-router-dom";
 import LoginForm from "./login-form";
-import HeaderBar from "./header-bar";
-import LandingPage from "./landing-page";
-import Dashboard from "./dashboard";
+import ConnectedHeaderBar from "./header-bar";
+import ConnectedLandingPage from "./landing-page";
+import ConnectedDashboard from "./dashboard";
 import Page404 from "./404";
 import AboutPage from "./about";
-import RegistrationPage from "./registration-page";
+import ConnectedRegistrationPage from "./registration-page";
 import { refreshAuthToken } from "../actions/auth";
+<<<<<<< HEAD
 import GameInfo from "./GameInfo";
 import Games from "./Games";
 import Stats from "./Stats";
+=======
+import ConnectedGameInfo from "./GameInfo";
+import ConnectedGames from "./Games";
+>>>>>>> dev
 
 export class App extends React.Component {
   componentDidUpdate(prevProps) {
@@ -30,8 +35,9 @@ export class App extends React.Component {
   }
 
   startPeriodicRefresh() {
+    const { dispatch } = this.props;
     this.refreshInterval = setInterval(
-      () => this.props.dispatch(refreshAuthToken()),
+      () => dispatch(refreshAuthToken()),
       60 * 60 * 1000 // One hour
     );
   }
@@ -47,10 +53,10 @@ export class App extends React.Component {
   render() {
     return (
       <div className="app">
-        <HeaderBar />
+        <ConnectedHeaderBar />
         <Switch>
-          <Route exact path="/" component={LandingPage} />
-          <Route path="/dashboard" component={Dashboard} />
+          <Route exact path="/" component={ConnectedLandingPage} />
+          <Route path="/dashboard" component={ConnectedDashboard} />
           <Route path="/about" component={AboutPage} />
           <Route path="/login" component={LoginForm} />
           <Route path="/register" component={RegistrationPage} />

@@ -15,7 +15,7 @@ export function MenuItem(props) {
       <Link
         to={link}
         className=""
-        onClick={name === "Sign Out" ? () => logout() : ""}
+        onClick={name === "Sign Out" ? () => logout() : null}
       >
         {name}
       </Link>

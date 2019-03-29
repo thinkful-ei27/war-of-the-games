@@ -1,13 +1,22 @@
 import React from "react";
-import Game from "./Game";
+import ConnectedGame from "./Game";
 
 export default function GameSimilar(props) {
-  const { currentGame } = props;
-  const { name, similar_games } = currentGame;
-  const similarDisplay = similar_games.map(vgame => {
-    console.log("vgame is ", vgame);
-    return <Game slug={vgame.igdb.slug} name={vgame.name} />;
-  });
+  const { currentGame, location } = props;
+  const { name } = currentGame;
+  const similarGames = currentGame.similar_games;
+  const renderSimilarGames = games => {
+    return games.map(vgame => {
+      return (
+        <ConnectedGame
+          key={vgame.id}
+          location={location}
+          slug={vgame.igdb.slug}
+          name={vgame.name}
+        />
+      );
+    });
+  };
   return (
     <section className="mt-16">
       <h3 className="mt-4">
@@ -15,7 +24,9 @@ export default function GameSimilar(props) {
         Games similar to {name}
       </h3>
       <div className="flex justify-start content-start flex-wrap">
-        {similarDisplay}
+        {similarGames.length
+          ? renderSimilarGames(similarGames)
+          : "There are no similar games currently in our database"}
       </div>
     </section>
   );
