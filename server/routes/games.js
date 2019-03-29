@@ -96,7 +96,7 @@ router.get('/:id', isValidId, (req, res, next) => {
     .catch(err => next(err));
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', jwtAuth, igdbIdRequired, (req, res, next) => {
   const { igdbId } = req.body;
 
   return igdbApi
