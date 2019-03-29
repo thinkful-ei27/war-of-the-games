@@ -1,7 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
 
-export default function GameDetails(props) {
-  const { game, feedback, error } = props;
+export function GameDetails(props) {
+  const { game, feedback, error, loggedIn } = props;
   const { name, coverUrl, slug, platforms, genres, summary } = game;
   let percentage = !feedback ? "No ratings yet" : feedback.percentage;
   percentage *= 100;
@@ -16,7 +17,7 @@ export default function GameDetails(props) {
           alt={slug}
         />
         <h3 className="mt-4">
-          Rating: {error ? "No ratings yet" : parseInt(percentage)}
+          Rating: {error ? "No ratings yet" : parseInt(percentage, 10)}
         </h3>
         <progress
           className="nes-progress is-success"
@@ -38,7 +39,21 @@ export default function GameDetails(props) {
         </h3>
         <p className="">{platformDisplay}</p>
         <p className="mt-4">{summary}</p>
+        {loggedIn ? (
+          <small>
+            Is this game missing some info? Try{" "}
+            <a href="#">refreshing the data</a>.
+          </small>
+        ) : (
+          ""
+        )}
       </div>
     </section>
   );
 }
+
+const mapStateToProps = state => ({
+  loggedIn: state.auth.currentUser !== null
+});
+
+export default connect(mapStateToProps)(GameDetails);
