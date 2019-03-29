@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./styles/gameInfo.css";
 import { connect } from "react-redux";
 
