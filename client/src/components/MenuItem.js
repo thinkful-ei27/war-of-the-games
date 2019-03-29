@@ -1,8 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { clearAuth } from '../actions/auth';
-import { clearAuthToken } from '../local-storage';
+import React from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { clearAuth } from "../actions/auth";
+import { clearAuthToken } from "../local-storage";
 
 export function MenuItem(props) {
   const { name, link } = props;
@@ -11,11 +11,11 @@ export function MenuItem(props) {
     clearAuthToken();
   };
   return (
-    <li className="nav-button">
+    <li className="nes-text is-primary p-4">
       <Link
         to={link}
-        className="nav-button"
-        onClick={name === 'Sign Out' ? () => logout() : ''}
+        className=""
+        onClick={name === "Sign Out" ? () => logout() : ""}
       >
         {name}
       </Link>
