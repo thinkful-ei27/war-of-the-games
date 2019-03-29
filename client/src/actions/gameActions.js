@@ -67,5 +67,8 @@ export const fetchFeedback = game => dispatch => {
   axios
     .get(`${API_BASE_URL}/history/${game}/results`)
     .then(response => dispatch(fetchFeedbackSuccess(response.data)))
-    .catch(err => dispatch(fetchFeedbackError(err)));
+    .catch(err => {
+      const { message } = err;
+      dispatch(fetchFeedbackError(message));
+    });
 };
