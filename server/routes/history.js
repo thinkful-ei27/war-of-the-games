@@ -74,7 +74,9 @@ router.get("/:id/results", async (req, res, next) => {
       coverUrl
     });
   } catch (e) {
-    next(e);
+    const err = new Error("No history available yet for that game");
+    err.status = 404;
+    return next(err);
   }
 });
 
