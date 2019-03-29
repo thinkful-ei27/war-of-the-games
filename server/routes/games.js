@@ -166,7 +166,7 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
       };
       return Game.findOneAndUpdate({ _id: id }, toUpdate, { new: true });
     })
-    .then(game => res.json(game))
+    .then(game => (game ? res.json(game) : next()))
     .catch(err => next(err));
 });
 

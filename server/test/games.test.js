@@ -487,7 +487,8 @@ describe("ASYNC Capstone API - Games", function() {
           return chai
             .request(app)
             .put("/api/games/NOT-A-VALID-ID")
-            .set("Authorization", `Bearer ${token}`);
+            .set("Authorization", `Bearer ${token}`)
+            .send(updateItem);
         })
         .then(res => {
           expect(res).to.have.status(400);
@@ -495,7 +496,23 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
-    it("should respond with a 404 for an id that does not exist");
+    it("should respond with a 404 for an id that does not exist", function() {
+      return Game.findById("5c9a959ba5d0dd09e07f45a8")
+        .then(game => {
+          const updateItem = {
+            igdbId: game.igdb.id
+          };
+          // The string "DOESNOTEXIST" is 12 bytes which is a valid Mongo ObjectId
+          return chai
+            .request(app)
+            .put("/api/games/DOESNOTEXIST")
+            .set("Authorization", `Bearer ${token}`)
+            .send(updateItem);
+        })
+        .then(res => {
+          expect(res).to.have.status(404);
+        });
+    });
 
     it("should return an error when missing igdbId field");
 
