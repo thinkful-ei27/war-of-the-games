@@ -21,6 +21,18 @@ const findTwoRandGames = count => {
   );
 };
 
+const igdbIdRequired = (req, res, next) => {
+  const { igdbId } = req.body;
+
+  if (!igdbId) {
+    const err = new Error("Missing `igdbId` in request body");
+    err.status = 400;
+    return next(err);
+  } else {
+    return next();
+  }
+};
+
 router.get("/", (req, res, next) => {
   Game.find()
     .sort({ name: "asc" })
@@ -76,14 +88,8 @@ router.get("/:id", isValidId, (req, res, next) => {
     .catch(err => next(err));
 });
 
-router.post("/", jwtAuth, (req, res, next) => {
+router.post("/", jwtAuth, igdbIdRequired, (req, res, next) => {
   const { igdbId } = req.body;
-
-  if (!igdbId) {
-    const err = new Error("Missing `igdbId` in request body");
-    err.status = 400;
-    return next(err);
-  }
 
   if (!Number(igdbId)) {
     const err = new Error("`igdbId` should be a number");
@@ -135,7 +141,7 @@ router.post("/", jwtAuth, (req, res, next) => {
     });
 });
 
-router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
+router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
   const { id } = req.params;
   const { igdbId } = req.body;
 

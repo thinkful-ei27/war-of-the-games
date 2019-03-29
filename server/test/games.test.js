@@ -514,7 +514,23 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
-    it("should return an error when missing igdbId field");
+    it("should return an error when missing igdbId field", function() {
+      const newGame = {};
+      return Game.findById("5c9a959ba5d0dd09e07f45a8")
+        .then(game => {
+          return chai
+            .request(app)
+            .put(`/api/games/${game.id}`)
+            .set("Authorization", `Bearer ${token}`)
+            .send(newGame);
+        })
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Missing `igdbId` in request body");
+        });
+    });
 
     it("should return an error when igdbId is not a number");
 
