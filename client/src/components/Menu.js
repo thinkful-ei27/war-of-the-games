@@ -1,5 +1,5 @@
-import React from 'react';
-import ConnectedMenuItem from './MenuItem';
+import React from "react";
+import ConnectedMenuItem from "./MenuItem";
 
 export default function Menu(props) {
   const { menuItems } = props;

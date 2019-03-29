@@ -60,7 +60,8 @@
 
 .vs {
   font-size: 28px;
-  padding-top: 135%;
+  /* padding-top: 135%; */
+  margin: auto 0;
 }
 
 #skip-btn {

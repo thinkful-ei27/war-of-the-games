@@ -13,11 +13,16 @@
   text-decoration: none;
   display: flex;
   flex-direction: row;
+<<<<<<< HEAD
   justify-content: space-between;
   background-color: #c84c0c;
   width: 95%;
   margin: 10px auto;
   padding: 0;
+=======
+  justify-content: center;
+  /* background-color: #c84c0c; */
+>>>>>>> dev
 }
 
 .nav-button {
