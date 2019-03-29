@@ -5,9 +5,9 @@ export const FETCH_ALL_GAMES_REQUEST = "FETCH_ALL_GAMES_REQUEST";
 export const FETCH_ALL_GAMES_SUCCESS = "FETCH_ALL_GAMES_SUCCESS";
 export const FETCH_ALL_GAMES_ERROR = "FETCH_ALL_GAMES_ERROR";
 
-export const FETCH_CURRENT_GAME_REQUEST = "FETCH_CURRENT_GAMES_REQUEST";
-export const FETCH_CURRENT_GAME_SUCCESS = "FETCH_CURRENT_GAMES_SUCCESS";
-export const FETCH_CURRENT_GAME_ERROR = "FETCH_CURRENT_GAMES_ERROR";
+export const FETCH_CURRENT_GAME_REQUEST = "FETCH_CURRENT_GAME_REQUEST";
+export const FETCH_CURRENT_GAME_SUCCESS = "FETCH_CURRENT_GAME_SUCCESS";
+export const FETCH_CURRENT_GAME_ERROR = "FETCH_CURRENT_GAME_ERROR";
 
 export const fetchGamesRequest = () => ({
   type: FETCH_ALL_GAMES_REQUEST
@@ -38,9 +38,9 @@ export const fetchAllGames = () => dispatch => {
 };
 
 export const FETCH_CURRENT_FEEDBACK_SUCCESS = "FETCH_CURRENT_FEEDBACK_SUCCESS";
-export const fetchCurrentFeedbackSuccess = feedback => ({
+export const fetchCurrentFeedbackSuccess = currentFeedback => ({
   type: FETCH_CURRENT_FEEDBACK_SUCCESS,
-  feedback
+  currentFeedback
 });
 
 export const FETCH_CURRENT_FEEDBACK_ERROR = "FETCH_CURRENT_FEEDBACK_ERROR";
