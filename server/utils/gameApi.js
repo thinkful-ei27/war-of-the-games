@@ -31,23 +31,25 @@ const getGames = async () =>
 
 const getGame = async id =>
   await apicalypse(requestOptions)
-    .fields(["name", "cover", "slug"])
+    .fields([
+      "name",
+      "cover.image_id",
+      "slug",
+      "summary",
+      "genres.name",
+      "platforms.name",
+      // "similar_games" is an array of IGDB ID numbers
+      "similar_games"
+    ])
     .where(`id = ${id}`)
     .request("/games")
     .then(res => res.data[0]);
 
-const getCover = async id =>
-  await apicalypse(requestOptions)
-    .fields(["image_id"])
-    .where(`id = ${id}`)
-    .request("/covers")
-    .then(res => res.data[0]);
+// const getCover = async id =>
+//   await apicalypse(requestOptions)
+//     .fields(["image_id"])
+//     .where(`id = ${id}`)
+//     .request("/covers")
+//     .then(res => res.data[0]);
 
-const getAllBySlug = async id =>
-  await apicalypse(requestOptions)
-    .fields(['*'])
-    .where(`id = ${id}`)
-    .request("/games")
-    .then(res => res.data[0]);
-
-module.exports = { getGames, getGame, getCover, getAllBySlug };
+module.exports = { getGames, getGame };
