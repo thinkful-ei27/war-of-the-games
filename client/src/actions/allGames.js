@@ -88,7 +88,7 @@ export const fetchCurrentGame = slug => dispatch => {
       });
     })
     .then(gameData => {
-      dispatch(fetchCurrentGameSuccess(gameData));
+      dispatch(fetchCurrentGameSuccess(gameData.data));
     })
     .catch(err => {
       dispatch(fetchCurrentGameError(err));
