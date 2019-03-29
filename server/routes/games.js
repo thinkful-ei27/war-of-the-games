@@ -1,9 +1,14 @@
 const express = require("express");
+const passport = require("passport");
 const Game = require("../models/game");
 const igdbApi = require("../utils/gameApi");
 const { isValidId } = require("./validators");
 
 const router = express.Router();
+const jwtAuth = passport.authenticate("jwt", {
+  session: false,
+  failWithError: true
+});
 
 const findRandGame = count => {
   const rand = Math.floor(Math.random() * count);
@@ -71,7 +76,7 @@ router.get("/:id", isValidId, (req, res, next) => {
     .catch(err => next(err));
 });
 
-router.post("/", (req, res, next) => {
+router.post("/", jwtAuth, (req, res, next) => {
   const { igdbId } = req.body;
 
   if (!igdbId) {
@@ -130,7 +135,7 @@ router.post("/", (req, res, next) => {
     });
 });
 
-router.put("/:id", (req, res, next) => {
+router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
   const { id } = req.params;
   const { igdbId } = req.body;
 
