@@ -455,4 +455,152 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
   });
+
+  describe("PUT /api/games/:id", function() {
+    it("should update the game when provided a valid igdbId", function() {
+      let game;
+      return Game.findById("5c9a959ba5d0dd09e07f45a8")
+        .then(_game => {
+          game = _game;
+          expect(game).to.not.have.keys(
+            "summary",
+            "genres",
+            "platforms",
+            "similar_games"
+          );
+          const updateItem = {
+            igdbId: game.igdb.id
+          };
+          return chai
+            .request(app)
+            .put(`/api/games/${game.id}`)
+            .set("Authorization", `Bearer ${token}`)
+            .send(updateItem);
+        })
+        .then(function(res) {
+          expect(res).to.have.status(200);
+          expect(res).to.be.json;
+          expect(res.body).to.be.an("object");
+          expect(res.body).to.have.all.keys(
+            "id",
+            "name",
+            "createdAt",
+            "updatedAt",
+            "igdb",
+            "coverUrl",
+            "summary",
+            "genres",
+            "platforms",
+            "similar_games"
+          );
+          expect(res.body.id).to.equal(game.id);
+          expect(new Date(res.body.createdAt)).to.eql(game.createdAt);
+          // expect game to have been updated
+          expect(new Date(res.body.updatedAt)).to.greaterThan(game.updatedAt);
+          expect(res.body.summary).to.be.a("string");
+          expect(res.body.genres).to.be.an("array");
+          expect(res.body.genres.length).to.not.equal(0);
+          expect(res.body.platforms).to.be.an("array");
+          expect(res.body.platforms.length).to.not.equal(0);
+          expect(res.body.similar_games).to.be.an("array");
+          expect(res.body.similar_games.length).to.not.equal(0);
+        });
+    });
+
+    it("should respond with status 400 and an error message when id is not valid", function() {
+      return Game.findById("5c9a959ba5d0dd09e07f45a8")
+        .then(game => {
+          const updateItem = {
+            igdbId: game.igdb.id
+          };
+          return chai
+            .request(app)
+            .put("/api/games/NOT-A-VALID-ID")
+            .set("Authorization", `Bearer ${token}`)
+            .send(updateItem);
+        })
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).to.equal("The `id` is not valid");
+        });
+    });
+
+    it("should respond with a 404 for an id that does not exist", function() {
+      return Game.findById("5c9a959ba5d0dd09e07f45a8")
+        .then(game => {
+          const updateItem = {
+            igdbId: game.igdb.id
+          };
+          // The string "DOESNOTEXIST" is 12 bytes which is a valid Mongo ObjectId
+          return chai
+            .request(app)
+            .put("/api/games/DOESNOTEXIST")
+            .set("Authorization", `Bearer ${token}`)
+            .send(updateItem);
+        })
+        .then(res => {
+          expect(res).to.have.status(404);
+        });
+    });
+
+    it("should return an error when missing igdbId field", function() {
+      const newGame = {};
+      return Game.findById("5c9a959ba5d0dd09e07f45a8")
+        .then(game => {
+          return chai
+            .request(app)
+            .put(`/api/games/${game.id}`)
+            .set("Authorization", `Bearer ${token}`)
+            .send(newGame);
+        })
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Missing `igdbId` in request body");
+        });
+    });
+
+    it("should return an error when igdbId is not a number", function() {
+      const newGame = {
+        igdbId: "not a number"
+      };
+      return Game.findById("5c9a959ba5d0dd09e07f45a8")
+        .then(game => {
+          return chai
+            .request(app)
+            .put(`/api/games/${game.id}`)
+            .set("Authorization", `Bearer ${token}`)
+            .send(newGame);
+        })
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("`igdbId` should be a number");
+        });
+    });
+
+    it("should catch errors and respond properly", function() {
+      sandbox.stub(Game.schema.options.toJSON, "transform").throws("FakeError");
+
+      return Game.findById("5c9a959ba5d0dd09e07f45a8")
+        .then(game => {
+          const updateItem = {
+            igdbId: game.igdb.id
+          };
+          return chai
+            .request(app)
+            .put(`/api/games/${game.id}`)
+            .set("Authorization", `Bearer ${token}`)
+            .send(updateItem);
+        })
+        .then(res => {
+          expect(res).to.have.status(500);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Internal Server Error");
+        });
+    });
+  });
 });
