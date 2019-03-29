@@ -1,9 +1,14 @@
 const express = require('express');
+const passport = require("passport");
 const Game = require('../models/game');
 const igdbApi = require('../utils/gameApi');
 const { isValidId } = require('./validators');
 
 const router = express.Router();
+const jwtAuth = passport.authenticate("jwt", {
+  session: false,
+  failWithError: true
+});
 
 const findRandGame = (count) => {
   const rand = Math.floor(Math.random() * count);
@@ -13,6 +18,22 @@ const findRandGame = (count) => {
 const findTwoRandGames = count => Promise.all([findRandGame(count), findRandGame(count)]).then(results =>
   (results[0].id === results[1].id ? findTwoRandGames(count) : results),
 );
+
+const igdbIdRequired = (req, res, next) => {
+  const { igdbId } = req.body;
+
+  if (!igdbId) {
+    const err = new Error("Missing `igdbId` in request body");
+    err.status = 400;
+    return next(err);
+  } else if (!Number(igdbId)) {
+    const err = new Error("`igdbId` should be a number");
+    err.status = 400;
+    return next(err);
+  } else {
+    return next();
+  }
+};
 
 router.get('/', (req, res, next) => {
   const { slug } = req.query;
@@ -75,20 +96,8 @@ router.get('/:id', isValidId, (req, res, next) => {
     .catch(err => next(err));
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', jwtAuth, igdbIdRequired, (req, res, next) => {
   const { igdbId } = req.body;
-
-  if (!igdbId) {
-    const err = new Error('Missing `igdbId` in request body');
-    err.status = 400;
-    return next(err);
-  }
-
-  if (!Number(igdbId)) {
-    const err = new Error('`igdbId` should be a number');
-    err.status = 400;
-    return next(err);
-  }
 
   return igdbApi
     .getGame(igdbId)
@@ -132,6 +141,41 @@ router.post('/', (req, res, next) => {
       }
       next(err);
     });
+});
+
+router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
+  const { id } = req.params;
+  const { igdbId } = req.body;
+
+  return igdbApi
+    .getGame(igdbId)
+    .then(res => {
+      const {
+        name,
+        cover,
+        slug,
+        summary,
+        genres,
+        platforms,
+        similar_games
+      } = res;
+      const { image_id } = cover;
+      const toUpdate = {
+        igdb: {
+          id: igdbId,
+          slug
+        },
+        name,
+        coverUrl: `https://images.igdb.com/igdb/image/upload/t_720p/${image_id}.jpg`,
+        summary,
+        genres,
+        platforms,
+        similar_games
+      };
+      return Game.findOneAndUpdate({ _id: id }, toUpdate, { new: true });
+    })
+    .then(game => (game ? res.json(game) : next()))
+    .catch(err => next(err));
 });
 
 module.exports = router;
