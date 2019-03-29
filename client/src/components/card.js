@@ -16,7 +16,9 @@ export function Card(props) {
 
   return (
     <div className="card">
-      <h1 className="game-title">{name}</h1>
+      <div className="title-container">
+        <h1 className="game-title">{name}</h1>
+      </div>
       <img className="game-img" src={src} alt={alt} />
       <button
         id="vote-button"
