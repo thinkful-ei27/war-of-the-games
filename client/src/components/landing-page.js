@@ -11,11 +11,12 @@ import { loadVoteCount, setVoteLocalStorageVariable } from "../local-storage";
 
 export class LandingPage extends React.Component {
   componentDidMount() {
-    const { loggedIn, nonUserVotes, dispatch } = this.props;
+    const { loggedIn, nonUserVotes, dispatch, userId } = this.props;
+
     if (loggedIn && nonUserVotes.length) {
       nonUserVotes.forEach(obj => {
         let values = Object.values(obj)
-        dispatch(handleVote(values[0], values[1], values[2]))
+        if (userId) { dispatch(handleVote(values[0], values[1], values[2])) }
       });
     }
     setVoteLocalStorageVariable();
@@ -60,12 +61,19 @@ export class LandingPage extends React.Component {
   }
 }
 
+const checkIfUser = (state) => {
+  if (state.auth.currentUser === null) {
+    return 'there is no user'
+  }
+  return state.auth.currentUser.id
+}
 const mapStateToProps = state => ({
   loggedIn: state.auth.currentUser !== null,
   games: state.games.battleGames,
   feedback: state.games.feedback,
   count: state.games.sessionVoteCount,
-  nonUserVotes: state.games.nonUserVotes
+  nonUserVotes: state.games.nonUserVotes,
+  userId: checkIfUser(state)
 });
 
 export default connect(mapStateToProps)(LandingPage);
