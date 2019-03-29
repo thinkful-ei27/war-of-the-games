@@ -24,7 +24,7 @@ export default function GameSimilar(props) {
         Games similar to {name}
       </h3>
       <div className="flex justify-start content-start flex-wrap">
-        {similarGames
+        {similarGames.length
           ? renderSimilarGames(similarGames)
           : "There are no similar games currently in our database"}
       </div>

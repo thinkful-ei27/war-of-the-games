@@ -14,6 +14,13 @@ export class GameInfo extends Component {
     dispatch(fetchCurrentGame(gameSlug));
   }
 
+  componentDidUpdate(prevProps) {
+    const { dispatch, match } = this.props;
+    if (prevProps.match.params.gameSlug !== match.params.gameSlug) {
+      dispatch(fetchCurrentGame(match.params.gameSlug));
+    }
+  }
+
   render() {
     const { currentGame, currentFeedback, error, location } = this.props;
     let content;
