@@ -5,19 +5,16 @@ export default class Loading extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      progress: 0,
-      intervalId: null
+      progress: 0
     };
   }
 
   componentDidMount() {
-    const intervalId = setInterval(() => this.fillBar(), 10);
-    this.setState({ intervalId });
+    this.intervalId = setInterval(() => this.fillBar(), 10);
   }
 
   componenetWillUnmount() {
-    const { intervalId } = this.state;
-    clearInterval(intervalId);
+    clearInterval(this.intervalId);
   }
 
   fillBar() {
