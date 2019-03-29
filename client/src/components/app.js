@@ -10,7 +10,7 @@ import RegistrationPage from "./registration-page";
 import { refreshAuthToken } from "../actions/auth";
 import GameInfo from "./GameInfo";
 import Games from "./Games";
-import { ProfilePage } from "./ProfilePage";
+import ProfilePage from "./ProfilePage";
 
 export class App extends React.Component {
   componentDidUpdate(prevProps) {
