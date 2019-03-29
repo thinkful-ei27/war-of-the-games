@@ -11,6 +11,7 @@ export class HeaderBar extends React.Component {
       { name: 'Vote', link: '/', key: 'vote' },
       { name: 'Games', link: '/games', key: 'games' },
       { name: 'About', link: '/about', key: 'about' },
+      { name: 'Profile', link: '/profile', key: 'profile' },
       { name: 'Sign Up', link: '/register', key: 'signup' },
       { name: 'Login', link: '/login', key: 'login' },
       { name: 'Sign Out', link: '/login', key: 'signout' }
