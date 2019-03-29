@@ -32,7 +32,7 @@ export class GameInfo extends Component {
             error={error}
           />
           <GameHelp game={currentGame} />
-          {/* <GameSimilar games={games} /> */}
+          <GameSimilar currentGame={currentGame} />
         </>
       );
     }
