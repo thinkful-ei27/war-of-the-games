@@ -1,10 +1,10 @@
 const users = [
   // Bob User is used for authentication during tests. Please do not alter him.
   {
-    _id: '333333333333333333333300',
-    firstName: 'Bob',
-    lastName: 'User',
-    username: 'bobuser',
+    _id: "333333333333333333333300",
+    firstName: "Bob",
+    lastName: "User",
+    username: "bobuser",
     // hash digest for the string 'password'
     password: '$2a$10$0S5GdCkGJTDeaAH272/bmeZmmpC4rv6ItXIOZKwVQIfQOqSURhkhu',
   },
@@ -26,8 +26,8 @@ const users = [
 
 const games = [
   {
-    name: 'Super Mario 64',
-    _id: '5c9a959ba5d0dd09e07f45a7',
+    name: "Super Mario 64",
+    _id: "5c9a959ba5d0dd09e07f45a7",
     igdb: {
       id: 1074,
       slug: 'super-mario-64',
@@ -67,8 +67,8 @@ const games = [
   },
   // Kept intentionally sparse for testing purposes
   {
-    name: 'The Legend of Zelda',
-    _id: '5c9a959ba5d0dd09e07f45a8',
+    name: "The Legend of Zelda",
+    _id: "5c9a959ba5d0dd09e07f45a8",
     igdb: {
       id: 1022,
       slug: 'the-legend-of-zelda',
@@ -76,8 +76,8 @@ const games = [
     coverUrl: 'https://images.igdb.com/igdb/image/upload/t_720p/bfeef9eun1ybhuwufqxm.jpg',
   },
   {
-    name: 'Mortal Kombat',
-    _id: '5c9a959ba5d0dd09e07f45a9',
+    name: "Mortal Kombat",
+    _id: "5c9a959ba5d0dd09e07f45a9",
     igdb: {
       id: 1618,
       slug: 'mortal-kombat--2',
@@ -85,8 +85,8 @@ const games = [
     coverUrl: 'https://images.igdb.com/igdb/image/upload/t_720p/co1hno.jpg',
   },
   {
-    name: 'Street Fighter II',
-    _id: '5c9a959ba5d0dd09e07f45a0',
+    name: "Street Fighter II",
+    _id: "5c9a959ba5d0dd09e07f45a0",
     igdb: {
       id: 3186,
       slug: 'street-fighter-ii',
@@ -94,8 +94,8 @@ const games = [
     coverUrl: 'https://images.igdb.com/igdb/image/upload/t_720p/co1hq8.jpg',
   },
   {
-    name: 'Halo: Combat Evolved',
-    _id: '5c9a959ba5d0dd09e07f45a1',
+    name: "Halo: Combat Evolved",
+    _id: "5c9a959ba5d0dd09e07f45a1",
     igdb: {
       id: 740,
       slug: 'halo-combat-evolved',
@@ -103,8 +103,8 @@ const games = [
     coverUrl: 'https://images.igdb.com/igdb/image/upload/t_720p/bcotwv6rapvdglcahxi3.jpg',
   },
   {
-    name: 'Superman',
-    _id: '5c9a959ba5d0dd09e07f45a2',
+    name: "Superman",
+    _id: "5c9a959ba5d0dd09e07f45a2",
     igdb: {
       id: 3005,
       slug: 'superman',
@@ -112,8 +112,8 @@ const games = [
     coverUrl: 'https://images.igdb.com/igdb/image/upload/t_720p/wej8g7hq46wb0ueyblin.jpg',
   },
   {
-    name: 'Final Fantasy VII',
-    _id: '5c9a959ba5d0dd09e07f45a3',
+    name: "Final Fantasy VII",
+    _id: "5c9a959ba5d0dd09e07f45a3",
     igdb: {
       id: 427,
       slug: 'final-fantasy-vii',
@@ -121,8 +121,8 @@ const games = [
     coverUrl: 'https://images.igdb.com/igdb/image/upload/t_720p/idzdf1alxvetz3ow2ugy.jpg',
   },
   {
-    name: 'WWF No Mercy',
-    _id: '5c9a959ba5d0dd09e07f45a4',
+    name: "WWF No Mercy",
+    _id: "5c9a959ba5d0dd09e07f45a4",
     igdb: {
       id: 3644,
       slug: 'wwf-no-mercy',
@@ -130,8 +130,8 @@ const games = [
     coverUrl: 'https://images.igdb.com/igdb/image/upload/t_720p/clajigg1q7mm9uxz14kx.jpg',
   },
   {
-    name: 'Super Smash Bros.',
-    _id: '5c9a959ba5d0dd09e07f45a5',
+    name: "Super Smash Bros.",
+    _id: "5c9a959ba5d0dd09e07f45a5",
     igdb: {
       id: 1626,
       slug: 'super-smash-bros',
@@ -139,8 +139,8 @@ const games = [
     coverUrl: 'https://images.igdb.com/igdb/image/upload/t_720p/co1hzi.jpg',
   },
   {
-    name: 'Candy Crush Saga',
-    _id: '5c9a959ba5d0dd09e07f45a6',
+    name: "Candy Crush Saga",
+    _id: "5c9a959ba5d0dd09e07f45a6",
     igdb: {
       id: 5636,
       slug: 'candy-crush-saga',
