@@ -81,11 +81,10 @@ router.get("/:id/results", async (req, res, next) => {
 
 /* ========== POST/CREATE AN ITEM ========== */
 router.post("/", (req, res, next) => {
-  const { gameOne, gameTwo, choice } = req.body;
+  const { gameOne, gameTwo, choice, userId } = req.body;
   // const userId = req.user.id;
 
-  const newHist = { gameOne, gameTwo, choice };
-
+  const newHist = { gameOne, gameTwo, choice, userId };
   /***** Never trust users - validate input **** */
   if (!gameOne || !gameTwo || !choice) {
     const err = new Error("Missing field in request body");

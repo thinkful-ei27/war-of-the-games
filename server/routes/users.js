@@ -14,6 +14,11 @@ const User = require('../models/user');
 // });
 
 /* ========== POST USERS ========== */
+
+router.get('/:id/history', (req,res, next) => {
+  
+})
+
 router.post('/', (req, res, next) => {
   const {firstName, lastName, username, password} = req.body;
   

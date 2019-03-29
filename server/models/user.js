@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   username: { type: String, required: true, unique: true, lowercase: true },
-  password: { type: String, required: true }
+  password: { type: String, required: true },
+  history: ['5c9d3d5633c0a84b319a92ee', '5c9d3d5633c0a84b319a92ee']
 });
 
 userSchema.set("toJSON", {
