@@ -57,10 +57,10 @@ router.get("/all", (req, res, next) => {
       games = results;
       const all = [];
       const gamesIds = results.map(game => {
-        return game.id;
+        return { id: game.id, name: game.name };
       });
       gamesIds.forEach(id => {
-        all.push({ id });
+        all.push(id);
       });
       all.forEach(game => {
         const totalGamesPlayed = history.filter(battle => {
@@ -72,7 +72,6 @@ router.get("/all", (req, res, next) => {
         const totalGamesWon = history.filter(battle => {
           return battle.choice.toString() === game.id;
         });
-        console.log("totalGamesWon===", totalGamesWon);
 
         game.totalGamesPlayed = totalGamesPlayed.length;
         game.totalGamesWon = totalGamesWon.length;

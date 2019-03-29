@@ -11,6 +11,7 @@ import RegistrationPage from "./registration-page";
 import { refreshAuthToken } from "../actions/auth";
 import GameInfo from "./GameInfo";
 import Games from "./Games";
+import Stats from "./Stats";
 
 export class App extends React.Component {
   componentDidUpdate(prevProps) {
@@ -53,6 +54,7 @@ export class App extends React.Component {
           <Route path="/about" component={AboutPage} />
           <Route path="/login" component={LoginForm} />
           <Route path="/register" component={RegistrationPage} />
+          <Route path="/stats" component={Stats} />
           <Route exact path="/games" component={Games} />
           <Route path="/games/:gameSlug" component={GameInfo} />
           <Route component={Page404} />
