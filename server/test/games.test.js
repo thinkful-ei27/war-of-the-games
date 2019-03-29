@@ -465,21 +465,16 @@ describe("ASYNC Capstone API - Games", function() {
             "similar_games"
           );
           expect(res.body.id).to.equal(game.id);
-          expect(new Date(res.body.createdAt)).to.eql(data.createdAt);
+          expect(new Date(res.body.createdAt)).to.eql(game.createdAt);
           // expect game to have been updated
-          expect(new Date(res.body.updatedAt)).to.greaterThan(data.updatedAt);
-
-          //TODO: Finish this test
-          expect(res.body.coverUrl).to.equal(data.coverUrl);
-          expect(data.igdb.id).to.equal(newGame.igdbId);
-          expect(data.igdb.slug).to.equal(res.body.igdb.slug);
-          expect(data.summary).to.equal(res.body.summary);
-          expect(data.genres).to.be.an("array");
-          expect(data.genres.length).to.not.equal(0);
-          expect(data.platforms).to.be.an("array");
-          expect(data.platforms.length).to.not.equal(0);
-          expect(data.similar_games).to.be.an("array");
-          expect(data.similar_games.length).to.not.equal(0);
+          expect(new Date(res.body.updatedAt)).to.greaterThan(game.updatedAt);
+          expect(res.body.summary).to.be.a("string");
+          expect(res.body.genres).to.be.an("array");
+          expect(res.body.genres.length).to.not.equal(0);
+          expect(res.body.platforms).to.be.an("array");
+          expect(res.body.platforms.length).to.not.equal(0);
+          expect(res.body.similar_games).to.be.an("array");
+          expect(res.body.similar_games.length).to.not.equal(0);
         });
     });
 

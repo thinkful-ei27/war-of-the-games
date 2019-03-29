@@ -130,4 +130,39 @@ router.post("/", (req, res, next) => {
     });
 });
 
+router.put("/:id", (req, res, next) => {
+  const { id } = req.params;
+  const { igdbId } = req.body;
+
+  return igdbApi
+    .getGame(igdbId)
+    .then(res => {
+      const {
+        name,
+        cover,
+        slug,
+        summary,
+        genres,
+        platforms,
+        similar_games
+      } = res;
+      const { image_id } = cover;
+      const toUpdate = {
+        igdb: {
+          id: igdbId,
+          slug
+        },
+        name,
+        coverUrl: `https://images.igdb.com/igdb/image/upload/t_720p/${image_id}.jpg`,
+        summary,
+        genres,
+        platforms,
+        similar_games
+      };
+      return Game.findOneAndUpdate({ _id: id }, toUpdate, { new: true });
+    })
+    .then(game => res.json(game))
+    .catch(err => next(err));
+});
+
 module.exports = router;
