@@ -468,6 +468,8 @@ describe("ASYNC Capstone API - Games", function() {
           expect(new Date(res.body.createdAt)).to.eql(data.createdAt);
           // expect game to have been updated
           expect(new Date(res.body.updatedAt)).to.greaterThan(data.updatedAt);
+
+          //TODO: Finish this test
           expect(res.body.coverUrl).to.equal(data.coverUrl);
           expect(data.igdb.id).to.equal(newGame.igdbId);
           expect(data.igdb.slug).to.equal(res.body.igdb.slug);
