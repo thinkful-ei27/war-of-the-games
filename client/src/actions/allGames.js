@@ -33,7 +33,6 @@ export const fetchAllGames = () => dispatch => {
       dispatch(fetchGamesSuccess(response.data));
     })
     .catch(err => {
-      console.error(err);
       dispatch(fetchGamesError(err));
     });
 };
@@ -81,16 +80,17 @@ export const fetchCurrentGame = slug => dispatch => {
     method: "GET"
   })
     .then(response => {
-      dispatch(fetchCurrentGameSuccess(response.data[0]));
-      return response.data[0];
+      const { id } = response.data[0];
+      dispatch(fetchCurrentFeedback(id));
+      return axios({
+        url: `${API_BASE_URL}/games/${id}`,
+        method: "GET"
+      });
     })
     .then(gameData => {
-      console.log(gameData);
-      const { id } = gameData;
-      dispatch(fetchCurrentFeedback(id));
+      dispatch(fetchCurrentGameSuccess(gameData));
     })
     .catch(err => {
-      console.error(err);
       dispatch(fetchCurrentGameError(err));
     });
 };

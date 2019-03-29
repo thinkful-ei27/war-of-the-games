@@ -1,5 +1,4 @@
-"use strict";
-
+// "use strict";
 const express = require("express");
 const mongoose = require("mongoose");
 const {
@@ -20,9 +19,9 @@ const missingChoice = (req, res, next) => {
     const err = new Error("Missing `choice` in request body");
     err.status = 400;
     return next(err);
-  } else {
+  } 
     next();
-  }
+  
 };
 
 const router = express.Router();
@@ -87,7 +86,7 @@ router.post("/", (req, res, next) => {
 
   const newHist = { gameOne, gameTwo, choice };
 
-  /***** Never trust users - validate input *****/
+  /***** Never trust users - validate input **** */
   if (!gameOne || !gameTwo || !choice) {
     const err = new Error("Missing field in request body");
     err.status = 400;
@@ -139,7 +138,7 @@ router.put("/:id", isValidId, missingChoice, (req, res, next) => {
         return next(err);
       }
 
-      return;
+      
     })
     .then(() => {
       return History.findOneAndUpdate({ _id: id }, updateChoice, { new: true });
