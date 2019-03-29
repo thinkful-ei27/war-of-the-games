@@ -1,4 +1,4 @@
-const History = require('../models/history');
+const History = require("../models/history");
 
 const totalGamesPlayed = id =>
   History.find({
@@ -12,13 +12,13 @@ const gamesWon = async id => {
 };
 
 const gameName = async id => {
-  const choice = await History.find({ choice: id }).populate('choice');
+  const choice = await History.find({ choice: id }).populate("choice");
 
   return choice.map(game => game.choice.name);
 };
 
 const gamePic = async id => {
-  const picture = await History.find({ choice: id }).populate('choice');
+  const picture = await History.find({ choice: id }).populate("choice");
   return picture[0].choice.coverUrl;
 };
 
