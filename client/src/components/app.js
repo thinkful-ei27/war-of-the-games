@@ -9,14 +9,11 @@ import Page404 from "./404";
 import AboutPage from "./about";
 import ConnectedRegistrationPage from "./registration-page";
 import { refreshAuthToken } from "../actions/auth";
-<<<<<<< HEAD
 import GameInfo from "./GameInfo";
 import Games from "./Games";
 import Stats from "./Stats";
-=======
 import ConnectedGameInfo from "./GameInfo";
 import ConnectedGames from "./Games";
->>>>>>> dev
 
 export class App extends React.Component {
   componentDidUpdate(prevProps) {
