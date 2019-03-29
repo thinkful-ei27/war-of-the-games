@@ -38,7 +38,14 @@ const igdbIdRequired = (req, res, next) => {
 };
 
 router.get("/", (req, res, next) => {
-  Game.find()
+  const { slug } = req.query;
+  const filter = {};
+
+  if (slug) {
+    filter["igdb.slug"] = slug;
+  }
+
+  Game.find(filter)
     .sort({ name: "asc" })
     .then(results => res.json(results))
     .catch(err => next(err));

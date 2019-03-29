@@ -10,7 +10,7 @@ export default class Loading extends Component {
   }
 
   componentDidMount() {
-    this.intervalId = setInterval(() => this.fillBar(), 25);
+    this.intervalId = setInterval(() => this.fillBar(), 20);
   }
 
   componentWillUnmount() {
@@ -22,9 +22,9 @@ export default class Loading extends Component {
     if (progress >= 100) {
       this.setState({ progress: 0 });
     } else {
-      this.setState({
-        progress: progress + 5
-      });
+      this.setState(prevState => ({
+        progress: prevState.progress + 5
+      }));
     }
   }
 

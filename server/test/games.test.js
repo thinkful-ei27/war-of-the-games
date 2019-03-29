@@ -109,6 +109,35 @@ describe("ASYNC Capstone API - Games", function() {
       });
     });
 
+    it("should return correct search results for a slug query", function() {
+      const slug = "super-mario-64";
+
+      const dbPromise = Game.find({ "igdb.slug": slug }).sort({ name: "asc" });
+      const apiPromise = chai.request(app).get(`/api/games?slug=${slug}`);
+
+      return Promise.all([dbPromise, apiPromise]).then(([data, res]) => {
+        expect(res).to.have.status(200);
+        expect(res).to.be.json;
+        expect(res.body).to.be.an("array");
+        expect(res.body.length).to.equal(data.length);
+        res.body.forEach((game, i) => {
+          expect(game).to.be.an("object");
+          expect(game).to.include.all.keys(
+            "id",
+            "name",
+            "igdb",
+            "coverUrl",
+            "createdAt",
+            "updatedAt"
+          );
+          expect(game.id).to.equal(data[i].id);
+          expect(game.name).to.equal(data[i].name);
+          expect(new Date(game.createdAt)).to.eql(data[i].createdAt);
+          expect(new Date(game.updatedAt)).to.eql(data[i].updatedAt);
+        });
+      });
+    });
+
     it("should catch errors and respond properly", function() {
       sandbox.stub(Game.schema.options.toJSON, "transform").throws("FakeError");
 
