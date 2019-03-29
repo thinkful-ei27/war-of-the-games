@@ -426,4 +426,71 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
   });
+
+  describe("PUT /api/games/:id", function() {
+    it("should update the game when provided a valid igdbId", function() {
+      let game;
+      return Game.findById("5c9a959ba5d0dd09e07f45a8")
+        .then(_game => {
+          game = _game;
+          expect(game).to.not.have.keys(
+            "summary",
+            "genres",
+            "platforms",
+            "similar_games"
+          );
+          const updateItem = {
+            igdbId: game.igdb.id
+          };
+          return chai
+            .request(app)
+            .put(`/api/games/${game.id}`)
+            .set("Authorization", `Bearer ${token}`)
+            .send(updateItem);
+        })
+        .then(function(res) {
+          expect(res).to.have.status(200);
+          expect(res).to.be.json;
+          expect(res.body).to.be.an("object");
+          expect(res.body).to.have.all.keys(
+            "id",
+            "name",
+            "createdAt",
+            "updatedAt",
+            "igdb",
+            "coverUrl",
+            "summary",
+            "genres",
+            "platforms",
+            "similar_games"
+          );
+          expect(res.body.id).to.equal(game.id);
+          expect(new Date(res.body.createdAt)).to.eql(data.createdAt);
+          // expect game to have been updated
+          expect(new Date(res.body.updatedAt)).to.greaterThan(data.updatedAt);
+          expect(res.body.coverUrl).to.equal(data.coverUrl);
+          expect(data.igdb.id).to.equal(newGame.igdbId);
+          expect(data.igdb.slug).to.equal(res.body.igdb.slug);
+          expect(data.summary).to.equal(res.body.summary);
+          expect(data.genres).to.be.an("array");
+          expect(data.genres.length).to.not.equal(0);
+          expect(data.platforms).to.be.an("array");
+          expect(data.platforms.length).to.not.equal(0);
+          expect(data.similar_games).to.be.an("array");
+          expect(data.similar_games.length).to.not.equal(0);
+        });
+    });
+
+    it(
+      "should respond with status 400 and an error message when id is not valid"
+    );
+
+    it("should respond with a 404 for an id that does not exist");
+
+    it("should return an error when missing igdbId field");
+
+    it("should return an error when igdbId is not a number");
+
+    it("should catch errors and respond properly");
+  });
 });
