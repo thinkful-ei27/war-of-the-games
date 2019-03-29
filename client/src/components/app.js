@@ -56,10 +56,10 @@ export class App extends React.Component {
           <Route path="/dashboard" component={ConnectedDashboard} />
           <Route path="/about" component={AboutPage} />
           <Route path="/login" component={LoginForm} />
-          <Route path="/register" component={RegistrationPage} />
+          <Route path="/register" component={ConnectedRegistrationPage} />
           <Route path="/stats" component={Stats} />
-          <Route exact path="/games" component={Games} />
-          <Route path="/games/:gameSlug" component={GameInfo} />
+          <Route exact path="/games" component={ConnectedGames} />
+          <Route path="/games/:gameSlug" component={ConnectedGameInfo} />
           <Route component={Page404} />
         </Switch>
       </div>
