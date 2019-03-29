@@ -4,18 +4,18 @@ import { Route, withRouter, Switch, Redirect } from "react-router-dom";
 import LoginForm from "./login-form";
 import HeaderBar from "./header-bar";
 import LandingPage from "./landing-page";
-import Dashboard from "./dashboard";
 import Page404 from './404';
 import AboutPage from './about';
 import RegistrationPage from "./registration-page";
 import { refreshAuthToken } from "../actions/auth";
 import GameInfo from "./GameInfo";
 import Games from "./Games";
+import { ProfilePage } from "./ProfilePage";
 
 export class App extends React.Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.loggedIn && this.props.loggedIn) {
-      // When we are logged in, refresh the auth token periodically
+      // When we are logged in, refresh the agit suth token periodically
       this.startPeriodicRefresh();
     } else if (prevProps.loggedIn && !this.props.loggedIn) {
       // Stop refreshing when we log out
@@ -48,7 +48,7 @@ export class App extends React.Component {
         <HeaderBar />
         <Switch>
           <Route exact path="/" component={LandingPage} />
-          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/profile" component={ProfilePage} />
           <Route path="/about" component={AboutPage} />
           <Route path="/login" component={LoginForm} />
           <Route path="/register" component={RegistrationPage} />

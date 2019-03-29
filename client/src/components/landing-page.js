@@ -6,13 +6,19 @@ import VoteStats from "./vote-stats";
 import "./styles/landing-page.css";
 import { SignupPrompt } from "./signupPrompt";
 import "./styles/card.css";
-import { fetchGames, fetchFeedback } from "../actions/gameActions";
+import { fetchGames, fetchFeedback, handleVote } from "../actions/gameActions";
 import { loadVoteCount, setVoteLocalStorageVariable } from "../local-storage";
 
 export class LandingPage extends React.Component {
   componentDidMount() {
+    const { loggedIn, nonUserVotes, dispatch } = this.props;
+    if (loggedIn && nonUserVotes.length) {
+      nonUserVotes.forEach(obj => {
+        let values = Object.values(obj)
+        dispatch(handleVote(values[0], values[1], values[2]))
+      });
+    }
     setVoteLocalStorageVariable();
-    const { dispatch } = this.props;
     dispatch(fetchGames());
   }
 
@@ -58,7 +64,8 @@ const mapStateToProps = state => ({
   loggedIn: state.auth.currentUser !== null,
   games: state.games.battleGames,
   feedback: state.games.feedback,
-  count: state.games.sessionVoteCount
+  count: state.games.sessionVoteCount,
+  nonUserVotes: state.games.nonUserVotes
 });
 
 export default connect(mapStateToProps)(LandingPage);

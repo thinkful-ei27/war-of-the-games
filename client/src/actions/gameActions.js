@@ -49,21 +49,25 @@ export const handleVote = (gameOne, gameTwo, choice) => (
   dispatch,
   getState
 ) => {
+  const authToken = getState().auth.authToken;
   axios
     .post(`${API_BASE_URL}/history`, {
       gameOne,
       gameTwo,
-      choice
+      choice,
+      headers: {
+        Authorization: `Bearer ${authToken}`
+      }
     })
-    .then(function(response) {
+    .then(function (response) {
       console.log(response);
     })
-    .catch(function(error) {
+    .catch(function (error) {
       console.log(error);
     });
 };
 
-export const fetchFeedback = game => dispatch => {
+export const fetchFeedback = game => (dispatch, getState) => {
   axios
     .get(`${API_BASE_URL}/history/${game}/results`)
     .then(response => dispatch(fetchFeedbackSuccess(response.data)))
@@ -72,3 +76,16 @@ export const fetchFeedback = game => dispatch => {
       dispatch(fetchFeedbackError(message));
     });
 };
+
+export const SET_NON_USER_VOTES = "SET_NON_USER_VOTES"
+
+export const CLEAR_NON_USER_VOTES = 'CLEAR_NON_USER_VOTES'
+
+export const clearNonUserVotes = () => ({
+  type: CLEAR_NON_USER_VOTES
+});
+
+export const setNonUserVotes = (gameOne, gameTwo, choice) => ({
+  type: SET_NON_USER_VOTES,
+  vote: { gameOne, gameTwo, choice }
+});

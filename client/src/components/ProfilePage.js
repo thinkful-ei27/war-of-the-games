@@ -10,7 +10,6 @@ export class ProfilePage extends React.Component {
 
   render() {
     const { username, history, name } = this.props;
-    console.log(this.props);
     return (
       <div className="dashboard">
         <div className="nes-container with-title profile-info-container">
