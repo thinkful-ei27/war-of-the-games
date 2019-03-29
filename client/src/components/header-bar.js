@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { clearAuth } from '../actions/auth';
-import { clearAuthToken } from '../local-storage';
+// import { Link } from 'react-router-dom';
+// import { clearAuth } from '../actions/auth';
+// import { clearAuthToken } from '../local-storage';
 import Menu from './Menu';
 import './styles/header.css';
 

@@ -1,12 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Route, withRouter, Switch, Redirect } from "react-router-dom";
+import { Route, withRouter, Switch } from "react-router-dom";
 import LoginForm from "./login-form";
 import HeaderBar from "./header-bar";
 import LandingPage from "./landing-page";
 import Dashboard from "./dashboard";
-import Page404 from './404';
-import AboutPage from './about';
+import Page404 from "./404";
+import AboutPage from "./about";
 import RegistrationPage from "./registration-page";
 import { refreshAuthToken } from "../actions/auth";
 import GameInfo from "./GameInfo";
@@ -14,10 +14,11 @@ import Games from "./Games";
 
 export class App extends React.Component {
   componentDidUpdate(prevProps) {
-    if (!prevProps.loggedIn && this.props.loggedIn) {
+    const { loggedIn } = this.props;
+    if (!prevProps.loggedIn && loggedIn) {
       // When we are logged in, refresh the auth token periodically
       this.startPeriodicRefresh();
-    } else if (prevProps.loggedIn && !this.props.loggedIn) {
+    } else if (prevProps.loggedIn && !loggedIn) {
       // Stop refreshing when we log out
       this.stopPeriodicRefresh();
     }

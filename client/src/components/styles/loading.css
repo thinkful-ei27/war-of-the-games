@@ -1,0 +1,14 @@
+.nes-progress.lg {
+  height: 35px;
+  width: 500px;
+}
+
+.nes-progress.md {
+  height: 30px;
+  width: 250px;
+}
+
+.nes-progress.sm {
+  height: 20px;
+  width: 125px;
+}
