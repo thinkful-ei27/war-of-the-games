@@ -255,7 +255,8 @@ describe('ASYNC Capstone API - History)', function() {
       const newItem = {
         gameOne: '5c9bbb7800c67230ce67a5bf',
         gameTwo: '5c9bc34d00c67230ce67a5c0',
-        choice: '5c9bc34d00c67230ce67a5c0'
+        choice: '5c9bc34d00c67230ce67a5c0',
+        userId: '333333333333333333333300'
       };
       return chai
         .request(app)
