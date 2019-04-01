@@ -9,6 +9,7 @@ const {
 } = require("../utils/queries");
 
 const History = require("../models/history");
+const User = require('../models/user')
 
 const Game = require("../models/game");
 
@@ -145,20 +146,38 @@ router.post("/", (req, res, next) => {
     return next(err);
   }
 
-  History.create(newHist)
+  let user;
+  let responseHistory
+  User.findOne({_id: userId})
     .then(result => {
-      res
-        .location(`${req.originalUrl}/${result.id}`)
-        .status(201)
-        .json(result);
+      user = result 
     })
-    .catch(err => {
-      // if (err.code === 11000) {
-      //   err = new Error('Choice already exists');
-      //   err.status = 400;
-      // }
-      next(err);
-    });
+    .then(() => {
+      History.create(newHist)
+      .then(User.findOne({_id: userId}))
+      .then(history => {
+        responseHistory = history
+        user.history.push(history._id)
+        return user.save()
+      } )
+      .then((result) => {
+        console.log(result)
+        res
+          .location(`${req.originalUrl}/${result.id}`)
+          .status(201)
+          .json(responseHistory);
+      })
+      .catch(err => {
+        console.log(err)
+        // if (err.code === 11000) {
+        //   err = new Error('Choice already exists');
+        //   err.status = 400;
+        // }
+        next(err);
+      });
+    })
+
+
 });
 
 /* ========== PUT/UPDATE AN ITEM ========== */
