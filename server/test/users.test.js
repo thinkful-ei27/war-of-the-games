@@ -6,25 +6,25 @@ const User = require("../models/user");
 
 const expect = chai.expect;
 
-describe("ASYNC Capstone API - Users", function() {
+describe("ASYNC Capstone API - Users", function () {
   const username = "exampleUser";
   const password = "examplePass";
   const firstName = "Example";
   const lastName = "User";
 
-  before(function() {
+  before(function () {
     return dbConnect(TEST_DATABASE_URL);
   });
 
-  beforeEach(() => {});
+  beforeEach(() => { });
   afterEach(() => dbDrop());
 
-  after(function() {
+  after(function () {
     return dbDisconnect();
   });
 
-  describe("POST /api/users", function() {
-    it("should create a new user with lowercase username", function() {
+  describe("POST /api/users", function () {
+    it("should create a new user with lowercase username", function () {
       let res;
       return chai
         .request(app)
@@ -38,7 +38,8 @@ describe("ASYNC Capstone API - Users", function() {
             "id",
             "username",
             "firstName",
-            "lastName"
+            "lastName",
+            "history"
           );
           expect(res.body.id).to.exist;
           expect(res.body.username).to.equal(username.toLowerCase());

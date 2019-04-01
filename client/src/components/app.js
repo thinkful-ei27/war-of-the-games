@@ -4,13 +4,18 @@ import { Route, withRouter, Switch } from "react-router-dom";
 import LoginForm from "./login-form";
 import HeaderBar from "./header-bar";
 import LandingPage from "./landing-page";
+import ConnectedHeaderBar from "./header-bar";
+import ConnectedLandingPage from "./landing-page";
+import ConnectedDashboard from "./dashboard";
 import Page404 from "./404";
 import AboutPage from "./about";
-import RegistrationPage from "./registration-page";
+import ConnectedRegistrationPage from "./registration-page";
 import { refreshAuthToken } from "../actions/auth";
 import GameInfo from "./GameInfo";
 import Games from "./Games";
 import ProfilePage from "./ProfilePage";
+import ConnectedGameInfo from "./GameInfo";
+import ConnectedGames from "./Games";
 
 export class App extends React.Component {
   componentDidUpdate(prevProps) {
@@ -29,8 +34,9 @@ export class App extends React.Component {
   }
 
   startPeriodicRefresh() {
+    const { dispatch } = this.props;
     this.refreshInterval = setInterval(
-      () => this.props.dispatch(refreshAuthToken()),
+      () => dispatch(refreshAuthToken()),
       60 * 60 * 1000 // One hour
     );
   }
@@ -46,15 +52,16 @@ export class App extends React.Component {
   render() {
     return (
       <div className="app">
-        <HeaderBar />
+        <ConnectedHeaderBar />
         <Switch>
-          <Route exact path="/" component={LandingPage} />
+          <Route exact path="/" component={ConnectedLandingPage} />
+          <Route path="/dashboard" component={ConnectedDashboard} />
           <Route path="/profile" component={ProfilePage} />
           <Route path="/about" component={AboutPage} />
           <Route path="/login" component={LoginForm} />
-          <Route path="/register" component={RegistrationPage} />
-          <Route exact path="/games" component={Games} />
-          <Route path="/games/:gameSlug" component={GameInfo} />
+          <Route path="/register" component={ConnectedRegistrationPage} />
+          <Route exact path="/games" component={ConnectedGames} />
+          <Route path="/games/:gameSlug" component={ConnectedGameInfo} />
           <Route component={Page404} />
         </Switch>
       </div>

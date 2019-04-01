@@ -10,6 +10,8 @@ const {
 
 const History = require("../models/history");
 
+const Game = require("../models/game");
+
 const { isValidId } = require("./validators");
 
 const missingChoice = (req, res, next) => {
@@ -19,9 +21,8 @@ const missingChoice = (req, res, next) => {
     const err = new Error("Missing `choice` in request body");
     err.status = 400;
     return next(err);
-  } 
-    next();
-  
+  }
+  next();
 };
 
 const router = express.Router();
@@ -42,6 +43,46 @@ router.get("/", (req, res, next) => {
     .catch(err => {
       next(err);
     });
+});
+
+router.get("/all", (req, res, next) => {
+  let games;
+  let history;
+  History.find()
+    .then(results => {
+      history = results;
+      return Game.find();
+    })
+    .then(results => {
+      games = results;
+      const all = [];
+      const gamesIds = results.map(game => {
+        return game.id;
+      });
+      gamesIds.forEach(id => {
+        all.push({ id });
+      });
+      all.forEach(game => {
+        const totalGamesPlayed = history.filter(battle => {
+          return (
+            battle.gameOne.toString() === game.id ||
+            battle.gameTwo.toString() === game.id
+          );
+        });
+        const totalGamesWon = history.filter(battle => {
+          return battle.choice.toString() === game.id;
+        });
+        console.log("totalGamesWon===", totalGamesWon);
+
+        game.totalGamesPlayed = totalGamesPlayed.length;
+        game.totalGamesWon = totalGamesWon.length;
+        game.percentage = (game.totalGamesWon / game.totalGamesPlayed).toFixed(
+          2
+        );
+      });
+      res.json(all);
+    })
+    .catch(err => next(err));
 });
 
 /* ========== GET/READ ONE ITEM ========== */
@@ -85,7 +126,8 @@ router.post("/", (req, res, next) => {
   // const userId = req.user.id;
 
   const newHist = { gameOne, gameTwo, choice, userId };
-  /***** Never trust users - validate input **** */
+
+  /** *** Never trust users - validate input **** */
   if (!gameOne || !gameTwo || !choice) {
     const err = new Error("Missing field in request body");
     err.status = 400;
@@ -129,15 +171,13 @@ router.put("/:id", isValidId, missingChoice, (req, res, next) => {
   History.findOne({ _id: id })
     .then(games => {
       if (!games) next();
-      let { gameOne, gameTwo } = games;
+      const { gameOne, gameTwo } = games;
 
       if (choice !== gameOne.toString() && choice !== gameTwo.toString()) {
         const err = new Error("Choice does not equal game one or game two");
         err.status = 400;
         return next(err);
       }
-
-      
     })
     .then(() => {
       return History.findOneAndUpdate({ _id: id }, updateChoice, { new: true });

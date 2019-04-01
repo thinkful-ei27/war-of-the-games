@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchAllGames } from "../actions/allGames";
-import Game from "./Game";
+import ConnectedGame from "./Game";
 import "./styles/gameInfo.css";
-import { GameInfo } from "./GameInfo";
 
 export class Games extends Component {
   componentDidMount() {
-    this.props.dispatch(fetchAllGames());
+    const { dispatch } = this.props;
+    dispatch(fetchAllGames());
   }
 
   render() {
@@ -25,7 +25,7 @@ export class Games extends Component {
           // coverUrl,
           slug
         };
-        return <Game {...props} />;
+        return <ConnectedGame key={id} {...props} />;
       });
     }
     return (
