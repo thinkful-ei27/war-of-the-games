@@ -76,7 +76,7 @@ class LoginForm extends React.Component {
 
 const connectMapStateToProps = state => ({
   loggedIn: state.auth.currentUser !== null,
-  loading: state.auth.loading
+  loading: state.auth.loading || 'd'
 });
 
 LoginForm = connect(connectMapStateToProps)(LoginForm);

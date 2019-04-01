@@ -10,7 +10,7 @@ export default class Loading extends Component {
   }
 
   componentDidMount() {
-    this.intervalId = setInterval(() => this.fillBar(), 20);
+    this.intervalId = setInterval(() => this.fillBar(), 25);
   }
 
   componentWillUnmount() {
@@ -23,7 +23,7 @@ export default class Loading extends Component {
       this.setState({ progress: 0 });
     } else {
       this.setState(prevState => ({
-        progress: prevState.progress + 5
+        progress: prevState.progress + 3
       }));
     }
   }
@@ -32,8 +32,8 @@ export default class Loading extends Component {
     const { progress } = this.state;
     const { size } = this.props;
     return (
-      <div>
-        <p>Loading...</p>
+      <div className="loading-container">
+        <p className="loading-txt">Loading...</p>
         <progress
           className={`nes-progress ${size}`}
           value={progress}
