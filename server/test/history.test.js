@@ -105,7 +105,8 @@ describe("ASYNC Capstone API - History)", function() {
             "gameTwo",
             "updatedAt",
             "createdAt",
-            "choice"
+            "choice",
+            "userId"
           );
           expect(res.body.id).to.equal(data.id);
           expect(res.body.name).to.equal(data.name);
@@ -186,11 +187,12 @@ describe("ASYNC Capstone API - History)", function() {
   });
 
   describe("POST /api/history/", function() {
-    it("should create and return a new item when provided valid data", function() {
+    it.only("should create and return a new item when provided valid data", function() {
       const newItem = {
         gameOne: "5c9a959ba5d0dd09e07f45a4",
         gameTwo: "5c9a959ba5d0dd09e07f45a3",
-        choice: "5c9a959ba5d0dd09e07f45a3"
+        choice: "5c9a959ba5d0dd09e07f45a3",
+        userId: "5c9e82d77bedd8632f8fba5f"
       };
       let body;
       return chai
@@ -210,7 +212,8 @@ describe("ASYNC Capstone API - History)", function() {
             "gameTwo",
             "updatedAt",
             "createdAt",
-            "choice"
+            "choice",
+            "userId"
           );
           return History.findOne({ _id: body.id });
         })
@@ -289,7 +292,8 @@ describe("ASYNC Capstone API - History)", function() {
             "gameTwo",
             "updatedAt",
             "createdAt",
-            "choice"
+            "choice",
+            "userId"
           );
           expect(res.body.id).to.equal(data.id);
           expect(new Date(res.body.createdAt)).to.eql(data.createdAt);
