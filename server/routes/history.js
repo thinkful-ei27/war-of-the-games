@@ -106,6 +106,8 @@ router.get("/:id/results", async (req, res, next) => {
     const [name] = await gameName(id);
     const coverUrl = await gamePic(id);
 
+    console.log("cover url is ", coverUrl);
+
     res.json({
       percentage: Number(percentage.toFixed(2)),
       wonGames,
@@ -114,6 +116,7 @@ router.get("/:id/results", async (req, res, next) => {
       coverUrl
     });
   } catch (e) {
+    console.log(e);
     const err = new Error("No history available yet for that game");
     err.status = 404;
     return next(err);
