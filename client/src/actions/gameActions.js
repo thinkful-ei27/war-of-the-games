@@ -48,12 +48,17 @@ export const fetchGames = () => dispatch => {
 
 export const HANDLE_VOTE = "HANDLE_VOTE";
 
-export const handleVote = (gameOne, gameTwo, choice) => () => {
+export const handleVote = (gameOne, gameTwo, choice, userId) => (
+  dispatch,
+  getState
+) => {
+  const authToken = getState().auth.authToken;
   axios
     .post(`${API_BASE_URL}/history`, {
       gameOne,
       gameTwo,
       choice,
+      userId,
       headers: {
         Authorization: `Bearer ${authToken}`
       }
