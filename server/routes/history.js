@@ -8,6 +8,8 @@ const {
   gamePic
 } = require("../utils/queries");
 
+const queries = require("../utils/scratch");
+
 const History = require("../models/history");
 
 const Game = require("../models/game");
