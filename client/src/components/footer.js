@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="footer">
       <p className="footer-content">
         &#169; 2019 - <span>*AYSNC</span> -
-        <a href="www.github.com">Learn more about the creators</a>
+        <a className="learn-more-link" href="github.com">Learn more about the creators</a>
       </p>
     </footer>
   );
