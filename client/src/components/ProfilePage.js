@@ -8,12 +8,12 @@ export class ProfilePage extends React.Component {
   componentDidMount() {
     const { userId, dispatch } = this.props;
     console.log(userId);
-    return dispatch(getUser(userId)).then(user => console.log(user));
+    return dispatch(getUser(userId)).then(user => user);
   }
 
   render() {
-    console.log(this.props);
     const { username, history, name } = this.props;
+    console.log(history);
     return (
       <div className="dashboard">
         <div className="nes-container with-title profile-info-container">
@@ -46,12 +46,12 @@ export class ProfilePage extends React.Component {
 
 const mapStateToProps = state => {
   const { currentUser } = state.auth;
-  console.log(currentUser);
+
   return {
-    userId: state.auth.currentUser.id,
+    userId: currentUser.id,
     username: state.auth.currentUser.username,
     name: `${currentUser.firstName} ${currentUser.lastName}`,
-    history: state.auth.currentUser.history
+    history: state.user.history
   };
 };
 
