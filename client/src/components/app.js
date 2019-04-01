@@ -56,6 +56,7 @@ export class App extends React.Component {
         <Switch>
           <Route exact path="/" component={ConnectedLandingPage} />
           <Route path="/dashboard" component={ConnectedDashboard} />
+          <Route path="/profile" component={ProfilePage} />
           <Route path="/about" component={AboutPage} />
           <Route path="/login" component={LoginForm} />
           <Route path="/register" component={ConnectedRegistrationPage} />
