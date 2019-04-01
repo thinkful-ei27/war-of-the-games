@@ -3,6 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import Battle from "./battle";
 import VoteStats from "./vote-stats";
+import { UserOnboard } from './userOnboard';
 import "./styles/landing-page.css";
 import { SignupPrompt } from "./signupPrompt";
 import "./styles/card.css";
@@ -25,9 +26,12 @@ export class LandingPage extends React.Component {
     const { games, loggedIn, feedback } = this.props;
     let content;
     const count = parseInt(loadVoteCount(), 10);
-    if (count >= 5 && !loggedIn) {
+    if (count <= 10 && !loggedIn) {
+      content = <UserOnboard />;
+    } else if (count > 10 && !loggedIn) {
       content = <SignupPrompt />;
-    } else if (games.length && feedback) {
+    }
+    else if (games.length && feedback) {
       content = (
         <div className="battle-vote">
           <Battle
