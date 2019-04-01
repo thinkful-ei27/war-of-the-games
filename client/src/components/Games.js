@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Field, reduxForm, formValueSelector } from 'redux-form';
+import { Field, reduxForm, formValueSelector } from "redux-form";
 import { connect } from "react-redux";
 import { fetchAllGames } from "../actions/allGames";
 import ConnectedGame from "./Game";
@@ -30,21 +30,29 @@ export class Games extends Component {
       });
     }
     return (
-      <section className='game-container mx-auto'>
+      <section className="game-container mx-auto">
         <div>
-        <h1>
-          <i className="nes-icon coin"></i>
-          Games
-          <i className="nes-icon coin"></i>
-        </h1>
+          <h1>
+            <i className="nes-logo" />
+            <i className="nes-jp-logo" />
+            <i className="snes-logo" />
+            <i className="snes-jp-logo" />
+            Games
+            <i className="nes-icon coin" />
+          </h1>
         </div>
-        <div class="nes-field mt-16">
-          <label for="search"></label>
-          <input type="text" id="search" class="nes-input" placeholder='Search hundreds of games in our database!'/>
+        <div className="nes-field mt-16">
+          <label htmlFor="search" />
+          <input
+            type="text"
+            id="search"
+            className="nes-input"
+            placeholder="Search hundreds of games in our database!"
+          />
         </div>
-      <div className="flex justify-start content-start flex-wrap mt-16">
-        {allGames}
-      </div>
+        <div className="flex justify-start content-start flex-wrap mt-16">
+          {allGames}
+        </div>
       </section>
     );
   }
