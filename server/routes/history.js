@@ -141,7 +141,8 @@ router.post('/', (req, res, next) => {
   const validate =
     mongoose.Types.ObjectId.isValid(gameOne) &&
     mongoose.Types.ObjectId.isValid(gameTwo) &&
-    mongoose.Types.ObjectId.isValid(choice);
+    mongoose.Types.ObjectId.isValid(choice) &&
+    mongoose.Types.ObjectId.isValid(userId);
   if (!validate) {
     const err = new Error('The `id` is not valid');
     err.status = 400;
