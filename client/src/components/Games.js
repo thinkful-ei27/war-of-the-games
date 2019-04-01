@@ -5,6 +5,12 @@ import { fetchAllGames } from '../actions/allGames';
 import ConnectedGame from './Game';
 import './styles/gameInfo.css';
 
+const normalize = (value, compare) => {
+  const v = value.toLowerCase().trim();
+  const c = compare.toLowerCase().trim();
+  return c.includes(v);
+};
+
 export class Games extends Component {
   state = {
     loading: false,
@@ -41,7 +47,9 @@ export class Games extends Component {
           return <ConnectedGame key={id} {...props} />;
         })
         .filter(game => {
-          return game.props.name.toLowerCase().includes(this.state.value);
+          const { name } = game.props;
+          const { value } = this.state;
+          return normalize(value, name);
         });
     }
 
