@@ -25,7 +25,6 @@ export function Card(props) {
   let handleVoteClick;
   //  if NOT logged in handleVoteclick = add choice object to array in reducer, get new games
   if (loggedIn) {
-    console.log('HELLLLLOOO', userId);
     handleVoteClick = () => {
       dispatch(handleVote(games[0].id, games[1].id, id, userId));
       dispatch(fetchGames());

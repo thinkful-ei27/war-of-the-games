@@ -21,7 +21,8 @@ export default function reducer(state = initialState, action) {
     case GET_USER_SUCCESS:
       return {
         ...state,
-        history: [...state.history, action.history]
+        history: [...action.history],
+        loading: false
       };
     case GET_USER_ERROR:
       return {
