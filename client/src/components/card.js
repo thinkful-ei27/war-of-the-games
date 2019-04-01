@@ -14,12 +14,17 @@ export function Card(props) {
     incrementVoteCount();
     dispatch(clearGames());
   }
-  let slug = "/games/" + name.toLowerCase().replace(/[^A-Z0-9]+/ig, "-");
+  let gamesUrl = "/games/"
+  let slug = name.charAt(name.length - 1) === '.' ?
+    // check to see if the last character is a period, which a few games do have, which would break the link
+    // if period is found, remove it and build slug with that e.g Super Smash Bros. becomes super-smash-bros
+    name.substring(0, name.length - 1).toLowerCase().replace(/[^A-Z0-9]+/ig, "-") :
+    name.toLowerCase().replace(/[^A-Z0-9]+/ig, "-");
 
   return (
     <div className="card">
       <div className="title-container">
-        <Link to={slug}>
+        <Link to={gamesUrl + slug}>
           <h1 className="game-title">{name}</h1>
         </Link>
       </div>
