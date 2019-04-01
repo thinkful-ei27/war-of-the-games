@@ -2,9 +2,7 @@ const mongoose = require("mongoose");
 const { DATABASE_URL } = require("../config");
 
 const History = require("../models/history");
-const { histories } = require("../db/data");
 const Game = require("../models/game");
-const { games } = require("../db/data");
 
 const allGames = async (id, log) => {
   const query = id ? { _id: id } : {};
