@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="footer">
       <p className="footer-content">
-        &#169; 2019 - <span>*AYSNC</span> -
+        &#169; 2019 - <span>*ASYNC</span> -
         <a className="learn-more-link" href="github.com">Learn more about the creators</a>
       </p>
     </footer>
