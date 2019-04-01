@@ -14,9 +14,6 @@ export class ProfilePage extends React.Component {
 
   render() {
     const { username, history, name, loading } = this.props;
-    if (loading) {
-      return <Loading />;
-    }
 
     console.log(history);
     const mappedHistory = history.map(histInstance => {
@@ -24,7 +21,7 @@ export class ProfilePage extends React.Component {
       const { choice, gameOne, gameTwo, id } = histInstance;
 
       return (
-        <li key={id}>
+        <li key={id} className="full-history">
           <div>
             <img
               className="game-img"
