@@ -16,6 +16,8 @@ import Games from "./Games";
 import ProfilePage from "./ProfilePage";
 import ConnectedGameInfo from "./GameInfo";
 import ConnectedGames from "./Games";
+import Footer from "./footer";
+
 
 export class App extends React.Component {
   componentDidUpdate(prevProps) {
@@ -64,6 +66,7 @@ export class App extends React.Component {
           <Route path="/games/:gameSlug" component={ConnectedGameInfo} />
           <Route component={Page404} />
         </Switch>
+        <Footer />
       </div>
     );
   }

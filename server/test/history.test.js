@@ -1,11 +1,11 @@
-"use strict";
+/* eslint-disable func-names */
 
-const { app } = require("../index");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const express = require("express");
 const sinon = require("sinon");
 const jwt = require("jsonwebtoken");
+const { app } = require("../index");
 
 const { TEST_DATABASE_URL, JWT_SECRET } = require("../config");
 const { dbConnect, dbDisconnect, dbDrop } = require("../db-mongoose");
@@ -15,7 +15,7 @@ const User = require("../models/user");
 const Game = require("../models/game");
 const History = require("../models/history");
 
-const expect = chai.expect;
+const { expect } = chai;
 chai.use(chaiHttp);
 const sandbox = sinon.createSandbox();
 
