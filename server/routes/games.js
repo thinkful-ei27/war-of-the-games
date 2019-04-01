@@ -146,6 +146,7 @@ router.post('/', jwtAuth, igdbIdRequired, (req, res, next) => {
 router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
   const { id } = req.params;
   const { igdbId } = req.body;
+  let game;
 
   return igdbApi
     .getGame(igdbId)
@@ -174,7 +175,42 @@ router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
       };
       return Game.findOneAndUpdate({ _id: id }, toUpdate, { new: true });
     })
-    .then(game => (game ? res.json(game) : next()))
+    .then(_game => {
+      game = _game;
+      if (game) {
+        return Game.find({'igdb.id': {$in: game.similar_games}})
+      } else {
+        return next();
+      }
+    })
+    .then(similar_games => {
+      const {
+        name,
+        igdb,
+        coverUrl,
+        platforms,
+        genres,
+        summary,
+        createdAt,
+        updatedAt,
+      } = game;
+      gameInfo = Object.assign(
+        {},
+        {
+          id,
+          name,
+          igdb,
+          platforms,
+          coverUrl,
+          genres,
+          summary,
+          createdAt,
+          updatedAt,
+        },
+        { similar_games },
+      );
+      res.json(gameInfo);
+    })
     .catch(err => next(err));
 });
 

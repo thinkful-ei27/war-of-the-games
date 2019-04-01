@@ -1,8 +1,8 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import Menu from './Menu';
-import './styles/header.css';
+import React from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import Menu from "./Menu";
+import "./styles/header.css";
 import "./styles/gameInfo.css";
 
 export class HeaderBar extends React.Component {
@@ -20,8 +20,9 @@ export class HeaderBar extends React.Component {
 
   handleLinks() {
     const { menuItems } = this.state;
-    if (this.props.loggedIn) {
-      const hidden = ['Sign Up', 'Login'];
+    const { loggedIn } = this.props;
+    if (loggedIn) {
+      const hidden = ["Sign Up", "Login"];
       return menuItems.filter(item => !hidden.includes(item.name));
     }
     const hidden = ['Sign Out', 'Profile'];
@@ -34,10 +35,11 @@ export class HeaderBar extends React.Component {
     return (
       <header className="container mx-auto shadow">
         <div className="flex flex-row justify-between">
-          <Link to='/'>
+          <Link to="/">
             <h2 className="p-4">
-              <i class="nes-logo"></i>
-              War of the Games</h2>
+              <i className="nes-logo" />
+              War of the Games
+            </h2>
           </Link>
           <section className="p-4">
             <Menu menuItems={this.handleLinks()} />
