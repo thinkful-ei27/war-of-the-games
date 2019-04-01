@@ -3,7 +3,6 @@ import React from "react";
 import { connect } from "react-redux";
 import Card from "./card";
 import { fetchGames, clearGames } from "../actions/gameActions";
-
 export function Battle(props) {
   const { fetchFeedback, dispatch } = props;
   return (
