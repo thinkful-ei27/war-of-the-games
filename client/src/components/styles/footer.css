@@ -1,0 +1,15 @@
+.footer {
+  margin: 100px auto 10px auto;
+  text-align: center;
+}
+
+.footer-content {
+  margin: 0;
+  padding: 0;
+  margin-block-end: 0;
+  margin-block-start: 0;
+}
+
+.learn-more-link {
+  margin-left: 16px;
+}

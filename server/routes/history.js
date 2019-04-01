@@ -1,10 +1,16 @@
-"use strict";
-
+// "use strict";
 const express = require("express");
 const mongoose = require("mongoose");
-const { totalGamesPlayed, gamesWon } = require("../utils/queries");
+const {
+  totalGamesPlayed,
+  gamesWon,
+  gameName,
+  gamePic
+} = require("../utils/queries");
 
 const History = require("../models/history");
+
+const Game = require("../models/game");
 
 const { isValidId } = require("./validators");
 
@@ -15,9 +21,8 @@ const missingChoice = (req, res, next) => {
     const err = new Error("Missing `choice` in request body");
     err.status = 400;
     return next(err);
-  } else {
-    next();
   }
+  next();
 };
 
 const router = express.Router();
@@ -40,6 +45,46 @@ router.get("/", (req, res, next) => {
     });
 });
 
+router.get("/all", (req, res, next) => {
+  let games;
+  let history;
+  History.find()
+    .then(results => {
+      history = results;
+      return Game.find();
+    })
+    .then(results => {
+      games = results;
+      const all = [];
+      const gamesIds = results.map(game => {
+        return game.id;
+      });
+      gamesIds.forEach(id => {
+        all.push({ id });
+      });
+      all.forEach(game => {
+        const totalGamesPlayed = history.filter(battle => {
+          return (
+            battle.gameOne.toString() === game.id ||
+            battle.gameTwo.toString() === game.id
+          );
+        });
+        const totalGamesWon = history.filter(battle => {
+          return battle.choice.toString() === game.id;
+        });
+        console.log("totalGamesWon===", totalGamesWon);
+
+        game.totalGamesPlayed = totalGamesPlayed.length;
+        game.totalGamesWon = totalGamesWon.length;
+        game.percentage = (game.totalGamesWon / game.totalGamesPlayed).toFixed(
+          2
+        );
+      });
+      res.json(all);
+    })
+    .catch(err => next(err));
+});
+
 /* ========== GET/READ ONE ITEM ========== */
 router.get("/:id", isValidId, (req, res, next) => {
   const { id } = req.params;
@@ -58,14 +103,23 @@ router.get("/:id/results", async (req, res, next) => {
     const wonGames = await gamesWon(id);
     const totalGames = await totalGamesPlayed(id);
     const percentage = wonGames / totalGames;
+    const [name] = await gameName(id);
+    const coverUrl = await gamePic(id);
+
+    console.log("cover url is ", coverUrl);
 
     res.json({
       percentage: Number(percentage.toFixed(2)),
       wonGames,
-      totalGames
+      totalGames,
+      name,
+      coverUrl
     });
   } catch (e) {
-    next(e);
+    console.log(e);
+    const err = new Error("No history available yet for that game");
+    err.status = 404;
+    return next(err);
   }
 });
 
@@ -76,7 +130,7 @@ router.post("/", (req, res, next) => {
 
   const newHist = { gameOne, gameTwo, choice };
 
-  /***** Never trust users - validate input *****/
+  /** *** Never trust users - validate input **** */
   if (!gameOne || !gameTwo || !choice) {
     const err = new Error("Missing field in request body");
     err.status = 400;
@@ -120,15 +174,13 @@ router.put("/:id", isValidId, missingChoice, (req, res, next) => {
   History.findOne({ _id: id })
     .then(games => {
       if (!games) next();
-      let { gameOne, gameTwo } = games;
+      const { gameOne, gameTwo } = games;
 
       if (choice !== gameOne.toString() && choice !== gameTwo.toString()) {
         const err = new Error("Choice does not equal game one or game two");
         err.status = 400;
         return next(err);
       }
-
-      return;
     })
     .then(() => {
       return History.findOneAndUpdate({ _id: id }, updateChoice, { new: true });
