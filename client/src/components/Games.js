@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from "react-redux";
 import { fetchAllGames } from "../actions/allGames";
 import ConnectedGame from "./Game";
@@ -29,9 +30,22 @@ export class Games extends Component {
       });
     }
     return (
-      <div className="flex justify-start content-start flex-wrap">
+      <section className='game-container mx-auto'>
+        <div>
+        <h1>
+          <i className="nes-icon coin"></i>
+          Games
+          <i className="nes-icon coin"></i>
+        </h1>
+        </div>
+        <div class="nes-field mt-16">
+          <label for="search"></label>
+          <input type="text" id="search" class="nes-input" placeholder='Search hundreds of games in our database!'/>
+        </div>
+      <div className="flex justify-start content-start flex-wrap mt-16">
         {allGames}
       </div>
+      </section>
     );
   }
 }
