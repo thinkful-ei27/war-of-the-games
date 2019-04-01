@@ -1,8 +1,8 @@
 import { SubmissionError } from 'redux-form';
 
+import axios from 'axios';
 import { API_BASE_URL } from '../config';
 import { normalizeResponseErrors } from './utils';
-import axios from 'axios';
 
 export const GET_USER_REQUEST = 'GET_USER_REQUEST';
 export const getUserRequest = () => ({
@@ -10,9 +10,9 @@ export const getUserRequest = () => ({
 });
 
 export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
-export const getUserSuccess = userId => ({
+export const getUserSuccess = history => ({
   type: GET_USER_SUCCESS,
-  userId
+  history
 });
 export const GET_USER_ERROR = 'GET_USER_ERROR';
 export const getUserError = error => ({
@@ -32,13 +32,12 @@ export const getUser = userId => (dispatch, getState) => {
   })
     .then(res => {
       if (!res.ok) {
-        return Promise.resject(res.statusText);
+        return Promise.reject(res.statusText);
       }
       return res.json();
     })
     .then(data => {
-      console.log(data);
-      dispatch(getUserSuccess(data));
+      return dispatch(getUserSuccess(data));
     })
     .catch(err => dispatch(getUserError(err)));
 };

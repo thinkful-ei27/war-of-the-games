@@ -2,10 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import requiresLogin from './requires-login';
 import './styles/profile.css';
+import { getUser } from '../actions/users';
 
 export class ProfilePage extends React.Component {
   componentDidMount() {
-    console.log('mounted');
+    const { userId, dispatch } = this.props;
+    console.log(userId);
+    return dispatch(getUser(userId)).then(user => console.log(user));
   }
 
   render() {
@@ -45,6 +48,7 @@ const mapStateToProps = state => {
   const { currentUser } = state.auth;
   console.log(currentUser);
   return {
+    userId: state.auth.currentUser.id,
     username: state.auth.currentUser.username,
     name: `${currentUser.firstName} ${currentUser.lastName}`,
     history: state.auth.currentUser.history
