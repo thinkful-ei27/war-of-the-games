@@ -163,7 +163,6 @@ router.post('/', (req, res, next) => {
           return user.save();
         })
         .then(result => {
-          console.log(result);
           res
             .location(`${req.originalUrl}/${result.id}`)
             .status(201)

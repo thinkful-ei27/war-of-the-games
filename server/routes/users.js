@@ -16,7 +16,7 @@ const History = require('../models/history');
 
 router.get('/:id/history', (req, res, next) => {
   const { id } = req.params;
-  let user;
+
   User.findOne({ _id: id })
     .populate('history')
     .then(() => {
