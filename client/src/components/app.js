@@ -3,22 +3,18 @@ import React from "react";
 import { connect } from "react-redux";
 import { Route, withRouter, Switch } from "react-router-dom";
 import LoginForm from "./login-form";
-import HeaderBar from "./header-bar";
-import LandingPage from "./landing-page";
 import ConnectedHeaderBar from "./header-bar";
 import ConnectedLandingPage from "./landing-page";
 import ConnectedDashboard from "./dashboard";
 import Page404 from "./404";
-import AboutPage from "./about";
+import ConnectedAboutPage from "./about";
 import ConnectedRegistrationPage from "./registration-page";
 import { refreshAuthToken } from "../actions/auth";
 import { windowSize } from "../actions/window";
-import GameInfo from "./GameInfo";
-import Games from "./Games";
 import ProfilePage from "./ProfilePage";
 import ConnectedGameInfo from "./GameInfo";
 import ConnectedGames from "./Games";
-import Footer from "./footer";
+import ConnectedFooter from "./footer";
 
 export class App extends React.Component {
   componentDidMount() {
@@ -70,14 +66,14 @@ export class App extends React.Component {
           <Route exact path="/" component={ConnectedLandingPage} />
           <Route path="/dashboard" component={ConnectedDashboard} />
           <Route path="/profile" component={ProfilePage} />
-          <Route path="/about" component={AboutPage} />
+          <Route path="/about" component={ConnectedAboutPage} />
           <Route path="/login" component={LoginForm} />
           <Route path="/register" component={ConnectedRegistrationPage} />
           <Route exact path="/games" component={ConnectedGames} />
           <Route path="/games/:gameSlug" component={ConnectedGameInfo} />
           <Route component={Page404} />
         </Switch>
-        <Footer />
+        <ConnectedFooter />
       </div>
     );
   }
