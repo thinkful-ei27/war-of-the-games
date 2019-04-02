@@ -35,8 +35,8 @@ describe("ASYNC Capstone API - History)", function() {
       User.createIndexes(),
       Game.createIndexes(),
       History.createIndexes()
-    ]).then(([users]) => {
-      user = users[0];
+    ]).then(([results]) => {
+      [user] = results;
       token = jwt.sign({ user }, JWT_SECRET, { subject: user.username });
     });
   });
@@ -60,7 +60,6 @@ describe("ASYNC Capstone API - History)", function() {
           .set("Authorization", `Bearer ${token}`)
       ]).then(([data, res]) => {
         expect(res).to.have.status(200);
-        expect(res).to.be.json;
         expect(res.body).to.be.a("array");
         expect(res.body).to.have.length(data.length);
       });
@@ -77,10 +76,33 @@ describe("ASYNC Capstone API - History)", function() {
         .set("Authorization", `Bearer ${token}`)
         .then(res => {
           expect(res).to.have.status(500);
-          expect(res).to.be.json;
           expect(res.body).to.be.a("object");
           expect(res.body.message).to.equal("Internal Server Error");
         });
+    });
+  });
+
+  describe("GET /api/history/all", function() {
+    it("should return the correct number of items", function() {
+      return Promise.all([
+        Game.find(),
+        chai
+          .request(app)
+          .get("/api/history/all")
+          .set("Authorization", `Bearer ${token}`)
+      ]).then(([data, res]) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an("array");
+        expect(res.body.length).to.equal(data.length);
+        res.body.forEach(game => {
+          expect(game).to.have.keys(
+            "id",
+            "totalGamesPlayed",
+            "totalGamesWon",
+            "percentage"
+          );
+        });
+      });
     });
   });
 
@@ -97,7 +119,6 @@ describe("ASYNC Capstone API - History)", function() {
         })
         .then(res => {
           expect(res).to.have.status(200);
-          expect(res).to.be.json;
           expect(res.body).to.be.an("object");
           expect(res.body).to.have.keys(
             "id",
@@ -151,7 +172,6 @@ describe("ASYNC Capstone API - History)", function() {
         })
         .then(res => {
           expect(res).to.have.status(500);
-          expect(res).to.be.json;
           expect(res.body).to.be.a("object");
           expect(res.body.message).to.equal("Internal Server Error");
         });
@@ -168,7 +188,6 @@ describe("ASYNC Capstone API - History)", function() {
         })
         .then(res => {
           expect(res).to.have.status(200);
-          expect(res).to.be.json;
           expect(res).to.be.an("object");
           expect(res.body).to.have.keys(
             "percentage",
@@ -193,25 +212,23 @@ describe("ASYNC Capstone API - History)", function() {
         choice: "5c9a959ba5d0dd09e07f45a3",
         userId: "333333333333333333333300"
       };
-      let body;
-      let user;
+      let res;
       return User.findOne({ _id: newItem.userId })
         .then(_user => {
           user = _user;
         })
-        .then(res => {
+        .then(() => {
           return chai
             .request(app)
             .post("/api/history")
             .set("Authorization", `Bearer ${token}`)
             .send(newItem)
-            .then(function(res) {
-              body = res.body;
+            .then(function(_res) {
+              res = _res;
               expect(res).to.have.status(201);
               expect(res).to.have.header("location");
-              expect(res).to.be.json;
-              expect(body).to.be.a("object");
-              expect(body).to.have.keys(
+              expect(res.body).to.be.a("object");
+              expect(res.body).to.have.keys(
                 "id",
                 "gameOne",
                 "gameTwo",
@@ -220,13 +237,13 @@ describe("ASYNC Capstone API - History)", function() {
                 "choice",
                 "userId"
               );
-              return History.findOne({ _id: body.id });
+              return History.findOne({ _id: res.body.id });
             })
             .then(data => {
-              expect(body.id).to.equal(data.id);
-              expect(body.name).to.equal(data.name);
-              expect(new Date(body.createdAt)).to.eql(data.createdAt);
-              expect(new Date(body.updatedAt)).to.eql(data.updatedAt);
+              expect(res.body.id).to.equal(data.id);
+              expect(res.body.name).to.equal(data.name);
+              expect(new Date(res.body.createdAt)).to.eql(data.createdAt);
+              expect(new Date(res.body.updatedAt)).to.eql(data.updatedAt);
             });
         });
     });
@@ -240,7 +257,6 @@ describe("ASYNC Capstone API - History)", function() {
         .send(newItem)
         .then(res => {
           expect(res).to.have.status(400);
-          expect(res).to.be.json;
           expect(res.body).to.be.a("object");
           expect(res.body.message).to.equal("Missing field in request body");
         });
@@ -264,7 +280,6 @@ describe("ASYNC Capstone API - History)", function() {
         .send(newItem)
         .then(res => {
           expect(res).to.have.status(500);
-          expect(res).to.be.json;
           expect(res.body).to.be.a("object");
           expect(res.body.message).to.equal("Internal Server Error");
         });
@@ -291,7 +306,6 @@ describe("ASYNC Capstone API - History)", function() {
         })
         .then(function(res) {
           expect(res).to.have.status(200);
-          expect(res).to.be.json;
           expect(res.body).to.be.a("object");
           expect(res.body).to.have.keys(
             "id",
@@ -364,7 +378,6 @@ describe("ASYNC Capstone API - History)", function() {
         })
         .then(res => {
           expect(res).to.have.status(500);
-          expect(res).to.be.json;
           expect(res.body).to.be.a("object");
           expect(res.body.message).to.equal("Internal Server Error");
         });
@@ -384,7 +397,6 @@ describe("ASYNC Capstone API - History)", function() {
         })
         .then(function(res) {
           expect(res).to.have.status(204);
-          expect(res.body).to.be.empty;
           return History.countDocuments({ _id: data.id });
         })
         .then(count => {
@@ -414,7 +426,6 @@ describe("ASYNC Capstone API - History)", function() {
         })
         .then(res => {
           expect(res).to.have.status(500);
-          expect(res).to.be.json;
           expect(res.body).to.be.a("object");
           expect(res.body.message).to.equal("Internal Server Error");
         });

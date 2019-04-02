@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 mongoose.Promise = global.Promise;
 
 const { DATABASE_URL } = require("./config");
@@ -24,13 +25,8 @@ function dbDrop() {
   return mongoose.connection.db.dropDatabase();
 }
 
-function dbGet() {
-  return mongoose;
-}
-
 module.exports = {
   dbConnect,
   dbDisconnect,
-  dbDrop,
-  dbGet
+  dbDrop
 };
