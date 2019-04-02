@@ -132,6 +132,14 @@ router.post("/", jwtAuth, igdbIdRequired, (req, res, next) => {
       };
       return Game.create(newGame);
     })
+    .then(async game => {
+      const { id, coverUrl } = game;
+      const imgResults = await imagesApi.saveImgById(id, coverUrl);
+      const { secure_url } = imgResults;
+      const toUpdate = { cloudImage: secure_url };
+
+      return Game.findOneAndUpdate({ _id: id }, toUpdate, { new: true });
+    })
     .then(game =>
       res
         .location(`${req.originalUrl}/${game.id}`)
