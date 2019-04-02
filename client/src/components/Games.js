@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 // import { Field, reduxForm, formValueSelector } from "redux-form";
-import { connect } from 'react-redux';
-import { fetchAllGames } from '../actions/allGames';
-import ConnectedGame from './Game';
-import './styles/gameInfo.css';
+import { connect } from "react-redux";
+import { fetchAllGames } from "../actions/allGames";
+import ConnectedGame from "./Game";
+import "./styles/gameInfo.css";
 
 const normalize = (value, compare) => {
   const v = value.toLowerCase().trim();
@@ -14,7 +14,7 @@ const normalize = (value, compare) => {
 export class Games extends Component {
   state = {
     loading: false,
-    value: ''
+    value: ""
   };
 
   componentDidMount() {
