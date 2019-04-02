@@ -43,7 +43,7 @@ const games = [
       26226,
       26758,
       28309,
-      33269,
+      3644,
       1626
     ],
     genres: [
@@ -93,7 +93,7 @@ const games = [
       76882,
       80916,
       81249,
-      101608,
+      3644,
       1626,
       1074
     ],
@@ -107,7 +107,7 @@ const games = [
       id: 1618,
       slug: "mortal-kombat--2"
     },
-    similar_games: [119, 1242, 1243, 1244, 1613, 1620, 1621, 1622, 6710, 7292],
+    similar_games: [119, 1242, 1243, 1244, 1613, 1620, 1621, 1622, 6710, 3644],
     coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/co1hno.jpg"
   },
   {
@@ -127,7 +127,7 @@ const games = [
       9806,
       12597,
       13677,
-      45184
+      3644
     ],
     coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/co1hq8.jpg"
   },
@@ -138,7 +138,7 @@ const games = [
       id: 740,
       slug: "halo-combat-evolved"
     },
-    similar_games: [37, 74, 231, 241, 355, 356, 571, 623, 989, 6803],
+    similar_games: [37, 74, 231, 241, 355, 356, 571, 623, 989, 3644],
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/bcotwv6rapvdglcahxi3.jpg"
   },
@@ -149,7 +149,7 @@ const games = [
       id: 3005,
       slug: "superman"
     },
-    similar_games: [111, 231, 1103, 1268, 1886, 4225, 5503, 6924, 1626, 1074],
+    similar_games: [111, 231, 1103, 1268, 1886, 4225, 5503, 3644, 1626, 1074],
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/wej8g7hq46wb0ueyblin.jpg"
   },
@@ -160,7 +160,7 @@ const games = [
       id: 427,
       slug: "final-fantasy-vii"
     },
-    similar_games: [398, 411, 413, 421, 425, 426, 428, 1802, 7194, 11292],
+    similar_games: [398, 411, 413, 421, 425, 426, 428, 1802, 7194, 3644],
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/idzdf1alxvetz3ow2ugy.jpg"
   },
@@ -173,7 +173,9 @@ const games = [
     },
     similar_games: [2265, 3632, 3636, 3643, 3645, 3646, 5298, 6442, 6444, 6445],
     coverUrl:
-      "https://images.igdb.com/igdb/image/upload/t_720p/clajigg1q7mm9uxz14kx.jpg"
+      "https://images.igdb.com/igdb/image/upload/t_720p/clajigg1q7mm9uxz14kx.jpg",
+    summary:
+      'THQ\'s second WWF and fifth wrestling game for the N64 will feature enhanced customization options, a whopping 80 snarling gladiators and Transfer Pak links with two GBC-only WWF games.\n\nAssociate producer Mike Sparks boasts of a "guest referee" mode, in which any wrestler can ajudicate the action or start whacking away at the rivals at any time, and a novel "Smackdown Mall." Points earned by mastering the still-unnamed GBC Paks will be needed to buy costume items, unlock wrestlers and get other goodies.'
   },
   {
     name: "Super Smash Bros.",
@@ -191,10 +193,12 @@ const games = [
       103316,
       109277,
       109460,
-      112589,
+      3644,
       1074
     ],
-    coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/co1hzi.jpg"
+    coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/co1hzi.jpg",
+    summary:
+      "It's a Bumpin', Bruisin', Brawlin' Bash! The many worlds of Nintendo collide in the ultimate showdown of strength and skill! Up to four players can choose their favorite characters - complete with signature attacks - and go at it in Team Battles and Free-For-Alls. Or venture out on your own to conquer the 14 stages in single-player mode. Either way, Super Smash Bros. is a no-holds-barred action-fest that will keep you coming back for more!"
   },
   {
     name: "Candy Crush Saga",
@@ -212,7 +216,7 @@ const games = [
       56033,
       60044,
       64599,
-      87170,
+      3644,
       1626
     ],
     coverUrl:
@@ -223,7 +227,7 @@ const games = [
       id: 551,
       slug: "god-of-war-ii"
     },
-    similar_games: [112, 127, 136, 499, 549, 550, 552, 1029, 1128, 6958],
+    similar_games: [112, 127, 136, 499, 549, 550, 552, 1029, 1128, 3644],
     name: "God of War II",
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/f3mwxy3opbrbmcyguhly.jpg",
@@ -272,7 +276,7 @@ const games = [
     },
     summary:
       "Super Mario Bros. 3 is a platform video game for the Nintendo Entertainment System (NES) video game console. Mario and Luigi embark on a quest to save Princess Toadstool and the rulers of seven different kingdoms from the antagonist Bowser and his children, the Koopalings. The player, as Mario or Luigi, is able to defeat enemies by stomping them or using items that bestow magical powers. Mario and Luigi are given a wider range of abilities than in previous Super Mario games, including flying or sliding down slopes. In addition, Super Mario Bros. 3 introduces numerous elements, such as new enemy characters and the use of a world map to transition between levels, that have reappeared in or have influenced subsequent Mario games.",
-    similar_games: [358, 1067, 1074, 1077, 1078, 1079, 2180, 3340, 3349, 22301],
+    similar_games: [358, 1067, 1074, 1077, 1078, 1079, 2180, 3340, 3349, 3644],
     genres: [
       {
         id: 8,

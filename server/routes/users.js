@@ -30,6 +30,7 @@ router.get("/:id/history", (req, res, next) => {
 
 router.get("/:id/recommendations", jwtAuth, (req, res, next) => {
   let topChoices;
+  let sortedSimilarGames;
 
   // Find top game choices for user
   return History.aggregate([
@@ -53,9 +54,14 @@ router.get("/:id/recommendations", jwtAuth, (req, res, next) => {
             : (similarGamesCount[similarGame] = 1);
         })
       );
-      console.log(similarGamesCount);
-      const sortedRecs = topChoices.map(choice =>
-        games.find(game => game._id.toString() === choice.toString())
+      sortedSimilarGames = Object.keys(similarGamesCount)
+        .sort((a, b) => similarGamesCount[b] - similarGamesCount[a])
+        .slice(0, 5);
+      return Game.find({ "igdb.id": { $in: sortedSimilarGames } });
+    })
+    .then(recs => {
+      const sortedRecs = sortedSimilarGames.map(choice =>
+        recs.find(game => game.igdb.id === Number(choice))
       );
       res.json(sortedRecs);
     })

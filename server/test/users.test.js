@@ -76,7 +76,7 @@ describe("ASYNC Capstone API - Users", () => {
     });
   });
 
-  describe.only("GET /api/users/:id/recommendations", () => {
+  describe("GET /api/users/:id/recommendations", () => {
     it("should return the correct number of recommendations", () => {
       return chai
         .request(app)
@@ -96,17 +96,15 @@ describe("ASYNC Capstone API - Users", () => {
         .set("Authorization", `Bearer ${token}`)
         .then(res => {
           expect(res.body).to.be.an("array");
-          res.body.forEach(game => {
-            expect(game).to.be.an("object");
-            expect(game).to.include.all.keys(
-              "id",
-              "name",
-              "igdb",
-              "coverUrl",
-              "createdAt",
-              "updatedAt"
-            );
-          });
+          expect(res.body[0]).to.be.an("object");
+          expect(res.body[0]).to.include.all.keys(
+            "id",
+            "name",
+            "igdb",
+            "coverUrl",
+            "createdAt",
+            "updatedAt"
+          );
         });
     });
 
