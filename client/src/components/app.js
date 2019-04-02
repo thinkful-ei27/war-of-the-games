@@ -17,7 +17,6 @@ import ProfilePage from "./ProfilePage";
 import ConnectedGameInfo from "./GameInfo";
 import ConnectedGames from "./Games";
 import Footer from "./footer";
-import ConnectedInfiniteGames from "./InfiniteUsers";
 
 export class App extends React.Component {
   componentDidUpdate(prevProps) {
@@ -62,7 +61,6 @@ export class App extends React.Component {
           <Route path="/about" component={AboutPage} />
           <Route path="/login" component={LoginForm} />
           <Route path="/register" component={ConnectedRegistrationPage} />
-          <Route path="/infinite" component={ConnectedInfiniteGames} />
           <Route exact path="/games" component={ConnectedGames} />
           <Route path="/games/:gameSlug" component={ConnectedGameInfo} />
           <Route component={Page404} />
