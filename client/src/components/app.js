@@ -18,7 +18,6 @@ import ConnectedGameInfo from "./GameInfo";
 import ConnectedGames from "./Games";
 import Footer from "./footer";
 
-
 export class App extends React.Component {
   componentDidUpdate(prevProps) {
     const { loggedIn } = this.props;
