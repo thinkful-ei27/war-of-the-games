@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from "react";
 import { connect } from "react-redux";
 import { Route, withRouter, Switch } from "react-router-dom";
@@ -18,7 +19,6 @@ import ConnectedGameInfo from "./GameInfo";
 import ConnectedGames from "./Games";
 import Footer from "./footer";
 
-
 export class App extends React.Component {
   componentDidUpdate(prevProps) {
     const { loggedIn } = this.props;
@@ -31,8 +31,19 @@ export class App extends React.Component {
     }
   }
 
+  componentDidMount() {
+    window.addEventListener("resize", e => {
+      console.log(
+        "clientWidth =======",
+        e.currentTarget.document.body.clientWidth
+      );
+      console.log("innerWidth =======", e.target.innerWidth);
+    });
+  }
+
   componentWillUnmount() {
     this.stopPeriodicRefresh();
+    window.removeEventListener("resize");
   }
 
   startPeriodicRefresh() {
