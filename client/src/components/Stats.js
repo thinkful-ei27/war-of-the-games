@@ -33,14 +33,14 @@ export default class Stats extends Component {
   render() {
     const propertyNames = [
       "name",
-      // "totalGamesPlayed",
-      // "totalGamesWon",
+      "totalGamesPlayed",
+      "totalGamesWon",
       "percentage"
     ];
     return (
       <>
         <section className="game-container mx-auto">
-          <section className="w-1/2 mt-16">
+          <section className="mt-16">
             <h3 className="title">Top 5</h3>
             <div className="nes-table-responsive">
               <MappedTable
@@ -49,7 +49,7 @@ export default class Stats extends Component {
               />
             </div>
           </section>
-          <section className="w-1/2 mt-16">
+          <section className="mt-16">
             <h3 className="title">Bottom 5</h3>
             <div className="nes-table-responsive">
               <MappedTable
@@ -58,7 +58,7 @@ export default class Stats extends Component {
               />
             </div>
           </section>
-          <section className="w-1/2 mt-16">
+          <section className="mt-16">
             <h3 className="title">All</h3>
             <div className="nes-table-responsive">
               <MappedTable
