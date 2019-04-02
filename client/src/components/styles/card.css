@@ -1,22 +1,22 @@
 .battle-container {
   display: flex;
+  flex-direction: column; 
   justify-content: space-between;
-  height: 625px;
-  width: 1000px;
+  align-items: center;
   margin: 20px auto;
+  padding: 16px;
 }
 
 
 .game-img {
-  height: 300px;
-  width: 300px;
+  height: 250px;
+  width: 250px;
   margin-bottom: 20px;
   text-align: center;
 }
 
 .title-container {
-  /* display: flex;
-  justify-items: center; */
+  display: none;
   margin-bottom: 20px;
   height: 195px;
 } 
@@ -60,7 +60,6 @@
 
 .vs {
   font-size: 28px;
-  /* padding-top: 135%; */
   margin: auto 0;
 }
 
@@ -79,4 +78,47 @@
 
 #skip-btn:hover::after {
   box-shadow: inset -3px -3px #006bb3;
+}
+
+@media (min-width: 576px) {
+  .battle-container {
+    max-width: 576px;
+  }
+  
+  .game-img {
+    height: 300px;
+    width: 300px;
+  }
+}
+
+@media (min-width: 768px) {
+  .battle-container {
+    max-width: 768px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: inherit;
+  }
+
+  .title-container{
+    display: block
+  }
+
+}
+
+@media (min-width: 992px) {
+  .battle-container {
+    max-width: 992px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .battle-container {
+    max-width: 1200px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .battle-container {
+    max-width: 1600px;
+  }
 }
