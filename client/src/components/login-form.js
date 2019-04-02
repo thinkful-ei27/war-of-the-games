@@ -79,6 +79,7 @@ const connectMapStateToProps = state => ({
   loading: state.auth.loading
 });
 
+// eslint-disable-next-line no-class-assign
 LoginForm = connect(connectMapStateToProps)(LoginForm);
 export default reduxForm({
   form: "login",
