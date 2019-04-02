@@ -5,7 +5,8 @@
   align-items: center;
   justify-content: space-around;
   height: 300px;
-  width: 800px;
+  max-width: 800px;
+  margin: 0 auto;
   padding: 15px;
   text-align: center;
 
