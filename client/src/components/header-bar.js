@@ -33,7 +33,7 @@ export class HeaderBar extends React.Component {
     // Only render the log out button if we are logged in
 
     return (
-      <header className="container mx-auto shadow">
+      <header className="game-container mx-auto shadow">
         <div className="flex flex-row justify-between">
           <Link to="/">
             <h2 className="p-4">

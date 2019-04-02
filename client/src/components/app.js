@@ -65,7 +65,7 @@ export class App extends React.Component {
   render() {
     return (
       <div className="app">
-        <ConnectedHeaderBar />
+        {/* <ConnectedHeaderBar /> */}
         <Switch>
           <Route exact path="/" component={ConnectedLandingPage} />
           <Route path="/dashboard" component={ConnectedDashboard} />
