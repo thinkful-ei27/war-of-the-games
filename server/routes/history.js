@@ -143,7 +143,7 @@ router.post("/", (req, res, next) => {
 
   let user;
   let responseHistory;
-  User.findOne({ _id: userId })
+  return User.findOne({ _id: userId })
     .then(result => {
       user = result;
     })
