@@ -35,12 +35,12 @@ export class Games extends Component {
     let filteredGames = <h1>There's no games</h1>;
     if (this.props.games) {
       filteredGames = this.props.games.map(game => {
-        const { name, igdb, id } = game;
+        const { name, igdb, id, cloudImage } = game;
         const { slug } = igdb;
         const props = {
           id,
           name,
-          // coverUrl,
+          cloudImage,
           slug
         };
         return <ConnectedGame key={id} {...props} />;
