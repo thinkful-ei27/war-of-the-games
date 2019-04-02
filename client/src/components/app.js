@@ -12,6 +12,7 @@ import Page404 from "./404";
 import AboutPage from "./about";
 import ConnectedRegistrationPage from "./registration-page";
 import { refreshAuthToken } from "../actions/auth";
+import { windowSize } from "../actions/window";
 import GameInfo from "./GameInfo";
 import Games from "./Games";
 import ProfilePage from "./ProfilePage";
@@ -20,6 +21,15 @@ import ConnectedGames from "./Games";
 import Footer from "./footer";
 
 export class App extends React.Component {
+  componentDidMount() {
+    window.addEventListener("resize", e => {
+      const width = e.currentTarget.document.body.clientWidth;
+      const height = e.currentTarget.document.body.clientHeight;
+      const { dispatch } = this.props;
+      dispatch(windowSize(width, height));
+    });
+  }
+
   componentDidUpdate(prevProps) {
     const { loggedIn } = this.props;
     if (!prevProps.loggedIn && loggedIn) {
@@ -29,16 +39,6 @@ export class App extends React.Component {
       // Stop refreshing when we log out
       this.stopPeriodicRefresh();
     }
-  }
-
-  componentDidMount() {
-    window.addEventListener("resize", e => {
-      console.log(
-        "clientWidth =======",
-        e.currentTarget.document.body.clientWidth
-      );
-      console.log("innerWidth =======", e.target.innerWidth);
-    });
   }
 
   componentWillUnmount() {

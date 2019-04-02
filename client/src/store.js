@@ -1,13 +1,14 @@
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form';
-import thunk from 'redux-thunk';
-import { loadAuthToken } from './local-storage';
-import allGamesReducer from './reducers/allGamesReducer';
-import authReducer from './reducers/auth';
-import gamesReducer from './reducers/gameReducer';
-import protectedDataReducer from './reducers/protected-data';
-import userReducer from './reducers/userReducer';
-import { setAuthToken, refreshAuthToken } from './actions/auth';
+import { createStore, applyMiddleware, compose, combineReducers } from "redux";
+import { reducer as formReducer } from "redux-form";
+import thunk from "redux-thunk";
+import { loadAuthToken } from "./local-storage";
+import allGamesReducer from "./reducers/allGamesReducer";
+import authReducer from "./reducers/auth";
+import gamesReducer from "./reducers/gameReducer";
+import protectedDataReducer from "./reducers/protected-data";
+import userReducer from "./reducers/userReducer";
+import windowReducer from "./reducers/window";
+import { setAuthToken, refreshAuthToken } from "./actions/auth";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -18,7 +19,8 @@ const store = createStore(
     protectedData: protectedDataReducer,
     games: gamesReducer,
     allGames: allGamesReducer,
-    user: userReducer
+    user: userReducer,
+    window: windowReducer
   }),
   composeEnhancers(applyMiddleware(thunk))
 );
