@@ -15,8 +15,10 @@ export class LandingPage extends React.Component {
 
     if (loggedIn && nonUserVotes.length) {
       nonUserVotes.forEach(obj => {
-        let values = Object.values(obj)
-        if (userId) { dispatch(handleVote(values[0], values[1], values[2])) }
+        const values = Object.values(obj);
+        if (userId) {
+          dispatch(handleVote(values[0], values[1], values[2]));
+        }
       });
     }
     setVoteLocalStorageVariable();
@@ -61,12 +63,12 @@ export class LandingPage extends React.Component {
   }
 }
 
-const checkIfUser = (state) => {
+const checkIfUser = state => {
   if (state.auth.currentUser === null) {
-    return 'there is no user'
+    return "there is no user";
   }
-  return state.auth.currentUser.id
-}
+  return state.auth.currentUser.id;
+};
 const mapStateToProps = state => ({
   loggedIn: state.auth.currentUser !== null,
   games: state.games.battleGames,

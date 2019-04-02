@@ -37,7 +37,7 @@ export function GameDetails(props) {
       <div className="w-1/3 m-4">
         <img
           className="game-info-img p-4 rounded shadow"
-          src={cloudImage}
+          src={cloudImage || coverUrl}
           alt={slug}
         />
         {renderWinPercentage()}
