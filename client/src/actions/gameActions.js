@@ -47,23 +47,26 @@ export const fetchGames = () => (dispatch, getState) => {
       const { authToken } = getState().auth;
       const gameOneId = data[0].id;
       const gameTwoId = data[1].id;
-      const getFirstGame = () =>
-        axios.put(
-          `${API_BASE_URL}/games/${gameOneId}/images`,
-          {},
-          {
-            headers: { Authorization: `Bearer ${authToken}` }
-          }
-        );
-      const getSecondGame = () =>
-        axios.put(
-          `${API_BASE_URL}/games/${gameTwoId}/images`,
-          {},
-          {
-            headers: { Authorization: `Bearer ${authToken}` }
-          }
-        );
-      return axios.all([getFirstGame(), getSecondGame()]);
+      if (data[0].cloudImage === [] || data[1].cloudImage === []) {
+        const getFirstGame = () =>
+          axios.put(
+            `${API_BASE_URL}/games/${gameOneId}/images`,
+            {},
+            {
+              headers: { Authorization: `Bearer ${authToken}` }
+            }
+          );
+        const getSecondGame = () =>
+          axios.put(
+            `${API_BASE_URL}/games/${gameTwoId}/images`,
+            {},
+            {
+              headers: { Authorization: `Bearer ${authToken}` }
+            }
+          );
+        return axios.all([getFirstGame(), getSecondGame()]);
+      }
+      return ["no images", "no images"];
     })
     .then(
       axios.spread((gameOne, gameTwo) => {
