@@ -221,4 +221,30 @@ router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
     .catch(err => next(err));
 });
 
+router.put("/:id/images", jwtAuth, isValidId, async (req, res, next) => {
+  const { id } = req.params;
+
+  Game.find({ _id: id })
+    .then(result => {
+      const { coverUrl } = result[0];
+      return coverUrl;
+    })
+    .then(coverUrl => {
+      return imagesApi.saveImgById(id, coverUrl);
+    })
+    .then(imgResults => {
+      const { secure_url } = imgResults;
+      const updateImage = { cloudImage: secure_url };
+      return Game.findOneAndUpdate({ _id: id }, updateImage, {
+        new: true
+      });
+    })
+    .then(finalResult => {
+      res.json(finalResult);
+    })
+    .catch(e => {
+      next(e);
+    });
+});
+
 module.exports = router;
