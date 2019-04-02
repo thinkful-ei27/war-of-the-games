@@ -20,6 +20,7 @@
     "bcryptjs": "^2.4.3",
     "better-queue": "^3.8.10",
     "better-queue-memory": "^1.0.3",
+    "cloudinary": "",
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",

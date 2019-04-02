@@ -107,8 +107,6 @@ router.get("/:id/results", async (req, res, next) => {
     const [name] = await gameName(id);
     const coverUrl = await gamePic(id);
 
-    console.log("cover url is ", coverUrl);
-
     res.json({
       percentage: Number(percentage.toFixed(2)),
       wonGames,

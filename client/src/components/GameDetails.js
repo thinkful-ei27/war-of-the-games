@@ -4,7 +4,7 @@ import { updateGame } from "../actions/gameActions";
 
 export function GameDetails(props) {
   const { dispatch, game, feedback, error, loggedIn } = props;
-  const { name, coverUrl, slug, platforms, genres, summary } = game;
+  const { name, coverUrl, slug, platforms, genres, summary, cloudImage } = game;
   const genreDisplay = genres.map(gen => (
     <span key={gen.id}>{gen.name}, </span>
   ));
@@ -37,7 +37,7 @@ export function GameDetails(props) {
       <div className="w-1/3 m-4">
         <img
           className="game-info-img p-4 rounded shadow"
-          src={coverUrl}
+          src={cloudImage}
           alt={slug}
         />
         {renderWinPercentage()}

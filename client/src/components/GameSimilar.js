@@ -13,6 +13,7 @@ export default function GameSimilar(props) {
           location={location}
           slug={vgame.igdb.slug}
           name={vgame.name}
+          cloudImage={vgame.cloudImage}
         />
       );
     });
