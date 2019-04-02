@@ -12,3 +12,12 @@
   height: 20px;
   width: 125px;
 }
+
+.loading-txt {
+  margin: 0;
+}
+
+.loading-container {
+  margin-top: 20px;
+  padding: 8px;
+}

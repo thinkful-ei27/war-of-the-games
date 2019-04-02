@@ -9,11 +9,12 @@ import Page404 from "./404";
 import AboutPage from "./about";
 import ConnectedRegistrationPage from "./registration-page";
 import { refreshAuthToken } from "../actions/auth";
-import GameInfo from "./GameInfo";
-import Games from "./Games";
 import Stats from "./Stats";
+import ProfilePage from "./ProfilePage";
 import ConnectedGameInfo from "./GameInfo";
 import ConnectedGames from "./Games";
+import Footer from "./footer";
+
 
 export class App extends React.Component {
   componentDidUpdate(prevProps) {
@@ -54,6 +55,7 @@ export class App extends React.Component {
         <Switch>
           <Route exact path="/" component={ConnectedLandingPage} />
           <Route path="/dashboard" component={ConnectedDashboard} />
+          <Route path="/profile" component={ProfilePage} />
           <Route path="/about" component={AboutPage} />
           <Route path="/login" component={LoginForm} />
           <Route path="/register" component={ConnectedRegistrationPage} />
@@ -62,6 +64,7 @@ export class App extends React.Component {
           <Route path="/games/:gameSlug" component={ConnectedGameInfo} />
           <Route component={Page404} />
         </Switch>
+        <Footer />
       </div>
     );
   }

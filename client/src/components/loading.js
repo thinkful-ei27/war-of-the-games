@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import "./styles/loading.css";
+import React, { Component } from 'react';
+import './styles/loading.css';
 
 export default class Loading extends Component {
   constructor(props) {
@@ -10,7 +10,8 @@ export default class Loading extends Component {
   }
 
   componentDidMount() {
-    this.intervalId = setInterval(() => this.fillBar(), 20);
+    const { intervalSpeed } = this.props;
+    this.intervalId = setInterval(() => this.fillBar(), intervalSpeed);
   }
 
   componentWillUnmount() {
@@ -19,11 +20,12 @@ export default class Loading extends Component {
 
   fillBar() {
     const { progress } = this.state;
+    const { incrementBy } = this.props;
     if (progress >= 100) {
       this.setState({ progress: 0 });
     } else {
       this.setState(prevState => ({
-        progress: prevState.progress + 5
+        progress: prevState.progress + incrementBy
       }));
     }
   }
@@ -32,8 +34,8 @@ export default class Loading extends Component {
     const { progress } = this.state;
     const { size } = this.props;
     return (
-      <div>
-        <p>Loading...</p>
+      <div className="loading-container">
+        <p className="loading-txt">Loading...</p>
         <progress
           className={`nes-progress ${size}`}
           value={progress}
@@ -43,3 +45,9 @@ export default class Loading extends Component {
     );
   }
 }
+
+Loading.defaultProps = {
+  intervalSpeed: 25,
+  incrementBy: 3,
+  size: 'md'
+};

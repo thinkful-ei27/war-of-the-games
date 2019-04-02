@@ -13,8 +13,8 @@ const schema = new mongoose.Schema({
     ref: 'Game',
     required: true
   },
-  choice: { type: mongoose.Schema.Types.ObjectId, ref: 'Game', required: true }
-  // userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required:true}
+  choice: { type: mongoose.Schema.Types.ObjectId, ref: 'Game', required: true },
+  userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 });
 
 // Add `createdAt` and `updatedAt` fields

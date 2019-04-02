@@ -24,7 +24,7 @@ class LoginForm extends React.Component {
     } = this.props;
 
     if (loggedIn) {
-      return <Redirect to="/" />;
+      return <Redirect to="/profile" />;
     }
 
     let err;
@@ -38,7 +38,7 @@ class LoginForm extends React.Component {
 
     let loadingView;
     if (loading) {
-      loadingView = <Loading size="md" />;
+      loadingView = <Loading intervalSpeed={25} incrementBy={3} size="md" />;
     }
 
     return (
@@ -81,6 +81,6 @@ const connectMapStateToProps = state => ({
 
 LoginForm = connect(connectMapStateToProps)(LoginForm);
 export default reduxForm({
-  form: "login",
-  onSubmitFail: (errors, dispatch) => dispatch(focus("login", "username"))
+  form: 'login',
+  onSubmitFail: (errors, dispatch) => dispatch(focus('login', 'username'))
 })(LoginForm);

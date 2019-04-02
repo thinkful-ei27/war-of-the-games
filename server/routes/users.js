@@ -1,10 +1,9 @@
-
-
 const express = require("express");
 const mongoose = require("mongoose");
 
 const router = express.Router();
 const User = require("../models/user");
+const History = require("../models/history");
 
 /* ========== GET USER ========== */
 // router.get("/:id", (req, res, next) => {
@@ -13,7 +12,24 @@ const User = require("../models/user");
 //   // res.json(userId);
 // });
 
+router.get("/:id/history", (req, res, next) => {
+  const { id } = req.params;
+
+  User.findOne({ _id: id })
+    .populate("history")
+    .then(() => {
+      History.find({ userId: id })
+        .populate("gameOne", "name")
+        .populate("gameTwo", "name")
+        .populate("choice")
+        .then(results => {
+          res.json(results);
+        });
+    });
+});
+
 /* ========== POST USERS ========== */
+
 router.post("/", (req, res, next) => {
   const { firstName, lastName, username, password } = req.body;
 

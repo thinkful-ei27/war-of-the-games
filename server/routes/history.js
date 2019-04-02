@@ -8,9 +8,8 @@ const {
   gamePic
 } = require("../utils/queries");
 
-const queries = require("../utils/scratch");
-
 const History = require("../models/history");
+const User = require("../models/user");
 
 const Game = require("../models/game");
 
@@ -74,6 +73,7 @@ router.get("/all", (req, res, next) => {
         const totalGamesWon = history.filter(battle => {
           return battle.choice.toString() === game.id;
         });
+        console.log("totalGamesWon===", totalGamesWon);
 
         game.totalGamesPlayed = totalGamesPlayed.length;
         game.totalGamesWon = totalGamesWon.length;
@@ -107,6 +107,8 @@ router.get("/:id/results", async (req, res, next) => {
     const [name] = await gameName(id);
     const coverUrl = await gamePic(id);
 
+    console.log("cover url is ", coverUrl);
+
     res.json({
       percentage: Number(percentage.toFixed(2)),
       wonGames,
@@ -123,10 +125,10 @@ router.get("/:id/results", async (req, res, next) => {
 
 /* ========== POST/CREATE AN ITEM ========== */
 router.post("/", (req, res, next) => {
-  const { gameOne, gameTwo, choice } = req.body;
+  const { gameOne, gameTwo, choice, userId } = req.body;
   // const userId = req.user.id;
 
-  const newHist = { gameOne, gameTwo, choice };
+  const newHist = { gameOne, gameTwo, choice, userId };
 
   /** *** Never trust users - validate input **** */
   if (!gameOne || !gameTwo || !choice) {
@@ -139,26 +141,42 @@ router.post("/", (req, res, next) => {
   const validate =
     mongoose.Types.ObjectId.isValid(gameOne) &&
     mongoose.Types.ObjectId.isValid(gameTwo) &&
-    mongoose.Types.ObjectId.isValid(choice);
+    mongoose.Types.ObjectId.isValid(choice) &&
+    mongoose.Types.ObjectId.isValid(userId);
   if (!validate) {
     const err = new Error("The `id` is not valid");
     err.status = 400;
     return next(err);
   }
 
-  History.create(newHist)
+  let user;
+  let responseHistory;
+  User.findOne({ _id: userId })
     .then(result => {
-      res
-        .location(`${req.originalUrl}/${result.id}`)
-        .status(201)
-        .json(result);
+      user = result;
     })
-    .catch(err => {
-      // if (err.code === 11000) {
-      //   err = new Error('Choice already exists');
-      //   err.status = 400;
-      // }
-      next(err);
+    .then(() => {
+      History.create(newHist)
+        .then(User.findOne({ _id: userId }))
+        .then(history => {
+          responseHistory = history;
+          user.history.push(history._id);
+          return user.save();
+        })
+        .then(result => {
+          res
+            .location(`${req.originalUrl}/${result.id}`)
+            .status(201)
+            .json(responseHistory);
+        })
+        .catch(err => {
+          console.log(err);
+          // if (err.code === 11000) {
+          //   err = new Error('Choice already exists');
+          //   err.status = 400;
+          // }
+          next(err);
+        });
     });
 });
 
