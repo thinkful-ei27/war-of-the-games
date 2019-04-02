@@ -6,19 +6,17 @@ import "./styles/header.css";
 import "./styles/gameInfo.css";
 
 export class HeaderBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      menuItems: [
-        { name: "Vote", link: "/", key: "vote" },
-        { name: "Games", link: "/games", key: "games" },
-        { name: "About", link: "/about", key: "about" },
-        { name: "Sign Up", link: "/register", key: "signup" },
-        { name: "Login", link: "/login", key: "login" },
-        { name: "Sign Out", link: "/login", key: "signout" }
-      ]
-    };
-  }
+  state = {
+    menuItems: [
+      { name: 'Vote', link: '/', key: 'vote' },
+      { name: 'Games', link: '/games', key: 'games' },
+      { name: 'About', link: '/about', key: 'about' },
+      { name: 'Profile', link: '/profile', key: 'profile' },
+      { name: 'Sign Up', link: '/register', key: 'signup' },
+      { name: 'Login', link: '/login', key: 'login' },
+      { name: 'Sign Out', link: '/login', key: 'signout' }
+    ]
+  };
 
   handleLinks() {
     const { menuItems } = this.state;
@@ -27,7 +25,7 @@ export class HeaderBar extends React.Component {
       const hidden = ["Sign Up", "Login"];
       return menuItems.filter(item => !hidden.includes(item.name));
     }
-    const hidden = ["Sign Out"];
+    const hidden = ['Sign Out', 'Profile'];
     return menuItems.filter(item => !hidden.includes(item.name));
   }
 
