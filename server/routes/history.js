@@ -1,24 +1,25 @@
 // "use strict";
-const express = require("express");
-const mongoose = require("mongoose");
+const express = require('express');
+const mongoose = require('mongoose');
 const {
   totalGamesPlayed,
   gamesWon,
   gameName,
   gamePic
-} = require("../utils/queries");
+} = require('../utils/queries');
 
-const History = require("../models/history");
+const History = require('../models/history');
+const User = require('../models/user');
 
-const Game = require("../models/game");
+const Game = require('../models/game');
 
-const { isValidId } = require("./validators");
+const { isValidId } = require('./validators');
 
 const missingChoice = (req, res, next) => {
   const { choice } = req.body;
 
   if (!choice) {
-    const err = new Error("Missing `choice` in request body");
+    const err = new Error('Missing `choice` in request body');
     err.status = 400;
     return next(err);
   }
@@ -32,7 +33,7 @@ const router = express.Router();
 
 /* ========== GET/READ ALL ITEMS ========== */
 
-router.get("/", (req, res, next) => {
+router.get('/', (req, res, next) => {
   History.find()
     // .populate('gameOne', 'name')
     // .populate('gameTwo', 'name')
@@ -45,7 +46,7 @@ router.get("/", (req, res, next) => {
     });
 });
 
-router.get("/all", (req, res, next) => {
+router.get('/all', (req, res, next) => {
   let games;
   let history;
   History.find()
@@ -72,7 +73,7 @@ router.get("/all", (req, res, next) => {
         const totalGamesWon = history.filter(battle => {
           return battle.choice.toString() === game.id;
         });
-        console.log("totalGamesWon===", totalGamesWon);
+        console.log('totalGamesWon===', totalGamesWon);
 
         game.totalGamesPlayed = totalGamesPlayed.length;
         game.totalGamesWon = totalGamesWon.length;
@@ -86,18 +87,18 @@ router.get("/all", (req, res, next) => {
 });
 
 /* ========== GET/READ ONE ITEM ========== */
-router.get("/:id", isValidId, (req, res, next) => {
+router.get('/:id', isValidId, (req, res, next) => {
   const { id } = req.params;
 
   History.findOne({ _id: id })
-    .populate("gameOne", "name")
-    .populate("gameTwo", "name")
-    .populate("choice", "name")
+    .populate('gameOne', 'name')
+    .populate('gameTwo', 'name')
+    .populate('choice', 'name')
     .then(result => (result ? res.json(result) : next()))
     .catch(err => next(err));
 });
 
-router.get("/:id/results", async (req, res, next) => {
+router.get('/:id/results', async (req, res, next) => {
   const { id } = req.params;
   try {
     const wonGames = await gamesWon(id);
@@ -106,7 +107,7 @@ router.get("/:id/results", async (req, res, next) => {
     const [name] = await gameName(id);
     const coverUrl = await gamePic(id);
 
-    console.log("cover url is ", coverUrl);
+    console.log('cover url is ', coverUrl);
 
     res.json({
       percentage: Number(percentage.toFixed(2)),
@@ -116,23 +117,22 @@ router.get("/:id/results", async (req, res, next) => {
       coverUrl
     });
   } catch (e) {
-    console.log(e);
-    const err = new Error("No history available yet for that game");
+    const err = new Error('No history available yet for that game');
     err.status = 404;
     return next(err);
   }
 });
 
 /* ========== POST/CREATE AN ITEM ========== */
-router.post("/", (req, res, next) => {
-  const { gameOne, gameTwo, choice } = req.body;
+router.post('/', (req, res, next) => {
+  const { gameOne, gameTwo, choice, userId } = req.body;
   // const userId = req.user.id;
 
-  const newHist = { gameOne, gameTwo, choice };
+  const newHist = { gameOne, gameTwo, choice, userId };
 
   /** *** Never trust users - validate input **** */
   if (!gameOne || !gameTwo || !choice) {
-    const err = new Error("Missing field in request body");
+    const err = new Error('Missing field in request body');
     err.status = 400;
     return next(err);
   }
@@ -141,31 +141,47 @@ router.post("/", (req, res, next) => {
   const validate =
     mongoose.Types.ObjectId.isValid(gameOne) &&
     mongoose.Types.ObjectId.isValid(gameTwo) &&
-    mongoose.Types.ObjectId.isValid(choice);
+    mongoose.Types.ObjectId.isValid(choice) &&
+    mongoose.Types.ObjectId.isValid(userId);
   if (!validate) {
-    const err = new Error("The `id` is not valid");
+    const err = new Error('The `id` is not valid');
     err.status = 400;
     return next(err);
   }
 
-  History.create(newHist)
+  let user;
+  let responseHistory;
+  User.findOne({ _id: userId })
     .then(result => {
-      res
-        .location(`${req.originalUrl}/${result.id}`)
-        .status(201)
-        .json(result);
+      user = result;
     })
-    .catch(err => {
-      // if (err.code === 11000) {
-      //   err = new Error('Choice already exists');
-      //   err.status = 400;
-      // }
-      next(err);
+    .then(() => {
+      History.create(newHist)
+        .then(User.findOne({ _id: userId }))
+        .then(history => {
+          responseHistory = history;
+          user.history.push(history._id);
+          return user.save();
+        })
+        .then(result => {
+          res
+            .location(`${req.originalUrl}/${result.id}`)
+            .status(201)
+            .json(responseHistory);
+        })
+        .catch(err => {
+          console.log(err);
+          // if (err.code === 11000) {
+          //   err = new Error('Choice already exists');
+          //   err.status = 400;
+          // }
+          next(err);
+        });
     });
 });
 
 /* ========== PUT/UPDATE AN ITEM ========== */
-router.put("/:id", isValidId, missingChoice, (req, res, next) => {
+router.put('/:id', isValidId, missingChoice, (req, res, next) => {
   const { id } = req.params;
   const { choice } = req.body;
 
@@ -177,7 +193,7 @@ router.put("/:id", isValidId, missingChoice, (req, res, next) => {
       const { gameOne, gameTwo } = games;
 
       if (choice !== gameOne.toString() && choice !== gameTwo.toString()) {
-        const err = new Error("Choice does not equal game one or game two");
+        const err = new Error('Choice does not equal game one or game two');
         err.status = 400;
         return next(err);
       }
@@ -198,7 +214,7 @@ router.put("/:id", isValidId, missingChoice, (req, res, next) => {
 });
 
 /* ========== DELETE AN ITEM ========== */
-router.delete("/:id", isValidId, (req, res, next) => {
+router.delete('/:id', isValidId, (req, res, next) => {
   const { id } = req.params;
 
   History.findOneAndDelete({ _id: id })

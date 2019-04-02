@@ -16,7 +16,7 @@ describe("ASYNC Capstone API - Users", () => {
     return dbConnect(TEST_DATABASE_URL);
   });
 
-  beforeEach(() => {});
+  beforeEach(() => { });
   afterEach(() => dbDrop());
 
   after(() => {
@@ -38,7 +38,8 @@ describe("ASYNC Capstone API - Users", () => {
             "id",
             "username",
             "firstName",
-            "lastName"
+            "lastName",
+            "history"
           );
           expect(res.body).to.have.keys(
             "id",
