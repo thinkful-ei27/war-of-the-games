@@ -5,12 +5,15 @@ import { updateGame } from "../actions/gameActions";
 export function GameDetails(props) {
   const { dispatch, game, feedback, error, loggedIn } = props;
   const { name, coverUrl, slug, platforms, genres, summary, cloudImage } = game;
+  let platformDisplay;
   const genreDisplay = genres.map(gen => (
     <span key={gen.id}>{gen.name}, </span>
   ));
-  const platformDisplay = platforms.map(plat => (
-    <span key={plat.id}>{plat.name}, </span>
-  ));
+  if (platforms) {
+    platformDisplay = platforms.map(plat => (
+      <span key={plat.id}>{plat.name}, </span>
+    ));
+  }
 
   const renderWinPercentage = () => {
     if (feedback) {
