@@ -8,9 +8,28 @@ import "./styles/about.css";
 export function AboutPage(props) {
   const { screenWidth } = props;
   let title = "WotG";
+  const textOne = `War of the Games pits games from beloved classics to modern
+  masterpieces against each other, and shows you how other people feel
+  about that game.`;
+
+  const textTwo = `Never heard of a game? No worries! We've got you covered with
+  everything you've ever wanted to know about a title, including review
+  scores!`;
+
+  let content = (
+    <div>
+      <p className="about-page-text one">{textOne}</p>
+      <p className="about-page-text two">{textTwo}</p>
+    </div>
+  );
 
   if (screenWidth > 600) {
     title = "War of the Games";
+    content = (
+      <p className="about-page-text">
+        {textOne} {textTwo}
+      </p>
+    );
   }
 
   return (
@@ -23,13 +42,8 @@ export function AboutPage(props) {
         </div>
       </section>
       <section className="about-page-text-section">
-        <p className="about-page-text">
-          War of the Games pits games from beloved classics to modern
-          masterpieces against each other, and shows you how other people feel
-          about that game. Never heard of a game? No worries! We've got you
-          covered with everything you've ever wanted to know about a title,
-          including review scores! (Recomendations coming soon...)
-        </p>
+        {content}
+        <p className="recomendations">(Recomendations coming soon...)</p>
       </section>
       <section className="about-page-btns">
         <Link to="/">

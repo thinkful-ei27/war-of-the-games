@@ -4,17 +4,31 @@
 }
 
 .about-page-section{
-  margin-left: 15px;
-  margin-right: 15px;
+  margin: 0 15px 35px 15px;
 }
 
-.about-page-text{
+.about-page-text-section {
   text-align: center;
-  margin: 40px;
+}
+
+.about-page-text.one {
+  text-align: left;
+  margin-bottom: 35px;
+}
+
+.about-page-text.two {
+  text-align: right;
+}
+
+.recomendations {
+  font-size: 0.6em;
+  color: rgb(155, 155, 155);
+  margin: 0 auto 20px auto;
+  
 }
 
 .about-page-btns{
-  text-align: center;
+  margin: 0 auto 20px auto;
 }
 
 .about-img{
@@ -26,7 +40,7 @@
 .about-container {
   width: 100%;
   margin: 0 auto;
-  padding: 10px;
+  padding: 25px;
   display: flex;
   flex-direction: column
 }
