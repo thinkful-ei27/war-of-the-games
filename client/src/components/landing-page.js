@@ -3,7 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import Battle from "./battle";
 import VoteStats from "./vote-stats";
-import { UserOnboard } from './userOnboard';
+import UserOnboard from './userOnboard';
 import "./styles/landing-page.css";
 import { SignupPrompt } from "./signupPrompt";
 import "./styles/card.css";

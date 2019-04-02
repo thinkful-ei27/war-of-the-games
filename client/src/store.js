@@ -3,6 +3,7 @@ import { reducer as formReducer } from "redux-form";
 import thunk from "redux-thunk";
 import { loadAuthToken } from "./local-storage";
 import allGamesReducer from "./reducers/allGamesReducer";
+import onBoardingReducer from "./reducers/onBoardingReducer";
 import authReducer from "./reducers/auth";
 import gamesReducer from "./reducers/gameReducer";
 import protectedDataReducer from "./reducers/protected-data";
@@ -16,7 +17,8 @@ const store = createStore(
     auth: authReducer,
     protectedData: protectedDataReducer,
     games: gamesReducer,
-    allGames: allGamesReducer
+    allGames: allGamesReducer,
+    onboard: onBoardingReducer
   }),
   composeEnhancers(applyMiddleware(thunk))
 );
