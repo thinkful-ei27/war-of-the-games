@@ -31,6 +31,18 @@ router.get("/:id/history", (req, res, next) => {
     });
 });
 
+/* individual game data */
+// router.get("/:userId/history/:gameId", (req, res, next) => {
+//   const { userId, gameId } = req.params;
+//   User.find({ userId })
+//     .populate("history")
+//     .then(() => {
+//       History.find({ userId, choice: gameId })
+//         .populate("choice")
+//         .then(data => res.json(data));
+//     });
+// });
+
 /* ========== POST USERS ========== */
 
 router.post("/", (req, res, next) => {
