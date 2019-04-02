@@ -3,7 +3,8 @@ import {
 } from '../actions/onboarding';
 
 const initialState = {
-  showing: [
+  showing: [],
+  test1: [
     {
       name: "The Legend of Zelda: Ocarina of Time",
       id: "5c9bf3bb1eaffb2ce28273fd",

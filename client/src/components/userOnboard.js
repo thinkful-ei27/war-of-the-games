@@ -3,19 +3,38 @@ import { connect } from 'react-redux';
 import { setNonUserVotes } from '../actions/gameActions'
 import { nextTest } from '../actions/onboarding'
 import { SignupPrompt } from './signupPrompt';
+import { setVoteLocalStorageVariable, saveVoteCount, incrementVoteCount, loadVoteCount } from '../local-storage'
 export class UserOnboard extends React.Component {
-  count = 1
+
+  count = Number(loadVoteCount())
+
   handleVote = () => {
     let myKey;
-    this.count += 1;
+    this.count++
+    incrementVoteCount();
     myKey = `test${this.count}`;
     this.props.dispatch(nextTest(myKey))
   }
 
+  componentWillMount() {
+    setVoteLocalStorageVariable()
+  }
+
   render() {
+    console.log(this.count)
     let { tests } = this.props;
-    let content
-    if (this.count < 11) {
+    let content;
+    if (!tests.showing.length) {
+      content =
+        <div className="battle-container">
+          <h1>user onboarding</h1>
+          <button
+            onClick={() => {
+              this.handleVote()
+            }}>Get started</button>
+        </div>
+    }
+    else if (this.count < 11 && this.count > 0) {
       content =
         <div className="battle-container">
           <div className="card">
@@ -54,7 +73,9 @@ export class UserOnboard extends React.Component {
       </button>
           </div>
         </div >
-    } else content = <SignupPrompt />
+    } else if (this.count >= 10) {
+      content = <SignupPrompt />
+    }
     return content
   }
 }
