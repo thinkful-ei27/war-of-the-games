@@ -30,9 +30,21 @@ router.get("/:id/history", (req, res, next) => {
 });
 
 router.get("/:id/recommendations", (req, res, next) => {
-  return Game.find()
+  let topChoices;
+
+  return History.aggregate([{ $group: { _id: "$choice", count: { $sum: 1 } } }])
+    .sort({ count: "desc" })
     .limit(5)
-    .then(results => res.json(results))
+    .then(his => {
+      topChoices = his.map(history => history._id);
+      return Game.find({ _id: { $in: topChoices } });
+    })
+    .then(results => {
+      const sortedRecs = topChoices.map(choice =>
+        results.find(game => game._id.toString() === choice.toString())
+      );
+      res.json(sortedRecs);
+    })
     .catch(err => next(err));
 });
 

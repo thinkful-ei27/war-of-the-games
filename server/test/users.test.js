@@ -5,7 +5,8 @@ const { dbConnect, dbDisconnect, dbDrop } = require("../db-mongoose");
 const { JWT_SECRET, TEST_DATABASE_URL } = require("../config");
 const User = require("../models/user");
 const Game = require("../models/game");
-const { games, users } = require("../db/data");
+const History = require("../models/history");
+const { games, histories, users } = require("../db/data");
 
 const { expect } = chai;
 
@@ -25,6 +26,7 @@ describe("ASYNC Capstone API - Users", () => {
     return Promise.all([
       User.insertMany(users),
       Game.insertMany(games),
+      History.insertMany(histories),
       User.createIndexes(),
       Game.createIndexes()
     ]).then(([dbUsers]) => {
@@ -86,9 +88,32 @@ describe("ASYNC Capstone API - Users", () => {
         });
     });
 
-    it(
-      "should return recommendations in the correct order and with the correct fields"
-    );
+    it("should return recommendations in the correct order and with the correct fields", () => {
+      return Promise.all([
+        History.aggregate([
+          { $group: { _id: "$choice", count: { $sum: 1 } } }
+        ]).sort({ count: "desc" }),
+        chai
+          .request(app)
+          .get(`/api/users/${user.id}/recommendations`)
+          .set("Authorization", `Bearer ${token}`)
+      ]).then(([his, res]) => {
+        expect(res.body).to.be.an("array");
+        expect(res.body.length).to.equal(his.length);
+        res.body.forEach((game, i) => {
+          expect(game).to.be.an("object");
+          expect(game).to.include.all.keys(
+            "id",
+            "name",
+            "igdb",
+            "coverUrl",
+            "createdAt",
+            "updatedAt"
+          );
+          expect(game.id).to.equal(his[i]._id.toString());
+        });
+      });
+    });
 
     it("should catch errors and respond properly");
   });
