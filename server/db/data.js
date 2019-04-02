@@ -44,7 +44,7 @@ const games = [
       26758,
       28309,
       33269,
-      56033
+      1626
     ],
     genres: [
       {
@@ -85,6 +85,18 @@ const games = [
       id: 1022,
       slug: "the-legend-of-zelda"
     },
+    similar_games: [
+      24426,
+      47823,
+      54775,
+      55199,
+      76882,
+      80916,
+      81249,
+      101608,
+      1626,
+      1074
+    ],
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/bfeef9eun1ybhuwufqxm.jpg"
   },
@@ -95,6 +107,7 @@ const games = [
       id: 1618,
       slug: "mortal-kombat--2"
     },
+    similar_games: [119, 1242, 1243, 1244, 1613, 1620, 1621, 1622, 6710, 7292],
     coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/co1hno.jpg"
   },
   {
@@ -104,6 +117,18 @@ const games = [
       id: 3186,
       slug: "street-fighter-ii"
     },
+    similar_games: [
+      1103,
+      1714,
+      1717,
+      7386,
+      8652,
+      9061,
+      9806,
+      12597,
+      13677,
+      45184
+    ],
     coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/co1hq8.jpg"
   },
   {
@@ -113,6 +138,7 @@ const games = [
       id: 740,
       slug: "halo-combat-evolved"
     },
+    similar_games: [37, 74, 231, 241, 355, 356, 571, 623, 989, 6803],
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/bcotwv6rapvdglcahxi3.jpg"
   },
@@ -123,6 +149,7 @@ const games = [
       id: 3005,
       slug: "superman"
     },
+    similar_games: [111, 231, 1103, 1268, 1886, 4225, 5503, 6924, 1626, 1074],
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/wej8g7hq46wb0ueyblin.jpg"
   },
@@ -133,6 +160,7 @@ const games = [
       id: 427,
       slug: "final-fantasy-vii"
     },
+    similar_games: [398, 411, 413, 421, 425, 426, 428, 1802, 7194, 11292],
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/idzdf1alxvetz3ow2ugy.jpg"
   },
@@ -143,6 +171,7 @@ const games = [
       id: 3644,
       slug: "wwf-no-mercy"
     },
+    similar_games: [2265, 3632, 3636, 3643, 3645, 3646, 5298, 6442, 6444, 6445],
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/clajigg1q7mm9uxz14kx.jpg"
   },
@@ -153,6 +182,18 @@ const games = [
       id: 1626,
       slug: "super-smash-bros"
     },
+    similar_games: [
+      1070,
+      10039,
+      59858,
+      76253,
+      103269,
+      103316,
+      109277,
+      109460,
+      112589,
+      1074
+    ],
     coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/co1hzi.jpg"
   },
   {
@@ -162,6 +203,18 @@ const games = [
       id: 5636,
       slug: "candy-crush-saga"
     },
+    similar_games: [
+      20329,
+      25222,
+      26223,
+      55173,
+      55190,
+      56033,
+      60044,
+      64599,
+      87170,
+      1626
+    ],
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/u9s7ap9gi5kestfxhxdf.jpg"
   },

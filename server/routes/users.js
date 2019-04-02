@@ -31,19 +31,31 @@ router.get("/:id/history", (req, res, next) => {
 router.get("/:id/recommendations", jwtAuth, (req, res, next) => {
   let topChoices;
 
+  // Find top game choices for user
   return History.aggregate([
     { $match: { userId: mongoose.Types.ObjectId(req.user.id) } },
     { $group: { _id: "$choice", count: { $sum: 1 } } }
   ])
     .sort({ count: "desc" })
-    .limit(5)
+    .limit(100)
     .then(his => {
+      // Grab game info for top choices
       topChoices = his.map(history => history._id);
       return Game.find({ _id: { $in: topChoices } });
     })
-    .then(results => {
+    .then(games => {
+      // Extract similar_games and count them
+      const similarGamesCount = {};
+      games.forEach(game =>
+        game.similar_games.forEach(similarGame => {
+          similarGamesCount[similarGame]
+            ? (similarGamesCount[similarGame] += 1)
+            : (similarGamesCount[similarGame] = 1);
+        })
+      );
+      console.log(similarGamesCount);
       const sortedRecs = topChoices.map(choice =>
-        results.find(game => game._id.toString() === choice.toString())
+        games.find(game => game._id.toString() === choice.toString())
       );
       res.json(sortedRecs);
     })

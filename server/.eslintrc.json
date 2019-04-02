@@ -3,6 +3,7 @@
   "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": ["error"],
-    "no-underscore-dangle": 0
+    "no-underscore-dangle": 0,
+    "no-unused-expressions": 0
   }
 }
