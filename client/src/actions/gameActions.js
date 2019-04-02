@@ -43,11 +43,10 @@ export const fetchGames = () => (dispatch, getState) => {
       return response.data;
     })
     .then(data => {
-      console.log(data);
       const { authToken } = getState().auth;
       const gameOneId = data[0].id;
       const gameTwoId = data[1].id;
-      if (data[0].cloudImage === [] || data[1].cloudImage === []) {
+      if (data[0].cloudImage === "" || data[1].cloudImage === "") {
         const getFirstGame = () =>
           axios.put(
             `${API_BASE_URL}/games/${gameOneId}/images`,
