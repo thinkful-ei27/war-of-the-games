@@ -344,7 +344,8 @@ describe("ASYNC Capstone API - Games", () => {
             "summary",
             "genres",
             "platforms",
-            "similar_games"
+            "similar_games",
+            "cloudImage"
           );
           return Game.findOne({ _id: res.body.id });
         })
