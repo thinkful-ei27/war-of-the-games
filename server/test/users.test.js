@@ -1,6 +1,6 @@
 const chai = require("chai");
 const jwt = require("jsonwebtoken");
-const mongoose = require("mongoose");
+const sinon = require("sinon");
 const { app } = require("../index");
 const { dbConnect, dbDisconnect, dbDrop } = require("../db-mongoose");
 const { JWT_SECRET, TEST_DATABASE_URL } = require("../config");
@@ -10,6 +10,7 @@ const History = require("../models/history");
 const { games, histories, users } = require("../db/data");
 
 const { expect } = chai;
+const sandbox = sinon.createSandbox();
 
 describe("ASYNC Capstone API - Users", () => {
   let user;
@@ -35,7 +36,10 @@ describe("ASYNC Capstone API - Users", () => {
       token = jwt.sign({ user }, JWT_SECRET, { subject: user.username });
     });
   });
-  afterEach(() => dbDrop());
+  afterEach(() => {
+    sandbox.restore();
+    return dbDrop();
+  });
 
   after(() => {
     return dbDisconnect();
@@ -108,6 +112,17 @@ describe("ASYNC Capstone API - Users", () => {
         });
     });
 
-    it("should catch errors and respond properly");
+    it("should catch errors and respond properly", () => {
+      sandbox.stub(Game.schema.options.toJSON, "transform").throws("FakeError");
+
+      return chai
+        .request(app)
+        .get("/api/games")
+        .then(res => {
+          expect(res).to.have.status(500);
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Internal Server Error");
+        });
+    });
   });
 });
