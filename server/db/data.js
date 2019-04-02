@@ -368,6 +368,20 @@ const histories = [
     gameOne: "5c9a959ba5d0dd09e07f45a1",
     gameTwo: "5c9a959ba5d0dd09e07f45a8",
     choice: "5c9a959ba5d0dd09e07f45a8"
+  },
+  {
+    _id: "222222222222222222222215",
+    userId: "333333333333333333333300",
+    gameOne: "5c9a959ba5d0dd09e07f45a4",
+    gameTwo: "5c9a959ba5d0dd09e07f45a1",
+    choice: "5c9a959ba5d0dd09e07f45a4"
+  },
+  {
+    _id: "222222222222222222222216",
+    userId: "333333333333333333333300",
+    gameOne: "5c9a959ba5d0dd09e07f45a3",
+    gameTwo: "5c9a959ba5d0dd09e07f45a1",
+    choice: "5c9a959ba5d0dd09e07f45a3"
   }
 ];
 

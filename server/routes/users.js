@@ -1,16 +1,15 @@
 const express = require("express");
-
-const router = express.Router();
+const mongoose = require("mongoose");
+const passport = require("passport");
 const User = require("../models/user");
 const History = require("../models/history");
 const Game = require("../models/game");
 
-/* ========== GET USER ========== */
-// router.get('/:id', (req, res, next) => {
-//   const userId = req.user.id;
-//   console.log('User is ', req.user, 'User ID is', userId);
-//   // res.json(userId);
-// });
+const router = express.Router();
+const jwtAuth = passport.authenticate("jwt", {
+  session: false,
+  failWithError: true
+});
 
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
@@ -29,10 +28,13 @@ router.get("/:id/history", (req, res, next) => {
     .catch(err => next(err));
 });
 
-router.get("/:id/recommendations", (req, res, next) => {
+router.get("/:id/recommendations", jwtAuth, (req, res, next) => {
   let topChoices;
 
-  return History.aggregate([{ $group: { _id: "$choice", count: { $sum: 1 } } }])
+  return History.aggregate([
+    { $match: { userId: mongoose.Types.ObjectId(req.user.id) } },
+    { $group: { _id: "$choice", count: { $sum: 1 } } }
+  ])
     .sort({ count: "desc" })
     .limit(5)
     .then(his => {

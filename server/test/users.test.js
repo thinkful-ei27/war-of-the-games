@@ -1,5 +1,6 @@
 const chai = require("chai");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 const { app } = require("../index");
 const { dbConnect, dbDisconnect, dbDrop } = require("../db-mongoose");
 const { JWT_SECRET, TEST_DATABASE_URL } = require("../config");
@@ -91,6 +92,7 @@ describe("ASYNC Capstone API - Users", () => {
     it("should return recommendations in the correct order and with the correct fields", () => {
       return Promise.all([
         History.aggregate([
+          { $match: { userId: mongoose.Types.ObjectId(user.id) } },
           { $group: { _id: "$choice", count: { $sum: 1 } } }
         ]).sort({ count: "desc" }),
         chai
