@@ -3,12 +3,13 @@ import React from "react";
 import { connect } from "react-redux";
 import Card from "./card";
 import { fetchGames, clearGames } from "../actions/gameActions";
+
 export function Battle(props) {
   const { fetchFeedback, dispatch } = props;
   return (
     <div className="battle-container">
       <Card
-        src={props[0].coverUrl}
+        src={props[0].cloudImage}
         alt={props[0].name}
         name={props[0].name}
         id={props[0].id}
@@ -29,7 +30,7 @@ export function Battle(props) {
         </button>
       </div>
       <Card
-        src={props[1].coverUrl}
+        src={props[1].cloudImage}
         alt={props[1].name}
         name={props[1].name}
         id={props[1].id}
