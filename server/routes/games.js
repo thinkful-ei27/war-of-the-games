@@ -76,7 +76,8 @@ router.get("/:id", isValidId, (req, res, next) => {
             genres,
             summary,
             createdAt,
-            updatedAt
+            updatedAt,
+            cloudImage
           } = game;
           gameInfo = Object.assign(
             {},
@@ -89,7 +90,8 @@ router.get("/:id", isValidId, (req, res, next) => {
               genres,
               summary,
               createdAt,
-              updatedAt
+              updatedAt,
+              cloudImage
             },
             { similar_games }
           );
@@ -154,7 +156,7 @@ router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
 
   return igdbApi
     .getGame(igdbId)
-    .then(res => {
+    .then(async res => {
       const {
         name,
         cover,
@@ -165,23 +167,26 @@ router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
         similar_games
       } = res;
       const { image_id } = cover;
+      const coverUrl = `https://images.igdb.com/igdb/image/upload/t_720p/${image_id}.jpg`;
+      const imgResults = await imagesApi.saveImgById(id, coverUrl);
+      const { secure_url } = imgResults;
       const toUpdate = {
         igdb: {
           id: igdbId,
           slug
         },
         name,
-        coverUrl: `https://images.igdb.com/igdb/image/upload/t_720p/${image_id}.jpg`,
+        coverUrl,
         summary,
         genres,
         platforms,
-        similar_games
+        similar_games,
+        cloudImage: secure_url
       };
       console.log("toUpdate is ", toUpdate);
       return Game.findOneAndUpdate({ _id: id }, toUpdate, { new: true });
     })
     .then(_game => {
-      console.log("we have _game ", _game);
       // Returned game with updated items
       game = _game;
       if (game) {
@@ -199,7 +204,8 @@ router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
         genres,
         summary,
         createdAt,
-        updatedAt
+        updatedAt,
+        cloudImage
       } = game;
       gameInfo = Object.assign(
         {},
@@ -212,7 +218,8 @@ router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
           genres,
           summary,
           createdAt,
-          updatedAt
+          updatedAt,
+          cloudImage
         },
         { similar_games }
       );

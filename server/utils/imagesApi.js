@@ -22,7 +22,6 @@ cloudinary.config({
 
 const saveImgCallback = result => {
   const { secure_url } = result;
-  console.log(result);
   return secure_url;
 };
 
