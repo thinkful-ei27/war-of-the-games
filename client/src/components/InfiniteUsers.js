@@ -1,7 +1,5 @@
-import React, { Component, Fragment } from "react";
-import axios from "axios";
+import React, { Component } from "react";
 import { fetchAllGames } from "../actions/allGames";
-import { Games } from "./Games";
 import { connect } from "react-redux";
 import ConnectedGame from "./Game";
 
