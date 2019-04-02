@@ -33,14 +33,46 @@ export const fetchGamesSuccess = games => ({
   games
 });
 
-export const fetchGames = () => dispatch => {
+export const fetchGames = () => (dispatch, getState) => {
   axios({
     url: `${API_BASE_URL}/games/battle`,
     method: "GET"
   })
     .then(response => {
       dispatch(fetchGamesSuccess(response.data));
+      return response.data;
     })
+    .then(data => {
+      console.log(data);
+      const { authToken } = getState().auth;
+      const gameOneId = data[0].id;
+      const gameTwoId = data[1].id;
+      if (data[0].cloudImage === [] || data[1].cloudImage === []) {
+        const getFirstGame = () =>
+          axios.put(
+            `${API_BASE_URL}/games/${gameOneId}/images`,
+            {},
+            {
+              headers: { Authorization: `Bearer ${authToken}` }
+            }
+          );
+        const getSecondGame = () =>
+          axios.put(
+            `${API_BASE_URL}/games/${gameTwoId}/images`,
+            {},
+            {
+              headers: { Authorization: `Bearer ${authToken}` }
+            }
+          );
+        return axios.all([getFirstGame(), getSecondGame()]);
+      }
+      return ["no images", "no images"];
+    })
+    .then(
+      axios.spread((gameOne, gameTwo) => {
+        console.log(gameOne, gameTwo);
+      })
+    )
     .catch(err => {
       console.error(err);
     });
