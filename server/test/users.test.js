@@ -1,12 +1,17 @@
 const chai = require("chai");
+const jwt = require("jsonwebtoken");
 const { app } = require("../index");
 const { dbConnect, dbDisconnect, dbDrop } = require("../db-mongoose");
-const { TEST_DATABASE_URL } = require("../config");
+const { JWT_SECRET, TEST_DATABASE_URL } = require("../config");
 const User = require("../models/user");
+const Game = require("../models/game");
+const { games, users } = require("../db/data");
 
 const { expect } = chai;
 
 describe("ASYNC Capstone API - Users", () => {
+  let user;
+  let token;
   const username = "exampleUser";
   const password = "examplePass";
   const firstName = "Example";
@@ -16,7 +21,17 @@ describe("ASYNC Capstone API - Users", () => {
     return dbConnect(TEST_DATABASE_URL);
   });
 
-  beforeEach(() => {});
+  beforeEach(() => {
+    return Promise.all([
+      User.insertMany(users),
+      Game.insertMany(games),
+      User.createIndexes(),
+      Game.createIndexes()
+    ]).then(([dbUsers]) => {
+      [user] = dbUsers;
+      token = jwt.sign({ user }, JWT_SECRET, { subject: user.username });
+    });
+  });
   afterEach(() => dbDrop());
 
   after(() => {
@@ -46,11 +61,11 @@ describe("ASYNC Capstone API - Users", () => {
           expect(res.body.lastName).to.equal(lastName);
           return User.findOne({ username });
         })
-        .then(user => {
-          expect(user.id).to.equal(res.body.id);
-          expect(user.firstName).to.equal(firstName);
-          expect(user.lastName).to.equal(lastName);
-          return user.validatePassword(password);
+        .then(dbUser => {
+          expect(dbUser.id).to.equal(res.body.id);
+          expect(dbUser.firstName).to.equal(firstName);
+          expect(dbUser.lastName).to.equal(lastName);
+          return dbUser.validatePassword(password);
         })
         .then(isValid => {
           expect(isValid).to.equal(true);
@@ -59,7 +74,17 @@ describe("ASYNC Capstone API - Users", () => {
   });
 
   describe("GET /api/users/:id/recommendations", () => {
-    it("should return the correct number of recommendations");
+    it("should return the correct number of recommendations", () => {
+      return chai
+        .request(app)
+        .get(`/api/users/${user.id}/recommendations`)
+        .set("Authorization", `Bearer ${token}`)
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.be.an("array");
+          expect(res.body.length).to.equal(5);
+        });
+    });
 
     it(
       "should return recommendations in the correct order and with the correct fields"
