@@ -1,10 +1,10 @@
 /* eslint-disable react/destructuring-assignment */
 import React from "react";
-import { connect } from "react-redux";
+// import { connect } from "react-redux";
 import Card from "./card";
 import { fetchGames, clearGames } from "../actions/gameActions";
 
-export function Battle(props) {
+export default function Battle(props) {
   const { fetchFeedback, dispatch } = props;
   return (
     <div className="battle-container">
@@ -40,4 +40,4 @@ export function Battle(props) {
   );
 }
 
-export default connect()(Battle);
+// export default connect()(Battle);
