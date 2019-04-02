@@ -194,10 +194,9 @@ describe("ASYNC Capstone API - History)", function() {
             "wonGames",
             "totalGames",
             "name",
-            "coverUrl"
+            "cloudImage"
           );
           expect(res.body.name).to.equal(game.name);
-          expect(res.body.coverUrl).to.equal(game.coverUrl);
           expect(res.body.percentage).to.be.a("number");
           expect(res.body.wonGames).to.be.a("number");
           expect(res.body.totalGames).to.be.a("number");

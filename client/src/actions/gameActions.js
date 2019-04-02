@@ -1,52 +1,84 @@
-import axios from 'axios';
-import { API_BASE_URL } from '../config';
-import { fetchCurrentGameSuccess } from './allGames';
+import axios from "axios";
+import { API_BASE_URL } from "../config";
+import { fetchCurrentGameSuccess } from "./allGames";
 
-export const FETCH_GAMES = 'FETCH_GAMES';
+export const FETCH_GAMES = "FETCH_GAMES";
 
-export const FETCH_GAME_REQUEST = 'FETCH_GAME_REQUEST';
+export const FETCH_GAME_REQUEST = "FETCH_GAME_REQUEST";
 export const fetchGameRequest = () => ({
   type: FETCH_GAME_REQUEST
 });
 
-export const FETCH_FEEDBACK_SUCCESS = 'FETCH_FEEDBACK_SUCCESS';
+export const FETCH_FEEDBACK_SUCCESS = "FETCH_FEEDBACK_SUCCESS";
 export const fetchFeedbackSuccess = feedback => ({
   type: FETCH_FEEDBACK_SUCCESS,
   feedback
 });
 
-export const FETCH_FEEDBACK_ERROR = 'FETCH_FEEDBACK_ERROR';
+export const FETCH_FEEDBACK_ERROR = "FETCH_FEEDBACK_ERROR";
 export const fetchFeedbackError = error => ({
   type: FETCH_FEEDBACK_ERROR,
   error
 });
 
-export const CLEAR_GAMES = 'CLEAR_GAMES';
+export const CLEAR_GAMES = "CLEAR_GAMES";
 
 export const clearGames = () => ({
   type: CLEAR_GAMES
 });
 
-export const FETCH_GAMES_SUCCESS = 'FETCH_GAMES_SUCCESS';
+export const FETCH_GAMES_SUCCESS = "FETCH_GAMES_SUCCESS";
 export const fetchGamesSuccess = games => ({
   type: FETCH_GAMES_SUCCESS,
   games
 });
 
-export const fetchGames = () => dispatch => {
+export const fetchImages = (gameOneId, gameTwoId, authToken) => {
+  const getFirstGame = () =>
+    axios.put(
+      `${API_BASE_URL}/games/${gameOneId}/images`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${authToken}` }
+      }
+    );
+  const getSecondGame = () =>
+    axios.put(
+      `${API_BASE_URL}/games/${gameTwoId}/images`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${authToken}` }
+      }
+    );
+  return axios.all([getFirstGame(), getSecondGame()]);
+};
+
+export const fetchGames = () => (dispatch, getState) => {
   axios({
     url: `${API_BASE_URL}/games/battle`,
-    method: 'GET'
+    method: "GET"
   })
     .then(response => {
       dispatch(fetchGamesSuccess(response.data));
+      return response.data;
+    })
+    .then(data => {
+      const { authToken } = getState().auth;
+      const gameOneId = data[0].id;
+      const gameTwoId = data[1].id;
+      return !data[0].cloudImage || !data[1].cloudImage
+        ? fetchImages(gameOneId, gameTwoId, authToken)
+        : "No images fetched";
+    })
+    .then(result => {
+      return result;
     })
     .catch(err => {
       console.error(err);
     });
 };
 
-export const HANDLE_VOTE = 'HANDLE_VOTE';
+export const HANDLE_VOTE = "HANDLE_VOTE";
 
 export const handleVote = (gameOne, gameTwo, choice, userId) => (
   dispatch,
@@ -64,7 +96,7 @@ export const handleVote = (gameOne, gameTwo, choice, userId) => (
       }
     })
     .then(function(response) {
-      console.log(response);
+      return response;
     })
     .catch(function(error) {
       console.log(error);
@@ -81,9 +113,9 @@ export const fetchFeedback = game => (dispatch, getState) => {
     });
 };
 
-export const SET_NON_USER_VOTES = 'SET_NON_USER_VOTES';
+export const SET_NON_USER_VOTES = "SET_NON_USER_VOTES";
 
-export const CLEAR_NON_USER_VOTES = 'CLEAR_NON_USER_VOTES';
+export const CLEAR_NON_USER_VOTES = "CLEAR_NON_USER_VOTES";
 
 export const clearNonUserVotes = () => ({
   type: CLEAR_NON_USER_VOTES

@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const sinon = require("sinon");
@@ -478,7 +479,8 @@ describe("ASYNC Capstone API - Games", () => {
             "summary",
             "genres",
             "platforms",
-            "similar_games"
+            "similar_games",
+            "cloudImage"
           );
           expect(res.body.id).to.equal(game.id);
           expect(new Date(res.body.createdAt)).to.eql(game.createdAt);

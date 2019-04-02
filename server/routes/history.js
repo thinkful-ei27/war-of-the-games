@@ -1,12 +1,7 @@
 // "use strict";
 const express = require("express");
 const mongoose = require("mongoose");
-const {
-  totalGamesPlayed,
-  gamesWon,
-  gameName,
-  gamePic
-} = require("../utils/queries");
+const { totalGamesPlayed, gamesWon } = require("../utils/queries");
 
 const History = require("../models/history");
 const User = require("../models/user");
@@ -95,18 +90,17 @@ router.get("/:id", isValidId, (req, res, next) => {
 router.get("/:id/results", async (req, res, next) => {
   const { id } = req.params;
   try {
+    const { name, cloudImage, coverUrl } = await Game.findOne({ _id: id });
     const wonGames = await gamesWon(id);
     const totalGames = await totalGamesPlayed(id);
     const percentage = wonGames / totalGames;
-    const [name] = await gameName(id);
-    const coverUrl = await gamePic(id);
 
     res.json({
       percentage: Number(percentage.toFixed(2)),
       wonGames,
       totalGames,
       name,
-      coverUrl
+      cloudImage: cloudImage || coverUrl
     });
   } catch (e) {
     const err = new Error("No history available yet for that game");
