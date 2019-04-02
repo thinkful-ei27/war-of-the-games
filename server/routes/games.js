@@ -183,7 +183,6 @@ router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
         similar_games,
         cloudImage: secure_url
       };
-      console.log("toUpdate is ", toUpdate);
       return Game.findOneAndUpdate({ _id: id }, toUpdate, { new: true });
     })
     .then(_game => {
@@ -195,7 +194,6 @@ router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
       return next();
     })
     .then(similar_games => {
-      console.log("we have similar games ", similar_games);
       const {
         name,
         igdb,
