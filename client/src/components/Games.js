@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import { Field, reduxForm, formValueSelector } from "redux-form";
-import { connect } from "react-redux";
-import { fetchAllGames } from "../actions/allGames";
-import ConnectedGame from "./Game";
-import "./styles/gameInfo.css";
+import React, { Component } from 'react';
+// import { Field, reduxForm, formValueSelector } from "redux-form";
+import { connect } from 'react-redux';
+import { fetchAllGames } from '../actions/allGames';
+import ConnectedGame from './Game';
+import './styles/gameInfo.css';
 
 const normalize = (value, compare) => {
   const v = value.toLowerCase().trim();
   const c = compare.toLowerCase().trim();
   return c.includes(v);
-}
+};
 
 export class Games extends Component {
   state = {
@@ -23,32 +23,34 @@ export class Games extends Component {
   }
 
   search = () => {
-    this.setState({ loading: true})
-  }
+    this.setState({ loading: true });
+  };
 
   onChangeHandler = async e => {
     this.search(e.target.value);
     this.setState({ value: e.target.value });
-  }
+  };
 
   get renderGames() {
     let filteredGames = <h1>There's no games</h1>;
     if (this.props.games) {
-      filteredGames = this.props.games.map(game => {
-        const { name, igdb, id } = game;
-        const { slug } = igdb;
-        const props = {
-          id,
-          name,
-          // coverUrl,
-          slug
-        };
-        return <ConnectedGame key={id} {...props} />;
-      }).filter(game => {
-        const { name } = game.props;
-        const { value } = this.state;
-        return normalize(value, name);
-      });
+      filteredGames = this.props.games
+        .map(game => {
+          const { name, igdb, id } = game;
+          const { slug } = igdb;
+          const props = {
+            id,
+            name,
+            // coverUrl,
+            slug
+          };
+          return <ConnectedGame key={id} {...props} />;
+        })
+        .filter(game => {
+          const { name } = game.props;
+          const { value } = this.state;
+          return normalize(value, name);
+        });
     }
 
     return filteredGames;
@@ -68,15 +70,15 @@ export class Games extends Component {
         </div>
         <div className="nes-field mt-16">
           <input
-            type='text'
-            className='nes-input'
+            type="text"
+            className="nes-input"
             value={this.state.value}
             onChange={e => this.onChangeHandler(e)}
             placeholder="Type something to search"
           />
         </div>
         <div className="flex justify-start content-start flex-wrap mt-16">
-        {this.renderGames}
+          {this.renderGames}
         </div>
       </section>
     );
