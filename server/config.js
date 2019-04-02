@@ -1,5 +1,3 @@
-
-
 require("dotenv").config();
 
 module.exports = {
@@ -12,7 +10,8 @@ module.exports = {
     process.env.TEST_DATABASE_URL ||
     "mongodb://dev:password123@ds223756.mlab.com:23756/final-capstone-test",
   JWT_SECRET: process.env.JWT_SECRET,
-  JWT_EXPIRY: process.env.JWT_EXPIRY || "7d"
+  JWT_EXPIRY: process.env.JWT_EXPIRY || "7d",
+  CLOUDINARY_URL: process.env.CLOUDINARY_URL
   // DATABASE_URL:
   //     process.env.DATABASE_URL || 'postgres://localhost/thinkful-backend',
   // TEST_DATABASE_URL:
