@@ -22,3 +22,40 @@
     padding-right: 25px;
     height: 50px;
 }
+
+.about-container {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column
+}
+
+@media (min-width: 576px) {
+  .about-container {
+    max-width: 576px;
+  }
+}
+
+@media (min-width: 768px) {
+  .about-container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 992px) {
+  .about-container {
+    max-width: 992px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .about-container {
+    max-width: 1200px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .about-container {
+    max-width: 1600px;
+  }
+}

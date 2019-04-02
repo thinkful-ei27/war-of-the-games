@@ -7,7 +7,7 @@ import "./styles/about.css";
 export default class AboutPage extends React.Component {
   render() {
     return (
-      <>
+      <div className="about-container">
         <section className="about-page-section">
           <div className="about-page-div">
             <i className="snes-logo" />
@@ -33,7 +33,7 @@ export default class AboutPage extends React.Component {
             <img className="about-img" src={knight} alt="knight" />
           </Link>
         </section>
-      </>
+      </div>
     );
   }
 }
