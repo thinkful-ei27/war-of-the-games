@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 
 const router = express.Router();
 const User = require('../models/user');
+const History = require('../models/history');
 
 /* ========== GET USER ========== */
 // router.get('/:id', (req, res, next) => {
@@ -13,10 +14,27 @@ const User = require('../models/user');
 //   // res.json(userId);
 // });
 
+router.get('/:id/history', (req, res, next) => {
+  const { id } = req.params;
+
+  User.findOne({ _id: id })
+    .populate('history')
+    .then(() => {
+      History.find({ userId: id })
+        .populate('gameOne', 'name')
+        .populate('gameTwo', 'name')
+        .populate('choice')
+        .then(results => {
+          res.json(results);
+        });
+    });
+});
+
 /* ========== POST USERS ========== */
+
 router.post('/', (req, res, next) => {
-  const {firstName, lastName, username, password} = req.body;
-  
+  const { firstName, lastName, username, password } = req.body;
+
   const requiredFields = ['firstName', 'lastName', 'username', 'password'];
   const missingField = requiredFields.find(field => !(field in req.body));
 
@@ -37,7 +55,12 @@ router.post('/', (req, res, next) => {
     return next(err);
   }
 
-  const explicitlyTrimmedFields = ['username', 'password', 'firstName', 'lastName'];
+  const explicitlyTrimmedFields = [
+    'username',
+    'password',
+    'firstName',
+    'lastName'
+  ];
   const nonTrimmedField = explicitlyTrimmedFields.find(field => {
     return req.body[field].trim() !== req.body[field];
   });
@@ -60,12 +83,12 @@ router.post('/', (req, res, next) => {
   const tooSmallField = Object.keys(sizedFields).find(
     field =>
       'min' in sizedFields[field] &&
-            req.body[field].trim().length < sizedFields[field].min
+      req.body[field].trim().length < sizedFields[field].min
   );
   const tooLargeField = Object.keys(sizedFields).find(
     field =>
       'max' in sizedFields[field] &&
-            req.body[field].trim().length > sizedFields[field].max
+      req.body[field].trim().length > sizedFields[field].max
   );
 
   if (tooSmallField || tooLargeField) {
@@ -73,16 +96,15 @@ router.post('/', (req, res, next) => {
       code: 422,
       reason: 'ValidationError',
       message: tooSmallField
-        ? `Must be at least ${sizedFields[tooSmallField]
-          .min} characters long`
-        : `Wow, what a secure password! However, passwords must be at most ${sizedFields[tooLargeField]
-          .max} characters long`,
+        ? `Must be at least ${sizedFields[tooSmallField].min} characters long`
+        : `Wow, what a secure password! However, passwords must be at most ${
+            sizedFields[tooLargeField].max
+          } characters long`,
       location: tooSmallField || tooLargeField
     });
   }
 
-  User
-    .hashPassword(password)
+  User.hashPassword(password)
     .then(digest => {
       const trimmedFirstName = firstName.trim();
       const trimmedLastName = lastName.trim();
@@ -95,7 +117,8 @@ router.post('/', (req, res, next) => {
       return User.create(newUser);
     })
     .then(users => {
-      res.location(`${req.originalUrl}/${users.id}`)
+      res
+        .location(`${req.originalUrl}/${users.id}`)
         .status(201)
         .json(users);
     })

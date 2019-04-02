@@ -3,11 +3,14 @@ import {
   FETCH_FEEDBACK_SUCCESS,
   FETCH_FEEDBACK_ERROR,
   CLEAR_GAMES,
+  SET_NON_USER_VOTES,
+  CLEAR_NON_USER_VOTES,
   FETCH_GAME_REQUEST
 } from "../actions/gameActions";
 
 const initialState = {
   battleGames: [],
+  nonUserVotes: [],
   feedback: null,
   error: null,
   loading: false
@@ -38,6 +41,14 @@ export default function reducer(state = initialState, action) {
     case CLEAR_GAMES:
       return Object.assign({}, state, {
         battleGames: []
+      });
+    case SET_NON_USER_VOTES:
+      return Object.assign({}, state, {
+        nonUserVotes: [...state.nonUserVotes, action.vote]
+      });
+    case CLEAR_NON_USER_VOTES:
+      return Object.assign({}, state, {
+        nonUserVotes: []
       });
     default:
       return state;

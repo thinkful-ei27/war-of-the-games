@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import Loading from "./loading";
 
-import RegistrationForm from "./registration-form";
+import RegistrationForm from './registration-form';
 
 export function RegistrationPage(props) {
   // If we are logged in (which happens automatically when registration
@@ -12,7 +12,7 @@ export function RegistrationPage(props) {
   const { loggedIn, loading } = props;
   let loadingView;
   if (loggedIn) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to="/" />;
   }
 
   if (loading) {
