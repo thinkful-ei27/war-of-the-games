@@ -1,11 +1,13 @@
 import {
   GET_USER_ERROR,
   GET_USER_SUCCESS,
-  GET_USER_REQUEST
-} from '../actions/users';
+  GET_USER_REQUEST,
+  GET_USER_TOP_HISTORY_SUCCESS
+} from "../actions/users";
 
 const initialState = {
   history: [],
+  topHistory: [],
   loading: false,
   error: null
 };
@@ -30,7 +32,11 @@ export default function reducer(state = initialState, action) {
         loading: false,
         error: action.error
       };
-
+    case GET_USER_TOP_HISTORY_SUCCESS:
+      return {
+        ...state,
+        topHistory: [...action.history]
+      };
     default:
       return state;
   }

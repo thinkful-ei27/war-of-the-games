@@ -39,9 +39,7 @@ export class InfiniteGames extends Component {
       const scrollHeight = document.documentElement.scrollHeight;
       const pageYOffset = window.pageYOffset;
       const clientHeight = document.documentElement.clientHeight;
-      if (
-        pageYOffset + clientHeight >= scrollHeight
-      ) {
+      if (pageYOffset + clientHeight >= scrollHeight) {
         loadGames();
       }
     };
