@@ -77,7 +77,6 @@ export class ProfilePage extends React.Component {
           <h4>Your Top 6 choices!</h4>
           {topSix}
         </section>
-        <ul>{recentHistory}</ul>
         <ConnectedRecommendations />
       </div>
     );
