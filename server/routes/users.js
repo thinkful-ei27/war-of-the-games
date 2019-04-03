@@ -14,16 +14,12 @@ const jwtAuth = passport.authenticate("jwt", {
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
 
-  User.findOne({ _id: id })
-    .populate("history")
-    .then(() => {
-      History.find({ userId: id })
-        .populate("gameOne", "name")
-        .populate("gameTwo", "name")
-        .populate("choice")
-        .then(results => {
-          res.json(results);
-        });
+  History.find({ userId: id })
+    .populate("gameOne", "name")
+    .populate("gameTwo", "name")
+    .populate("choice")
+    .then(results => {
+      res.json(results);
     })
     .catch(err => next(err));
 });
