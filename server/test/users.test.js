@@ -80,6 +80,19 @@ describe("ASYNC Capstone API - Users", () => {
     });
   });
 
+  describe("GET /api/users/:id/history", () => {
+    it("should return the correct number of histories", () => {
+      return Promise.all([
+        History.find({ userId: user.id }),
+        chai.request(app).get(`/api/users/${user.id}/history`)
+      ]).then(([hist, res]) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an("array");
+        expect(res.body.length).to.equal(hist.length);
+      });
+    });
+  });
+
   describe("GET /api/users/recommendations", () => {
     it("should return the correct number of recommendations", () => {
       return chai
