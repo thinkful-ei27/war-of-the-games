@@ -96,6 +96,21 @@ describe("ASYNC Capstone API - Users", () => {
         expect(res.body.length).to.equal(hist.length);
       });
     });
+
+    it("should catch errors and respond properly", () => {
+      sandbox
+        .stub(History.schema.options.toJSON, "transform")
+        .throws("FakeError");
+
+      return chai
+        .request(app)
+        .get(`/api/users/${user.id}/history`)
+        .then(res => {
+          expect(res).to.have.status(500);
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Internal Server Error");
+        });
+    });
   });
 
   describe("GET /api/users/recommendations", () => {
