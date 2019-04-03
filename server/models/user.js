@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   username: { type: String, required: true, unique: true, lowercase: true },
   password: { type: String, required: true },
-  history: [{ type: mongoose.Schema.Types.ObjectId, ref: "History" }]
+  history: [{ type: mongoose.Schema.Types.ObjectId, ref: "History" }],
   // about: { type: String }
   admin: { type: Boolean, default: false }
 });
