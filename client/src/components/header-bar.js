@@ -29,7 +29,10 @@ export class HeaderBar extends React.Component {
     return menuItems.filter(item => !hidden.includes(item.name));
   }
 
+
   render() {
+    const {screenWidth} = this.props
+    let title = screenWidth > 700 ? "War of the Games" : "WotG";
     // Only render the log out button if we are logged in
 
     return (
@@ -38,7 +41,7 @@ export class HeaderBar extends React.Component {
           <Link to="/">
             <h2 className="p-4">
               <i className="nes-logo" />
-              War of the Games
+              {title}
             </h2>
           </Link>
           <section className="p-4">
@@ -51,7 +54,8 @@ export class HeaderBar extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  loggedIn: state.auth.currentUser !== null
+  loggedIn: state.auth.currentUser !== null,
+  screenWidth: state.window.width
 });
 
 export default connect(mapStateToProps)(HeaderBar);
