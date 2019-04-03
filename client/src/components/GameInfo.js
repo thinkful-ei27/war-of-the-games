@@ -22,7 +22,13 @@ export class GameInfo extends Component {
   }
 
   render() {
-    const { currentGame, currentFeedback, error, location } = this.props;
+    const {
+      currentGame,
+      currentFeedback,
+      error,
+      location,
+      screenWidth
+    } = this.props;
     let content;
     if (error) {
       content = <Page404 />;
@@ -33,12 +39,17 @@ export class GameInfo extends Component {
       content = (
         <>
           <ConnectedGameDetails
+            width={screenWidth}
             game={currentGame}
             feedback={currentFeedback}
             error={error}
           />
           <GameHelp game={currentGame} />
-          <GameSimilar currentGame={currentGame} location={location} />
+          <GameSimilar
+            screenWidth={screenWidth}
+            currentGame={currentGame}
+            location={location}
+          />
         </>
       );
     }
@@ -52,7 +63,8 @@ const mapStateToProps = state => {
     currentGame: state.allGames.currentGame,
     loading: state.allGames.loading,
     currentFeedback: state.allGames.currentFeedback,
-    error: state.allGames.error
+    error: state.allGames.error,
+    screenWidth: state.window.width
   };
 };
 

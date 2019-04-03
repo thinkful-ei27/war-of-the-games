@@ -9,6 +9,10 @@
   width: 100%;
 }
 
+.game-summary {
+  line-height: 2rem;
+}
+
 .similar {
   height: 64px;
   width: 64px;
