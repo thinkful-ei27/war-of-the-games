@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
@@ -6,8 +7,8 @@ const userSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   username: { type: String, required: true, unique: true, lowercase: true },
   password: { type: String, required: true },
-  history: [{ type: mongoose.Schema.Types.ObjectId, ref: "History" }]
-  // about: { type: String }
+  history: [{ type: mongoose.Schema.Types.ObjectId, ref: "History" }],
+  admin: { type: Boolean, default: false }
 });
 
 userSchema.set("toJSON", {
@@ -19,12 +20,13 @@ userSchema.set("toJSON", {
   }
 });
 
+// this will break if switched to an arrow function
 userSchema.methods.validatePassword = function(incomingPassword) {
   const user = this; // for clarity
   return bcrypt.compare(incomingPassword, user.password);
 };
 
-userSchema.statics.hashPassword = function(incomingPassword) {
+userSchema.statics.hashPassword = incomingPassword => {
   const digest = bcrypt.hash(incomingPassword, 10);
   return digest;
 };
