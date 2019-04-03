@@ -164,7 +164,7 @@ router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
 
   return igdbApi
     .getGame(igdbId)
-    .then(async res => {
+    .then(async result => {
       const {
         name,
         cover,
@@ -172,12 +172,12 @@ router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
         summary,
         genres,
         platforms,
-        similar_games
-      } = res;
-      const { image_id } = cover;
-      const coverUrl = `https://images.igdb.com/igdb/image/upload/t_720p/${image_id}.jpg`;
+        similar_games: similarGames
+      } = result;
+      const { image_id: imageId } = cover;
+      const coverUrl = `https://images.igdb.com/igdb/image/upload/t_720p/${imageId}.jpg`;
       const imgResults = await imagesApi.saveImgById(id, coverUrl);
-      const { secure_url } = imgResults;
+      const { secure_url: secureUrl } = imgResults;
       const toUpdate = {
         igdb: {
           id: igdbId,
@@ -188,8 +188,8 @@ router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
         summary,
         genres,
         platforms,
-        similar_games,
-        cloudImage: secure_url
+        similar_games: similarGames,
+        cloudImage: secureUrl
       };
       return Game.findOneAndUpdate({ _id: id }, toUpdate, { new: true });
     })
@@ -201,7 +201,7 @@ router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
       }
       return next();
     })
-    .then(similar_games => {
+    .then(similarGames => {
       const {
         name,
         igdb,
@@ -213,7 +213,7 @@ router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
         updatedAt,
         cloudImage
       } = game;
-      gameInfo = Object.assign(
+      const gameInfo = Object.assign(
         {},
         {
           id,
@@ -227,7 +227,7 @@ router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
           updatedAt,
           cloudImage
         },
-        { similar_games }
+        { similar_games: similarGames }
       );
       res.json(gameInfo);
     })
