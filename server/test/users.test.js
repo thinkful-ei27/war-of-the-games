@@ -14,7 +14,9 @@ const sandbox = sinon.createSandbox();
 
 describe("ASYNC Capstone API - Users", () => {
   let user;
+  let admin;
   let token;
+  let adminToken;
   const username = "exampleUser";
   const password = "examplePass";
   const firstName = "Example";
@@ -33,7 +35,9 @@ describe("ASYNC Capstone API - Users", () => {
       Game.createIndexes()
     ]).then(([dbUsers]) => {
       [user] = dbUsers;
+      [admin] = dbUsers.filter(dbUser => !!dbUser.admin);
       token = jwt.sign({ user }, JWT_SECRET, { subject: user.username });
+      adminToken = jwt.sign({ admin }, JWT_SECRET, { subject: admin.username });
     });
   });
   afterEach(() => {
@@ -61,7 +65,8 @@ describe("ASYNC Capstone API - Users", () => {
             "username",
             "firstName",
             "lastName",
-            "history"
+            "history",
+            "admin"
           );
           expect(res.body.username).to.equal(username.toLowerCase());
           expect(res.body.firstName).to.equal(firstName);
