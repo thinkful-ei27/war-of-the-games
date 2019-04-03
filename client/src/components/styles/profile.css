@@ -13,7 +13,7 @@
 }
 
 .profile-info-container {
-  width: 80%;
+  width: 90%;
   margin: 30px;
 }
 
@@ -25,4 +25,24 @@
 .about-me-container {
   width: 60%;
   align-self: flex-start;
+}
+
+.recent-choices {
+  margin: 30px;
+  width: 30%;
+}
+
+.recent-choices > div {
+  width: 100%;
+  /* margin: auto; */
+}
+
+.top-6 {
+  margin: 30px;
+  width: 56%;
+}
+
+.dashboard {
+  display: flex;
+  flex-wrap: wrap;
 }
