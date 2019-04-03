@@ -21,6 +21,7 @@ router.get("/:id/history", (req, res, next) => {
         .populate("gameOne", "name")
         .populate("gameTwo", "name")
         .populate("choice")
+        .sort({ createdAt: -1 })
         .then(results => {
           res.json(results);
         });
