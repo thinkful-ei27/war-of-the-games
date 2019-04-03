@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { setNonUserVotes } from '../actions/gameActions'
 import { nextTest } from '../actions/onboarding'
-import { SignupPrompt } from './signupPrompt';
+import OnboardPropmt from './onboardPrompt'
 import { setVoteLocalStorageVariable, saveVoteCount, incrementVoteCount, loadVoteCount } from '../local-storage'
 export class UserOnboard extends React.Component {
 
@@ -91,19 +91,8 @@ export class UserOnboard extends React.Component {
         </>
     }
     else if (this.count >= 11) {
-      content =
-        <div className="card">
-          <h1>Welcome to War of the Games!</h1>
-          <p className="about-page-text">Pick a Winner in Matchups of Legendary Games! Sign In and Keep Voting
-            to Get Recomendations
-            </p>
-          <button
-            className="nes-btn is-warning"
-            type="button"
-            onClick={() => {
-              this.handleVote()
-            }}>Let's a Go!</button>
-        </div>
+      content = <OnboardPropmt />
+
     }
     return content
   }
