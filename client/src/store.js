@@ -7,11 +7,8 @@ import onBoardingReducer from "./reducers/onBoardingReducer";
 import authReducer from "./reducers/auth";
 import gamesReducer from "./reducers/gameReducer";
 import userReducer from "./reducers/userReducer";
-<<<<<<< HEAD
 import windowReducer from "./reducers/window";
-=======
 import protectedDataReducer from "./reducers/protected-data";
->>>>>>> dev
 import { setAuthToken, refreshAuthToken } from "./actions/auth";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -23,13 +20,9 @@ const store = createStore(
     protectedData: protectedDataReducer,
     games: gamesReducer,
     allGames: allGamesReducer,
-<<<<<<< HEAD
     user: userReducer,
-    window: windowReducer
-=======
-    onboard: onBoardingReducer,
-    user: userReducer
->>>>>>> dev
+    window: windowReducer,
+    onboard: onBoardingReducer
   }),
   composeEnhancers(applyMiddleware(thunk))
 );
