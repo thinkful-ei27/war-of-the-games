@@ -71,7 +71,7 @@ export const fetchGames = () => (dispatch, getState) => {
         : "No images fetched";
     })
     .then(result => {
-      console.log(result);
+      return result;
     })
     .catch(err => {
       console.error(err);
@@ -96,7 +96,7 @@ export const handleVote = (gameOne, gameTwo, choice, userId) => (
       }
     })
     .then(function(response) {
-      console.log(response);
+      return response;
     })
     .catch(function(error) {
       console.log(error);

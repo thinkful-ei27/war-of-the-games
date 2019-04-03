@@ -1,16 +1,15 @@
 const express = require("express");
 const mongoose = require("mongoose");
-
-const router = express.Router();
+const passport = require("passport");
 const User = require("../models/user");
 const History = require("../models/history");
+const Game = require("../models/game");
 
-/* ========== GET USER ========== */
-// router.get("/:id", (req, res, next) => {
-//   const userId = req.user.id;
-//   console.log("User is ", req.user, "User ID is", userId);
-//   // res.json(userId);
-// });
+const router = express.Router();
+const jwtAuth = passport.authenticate("jwt", {
+  session: false,
+  failWithError: true
+});
 
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
@@ -25,7 +24,48 @@ router.get("/:id/history", (req, res, next) => {
         .then(results => {
           res.json(results);
         });
-    });
+    })
+    .catch(err => next(err));
+});
+
+router.get("/recommendations", jwtAuth, (req, res, next) => {
+  let topChoices;
+  let sortedSimilarGames;
+
+  // Find top game choices for user
+  return History.aggregate([
+    { $match: { userId: mongoose.Types.ObjectId(req.user.id) } },
+    { $group: { _id: "$choice", count: { $sum: 1 } } }
+  ])
+    .sort({ count: "desc" })
+    .limit(100)
+    .then(his => {
+      // Grab game info for top choices
+      topChoices = his.map(history => history._id);
+      return Game.find({ _id: { $in: topChoices } });
+    })
+    .then(games => {
+      // Extract similar_games and count them
+      const similarGamesCount = {};
+      games.forEach(game =>
+        game.similar_games.forEach(similarGame => {
+          similarGamesCount[similarGame]
+            ? (similarGamesCount[similarGame] += 1)
+            : (similarGamesCount[similarGame] = 1);
+        })
+      );
+      sortedSimilarGames = Object.keys(similarGamesCount)
+        .sort((a, b) => similarGamesCount[b] - similarGamesCount[a])
+        .slice(0, 5);
+      return Game.find({ "igdb.id": { $in: sortedSimilarGames } });
+    })
+    .then(recs => {
+      const sortedRecs = sortedSimilarGames.map(choice =>
+        recs.find(game => game.igdb.id === Number(choice))
+      );
+      res.json(sortedRecs);
+    })
+    .catch(err => next(err));
 });
 
 /* ========== POST USERS ========== */
@@ -102,7 +142,7 @@ router.post("/", (req, res, next) => {
     });
   }
 
-  User.hashPassword(password)
+  return User.hashPassword(password)
     .then(digest => {
       const trimmedFirstName = firstName.trim();
       const trimmedLastName = lastName.trim();
@@ -120,10 +160,13 @@ router.post("/", (req, res, next) => {
         .status(201)
         .json(users);
     })
-    .catch(err => {
+    .catch(_err => {
+      let err;
       if (err.code === 11000) {
         err = new Error("The username already exists");
         err.status = 400;
+      } else {
+        err = _err;
       }
       next(err);
     });

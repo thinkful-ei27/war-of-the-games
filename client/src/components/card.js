@@ -1,14 +1,14 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import {
   fetchGames,
   handleVote,
   clearGames,
   setNonUserVotes,
   clearNonUserVotes
-} from '../actions/gameActions';
-import { incrementVoteCount } from '../local-storage';
+} from "../actions/gameActions";
+import { incrementVoteCount } from "../local-storage";
 
 export function Card(props) {
   const {
@@ -40,21 +40,21 @@ export function Card(props) {
       incrementVoteCount();
     };
   }
-  const gamesUrl = '/games/';
+  const gamesUrl = "/games/";
   const slug =
-    name.charAt(name.length - 1) === '.'
+    name.charAt(name.length - 1) === "."
       ? // check to see if the last character is a period, which a few games do have, which would break the link
         // if period is found, remove it and build slug with that e.g Super Smash Bros. becomes super-smash-bros
         name
           .substring(0, name.length - 1)
           .toLowerCase()
-          .replace(/[^A-Z0-9]+/gi, '-')
-      : name.toLowerCase().replace(/[^A-Z0-9]+/gi, '-');
+          .replace(/[^A-Z0-9]+/gi, "-")
+      : name.toLowerCase().replace(/[^A-Z0-9]+/gi, "-");
 
   return (
     <div className="card">
       <div className="title-container">
-        <Link to={gamesUrl + slug}>
+        <Link to={gamesUrl + slug} target="_blank">
           <h1 className="game-title">{name}</h1>
         </Link>
       </div>
@@ -73,7 +73,7 @@ export function Card(props) {
 
 const checkIfUser = state => {
   if (state.auth.currentUser === null) {
-    return 'there is no user';
+    return "there is no user";
   }
   return state.auth.currentUser.id;
 };

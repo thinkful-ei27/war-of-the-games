@@ -32,7 +32,7 @@ export default class Stats extends Component {
 
   render() {
     const propertyNames = [
-      "name",
+      "id",
       "totalGamesPlayed",
       "totalGamesWon",
       "percentage"

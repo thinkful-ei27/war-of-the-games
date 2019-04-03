@@ -13,9 +13,14 @@ const gamesWon = async id => {
 };
 
 const gameName = async id => {
-  const choice = await History.find({ choice: id }).populate("choice");
-
-  return choice.map(game => game.choice.name);
+  const name = await History.find({ choice: id }).populate("choice");
+  console.log(name);
+  if (name.length < 1) {
+    // Game has never been chosen...pull cover art from games
+    const noChoiceName = await Game.find({ _id: id });
+    return noChoiceName[0].name;
+  }
+  return name[0].choice.name;
 };
 
 const gamePic = async id => {
