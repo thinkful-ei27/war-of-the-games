@@ -5,11 +5,18 @@
   height: auto;
 }
 
-.rec-img {
+.img-responsive {
   display: block;
   max-width: 100%;
-  /* height: auto; */
-  min-width: 100px;
+  height: auto;
+}
+
+.rec-img {
+  vertical-align: middle;
+}
+
+.rec-img-mobile {
+
 }
 
 .game-container {

@@ -5,7 +5,7 @@ export default function Rec(props) {
   return (
     <section className="nes-container is-dark flex flex-row">
       <div className="">
-        <img className="rec-img" src={cloudImage} alt={slug} />
+        <img className="img-responsive rec-img" src={cloudImage} alt={slug} />
       </div>
       <div className="profile flex flex-col">
         <h4>{name}</h4>
