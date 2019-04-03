@@ -130,8 +130,8 @@ export class InfiniteGames extends Component {
             <i className="nes-logo mx-4" />
             <i className="nes-jp-logo mx-4" />
             Games
-            {screenWidth > 700 && <i className="snes-logo mx-4" />}
-            {screenWidth > 700 && <i className="snes-jp-logo mx-4" />}
+            {screenWidth > 768 && <i className="snes-logo mx-4" />}
+            {screenWidth > 768 && <i className="snes-jp-logo mx-4" />}
           </h1>
       </div>
       <div className="nes-field mt-16 w-3/4 mx-auto">
@@ -140,7 +140,7 @@ export class InfiniteGames extends Component {
           className='nes-input'
           value={this.state.value}
           onChange={e => this.onChangeHandler(e)}
-          placeholder={screenWidth > 700 ? "Type something to search" : "Search Games"}
+          placeholder={screenWidth > 768 ? "Type something to search" : "Search Games"}
         />
       </div>
       <div className="flex justify-start content-start flex-wrap mt-16">

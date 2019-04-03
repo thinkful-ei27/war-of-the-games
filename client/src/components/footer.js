@@ -7,7 +7,7 @@ export function Footer(props) {
 
   let linkText = "Learn More";
 
-  if (screenWidth > 600) {
+  if (screenWidth > 768) {
     linkText = "Learn more about the creators";
   }
   return (

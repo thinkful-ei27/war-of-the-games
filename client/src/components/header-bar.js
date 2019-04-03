@@ -33,9 +33,9 @@ export class HeaderBar extends React.Component {
 
   render() {
     const {screenWidth} = this.props
-    let title = screenWidth > 700 ? "War of the Games" : "WotG";
+    let title = screenWidth > 768 ? "War of the Games" : "WotG";
     // Only render the log out button if we are logged in
-    let menu = screenWidth > 700 ? <Menu menuItems={this.handleLinks()} /> : <BurgerMenu menuItems={this.handleLinks()}/>
+    let menu = screenWidth > 768 ? <Menu menuItems={this.handleLinks()} /> : <BurgerMenu menuItems={this.handleLinks()}/>
  
     return (
       <header className="game-container mx-auto shadow">

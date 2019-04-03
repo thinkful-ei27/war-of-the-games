@@ -7,12 +7,12 @@ export default function Game(props) {
   let width;
   let fontSize;
   let padding;
-  if (screenWidth > 700) {
+  if (screenWidth > 768) {
     width = "w-1/3";
     fontSize = "text-base";
     padding = "p-6";
   }
-  if (screenWidth < 700) {
+  if (screenWidth < 768) {
     width = "w-1/2";
     fontSize = "text-sm";
     padding = "p-4";

@@ -13,8 +13,7 @@ export default class BurgerMenu extends Component {
       expanded: !prevState.expanded
     }));
   }
-
-
+  
   render() {
     const { expanded } = this.state;
     const { menuItems } = this.props 

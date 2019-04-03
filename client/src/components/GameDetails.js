@@ -42,14 +42,14 @@ export function GameDetails(props) {
   let imgDivMargin;
   let fontSize;
   let contentWidth;
-  if (width > 700) {
+  if (width > 768) {
     // width for img and rating div: w-1/3
     imgWidth = "w-1/3";
     flexState = "flex-row";
     title = <h2>{name}</h2>;
     contentWidth = "w-2/3";
   }
-  if (width < 700) {
+  if (width < 768) {
     // width for img and rating div : w-1
     imgWidth = "w-3/4";
     flexState = "flex-col";

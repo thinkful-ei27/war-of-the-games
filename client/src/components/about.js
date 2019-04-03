@@ -23,7 +23,7 @@ export function AboutPage(props) {
     </div>
   );
 
-  if (screenWidth > 600) {
+  if (screenWidth > 768) {
     title = "War of the Games";
     content = (
       <p className="about-page-text">
