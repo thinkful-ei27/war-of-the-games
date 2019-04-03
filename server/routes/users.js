@@ -102,9 +102,9 @@ router.get("/recommendations", jwtAuth, (req, res, next) => {
       return Game.find({ "igdb.id": { $in: sortedSimilarGames } });
     })
     .then(recs => {
-      const sortedRecs = sortedSimilarGames.map(choice =>
-        recs.find(game => game.igdb.id === Number(choice))
-      );
+      const sortedRecs = sortedSimilarGames
+        .map(choice => recs.find(game => game.igdb.id === Number(choice)))
+        .filter(e => typeof e === "object");
       res.json(sortedRecs);
     })
     .catch(err => next(err));
