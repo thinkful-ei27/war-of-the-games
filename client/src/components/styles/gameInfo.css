@@ -5,6 +5,22 @@
   height: auto;
 }
 
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.rec-img {
+  vertical-align: middle;
+  min-width: 100px;
+  max-width: 100px;
+}
+
+.game-recommendation {
+  flex-direction: column
+}
+
 .game-container {
   width: 100%;
 }
@@ -24,6 +40,10 @@
 @media (min-width: 576px) {
   .game-container {
     max-width: 576px;
+  }
+
+  .game-recommendation {
+    flex-direction: row
   }
 }
 

@@ -37,9 +37,11 @@ export class InfiniteGames extends Component {
 
       // Checks that the page has scrolled to the bottom
       const scrollHeight = document.documentElement.scrollHeight;
-      const scrollTop = document.documentElement.scrollTop;
+      const pageYOffset = window.pageYOffset;
       const clientHeight = document.documentElement.clientHeight;
-      if (scrollTop + clientHeight >= scrollHeight) {
+      if (
+        pageYOffset + clientHeight >= scrollHeight
+      ) {
         loadGames();
       }
     };

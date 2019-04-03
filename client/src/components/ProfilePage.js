@@ -5,6 +5,7 @@ import "./styles/profile.css";
 import { getUser } from "../actions/users";
 import ConnectedGame from "./Game";
 import Loading from "./loading";
+import ConnectedRecommendations from "./Recommendations";
 
 export class ProfilePage extends React.Component {
   componentDidMount() {
@@ -16,9 +17,7 @@ export class ProfilePage extends React.Component {
   render() {
     const { username, history, name, loading } = this.props;
 
-    console.log(history);
     const mappedHistory = history.map(histInstance => {
-      console.log(histInstance);
       const { choice, gameOne, gameTwo, id } = histInstance;
 
       return (
@@ -57,7 +56,8 @@ export class ProfilePage extends React.Component {
             </div>
           </section>
         </div>
-        {mappedHistory}
+        <ul>{mappedHistory}</ul>
+        <ConnectedRecommendations />
       </div>
     );
   }
