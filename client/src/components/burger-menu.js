@@ -19,7 +19,7 @@ export default class BurgerMenu extends Component {
     const { menuItems } = this.props 
     let content;
     if (!expanded) {
-      content = <img alt="burger-menu" src={pixelBurger} aria="expanded false"/>;
+      content = <img alt="burger-menu" src={pixelBurger}/>;
     }
     if (expanded) {
       content = <Menu menuItems={menuItems}/>

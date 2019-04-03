@@ -14,7 +14,7 @@ export class ProfilePage extends React.Component {
   }
 
   render() {
-    const { username, history, name, loading } = this.props;
+    const { username, history, name, loading, screenWidth } = this.props;
 
     console.log(history);
     const mappedHistory = history.map(histInstance => {
@@ -25,6 +25,7 @@ export class ProfilePage extends React.Component {
         // <li key={id} className="full-history">
         <div key={id} className="flex justify-start content-start flex-wrap">
           <ConnectedGame
+            screenWidth={screenWidth}
             slug={choice.igdb.slug}
             name={choice.name}
             cloudImage={choice.cloudImage}
@@ -71,7 +72,8 @@ const mapStateToProps = state => {
     username: state.auth.currentUser.username,
     name: `${currentUser.firstName} ${currentUser.lastName}`,
     history: state.user.history,
-    loading: state.user.loading
+    loading: state.user.loading,
+    screenWidth: state.window.width
   };
 };
 
