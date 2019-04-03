@@ -5,6 +5,13 @@
   height: auto;
 }
 
+.rec-img {
+  display: block;
+  max-width: 100%;
+  /* height: auto; */
+  min-width: 100px;
+}
+
 .game-container {
   width: 100%;
 }

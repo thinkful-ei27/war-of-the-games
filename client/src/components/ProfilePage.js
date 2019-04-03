@@ -1,9 +1,10 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import requiresLogin from './requires-login';
-import './styles/profile.css';
-import { getUser } from '../actions/users';
-import Loading from './loading';
+import React from "react";
+import { connect } from "react-redux";
+import requiresLogin from "./requires-login";
+import "./styles/profile.css";
+import { getUser } from "../actions/users";
+import Loading from "./loading";
+import ConnectedRecommendations from "./Recommendations";
 
 export class ProfilePage extends React.Component {
   componentDidMount() {
@@ -15,9 +16,7 @@ export class ProfilePage extends React.Component {
   render() {
     const { username, history, name, loading } = this.props;
 
-    console.log(history);
     const mappedHistory = history.map(histInstance => {
-      console.log(histInstance);
       const { choice, gameOne, gameTwo, id } = histInstance;
 
       return (
@@ -52,12 +51,13 @@ export class ProfilePage extends React.Component {
                 steak brisket, ham shankle pork chop doner jowl turducken cow
                 tenderloin frankfurter t-bone. Ribeye pastrami filet mignon
                 burgdoggen. Tri-tip corned beef beef kevin drumstick. Cow
-                picanha alcatra tail meatloaf.{' '}
+                picanha alcatra tail meatloaf.{" "}
               </p>
             </div>
           </section>
         </div>
-        <ul>{mappedHistory}</ul>
+        {/* <ul>{mappedHistory}</ul> */}
+        <ConnectedRecommendations />
       </div>
     );
   }
