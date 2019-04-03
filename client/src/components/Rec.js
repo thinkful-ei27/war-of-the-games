@@ -1,19 +1,25 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import LongText from "./LongText";
 
 export default function Rec(props) {
-  const { cloudImage, slug, name, summary } = props.game;
+  const { cloudImage, igdb, name, summary } = props.game;
+  const { slug } = igdb;
+  const url = `/games/${slug}`;
   return (
-    <section className="nes-container is-dark flex flex-row">
-      <div className="">
+    <section className="nes-container is-dark flex game-recommendation">
+      <div className="mx-4">
         <img className="img-responsive rec-img" src={cloudImage} alt={slug} />
       </div>
       <div className="profile flex flex-col">
-        <h4>{name}</h4>
-        <p className="text-xs">{summary}</p>
-        <button className="nes-btn is-primary">></button>
-        {/* <div className="links">
-          <p>Was this recommendation useful?</p>
-        </div> */}
+        <Link to={url}>
+          <h3>{name}</h3>
+        </Link>
+        <LongText content={summary} limit={250} />
+        <div className="mt-4">
+          <i className="nes-icon like p-4" />
+          <i className="nes-icon youtube p-4" />
+        </div>
       </div>
     </section>
   );

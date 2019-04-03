@@ -13,10 +13,12 @@
 
 .rec-img {
   vertical-align: middle;
+  min-width: 100px;
+  max-width: 100px;
 }
 
-.rec-img-mobile {
-
+.game-recommendation {
+  flex-direction: column
 }
 
 .game-container {
@@ -38,6 +40,10 @@
 @media (min-width: 576px) {
   .game-container {
     max-width: 576px;
+  }
+
+  .game-recommendation {
+    flex-direction: row
   }
 }
 
