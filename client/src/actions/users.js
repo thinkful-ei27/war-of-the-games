@@ -19,6 +19,32 @@ export const getUserError = error => ({
   error
 });
 
+export const GET_USER_TOP_HISTORY_SUCCESS = "GET_USER_TOP_HISTORY_SUCCESS";
+export const getUserTopHistorySuccess = history => ({
+  type: GET_USER_TOP_HISTORY_SUCCESS,
+  history
+});
+
+export const getUserTopHistory = userId => (dispatch, getState) => {
+  dispatch(getUserRequest());
+  const authToken = getState().auth.authToken;
+  return fetch(`${API_BASE_URL}/users/${userId}/topHistory`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${authToken}`
+    }
+  })
+    .then(res => {
+      if (!res.ok) {
+        return Promise.reject(res.statusText);
+      }
+      return res.json();
+    })
+    .then(data => {
+      return dispatch(getUserTopHistorySuccess(data));
+    })
+    .catch(err => dispatch(getUserError(err)));
+};
 export const getUser = userId => (dispatch, getState) => {
   dispatch(getUserRequest());
 

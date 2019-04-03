@@ -2,34 +2,45 @@ import React from "react";
 import { connect } from "react-redux";
 import requiresLogin from "./requires-login";
 import "./styles/profile.css";
-import { getUser } from "../actions/users";
+import { getUser, getUserTopHistory } from "../actions/users";
 import ConnectedGame from "./Game";
-import Loading from "./loading";
+// import Loading from "./loading";
 
 export class ProfilePage extends React.Component {
   componentDidMount() {
     const { userId, dispatch } = this.props;
-
-    return dispatch(getUser(userId)).then(user => user);
+    return Promise.all([
+      dispatch(getUserTopHistory(userId)),
+      dispatch(getUser(userId)).then(user => user)
+    ]);
   }
 
   render() {
-    const { username, history, name, loading } = this.props;
-
-    console.log(history);
-    const mappedHistory = history.map(histInstance => {
-      console.log(histInstance);
-      const { choice, gameOne, gameTwo, id } = histInstance;
-
+    const { username, history, name, loading, topHistory } = this.props;
+    const topSix = topHistory.map(history => {
+      const { name, cloudImage, igdb, count, id } = history;
       return (
-        // <li key={id} className="full-history">
-        <div key={id} className="flex justify-start content-start flex-wrap">
+        <div>
+          <p className="nes-text is-primary">{`You've selected ${name} ${count} times`}</p>
           <ConnectedGame
-            slug={choice.igdb.slug}
-            name={choice.name}
-            cloudImage={choice.cloudImage}
+            slug={igdb.slug}
+            name={name}
+            cloudImage={cloudImage}
+            key={id}
           />
         </div>
+      );
+    });
+    const recentHistory = history.map(histInstance => {
+      const { choice, id } = histInstance;
+      return (
+        <ConnectedGame
+          slug={choice.igdb.slug}
+          name={choice.name}
+          cloudImage={choice.cloudImage}
+          key={id}
+          className="recent-pics"
+        />
       );
     });
     return (
@@ -57,7 +68,14 @@ export class ProfilePage extends React.Component {
             </div>
           </section>
         </div>
-        {mappedHistory}
+        <aside className="nes-container with-title recent-choices">
+          <h4>Your Most Recent Choices!</h4>
+          {recentHistory}
+        </aside>
+        <section className="nes-container top-6">
+          <h4>Your Top 6 choices!</h4>
+          {topSix}
+        </section>
       </div>
     );
   }
@@ -67,6 +85,7 @@ const mapStateToProps = state => {
   const { currentUser } = state.auth;
 
   return {
+    topHistory: state.user.topHistory,
     userId: currentUser.id,
     username: state.auth.currentUser.username,
     name: `${currentUser.firstName} ${currentUser.lastName}`,

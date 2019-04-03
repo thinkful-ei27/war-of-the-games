@@ -22,6 +22,7 @@ router.get("/:id/history", (req, res, next) => {
         .populate("gameTwo", "name")
         .populate("choice")
         .sort({ createdAt: -1 })
+        .limit(20)
         .then(results => {
           res.json(results);
         });
@@ -35,9 +36,7 @@ router.get("/:userId/topHistory", (req, res, next) => {
   const { userId } = req.params;
 
   History.find({ userId })
-    .sort({ createdAt: -1 })
-    .populate("gameOne", "name")
-    .populate("gameTwo", "name")
+
     .populate("choice")
     .then(userHistory => {
       const names = [];
@@ -65,7 +64,8 @@ router.get("/:userId/topHistory", (req, res, next) => {
           if (a.count < b.count) return 1;
           if (a.count > b.count) return -1;
           return 0;
-        });
+        })
+        .slice(0, 6);
 
       res.json(winCounts);
     });
