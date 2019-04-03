@@ -80,11 +80,11 @@ describe("ASYNC Capstone API - Users", () => {
     });
   });
 
-  describe("GET /api/users/:id/recommendations", () => {
+  describe("GET /api/users/recommendations", () => {
     it("should return the correct number of recommendations", () => {
       return chai
         .request(app)
-        .get(`/api/users/${user.id}/recommendations`)
+        .get(`/api/users/recommendations`)
         .set("Authorization", `Bearer ${token}`)
         .then(res => {
           expect(res).to.have.status(200);
@@ -96,7 +96,7 @@ describe("ASYNC Capstone API - Users", () => {
     it("should return recommendations with the correct fields", () => {
       return chai
         .request(app)
-        .get(`/api/users/${user.id}/recommendations`)
+        .get(`/api/users/recommendations`)
         .set("Authorization", `Bearer ${token}`)
         .then(res => {
           expect(res.body).to.be.an("array");

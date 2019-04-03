@@ -28,7 +28,7 @@ router.get("/:id/history", (req, res, next) => {
     .catch(err => next(err));
 });
 
-router.get("/:id/recommendations", jwtAuth, (req, res, next) => {
+router.get("/recommendations", jwtAuth, (req, res, next) => {
   let topChoices;
   let sortedSimilarGames;
 

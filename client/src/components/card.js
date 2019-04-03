@@ -54,7 +54,7 @@ export function Card(props) {
   return (
     <div className="card">
       <div className="title-container">
-        <Link to={gamesUrl + slug}>
+        <Link to={gamesUrl + slug} target="_blank">
           <h1 className="game-title">{name}</h1>
         </Link>
       </div>
