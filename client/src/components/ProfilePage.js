@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import requiresLogin from "./requires-login";
 import "./styles/profile.css";
 import { getUser } from "../actions/users";
+import ConnectedGame from "./Game";
 import Loading from "./loading";
 
 export class ProfilePage extends React.Component {
@@ -21,15 +22,14 @@ export class ProfilePage extends React.Component {
       const { choice, gameOne, gameTwo, id } = histInstance;
 
       return (
-        <li key={id} className="full-history">
-          <div>
-            <img
-              className="game-img"
-              src={choice.coverUrl}
-              alt={`${choice.name} cover art`}
-            />
-          </div>
-        </li>
+        // <li key={id} className="full-history">
+        <div className="flex justify-start content-start flex-wrap">
+          <ConnectedGame
+            slug={choice.igdb.slug}
+            name={choice.name}
+            cloudImage={choice.cloudImage}
+          />
+        </div>
       );
     });
     return (
@@ -57,7 +57,7 @@ export class ProfilePage extends React.Component {
             </div>
           </section>
         </div>
-        <ul>{mappedHistory}</ul>
+        {mappedHistory}
       </div>
     );
   }

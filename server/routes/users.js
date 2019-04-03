@@ -23,25 +23,70 @@ router.get("/:id/history", (req, res, next) => {
         .sort({ createdAt: -1 })
         .populate("gameOne", "name")
         .populate("gameTwo", "name")
-        .populate("choice", "name coverUrl")
-        .then(results => {
-          const totalBattles = results.length;
-          res.json({ results, totalBattles });
+        .populate("choice")
+        .then(userHistory => {
+          const winCounts = userHistory.reduce((obj, game) => {
+            const { name, id, igdb, cloudImage } = game.choice;
+
+            // eslint-disable-next-line no-param-reassign
+            // either add 1 to existing game or make it equal to one if its
+            // the first time being seen
+            // const obj = {};
+            // if (obj.name) {
+            //   obj.count += 1;
+            // } else {
+            //   obj.count = 1;
+            // }
+            obj[name] = obj[name] + 1 || 1;
+            obj.name = name;
+            obj.id = id;
+            obj.igdb = igdb;
+            obj.cloudImage = cloudImage;
+            // arr.push(obj);
+            return obj;
+          }, {});
+          // sort by changing the winCount obj to an array
+          // const topGames = Object.entries(winCounts)
+          //   .sort((a, b) => {
+          //     return b[1] - a[1];
+          //   })
+          //   .reduce((acc, el) => {
+          //     const obj = {};
+          //     const [name, count] = el;
+          //     // bring sorted arr back
+          //     obj.name = name;
+          //     obj.count = count;
+          //     acc.push(obj);
+          //     return acc;
+          //   }, []);
+
+          res.json({ winCounts, userHistory });
         });
     });
 });
 
 /* individual game data */
-// router.get("/:userId/history/:gameId", (req, res, next) => {
-//   const { userId, gameId } = req.params;
-//   User.find({ userId })
-//     .populate("history")
-//     .then(() => {
-//       History.find({ userId, choice: gameId })
-//         .populate("choice")
-//         .then(data => res.json(data));
-//     });
-// });
+router.get("/:userId/history/:gameId", (req, res, next) => {
+  const { userId, gameId } = req.params;
+  let totalHistoryCount;
+  let totalWins;
+  History.find({ userId })
+    .then(history => {
+      console.log(history);
+      totalHistoryCount = history.length;
+    })
+    .then(() => History.find({ userId, choice: gameId }))
+    .then(choice => {
+      totalWins = choice.length;
+    })
+    .then(() =>
+      res.json({
+        totalHistoryCount,
+        totalWins,
+        percentageWon: Number(totalWins / totalHistoryCount).toFixed(2) * 100
+      })
+    );
+});
 
 /* ========== POST USERS ========== */
 
