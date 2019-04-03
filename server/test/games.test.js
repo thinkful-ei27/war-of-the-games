@@ -10,7 +10,8 @@ const User = require("../models/user");
 const { games, users } = require("../db/data");
 const { app } = require("../index");
 const igdbApi = require("../utils/gameApi");
-const { getGameRes } = require("../db/test-data");
+const imagesApi = require("../utils/imagesApi");
+const { getGameRes, saveImgByIdRes } = require("../db/test-data");
 
 chai.use(chaiHttp);
 const { expect } = chai;
@@ -22,6 +23,7 @@ describe("ASYNC Capstone API - Games", () => {
 
   before(() => {
     sinon.stub(igdbApi, "getGame").resolves(getGameRes);
+    sinon.stub(imagesApi, "saveImgById").resolves(saveImgByIdRes);
     return dbConnect(TEST_DATABASE_URL);
   });
 

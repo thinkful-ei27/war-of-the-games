@@ -75,4 +75,26 @@ const getGameRes = {
   similar_games: [1074, 1185, 1331, 3166, 3192, 3481, 4598, 7342, 11065, 13677]
 };
 
-module.exports = { getGameRes };
+const saveImgByIdRes = {
+  public_id: "5c9a959ba5d0dd09e07f45a8",
+  version: 1554223732,
+  signature: "562863a19fdbc6ff9959619f74502690e5745d74",
+  width: 515,
+  height: 720,
+  format: "jpg",
+  resource_type: "image",
+  created_at: "2019-04-02T01:34:48Z",
+  tags: [],
+  bytes: 61538,
+  type: "upload",
+  etag: "d772adddad88bfd9e4fcddfddbe1b2e7",
+  placeholder: false,
+  url:
+    "http://res.cloudinary.com/hjihgo1pd/image/upload/v1554223732/5c9a959ba5d0dd09e07f45a8.jpg",
+  secure_url:
+    "https://res.cloudinary.com/hjihgo1pd/image/upload/v1554223732/5c9a959ba5d0dd09e07f45a8.jpg",
+  overwritten: true,
+  original_filename: "sgpdlhpeaohxwr6ectsy"
+};
+
+module.exports = { getGameRes, saveImgByIdRes };
