@@ -18,7 +18,7 @@ export class LandingPage extends React.Component {
       nonUserVotes.forEach(obj => {
         const values = Object.values(obj);
         if (userId) {
-          dispatch(handleVote(values[0], values[1], values[2]));
+          dispatch(handleVote(values[0], values[1], values[2], userId));
         }
       });
     }
