@@ -56,7 +56,7 @@ export class ProfilePage extends React.Component {
             </div>
           </section>
         </div>
-        {/* <ul>{mappedHistory}</ul> */}
+        <ul>{mappedHistory}</ul>
         <ConnectedRecommendations />
       </div>
     );
