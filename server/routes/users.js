@@ -25,42 +25,34 @@ router.get("/:id/history", (req, res, next) => {
         .populate("gameTwo", "name")
         .populate("choice")
         .then(userHistory => {
-          const winCounts = userHistory.reduce((obj, game) => {
-            const { name, id, igdb, cloudImage } = game.choice;
+          const names = [];
+          const winCounts = userHistory
+            .reduce((arr, game) => {
+              const { name, id, igdb, cloudImage } = game.choice;
+              // check if inside accumulator
+              if (!names.includes(name)) {
+                names.push(name);
+                arr.push({
+                  count: 1,
+                  name,
+                  id,
+                  igdb,
+                  cloudImage
+                });
+              } else {
+                const found = arr.find(game => game.name === name);
+                found.count += 1;
+              }
 
-            // eslint-disable-next-line no-param-reassign
-            // either add 1 to existing game or make it equal to one if its
-            // the first time being seen
-            // const obj = {};
-            // if (obj.name) {
-            //   obj.count += 1;
-            // } else {
-            //   obj.count = 1;
-            // }
-            obj[name] = obj[name] + 1 || 1;
-            obj.name = name;
-            obj.id = id;
-            obj.igdb = igdb;
-            obj.cloudImage = cloudImage;
-            // arr.push(obj);
-            return obj;
-          }, {});
-          // sort by changing the winCount obj to an array
-          // const topGames = Object.entries(winCounts)
-          //   .sort((a, b) => {
-          //     return b[1] - a[1];
-          //   })
-          //   .reduce((acc, el) => {
-          //     const obj = {};
-          //     const [name, count] = el;
-          //     // bring sorted arr back
-          //     obj.name = name;
-          //     obj.count = count;
-          //     acc.push(obj);
-          //     return acc;
-          //   }, []);
+              return arr;
+            }, [])
+            .sort((a, b) => {
+              if (a.count < b.count) return 1;
+              if (a.count > b.count) return -1;
+              return 0;
+            });
 
-          res.json({ winCounts, userHistory });
+          res.json({ winCounts });
         });
     });
 });
