@@ -3,7 +3,7 @@ import {
 } from '../actions/onboarding';
 
 const initialState = {
-  showing: [],
+  showing: [{ name: 'test', coverUrl: 'test', id: 'test' }, { name: 'test', coverUrl: 'test', id: 'test' }],
   test1: [
     {
       name: "The Legend of Zelda: Ocarina of Time",
@@ -14,8 +14,7 @@ const initialState = {
       name: "Final Fantasy VII",
       id: "5c9a959ba5d0dd09e07f45a3",
       coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/idzdf1alxvetz3ow2ugy.jpg"
-    }
-  ],
+    }],
   test2: [
     {
       name: "Batman: Arkham City",

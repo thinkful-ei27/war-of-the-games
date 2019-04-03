@@ -6,7 +6,23 @@ import { SignupPrompt } from './signupPrompt';
 import { setVoteLocalStorageVariable, saveVoteCount, incrementVoteCount, loadVoteCount } from '../local-storage'
 export class UserOnboard extends React.Component {
 
-  count = Number(loadVoteCount())
+  count = Number(loadVoteCount());
+
+  evaluateCount = function (count) {
+    const table = {
+      '1': 100,
+      '2': 90,
+      '3': 80,
+      '4': 70,
+      '5': 60,
+      '6': 50,
+      '7': 40,
+      '8': 30,
+      '9': 20,
+      '10': 10,
+    }
+    return table[count]
+  }
 
   handleVote = () => {
     let myKey;
@@ -14,32 +30,21 @@ export class UserOnboard extends React.Component {
     incrementVoteCount();
     myKey = `test${this.count}`;
     this.props.dispatch(nextTest(myKey))
+    this.value -= 10
   }
 
   componentWillMount() {
     setVoteLocalStorageVariable()
+    let myKey;
+    myKey = `test${this.count}`;
+    this.props.dispatch(nextTest(myKey))
   }
 
   render() {
-    console.log(this.count)
     let { tests } = this.props;
     let content;
-    if (!tests.showing.length || tests.showing === undefined) {
-      content =
-        <div className="card">
-          <h1>Welcome to War of the Games!</h1>
-          <p className="about-page-text">Pick a Winner in Matchups of Legendary Games! Sign In and Keep Voting
-            to Get Recomendations
-          </p>
-          <button
-            className="nes-btn is-warning"
-            type="button"
-            onClick={() => {
-              this.handleVote()
-            }}>Get Started, or Pick Up Where You Left Off</button>
-        </div>
-    }
-    else if (this.count < 11 && this.count > 0) {
+
+    if (this.count < 11) {
       content =
         <>
           <div className="battle-container">
@@ -80,12 +85,25 @@ export class UserOnboard extends React.Component {
             </div>
           </div >
           <div className="onboarding-progress-container">
-            <p>Progress:</p>
-            <progress id="onboarding-progress" className="nes-progress is-primary" value={this.count * 10} max="110"></progress>
+            <p>Health:</p>
+            <progress id="onboarding-progress" className="nes-progress is-primary" value={this.evaluateCount(loadVoteCount())} max="100"></progress>
           </div>
         </>
-    } else if (this.count >= 10) {
-      content = <SignupPrompt />
+    }
+    else if (this.count >= 11) {
+      content =
+        <div className="card">
+          <h1>Welcome to War of the Games!</h1>
+          <p className="about-page-text">Pick a Winner in Matchups of Legendary Games! Sign In and Keep Voting
+            to Get Recomendations
+            </p>
+          <button
+            className="nes-btn is-warning"
+            type="button"
+            onClick={() => {
+              this.handleVote()
+            }}>Let's a Go!</button>
+        </div>
     }
     return content
   }

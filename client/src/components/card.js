@@ -7,12 +7,8 @@ import {
   clearGames,
   setNonUserVotes,
   clearNonUserVotes
-<<<<<<< HEAD
 } from '../actions/gameActions';
-=======
-} from "../actions/gameActions";
 import { incrementVoteCount } from "../local-storage";
->>>>>>> dev
 
 export function Card(props) {
   const {
@@ -26,7 +22,6 @@ export function Card(props) {
     loggedIn,
     userId
   } = props;
-<<<<<<< HEAD
 
   let handleVoteClick = () => {
     dispatch(handleVote(games[0].id, games[1].id, id, userId));
@@ -37,45 +32,15 @@ export function Card(props) {
   };
 
   const gamesUrl = '/games/';
-=======
-  let handleVoteClick;
-  //  if NOT logged in handleVoteclick = add choice object to array in reducer, get new games
-  if (loggedIn) {
-    handleVoteClick = () => {
-      dispatch(handleVote(games[0].id, games[1].id, id, userId));
-      dispatch(fetchGames());
-      fetchFeedback(id);
-      dispatch(clearNonUserVotes());
-      dispatch(clearGames());
-    };
-  } else {
-    handleVoteClick = () => {
-      dispatch(setNonUserVotes(games[0].id, games[1].id, id));
-      dispatch(fetchGames());
-      dispatch(clearGames());
-      incrementVoteCount();
-    };
-  }
-  const gamesUrl = "/games/";
->>>>>>> dev
   const slug =
     name.charAt(name.length - 1) === "."
       ? // check to see if the last character is a period, which a few games do have, which would break the link
-<<<<<<< HEAD
       // if period is found, remove it and build slug with that e.g Super Smash Bros. becomes super-smash-bros
       name
         .substring(0, name.length - 1)
         .toLowerCase()
-        .replace(/[^A-Z0-9]+/gi, '-')
-      : name.toLowerCase().replace(/[^A-Z0-9]+/gi, '-');
-=======
-        // if period is found, remove it and build slug with that e.g Super Smash Bros. becomes super-smash-bros
-        name
-          .substring(0, name.length - 1)
-          .toLowerCase()
-          .replace(/[^A-Z0-9]+/gi, "-")
+        .replace(/[^A-Z0-9]+/gi, "-")
       : name.toLowerCase().replace(/[^A-Z0-9]+/gi, "-");
->>>>>>> dev
 
   return (
     <div className="card">

@@ -16,15 +16,10 @@ export class LandingPage extends React.Component {
 
     if (loggedIn && nonUserVotes.length) {
       nonUserVotes.forEach(obj => {
-<<<<<<< HEAD
-        let values = Object.values(obj)
-        if (userId) { dispatch(handleVote(values[0], values[1], values[2], userId)) }
-=======
         const values = Object.values(obj);
         if (userId) {
           dispatch(handleVote(values[0], values[1], values[2]));
         }
->>>>>>> dev
       });
     }
     setVoteLocalStorageVariable();
@@ -40,9 +35,10 @@ export class LandingPage extends React.Component {
     const { games, loggedIn, feedback } = this.props;
     let content;
     const count = parseInt(loadVoteCount(), 10);
-    if (count <= 10 && !loggedIn) {
+    if (count <= 11 && !loggedIn) {
       content = <UserOnboard />;
-    } else if (count > 10 && !loggedIn) {
+    }
+    else if (count > 11 && !loggedIn) {
       content = <SignupPrompt />;
     }
     else if (games.length && feedback) {
