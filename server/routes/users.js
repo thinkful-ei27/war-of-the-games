@@ -32,7 +32,9 @@ router.get("/:userId/topHistory", (req, res, next) => {
   const { userId } = req.params;
 
   History.find({ userId })
-
+    .sort({ createdAt: -1 })
+    .populate("gameOne", "name")
+    .populate("gameTwo", "name")
     .populate("choice")
     .then(userHistory => {
       const names = [];
@@ -98,9 +100,9 @@ router.get("/recommendations", jwtAuth, (req, res, next) => {
       return Game.find({ "igdb.id": { $in: sortedSimilarGames } });
     })
     .then(recs => {
-      const sortedRecs = sortedSimilarGames.map(choice =>
-        recs.find(game => game.igdb.id === Number(choice))
-      );
+      const sortedRecs = sortedSimilarGames
+        .map(choice => recs.find(game => game.igdb.id === Number(choice)))
+        .filter(e => typeof e === "object");
       res.json(sortedRecs);
     })
     .catch(err => next(err));
