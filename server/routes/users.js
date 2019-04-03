@@ -20,64 +20,56 @@ router.get("/:id/history", (req, res, next) => {
     .populate("history")
     .then(() => {
       History.find({ userId: id })
-        .sort({ createdAt: -1 })
         .populate("gameOne", "name")
         .populate("gameTwo", "name")
         .populate("choice")
-        .then(userHistory => {
-          const names = [];
-          const winCounts = userHistory
-            .reduce((arr, game) => {
-              const { name, id, igdb, cloudImage } = game.choice;
-              // check if inside accumulator
-              if (!names.includes(name)) {
-                names.push(name);
-                arr.push({
-                  count: 1,
-                  name,
-                  id,
-                  igdb,
-                  cloudImage
-                });
-              } else {
-                const found = arr.find(game => game.name === name);
-                found.count += 1;
-              }
-
-              return arr;
-            }, [])
-            .sort((a, b) => {
-              if (a.count < b.count) return 1;
-              if (a.count > b.count) return -1;
-              return 0;
-            });
-
-          res.json({ winCounts });
+        .then(results => {
+          res.json(results);
         });
-    });
+    })
+    .catch(err => next(err));
 });
 
 /* individual game data */
-router.get("/:userId/history/:gameId", (req, res, next) => {
-  const { userId, gameId } = req.params;
-  let totalHistoryCount;
-  let totalWins;
+
+router.get("/:userId/topHistory", (req, res, next) => {
+  const { userId } = req.params;
+
   History.find({ userId })
-    .then(history => {
-      console.log(history);
-      totalHistoryCount = history.length;
-    })
-    .then(() => History.find({ userId, choice: gameId }))
-    .then(choice => {
-      totalWins = choice.length;
-    })
-    .then(() =>
-      res.json({
-        totalHistoryCount,
-        totalWins,
-        percentageWon: Number(totalWins / totalHistoryCount).toFixed(2) * 100
-      })
-    );
+    .sort({ createdAt: -1 })
+    .populate("gameOne", "name")
+    .populate("gameTwo", "name")
+    .populate("choice")
+    .then(userHistory => {
+      const names = [];
+      const winCounts = userHistory
+        .reduce((arr, game) => {
+          const { name, id, igdb, cloudImage } = game.choice;
+          // check if inside accumulator
+          if (!names.includes(name)) {
+            names.push(name);
+            arr.push({
+              count: 1,
+              name,
+              id,
+              igdb,
+              cloudImage
+            });
+          } else {
+            const found = arr.find(game => game.name === name);
+            found.count += 1;
+          }
+
+          return arr;
+        }, [])
+        .sort((a, b) => {
+          if (a.count < b.count) return 1;
+          if (a.count > b.count) return -1;
+          return 0;
+        });
+
+      res.json({ winCounts });
+    });
 });
 
 /* ========== POST USERS ========== */

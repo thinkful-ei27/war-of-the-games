@@ -23,7 +23,7 @@ export class ProfilePage extends React.Component {
 
       return (
         // <li key={id} className="full-history">
-        <div className="flex justify-start content-start flex-wrap">
+        <div key={id} className="flex justify-start content-start flex-wrap">
           <ConnectedGame
             slug={choice.igdb.slug}
             name={choice.name}
