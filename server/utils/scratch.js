@@ -22,12 +22,14 @@ const requestOptions = {
 
 const getGames = async () =>
   await apicalypse(requestOptions)
-    .fields(["name", "url"])
-    .limit(2)
-    // .sort('name', 'desc') // sorts by name, descending
-    // .where(['age > 50', 'movies != n'])
-    .search("Smite")
+    .fields(["name", "url", "rating_count"])
+    .limit(50)
+    .sort("rating_count", "desc") // sorts by name, descending
+    .where(["rating_count < 552"])
+    // .search("Smite")
     .request("/games")
     .then(res => res.data);
 
-getGames().then(res => console.log(res));
+getGames()
+  .then(res => console.log(res))
+  .catch(e => console.error(e.response.data));
