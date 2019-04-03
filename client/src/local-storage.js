@@ -38,6 +38,6 @@ export const incrementVoteCount = () => {
 
 export const setVoteLocalStorageVariable = () => {
     if (!loadVoteCount()) {
-        return saveVoteCount(0)
+        return saveVoteCount(1)
     }
 }
