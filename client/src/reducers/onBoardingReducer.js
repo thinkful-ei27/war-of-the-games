@@ -56,9 +56,9 @@ const initialState = {
       id: "5c9a959ba5d0dd09e07f45a1"
     },
     {
-      name: "Call of Duty 4: Modern Warfare",
-      coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/okxplofk1uomxyrnlf2u.jpg",
-      id: "5c9e92121293c21e824494af"
+      name: "Apex Legends",
+      coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/co1j3t.jpg",
+      id: "5ca37c6fa9e9f200170c4e8c"
     }],
   test6: [
     {
@@ -67,9 +67,9 @@ const initialState = {
       id: "5ca2739a5ce0f90ebb413b03"
     },
     {
-      name: "Guild Wars 2",
-      coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/q3bhlxeq4x1f92xanjvg.jpg",
-      id: "5ca388668b14bd0017521aeb"
+      name: "The Legend of Zelda: Ocarina of Time",
+      id: "5c9bf3bb1eaffb2ce28273fd",
+      coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/gx4b9es5tn3pqhqnqeuu.jpg"
     }],
   test7: [
     {
@@ -100,9 +100,9 @@ const initialState = {
       id: "5ca38ae68b14bd0017521af9"
     },
     {
-      name: "Tony Hawk's Pro Skater 2",
-      coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/eksrjpbmz4kdlz6yxoqc.jpg",
-      id: "5ca38af48b14bd0017521b00"
+      name: "Mario Kart 64",
+      coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/co1hor.jpg",
+      id: "5ca389c78b14bd0017521aee"
     }],
   test10: [
     {
