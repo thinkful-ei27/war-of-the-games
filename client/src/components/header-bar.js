@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Menu from "./Menu";
+import BurgerMenu from './burger-menu';
 import "./styles/header.css";
 import "./styles/gameInfo.css";
 
@@ -34,7 +35,8 @@ export class HeaderBar extends React.Component {
     const {screenWidth} = this.props
     let title = screenWidth > 700 ? "War of the Games" : "WotG";
     // Only render the log out button if we are logged in
-
+    let menu = screenWidth > 700 ? <Menu menuItems={this.handleLinks()} /> : <BurgerMenu menuItems={this.handleLinks()}/>
+ 
     return (
       <header className="game-container mx-auto shadow">
         <div className="flex flex-row justify-between">
@@ -45,7 +47,7 @@ export class HeaderBar extends React.Component {
             </h2>
           </Link>
           <section className="p-4">
-            <Menu menuItems={this.handleLinks()} />
+            {menu}
           </section>
         </div>
       </header>
