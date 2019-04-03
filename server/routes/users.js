@@ -1,72 +1,110 @@
-'use strict';
-
-const express = require('express');
-const mongoose = require('mongoose');
+const express = require("express");
+const mongoose = require("mongoose");
+const passport = require("passport");
+const User = require("../models/user");
+const History = require("../models/history");
+const Game = require("../models/game");
 
 const router = express.Router();
-const User = require('../models/user');
-const History = require('../models/history');
+const jwtAuth = passport.authenticate("jwt", {
+  session: false,
+  failWithError: true
+});
 
-/* ========== GET USER ========== */
-// router.get('/:id', (req, res, next) => {
-//   const userId = req.user.id;
-//   console.log('User is ', req.user, 'User ID is', userId);
-//   // res.json(userId);
-// });
-
-router.get('/:id/history', (req, res, next) => {
+router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
 
   User.findOne({ _id: id })
-    .populate('history')
+    .populate("history")
     .then(() => {
       History.find({ userId: id })
-        .populate('gameOne', 'name')
-        .populate('gameTwo', 'name')
-        .populate('choice')
+        .populate("gameOne", "name")
+        .populate("gameTwo", "name")
+        .populate("choice")
         .then(results => {
           res.json(results);
         });
-    });
+    })
+    .catch(err => next(err));
+});
+
+router.get("/recommendations", jwtAuth, (req, res, next) => {
+  let topChoices;
+  let sortedSimilarGames;
+
+  // Find top game choices for user
+  return History.aggregate([
+    { $match: { userId: mongoose.Types.ObjectId(req.user.id) } },
+    { $group: { _id: "$choice", count: { $sum: 1 } } }
+  ])
+    .sort({ count: "desc" })
+    .limit(100)
+    .then(his => {
+      // Grab game info for top choices
+      topChoices = his.map(history => history._id);
+      return Game.find({ _id: { $in: topChoices } });
+    })
+    .then(games => {
+      // Extract similar_games and count them
+      const similarGamesCount = {};
+      games.forEach(game =>
+        game.similar_games.forEach(similarGame => {
+          similarGamesCount[similarGame]
+            ? (similarGamesCount[similarGame] += 1)
+            : (similarGamesCount[similarGame] = 1);
+        })
+      );
+      sortedSimilarGames = Object.keys(similarGamesCount)
+        .sort((a, b) => similarGamesCount[b] - similarGamesCount[a])
+        .slice(0, 5);
+      return Game.find({ "igdb.id": { $in: sortedSimilarGames } });
+    })
+    .then(recs => {
+      const sortedRecs = sortedSimilarGames.map(choice =>
+        recs.find(game => game.igdb.id === Number(choice))
+      );
+      res.json(sortedRecs);
+    })
+    .catch(err => next(err));
 });
 
 /* ========== POST USERS ========== */
 
-router.post('/', (req, res, next) => {
+router.post("/", (req, res, next) => {
   const { firstName, lastName, username, password } = req.body;
 
-  const requiredFields = ['firstName', 'lastName', 'username', 'password'];
+  const requiredFields = ["firstName", "lastName", "username", "password"];
   const missingField = requiredFields.find(field => !(field in req.body));
 
   if (missingField) {
-    const err = new Error('Missing field in body');
+    const err = new Error("Missing field in body");
     err.status = 422;
     return next(err);
   }
 
-  const stringFields = ['username', 'password', 'firstName', 'lastName'];
+  const stringFields = ["username", "password", "firstName", "lastName"];
   const nonStringField = stringFields.find(field => {
-    return field in req.body && typeof req.body[field] !== 'string';
+    return field in req.body && typeof req.body[field] !== "string";
   });
 
   if (nonStringField) {
-    const err = new Error('Incorrect field type: expected string');
+    const err = new Error("Incorrect field type: expected string");
     err.status = 422;
     return next(err);
   }
 
   const explicitlyTrimmedFields = [
-    'username',
-    'password',
-    'firstName',
-    'lastName'
+    "username",
+    "password",
+    "firstName",
+    "lastName"
   ];
   const nonTrimmedField = explicitlyTrimmedFields.find(field => {
     return req.body[field].trim() !== req.body[field];
   });
 
   if (nonTrimmedField) {
-    const err = new Error('Cannot start or end with whitespace');
+    const err = new Error("Cannot start or end with whitespace");
     err.status = 422;
     return next(err);
   }
@@ -82,19 +120,19 @@ router.post('/', (req, res, next) => {
   };
   const tooSmallField = Object.keys(sizedFields).find(
     field =>
-      'min' in sizedFields[field] &&
+      "min" in sizedFields[field] &&
       req.body[field].trim().length < sizedFields[field].min
   );
   const tooLargeField = Object.keys(sizedFields).find(
     field =>
-      'max' in sizedFields[field] &&
+      "max" in sizedFields[field] &&
       req.body[field].trim().length > sizedFields[field].max
   );
 
   if (tooSmallField || tooLargeField) {
     return res.status(422).json({
       code: 422,
-      reason: 'ValidationError',
+      reason: "ValidationError",
       message: tooSmallField
         ? `Must be at least ${sizedFields[tooSmallField].min} characters long`
         : `Wow, what a secure password! However, passwords must be at most ${
@@ -104,7 +142,7 @@ router.post('/', (req, res, next) => {
     });
   }
 
-  User.hashPassword(password)
+  return User.hashPassword(password)
     .then(digest => {
       const trimmedFirstName = firstName.trim();
       const trimmedLastName = lastName.trim();
@@ -122,10 +160,13 @@ router.post('/', (req, res, next) => {
         .status(201)
         .json(users);
     })
-    .catch(err => {
+    .catch(_err => {
+      let err;
       if (err.code === 11000) {
-        err = new Error('The username already exists');
+        err = new Error("The username already exists");
         err.status = 400;
+      } else {
+        err = _err;
       }
       next(err);
     });
