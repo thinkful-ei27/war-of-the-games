@@ -18,10 +18,16 @@ import ConnectedFooter from "./footer";
 
 export class App extends React.Component {
   componentDidMount() {
+    const { dispatch } = this.props;
+
+    // get dimensions on page load
+    let width = window.document.documentElement.clientWidth;
+    let height = window.document.documentElement.clientHeight;
+    dispatch(windowSize(width, height));
+
     window.addEventListener("resize", e => {
-      const width = e.currentTarget.document.body.clientWidth;
-      const height = e.currentTarget.document.body.clientHeight;
-      const { dispatch } = this.props;
+      width = e.currentTarget.document.body.clientWidth;
+      height = e.currentTarget.document.body.clientHeight;
       dispatch(windowSize(width, height));
     });
   }
@@ -61,7 +67,7 @@ export class App extends React.Component {
   render() {
     return (
       <div className="app">
-        {/* <ConnectedHeaderBar /> */}
+        <ConnectedHeaderBar />
         <Switch>
           <Route exact path="/" component={ConnectedLandingPage} />
           <Route path="/dashboard" component={ConnectedDashboard} />

@@ -97,7 +97,7 @@ export class InfiniteGames extends Component {
       loadedGames,
       value
     } = this.state;
-    const { games } = this.props;
+    const { games, screenWidth } = this.props;
 
     let renderGames = loadedGames.map(game => {
       const { name, igdb, id, cloudImage } = game;
@@ -106,7 +106,8 @@ export class InfiniteGames extends Component {
         id,
         name,
         cloudImage,
-        slug
+        slug,
+        screenWidth
       };
       return <ConnectedGame key={id} {...props} />;
     }).filter(game => {
@@ -121,7 +122,8 @@ export class InfiniteGames extends Component {
         id,
         name,
         cloudImage,
-        slug
+        slug,
+        screenWidth
       };
       return <ConnectedGame key={id} {...props} />;
     }).filter(game => {
@@ -137,17 +139,17 @@ export class InfiniteGames extends Component {
             <i className="nes-logo mx-4" />
             <i className="nes-jp-logo mx-4" />
             Games
-            <i className="snes-logo mx-4" />
-            <i className="snes-jp-logo mx-4" />
+            {screenWidth > 700 && <i className="snes-logo mx-4" />}
+            {screenWidth > 700 && <i className="snes-jp-logo mx-4" />}
           </h1>
       </div>
-      <div className="nes-field mt-16">
+      <div className="nes-field mt-16 w-3/4 mx-auto">
         <input
           type='text'
           className='nes-input'
           value={this.state.value}
           onChange={e => this.onChangeHandler(e)}
-          placeholder="Type something to search"
+          placeholder={screenWidth > 700 ? "Type something to search" : "Search Games"}
         />
       </div>
       <div className="flex justify-start content-start flex-wrap mt-16">
@@ -173,7 +175,8 @@ export class InfiniteGames extends Component {
 const mapStateToProps = state => {
   return {
     games: state.allGames.games,
-    loading: state.allGames.loading
+    loading: state.allGames.loading,
+    screenWidth: state.window.width
   };
 };
 
