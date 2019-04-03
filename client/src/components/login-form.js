@@ -79,8 +79,9 @@ const connectMapStateToProps = state => ({
   loading: state.auth.loading
 });
 
+// eslint-disable-next-line no-class-assign
 LoginForm = connect(connectMapStateToProps)(LoginForm);
 export default reduxForm({
-  form: 'login',
-  onSubmitFail: (errors, dispatch) => dispatch(focus('login', 'username'))
+  form: "login",
+  onSubmitFail: (errors, dispatch) => dispatch(focus("login", "username"))
 })(LoginForm);
