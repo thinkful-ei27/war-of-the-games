@@ -35,13 +35,13 @@ export class ProfilePage extends React.Component {
     const recentHistory = history.map(histInstance => {
       const { choice, id } = histInstance;
       return (
-        <ConnectedGame
-          slug={choice.igdb.slug}
-          name={choice.name}
-          cloudImage={choice.cloudImage}
-          key={id}
-          className="recent-pics"
-        />
+        <div key={id} className="flex justify-start content-start flex-wrap">
+          <ConnectedGame
+            slug={choice.igdb.slug}
+            name={choice.name}
+            cloudImage={choice.cloudImage}
+          />
+        </div>
       );
     });
     return (

@@ -36,4 +36,6 @@ export default class LongText extends Component {
   }
 }
 
-LongText.defaultProps = { content: "" };
+LongText.defaultProps = {
+  content: ""
+};

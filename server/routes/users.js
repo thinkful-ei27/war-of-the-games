@@ -13,19 +13,15 @@ const jwtAuth = passport.authenticate("jwt", {
 
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
-
-  User.findOne({ _id: id })
-    .populate("history")
-    .then(() => {
-      History.find({ userId: id })
-        .populate("gameOne", "name")
-        .populate("gameTwo", "name")
-        .populate("choice")
-        .sort({ createdAt: -1 })
-        .limit(20)
-        .then(results => {
-          res.json(results);
-        });
+  
+  History.find({ userId: id })
+    .populate("gameOne", "name")
+    .populate("gameTwo", "name")
+    .populate("choice")
+    .sort({ createdAt: -1 })
+    .limit(20)
+    .then(results => {
+      res.json(results);
     })
     .catch(err => next(err));
 });
@@ -36,7 +32,9 @@ router.get("/:userId/topHistory", (req, res, next) => {
   const { userId } = req.params;
 
   History.find({ userId })
-
+    .sort({ createdAt: -1 })
+    .populate("gameOne", "name")
+    .populate("gameTwo", "name")
     .populate("choice")
     .then(userHistory => {
       const names = [];
@@ -102,9 +100,9 @@ router.get("/recommendations", jwtAuth, (req, res, next) => {
       return Game.find({ "igdb.id": { $in: sortedSimilarGames } });
     })
     .then(recs => {
-      const sortedRecs = sortedSimilarGames.map(choice =>
-        recs.find(game => game.igdb.id === Number(choice))
-      );
+      const sortedRecs = sortedSimilarGames
+        .map(choice => recs.find(game => game.igdb.id === Number(choice)))
+        .filter(e => typeof e === "object");
       res.json(sortedRecs);
     })
     .catch(err => next(err));
