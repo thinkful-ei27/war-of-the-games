@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { updateGame } from "../actions/gameActions";
+import LongText from "./LongText";
 
 export function GameDetails(props) {
   const { dispatch, game, feedback, error, loggedIn, width } = props;
@@ -81,7 +82,9 @@ export function GameDetails(props) {
           Platforms
         </h3>
         <p className="">{platformDisplay}</p>
-        <p className="game-summary mt-8">{summary}</p>
+        <div className="my-4">
+          <LongText content={summary || "No description...yet."} limit={250} />
+        </div>
         {loggedIn ? (
           <small>
             Is this game missing some info? Try{" "}

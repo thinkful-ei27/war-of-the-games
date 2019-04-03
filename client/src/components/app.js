@@ -15,6 +15,7 @@ import ProfilePage from "./ProfilePage";
 import ConnectedGameInfo from "./GameInfo";
 import ConnectedGames from "./Games";
 import ConnectedFooter from "./footer";
+import ConnectedRecommendationsPage from "./RecommendationsPage";
 
 export class App extends React.Component {
   componentDidMount() {
@@ -71,7 +72,11 @@ export class App extends React.Component {
         <Switch>
           <Route exact path="/" component={ConnectedLandingPage} />
           <Route path="/dashboard" component={ConnectedDashboard} />
-          <Route path="/profile" component={ProfilePage} />
+          <Route exact path="/profile" component={ProfilePage} />
+          <Route
+            path="/profile/recommendations"
+            component={ConnectedRecommendationsPage}
+          />
           <Route path="/about" component={ConnectedAboutPage} />
           <Route path="/login" component={LoginForm} />
           <Route path="/register" component={ConnectedRegistrationPage} />
