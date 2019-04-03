@@ -1,19 +1,19 @@
-import { SubmissionError } from 'redux-form';
+import { SubmissionError } from "redux-form";
 
-import { API_BASE_URL } from '../config';
-import { normalizeResponseErrors } from './utils';
+import { API_BASE_URL } from "../config";
+import { normalizeResponseErrors } from "./utils";
 
-export const GET_USER_REQUEST = 'GET_USER_REQUEST';
+export const GET_USER_REQUEST = "GET_USER_REQUEST";
 export const getUserRequest = () => ({
   type: GET_USER_REQUEST
 });
 
-export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
+export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
 export const getUserSuccess = history => ({
   type: GET_USER_SUCCESS,
   history
 });
-export const GET_USER_ERROR = 'GET_USER_ERROR';
+export const GET_USER_ERROR = "GET_USER_ERROR";
 export const getUserError = error => ({
   type: GET_USER_SUCCESS,
   error
@@ -24,7 +24,7 @@ export const getUser = userId => (dispatch, getState) => {
 
   const authToken = getState().auth.authToken;
   return fetch(`${API_BASE_URL}/users/${userId}/history`, {
-    method: 'GET',
+    method: "GET",
     headers: {
       Authorization: `Bearer ${authToken}`
     }
@@ -43,9 +43,9 @@ export const getUser = userId => (dispatch, getState) => {
 
 export const registerUser = user => dispatch => {
   return fetch(`${API_BASE_URL}/users`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'content-type': 'application/json'
+      "content-type": "application/json"
     },
     body: JSON.stringify(user)
   })
@@ -53,7 +53,7 @@ export const registerUser = user => dispatch => {
     .then(res => res.json())
     .catch(err => {
       const { reason, message, location } = err;
-      if (reason === 'ValidationError') {
+      if (reason === "ValidationError") {
         // Convert ValidationErrors into SubmissionErrors for Redux Form
         return Promise.reject(
           new SubmissionError({

@@ -1,5 +1,3 @@
-"use strict";
-
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
@@ -8,7 +6,8 @@ const userSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   username: { type: String, required: true, unique: true, lowercase: true },
   password: { type: String, required: true },
-  history: [{type: mongoose.Schema.Types.ObjectId, ref: 'History'}]
+  history: [{ type: mongoose.Schema.Types.ObjectId, ref: "History" }]
+  // about: { type: String }
 });
 
 userSchema.set("toJSON", {

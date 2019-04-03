@@ -21,6 +21,7 @@ router.get("/:id/history", (req, res, next) => {
         .populate("gameOne", "name")
         .populate("gameTwo", "name")
         .populate("choice")
+        .sort({ createdAt: -1 })
         .then(results => {
           res.json(results);
         });
@@ -28,6 +29,47 @@ router.get("/:id/history", (req, res, next) => {
     .catch(err => next(err));
 });
 
+/* individual game data */
+
+router.get("/:userId/topHistory", (req, res, next) => {
+  const { userId } = req.params;
+
+  History.find({ userId })
+    .sort({ createdAt: -1 })
+    .populate("gameOne", "name")
+    .populate("gameTwo", "name")
+    .populate("choice")
+    .then(userHistory => {
+      const names = [];
+      const winCounts = userHistory
+        .reduce((arr, game) => {
+          const { name, id, igdb, cloudImage } = game.choice;
+          // check if inside accumulator
+          if (!names.includes(name)) {
+            names.push(name);
+            arr.push({
+              count: 1,
+              name,
+              id,
+              igdb,
+              cloudImage
+            });
+          } else {
+            const found = arr.find(game => game.name === name);
+            found.count += 1;
+          }
+
+          return arr;
+        }, [])
+        .sort((a, b) => {
+          if (a.count < b.count) return 1;
+          if (a.count > b.count) return -1;
+          return 0;
+        });
+
+      res.json(winCounts);
+    });
+});
 router.get("/recommendations", jwtAuth, (req, res, next) => {
   let topChoices;
   let sortedSimilarGames;

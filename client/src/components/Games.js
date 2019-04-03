@@ -7,7 +7,7 @@ const normalize = (value, compare) => {
   const v = value.toLowerCase().trim();
   const c = compare.toLowerCase().trim();
   return c.includes(v);
-}
+};
 
 export class InfiniteGames extends Component {
   constructor(props) {
@@ -19,18 +19,14 @@ export class InfiniteGames extends Component {
       hasMore: true,
       isLoading: false,
       loadedGames: [],
-      value: ''
+      value: ""
     };
 
     // Binds our scroll event handler
     window.onscroll = () => {
       const {
         loadGames,
-        state: {
-          error,
-          isLoading,
-          hasMore,
-        },
+        state: { error, isLoading, hasMore }
       } = this;
 
       // Bails early if:
@@ -43,9 +39,7 @@ export class InfiniteGames extends Component {
       const scrollHeight = document.documentElement.scrollHeight;
       const scrollTop = document.documentElement.scrollTop;
       const clientHeight = document.documentElement.clientHeight;
-      if (
-        scrollTop + clientHeight >= scrollHeight
-      ) {
+      if (scrollTop + clientHeight >= scrollHeight) {
         loadGames();
       }
     };
@@ -59,7 +53,7 @@ export class InfiniteGames extends Component {
   }
 
   loadGames = () => {
-    this.setState({ isLoading: true }, () => {      
+    this.setState({ isLoading: true }, () => {
       const { games } = this.props;
       const { loadedGames } = this.state;
       const loadedLength = loadedGames.length;
@@ -70,24 +64,21 @@ export class InfiniteGames extends Component {
         // Note: Depending on the API you're using, this value may
         // be returned as part of the payload to indicate that there
         // is no additional data to be loaded
-        hasMore: (this.state.loadedGames.length < games.length),
+        hasMore: this.state.loadedGames.length < games.length,
         isLoading: false,
-        loadedGames: [
-          ...this.state.loadedGames,
-          ...nextGames,
-        ],
+        loadedGames: [...this.state.loadedGames, ...nextGames]
       });
-        })
-  }
+    });
+  };
 
   search = () => {
-    this.setState({ loading: true})
-  }
+    this.setState({ loading: true });
+  };
 
   onChangeHandler = async e => {
     this.search(e.target.value);
     this.setState({ value: e.target.value });
-  }
+  };
 
   render() {
     const {
