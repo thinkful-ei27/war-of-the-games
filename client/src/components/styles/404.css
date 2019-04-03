@@ -17,9 +17,50 @@
   height: 40px;
   background: url('../../assets/bricks.png');
   background-size: 65px;
-  
 }
 
 .text-404{
   margin: auto;
+}
+
+.bricks-onboarding-holder-2{
+  height: 60px;
+  background: url('../../assets/bricks2.jpg');
+  background-size: 300px;
+}
+
+.box-onboarding{
+  background-color: #7084FF;
+  color: white;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.onboarding-box{
+  color: #F1BFB4;
+  margin: 10px auto auto;
+  border-top: 2px solid #F9C8C1;
+  border-left: 2px solid #F9C8C1;
+  background-color: #D64D00;
+  font-size: 35px;
+  box-shadow: 2px 2px 0 black;
+  border-radius: 8px;
+}
+
+.onboarding-display{
+  padding: 15%;
+  text-shadow: 0 3px 0 black;
+  
+}
+
+.onboard-link{
+  color: white;
+}
+
+.onboarding-nav{
+  margin-bottom: auto;
+  display: flex;
+  flex-direction: column
 }

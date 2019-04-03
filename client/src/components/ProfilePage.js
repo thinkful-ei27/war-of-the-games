@@ -3,8 +3,9 @@ import { connect } from "react-redux";
 import requiresLogin from "./requires-login";
 import "./styles/profile.css";
 import { getUser, getUserTopHistory } from "../actions/users";
+import Loading from "./loading";
 import ConnectedGame from "./Game";
-// import Loading from "./loading";
+import ConnectedRecommendations from "./Recommendations";
 
 export class ProfilePage extends React.Component {
   componentDidMount() {
@@ -76,6 +77,8 @@ export class ProfilePage extends React.Component {
           <h4>Your Top 6 choices!</h4>
           {topSix}
         </section>
+        <ul>{recentHistory}</ul>
+        <ConnectedRecommendations />
       </div>
     );
   }
