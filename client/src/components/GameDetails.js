@@ -59,7 +59,9 @@ export function GameDetails(props) {
           Platforms
         </h3>
         <p className="">{platformDisplay}</p>
-        <LongText content={summary} limit={250} />
+        <div className="my-4">
+          <LongText content={summary || "No description...yet."} limit={250} />
+        </div>
         {loggedIn ? (
           <small>
             Is this game missing some info? Try{" "}
