@@ -64,6 +64,7 @@ export class Recommendations extends Component {
         <div className="flex">
           {recs.map(rec => (
             <Game
+              key={rec.name}
               name={rec.name}
               slug={rec.igdb.slug}
               cloudImage={rec.cloudImage}

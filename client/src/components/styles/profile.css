@@ -1,7 +1,10 @@
+/* .nes-container.with-title > .title.user {
+  background-color: inherit;
+} */
+
 .profile-pic {
   width: 75px;
   height: 75px;
-
   border: 4px solid black;
   border-radius: 50%;
   justify-self: flex-end;
@@ -23,8 +26,8 @@
 }
 
 .about-me-container {
-  width: 60%;
   align-self: flex-start;
+  width: 100%
 }
 
 .recent-choices {
@@ -45,4 +48,10 @@
 .dashboard {
   display: flex;
   flex-wrap: wrap;
+}
+
+@media (min-width: 769px) {
+  .about-me-container {
+    width: 60%
+  }
 }
