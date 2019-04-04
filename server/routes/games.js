@@ -1,5 +1,6 @@
 const express = require("express");
 const passport = require("passport");
+const moment = require("moment");
 const Game = require("../models/game");
 const igdbApi = require("../utils/gameApi");
 const imagesApi = require("../utils/imagesApi");
@@ -10,10 +11,16 @@ const jwtAuth = passport.authenticate("jwt", {
   session: false,
   failWithError: true
 });
+const sixMonthsAgo = moment()
+  .subtract(6, "months")
+  .unix();
 
 const findRandGame = count => {
   const rand = Math.floor(Math.random() * count);
-  return Game.findOne().skip(rand);
+  return Game.findOne()
+    .where("firstReleaseDate")
+    .lt(sixMonthsAgo)
+    .skip(rand);
 };
 
 const findTwoRandGames = count =>
@@ -54,6 +61,8 @@ router.get("/", (req, res, next) => {
 // GET /api/games/battle must go before GET /api/games/:id or else it will never get called.
 router.get("/battle", (req, res, next) =>
   Game.countDocuments()
+    .where("firstReleaseDate")
+    .lt(sixMonthsAgo)
     .then(count => findTwoRandGames(count))
     .then(results => res.json(results))
     .catch(err => next(err))
