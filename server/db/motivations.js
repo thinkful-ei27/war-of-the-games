@@ -157,6 +157,9 @@ const motivations = {
   }
 };
 
+const filterNonUniqueBy = (arr, fn) =>
+  arr.filter((v, i) => arr.every((x, j) => (i === j) === fn(v, x, i, j)));
+
 const allMotivationGames = motivations => {
   const games = [];
   const motivationKeys = Object.keys(motivations);
@@ -170,11 +173,9 @@ const allMotivationGames = motivations => {
     });
   });
 
-  const uniqueArray = games.filter(function(item, pos) {
-    return games.indexOf(item) == pos;
-  });
+  const uniqueArray = filterNonUniqueBy(games, (a, b) => a.game == b.game);
 
-  return uniqueArray;
+  return uniqueArray.length;
 };
 
 console.log(allMotivationGames(motivations));
