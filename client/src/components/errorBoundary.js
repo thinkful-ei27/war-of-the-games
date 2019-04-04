@@ -1,5 +1,6 @@
 import React from 'react'
 import { SignupPrompt } from './signupPrompt';
+import { checkVoteCount } from '../local-storage';
 export default class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -14,17 +15,16 @@ export default class ErrorBoundary extends React.Component {
     })
     // You can also log error messages to an error reporting service here
   }
-
+  componentDidMount() {
+    checkVoteCount();
+  }
   render() {
     if (this.state.errorInfo) {
       return (
-        <div>
-          <SignupPrompt />
-          <details style={{ whiteSpace: 'pre-wrap' }}>
-            {this.state.error && this.state.error.toString()}
-            <br />
-            {this.state.errorInfo.componentStack}
-          </details>
+        <div className="sign-up-prompt">
+          <div className="nes-container is-rounded is-dark">
+            <p>Something Went Wrong... Try Refreshing the Page</p>
+          </div>
         </div>
       );
     }
