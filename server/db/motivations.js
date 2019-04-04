@@ -21,7 +21,7 @@ const motivations = {
       "Borderlands 2",
       "Doom",
       "God of War",
-      "Counter Strike"
+      "Counter-Strike"
     ]
   },
   social: {
@@ -66,7 +66,7 @@ const motivations = {
     strategy: [
       "Europa Universalis IV",
       "Crusader Kings II",
-      "Civilization 5",
+      "Sid Meier's Civilization V",
       "XCOM: Enemy Unknown",
       "StarCraft",
       "Fire Emblem",
@@ -84,16 +84,97 @@ const motivations = {
       "Animal Crossing",
       "The Elder Scrolls V: Skyrim",
       "Destiny",
-      ""
+      "Pokémon Blue",
+      "Guild Wars 2",
+      "Fire Emblem"
     ],
-    power: []
+    power: [
+      "World of Warcraft",
+      "Diablo 2",
+      "Dota 2",
+      "Runescape",
+      "Destiny",
+      "Call of Duty",
+      "League of Legends",
+      "Counter-Strike",
+      "God of War",
+      "Resident Evil 2"
+    ]
   },
   creativity: {
-    discovery: [],
-    design: []
+    discovery: [
+      "The Elder Scrolls V: Skyrim",
+      "Fallout 3",
+      "Fable",
+      "The Legend of Zelda: Ocarina of Time",
+      "Grand Theft Auto V",
+      "Minecraft",
+      "Earthbound",
+      "Kerbal Space Program",
+      "Metal Gear Solid 3: Snake Eater",
+      "Metroid Prime"
+    ],
+    design: [
+      "The Sims",
+      "City of Heroes",
+      "Animal Crossing",
+      "Guild Wars 2",
+      "Final Fantasy XIV",
+      "Dragon Age: Origins",
+      "Mass Effect 2",
+      "Monster Hunter",
+      "Pokémon Blue",
+      "The Elder Scrolls V: Skyrim"
+    ]
   },
   immersion: {
-    fantasy: [],
-    story: []
+    fantasy: [
+      "Dragon Age: Origins",
+      "The Elder Scrolls III: Morrowind",
+      "Dishonored",
+      "Mass Effect 2",
+      "The Elder Scrolls V: Skyrim",
+      "Fable",
+      "Fallout: New Vegas",
+      "Star Wars: Knights of the Old Republic",
+      "Journey",
+      "The Legend of Zelda"
+    ],
+    story: [
+      "Dragon Age: Origins",
+      "Mass Effect 2",
+      "Persona 4",
+      "Tales of Symphonia",
+      "Xenogears",
+      "Final Fantasy VIII",
+      "Final Fantasy IX",
+      "Final Fantasy X",
+      "Star Wars: Knights of the Old Republic",
+      "Fire Emblem",
+      "Kingdom Hearts 2",
+      "Planescape: Torment"
+    ]
   }
 };
+
+const allMotivationGames = motivations => {
+  const games = [];
+  const motivationKeys = Object.keys(motivations);
+
+  motivationKeys.forEach(motiv => {
+    const motivKeys = Object.keys(motivations[motiv]);
+    motivKeys.forEach(subKey => {
+      motivations[motiv][subKey].forEach(sub =>
+        games.push({ game: sub, motivation: motiv, subMotivation: subKey })
+      );
+    });
+  });
+
+  const uniqueArray = games.filter(function(item, pos) {
+    return games.indexOf(item) == pos;
+  });
+
+  return uniqueArray;
+};
+
+console.log(allMotivationGames(motivations));
