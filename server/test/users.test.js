@@ -66,7 +66,8 @@ describe("ASYNC Capstone API - Users", () => {
             "firstName",
             "lastName",
             "history",
-            "admin"
+            "admin",
+            "battles"
           );
           expect(res.body.username).to.equal(username.toLowerCase());
           expect(res.body.firstName).to.equal(firstName);
@@ -114,24 +115,13 @@ describe("ASYNC Capstone API - Users", () => {
   });
 
   describe("GET /api/users/recommendations", () => {
-    it("should return the correct number of recommendations", () => {
-      return chai
-        .request(app)
-        .get(`/api/users/recommendations`)
-        .set("Authorization", `Bearer ${token}`)
-        .then(res => {
-          expect(res).to.have.status(200);
-          expect(res.body).to.be.an("array");
-          expect(res.body.length).to.equal(5);
-        });
-    });
-
     it("should return recommendations with the correct fields", () => {
       return chai
         .request(app)
         .get(`/api/users/recommendations`)
         .set("Authorization", `Bearer ${token}`)
         .then(res => {
+          expect(res).to.have.status(200);
           expect(res.body).to.be.an("array");
           expect(res.body[0]).to.be.an("object");
           expect(res.body[0]).to.include.all.keys(

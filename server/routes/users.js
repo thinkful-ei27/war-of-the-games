@@ -66,7 +66,8 @@ router.get("/:userId/topHistory", (req, res, next) => {
         .slice(0, 6);
 
       res.json(winCounts);
-    });
+    })
+    .catch(err => next(err));
 });
 router.get("/recommendations", jwtAuth, (req, res, next) => {
   let topChoices;
@@ -106,6 +107,34 @@ router.get("/recommendations", jwtAuth, (req, res, next) => {
       res.json(sortedRecs);
     })
     .catch(err => next(err));
+});
+
+router.post("/aboutMe", jwtAuth, (req, res, next) => {
+  const { content } = req.body;
+  const userId = req.user.id;
+  const aboutMe = {
+    content,
+    userId
+  };
+  console.log(aboutMe);
+  let user;
+  User.findOne({ _id: userId })
+    .then(_user => {
+      user = _user;
+      user.aboutMe = content;
+      user.save();
+    })
+    .then(result => {
+      console.log(req.originalUrl);
+      res
+        .location(`${req.originalUrl}`)
+        .status(201)
+        .json(result);
+    })
+    .catch(err => {
+      console.log(err);
+      next(err);
+    });
 });
 
 /* ========== POST USERS ========== */

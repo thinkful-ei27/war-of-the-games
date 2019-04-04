@@ -14,7 +14,7 @@ import ConnectedGameInfo from "./GameInfo";
 import ConnectedGames from "./Games";
 import Footer from "./footer";
 import ConnectedRecommendationsPage from "./RecommendationsPage";
-
+import ErrorBoundary from './errorBoundary';
 export class App extends React.Component {
   componentDidUpdate(prevProps) {
     const { loggedIn } = this.props;
@@ -51,21 +51,23 @@ export class App extends React.Component {
     return (
       <div className="app">
         <ConnectedHeaderBar />
-        <Switch>
-          <Route exact path="/" component={ConnectedLandingPage} />
-          <Route path="/dashboard" component={ConnectedDashboard} />
-          <Route exact path="/profile" component={ProfilePage} />
-          <Route
-            path="/profile/recommendations"
-            component={ConnectedRecommendationsPage}
-          />
-          <Route path="/about" component={AboutPage} />
-          <Route path="/login" component={LoginForm} />
-          <Route path="/register" component={ConnectedRegistrationPage} />
-          <Route exact path="/games" component={ConnectedGames} />
-          <Route path="/games/:gameSlug" component={ConnectedGameInfo} />
-          <Route component={Page404} />
-        </Switch>
+        <ErrorBoundary>
+          <Switch>
+            <Route exact path="/" component={ConnectedLandingPage} />
+            <Route path="/dashboard" component={ConnectedDashboard} />
+            <Route exact path="/profile" component={ProfilePage} />
+            <Route
+              path="/profile/recommendations"
+              component={ConnectedRecommendationsPage}
+            />
+            <Route path="/about" component={AboutPage} />
+            <Route path="/login" component={LoginForm} />
+            <Route path="/register" component={ConnectedRegistrationPage} />
+            <Route exact path="/games" component={ConnectedGames} />
+            <Route path="/games/:gameSlug" component={ConnectedGameInfo} />
+            <Route component={Page404} />
+          </Switch>
+        </ErrorBoundary>
         <Footer />
       </div>
     );
