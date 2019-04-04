@@ -16,6 +16,24 @@ const requestOptions = {
   responseType: "json"
 };
 
+const getGenres = async () =>
+  apicalypse(requestOptions)
+    .fields(["name", "url"])
+    .limit(50)
+    // .sort('name', 'desc') // sorts by name, descending
+    // .where(['age > 50', 'movies != n'])
+    .request("/genres")
+    .then(res => res.data);
+
+const getThemes = async () =>
+  apicalypse(requestOptions)
+    .fields(["name", "url"])
+    .limit(50)
+    // .sort('name', 'desc') // sorts by name, descending
+    // .where(['age > 50', 'movies != n'])
+    .request("/themes")
+    .then(res => res.data);
+
 const getGames = async () =>
   apicalypse(requestOptions)
     .fields(["name", "url"])
@@ -47,5 +65,7 @@ const getGame = async id =>
 //     .where(`id = ${id}`)
 //     .request("/covers")
 //     .then(res => res.data[0]);
+
+getThemes().then(result => console.log(result));
 
 module.exports = { getGames, getGame };
