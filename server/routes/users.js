@@ -13,13 +13,13 @@ const jwtAuth = passport.authenticate("jwt", {
 
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
-  
+
   History.find({ userId: id })
     .populate("gameOne", "name")
     .populate("gameTwo", "name")
     .populate("choice")
     .sort({ createdAt: -1 })
-    .limit(20)
+    .limit(6)
     .then(results => {
       res.json(results);
     })
