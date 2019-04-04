@@ -38,7 +38,7 @@ export class HeaderBar extends React.Component {
     let menu = screenWidth > 768 ? <Menu menuItems={this.handleLinks()} /> : <BurgerMenu menuItems={this.handleLinks()}/>
  
     return (
-      <header className="game-container mx-auto shadow">
+      <header className="shadow">
         <div className="flex flex-row justify-between">
           <Link to="/">
             <h2 className="p-4">
