@@ -248,6 +248,27 @@ describe("ASYNC Capstone API - History)", function() {
         });
     });
 
+    it("should add one to the battle property of the current user", function() {
+      const newItem = {
+        gameOne: "5c9a959ba5d0dd09e07f45a4",
+        gameTwo: "5c9a959ba5d0dd09e07f45a3",
+        choice: "5c9a959ba5d0dd09e07f45a3"
+      };
+      return chai
+        .request(app)
+        .post("/api/history")
+        .set("Authorization", `Bearer ${token}`)
+        .send(newItem)
+        .then(function(res) {
+          expect(res).to.have.status(201);
+          return User.findOne({ _id: user.id });
+        })
+        .then(dbUser => {
+          expect(dbUser.id).to.equal(user.id);
+          expect(dbUser.battles).to.equal(user.battles + 1);
+        });
+    });
+
     it("should return an error when missing fields", function() {
       const newItem = {};
       return chai

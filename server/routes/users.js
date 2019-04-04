@@ -13,7 +13,7 @@ const jwtAuth = passport.authenticate("jwt", {
 
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
-  
+
   History.find({ userId: id })
     .populate("gameOne", "name")
     .populate("gameTwo", "name")
@@ -66,7 +66,8 @@ router.get("/:userId/topHistory", (req, res, next) => {
         .slice(0, 6);
 
       res.json(winCounts);
-    });
+    })
+    .catch(err => next(err));
 });
 router.get("/recommendations", jwtAuth, (req, res, next) => {
   let topChoices;
