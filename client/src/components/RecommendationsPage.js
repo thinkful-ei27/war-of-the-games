@@ -76,18 +76,24 @@ export class RecommendationsPage extends Component {
           <i className="nes-icon coin" />
         </h1>
         <div className="game-container mx-auto mt-16">
-          {topFiveRecs.map(rec => (
-            // <Game
-            //   name={rec.name}
-            //   slug={rec.igdb.slug}
-            //   cloudImage={rec.cloudImage}
-            // />
-            <Rec
-              key={rec.id}
-              excludeRec={(e, id) => this.handleExcludeRec(e, id)}
-              game={rec}
-            />
-          ))}
+          {topFiveRecs.length ? (
+            topFiveRecs.map(rec => (
+              // <Game
+              //   name={rec.name}
+              //   slug={rec.igdb.slug}
+              //   cloudImage={rec.cloudImage}
+              // />
+              <Rec
+                key={rec.id}
+                excludeRec={(e, id) => this.handleExcludeRec(e, id)}
+                game={rec}
+              />
+            ))
+          ) : (
+            <div className="text-center">
+              No recommendations for you ¯\_(ツ)_/¯
+            </div>
+          )}
         </div>
         <hr />
         {error && <div style={{ color: "#900" }}>{error}</div>}
