@@ -51,8 +51,13 @@ export class RecommendationsPage extends Component {
     });
   }
 
+  handleExcludeRec(e) {
+    console.log("hit me!");
+  }
+
   render() {
     const { error, isLoading, recs } = this.state;
+    const topFiveRecs = recs.slice(0, 5);
 
     return (
       <div>
@@ -62,13 +67,13 @@ export class RecommendationsPage extends Component {
           <i className="nes-icon coin" />
         </h1>
         <div className="game-container mx-auto mt-16">
-          {recs.map(rec => (
+          {topFiveRecs.map(rec => (
             // <Game
             //   name={rec.name}
             //   slug={rec.igdb.slug}
             //   cloudImage={rec.cloudImage}
             // />
-            <Rec game={rec} />
+            <Rec excludeRec={e => this.handleExcludeRec(e)} game={rec} />
           ))}
         </div>
         <hr />

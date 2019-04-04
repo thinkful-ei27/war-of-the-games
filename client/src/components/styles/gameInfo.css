@@ -17,8 +17,14 @@
   max-width: 100px;
 }
 
+.rec-delete {
+  order: 3;
+  background-color: white;
+  padding: 8px;
+}
+
 .game-recommendation {
-  flex-direction: column
+  flex-direction: column;
 }
 
 .game-container {

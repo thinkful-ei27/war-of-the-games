@@ -4,10 +4,15 @@ import LongText from "./LongText";
 
 export default function Rec(props) {
   const { cloudImage, igdb, name, summary } = props.game;
+  const { excludeRec } = props;
   const { slug } = igdb;
   const url = `/games/${slug}`;
   return (
     <section className="nes-container is-dark flex game-recommendation">
+      <i
+        className="nes-icon close is-small rec-delete"
+        onClick={() => excludeRec()}
+      />
       <div className="mx-4">
         <img className="img-responsive rec-img" src={cloudImage} alt={slug} />
       </div>
