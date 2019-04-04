@@ -32,7 +32,10 @@
   align-self: flex-start;
   width: 100%
 }
-
+.rec-container {
+  width: 100%;
+  text-align: center;
+}
 .recent-choices {
   margin: 16px;
   width: 100%;
@@ -66,7 +69,12 @@
   }
 
   .recent-choices {
-    margin: 30px;
     width: 30%;
+  }
+
+  .rec-container {
+    margin: 30px;
+    width: 90%;
+    text-align: left
   }
 }

@@ -56,7 +56,7 @@ export class Recommendations extends Component {
     const topFiveRecs = recs.slice(0, 5);
 
     return (
-      <div>
+      <div className="rec-container">
         {isMobile && <hr className="mt-8" />}
         <Link to="/profile/recommendations">
           <h3 className={isMobile ? "w-3/4 mx-auto text-base mt-4" : ""}>
@@ -64,7 +64,9 @@ export class Recommendations extends Component {
             Recommendations >
           </h3>
         </Link>
-        <div className={`flex ${isMobile && "flex-col text-xs w-3/4 mx-auto"}`}>
+        <div
+          className={`flex ${isMobile ? "flex-col text-xs w-3/4 mx-auto" : ""}`}
+        >
           {topFiveRecs.map(rec => (
             <Game
               key={rec.id}
