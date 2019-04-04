@@ -112,8 +112,8 @@ router.get("/:id/results", async (req, res, next) => {
 
 /* ========== POST/CREATE AN ITEM ========== */
 router.post("/", jwtAuth, (req, res, next) => {
-  const { gameOne, gameTwo, choice, userId } = req.body;
-  // const userId = req.user.id;
+  const { gameOne, gameTwo, choice } = req.body;
+  const userId = req.user.id;
 
   const newHist = { gameOne, gameTwo, choice, userId };
 
