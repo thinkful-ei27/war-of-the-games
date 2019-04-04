@@ -37,6 +37,7 @@ const games = [
   {
     name: "Super Mario 64",
     _id: "5c9a959ba5d0dd09e07f45a7",
+    firstReleaseDate: 835488000,
     igdb: {
       id: 1074,
       slug: "super-mario-64"
@@ -90,6 +91,7 @@ const games = [
   {
     name: "The Legend of Zelda",
     _id: "5c9a959ba5d0dd09e07f45a8",
+    firstReleaseDate: 509328000,
     igdb: {
       id: 1022,
       slug: "the-legend-of-zelda"
@@ -112,6 +114,7 @@ const games = [
   {
     name: "Mortal Kombat",
     _id: "5c9a959ba5d0dd09e07f45a9",
+    firstReleaseDate: 712713600,
     igdb: {
       id: 1618,
       slug: "mortal-kombat--2"
@@ -122,6 +125,7 @@ const games = [
   {
     name: "Street Fighter II",
     _id: "5c9a959ba5d0dd09e07f45a0",
+    firstReleaseDate: 665798400,
     igdb: {
       id: 3186,
       slug: "street-fighter-ii"
@@ -143,6 +147,7 @@ const games = [
   {
     name: "Halo: Combat Evolved",
     _id: "5c9a959ba5d0dd09e07f45a1",
+    firstReleaseDate: 1005782400,
     igdb: {
       id: 740,
       slug: "halo-combat-evolved"
@@ -154,6 +159,7 @@ const games = [
   {
     name: "Superman",
     _id: "5c9a959ba5d0dd09e07f45a2",
+    firstReleaseDate: 928108800,
     igdb: {
       id: 3005,
       slug: "superman"
@@ -165,6 +171,7 @@ const games = [
   {
     name: "Final Fantasy VII",
     _id: "5c9a959ba5d0dd09e07f45a3",
+    firstReleaseDate: 854668800,
     igdb: {
       id: 427,
       slug: "final-fantasy-vii"
@@ -176,6 +183,7 @@ const games = [
   {
     name: "WWF No Mercy",
     _id: "5c9a959ba5d0dd09e07f45a4",
+    firstReleaseDate: 974419200,
     igdb: {
       id: 3644,
       slug: "wwf-no-mercy"
@@ -189,6 +197,7 @@ const games = [
   {
     name: "Super Smash Bros.",
     _id: "5c9a959ba5d0dd09e07f45a5",
+    firstReleaseDate: 916876800,
     igdb: {
       id: 1626,
       slug: "super-smash-bros"
@@ -212,6 +221,7 @@ const games = [
   {
     name: "Candy Crush Saga",
     _id: "5c9a959ba5d0dd09e07f45a6",
+    firstReleaseDate: 1334188800,
     igdb: {
       id: 5636,
       slug: "candy-crush-saga"
@@ -232,12 +242,13 @@ const games = [
       "https://images.igdb.com/igdb/image/upload/t_720p/u9s7ap9gi5kestfxhxdf.jpg"
   },
   {
+    name: "God of War II",
     igdb: {
       id: 551,
       slug: "god-of-war-ii"
     },
     similar_games: [112, 127, 136, 499, 549, 550, 552, 1029, 1128, 3644],
-    name: "God of War II",
+    firstReleaseDate: 1173744000,
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/f3mwxy3opbrbmcyguhly.jpg",
     createdAt: "2019-03-27T22:42:41.704Z",
@@ -277,6 +288,7 @@ const games = [
   },
   {
     name: "Super Mario Bros. 3",
+    firstReleaseDate: 591840000,
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/u9s7ap9gi5kestfxhxdf.jpg",
     igdb: {
