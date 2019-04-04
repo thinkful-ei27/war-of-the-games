@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
@@ -22,8 +23,8 @@ const schema = new mongoose.Schema({
   ],
   // An array of IGDB ID numbers
   similar_games: [{ type: Number }],
-  // images: [{ t_thumb: { type: String }, t_720p: { type: String } }]
-  cloudImage: { type: String }
+  cloudImage: { type: String },
+  firstReleaseDate: Number
 });
 
 schema.set("timestamps", true);
