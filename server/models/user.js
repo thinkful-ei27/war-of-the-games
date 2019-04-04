@@ -10,7 +10,8 @@ const userSchema = new mongoose.Schema({
   history: [{ type: mongoose.Schema.Types.ObjectId, ref: "History" }],
   // about: { type: String }
   admin: { type: Boolean, default: false },
-  battles: { type: Number, default: 0 }
+  battles: { type: Number, default: 0 },
+  excludedGames: [{ type: mongoose.Schema.Types.ObjectId, ref: "Game" }]
 });
 
 userSchema.set("toJSON", {
