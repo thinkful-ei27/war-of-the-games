@@ -248,7 +248,7 @@ describe("ASYNC Capstone API - History)", function() {
         });
     });
 
-    it.only("should add one to the battle property of the current user", function() {
+    it("should add one to the battle property of the current user", function() {
       const newItem = {
         gameOne: "5c9a959ba5d0dd09e07f45a4",
         gameTwo: "5c9a959ba5d0dd09e07f45a3",
@@ -265,7 +265,6 @@ describe("ASYNC Capstone API - History)", function() {
         })
         .then(dbUser => {
           expect(dbUser.id).to.equal(user.id);
-          console.log(dbUser);
           expect(dbUser.battles).to.equal(user.battles + 1);
         });
     });

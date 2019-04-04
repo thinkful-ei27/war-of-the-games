@@ -148,6 +148,7 @@ router.post("/", jwtAuth, (req, res, next) => {
         .then(history => {
           responseHistory = history;
           user.history.push(history._id);
+          user.battles ? (user.battles += 1) : (user.battles = 1);
           return user.save();
         })
         .then(result => {
