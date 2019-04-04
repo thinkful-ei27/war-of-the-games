@@ -9,7 +9,7 @@ import { SignupPrompt } from "./signupPrompt";
 import "./styles/card.css";
 import { fetchGames, fetchFeedback, handleVote } from "../actions/gameActions";
 import { loadVoteCount, setVoteLocalStorageVariable } from "../local-storage";
-
+import ErrorBoundary from './errorBoundary';
 export class LandingPage extends React.Component {
   componentDidMount() {
     const { loggedIn, nonUserVotes, dispatch, userId } = this.props;
@@ -36,7 +36,10 @@ export class LandingPage extends React.Component {
     let content;
     const count = parseInt(loadVoteCount(), 10);
     if (count <= 11 && !loggedIn) {
-      content = <UserOnboard />;
+      content =
+        <ErrorBoundary>
+          <UserOnboard />
+        </ErrorBoundary>
     }
     else if (count > 11 && !loggedIn) {
       content = <SignupPrompt />;
