@@ -52,21 +52,26 @@ export class Recommendations extends Component {
 
   render() {
     const { error, isLoading, recs } = this.state;
+    const { isMobile, profileWidth } = this.props;
 
     return (
       <div>
+        {isMobile && <hr className="mt-8" />}
         <Link to="/profile/recommendations">
-          <h3>
+          <h3 className={isMobile && "w-3/4 mx-auto text-base mt-4"}>
             <i className="nes-icon coin" />
             Recommendations >
           </h3>
         </Link>
-        <div className="flex">
+        <div className={`flex ${isMobile && "flex-col text-xs w-3/4 mx-auto"}`}>
           {recs.map(rec => (
             <Game
+              key={rec.name}
               name={rec.name}
               slug={rec.igdb.slug}
               cloudImage={rec.cloudImage}
+              profileFontSize="text-xs"
+              profileWidth={profileWidth}
             />
           ))}
         </div>

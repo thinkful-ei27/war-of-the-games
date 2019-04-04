@@ -1,7 +1,13 @@
+.nes-container.with-title > .title.user {
+  background-color: #f8f8f8;
+}
+
+.nes-container.with-title > .title.profile-pic {
+  background-color: #f8f8f8;
+}
 .profile-pic {
   width: 75px;
   height: 75px;
-
   border: 4px solid black;
   border-radius: 50%;
   justify-self: flex-end;
@@ -23,15 +29,18 @@
 }
 
 .about-me-container {
-  width: 60%;
   align-self: flex-start;
+  width: 100%
 }
 
 .recent-choices {
-  margin: 30px;
-  width: 30%;
+  margin: 16px;
+  width: 100%;
 }
 
+.choice-count {
+  margin-top: -30px;
+}
 .recent-choices > div {
   width: 100%;
   /* margin: auto; */
@@ -39,10 +48,25 @@
 
 .top-6 {
   margin: 30px;
-  width: 56%;
+  width: 100%;
 }
 
 .dashboard {
   display: flex;
   flex-wrap: wrap;
+}
+
+@media (min-width: 769px) {
+  .about-me-container {
+    width: 60%
+  }
+
+  .top-6 {
+    width: 56%;
+  }
+
+  .recent-choices {
+    margin: 30px;
+    width: 30%;
+  }
 }

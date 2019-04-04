@@ -1,14 +1,14 @@
 /* eslint-disable react/destructuring-assignment */
 import React from "react";
 import { connect } from "react-redux";
-import Card from "./card";
+import ConnectedCard from "./card";
 import { fetchGames, clearGames } from "../actions/gameActions";
 
 export function Battle(props) {
   const { fetchFeedback, dispatch } = props;
   return (
     <div className="battle-container">
-      <Card
+      <ConnectedCard
         src={props[0].cloudImage}
         alt={props[0].name}
         name={props[0].name}
@@ -29,7 +29,7 @@ export function Battle(props) {
           Skip
         </button>
       </div>
-      <Card
+      <ConnectedCard
         src={props[1].cloudImage}
         alt={props[1].name}
         name={props[1].name}

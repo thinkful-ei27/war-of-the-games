@@ -7,7 +7,7 @@ import {
   clearGames,
   setNonUserVotes,
   clearNonUserVotes
-} from '../actions/gameActions';
+} from "../actions/gameActions";
 import { incrementVoteCount } from "../local-storage";
 
 export function Card(props) {
@@ -23,7 +23,7 @@ export function Card(props) {
     userId
   } = props;
 
-  let handleVoteClick = () => {
+  const handleVoteClick = () => {
     dispatch(handleVote(games[0].id, games[1].id, id, userId));
     dispatch(fetchGames());
     fetchFeedback(id);
@@ -31,15 +31,15 @@ export function Card(props) {
     dispatch(clearGames());
   };
 
-  const gamesUrl = '/games/';
+  const gamesUrl = "/games/";
   const slug =
     name.charAt(name.length - 1) === "."
       ? // check to see if the last character is a period, which a few games do have, which would break the link
-      // if period is found, remove it and build slug with that e.g Super Smash Bros. becomes super-smash-bros
-      name
-        .substring(0, name.length - 1)
-        .toLowerCase()
-        .replace(/[^A-Z0-9]+/gi, "-")
+        // if period is found, remove it and build slug with that e.g Super Smash Bros. becomes super-smash-bros
+        name
+          .substring(0, name.length - 1)
+          .toLowerCase()
+          .replace(/[^A-Z0-9]+/gi, "-")
       : name.toLowerCase().replace(/[^A-Z0-9]+/gi, "-");
 
   return (
