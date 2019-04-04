@@ -2,12 +2,16 @@ import {
   GET_USER_ERROR,
   GET_USER_SUCCESS,
   GET_USER_REQUEST,
-  GET_USER_TOP_HISTORY_SUCCESS
+  GET_USER_TOP_HISTORY_SUCCESS,
+  POST_USER_ABOUT_ME_ERROR,
+  POST_USER_ABOUT_ME_REQUEST,
+  POST_USER_ABOUT_ME_SUCCESS
 } from "../actions/users";
 
 const initialState = {
   history: [],
   topHistory: [],
+  aboutMe: "",
   loading: false,
   error: null
 };
@@ -36,6 +40,23 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         topHistory: [...action.history]
+      };
+    case POST_USER_ABOUT_ME_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    case POST_USER_ABOUT_ME_SUCCESS:
+      return {
+        ...state,
+        aboutMe: action.content
+      };
+    case POST_USER_ABOUT_ME_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: null
       };
     default:
       return state;

@@ -2,9 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import requiresLogin from "./requires-login";
 import "./styles/profile.css";
-import { getUser, getUserTopHistory } from "../actions/users";
+import { getUser, getUserTopHistory, postUserAboutMe } from "../actions/users";
 import Loading from "./loading";
 import ConnectedGame from "./Game";
+import AboutMeForm from "./AboutMeForm";
 import ConnectedRecommendations from "./Recommendations";
 
 export class ProfilePage extends React.Component {
@@ -17,18 +18,13 @@ export class ProfilePage extends React.Component {
   }
 
   render() {
-    const { username, history, name, loading, topHistory } = this.props;
+    const { history, name, topHistory, aboutMe } = this.props;
     const topSix = topHistory.map(history => {
       const { name, cloudImage, igdb, count, id } = history;
       return (
-        <div>
+        <div key={id}>
           <p className="nes-text is-primary">{`You've selected ${name} ${count} times`}</p>
-          <ConnectedGame
-            slug={igdb.slug}
-            name={name}
-            cloudImage={cloudImage}
-            key={id}
-          />
+          <ConnectedGame slug={igdb.slug} name={name} cloudImage={cloudImage} />
         </div>
       );
     });
@@ -57,15 +53,13 @@ export class ProfilePage extends React.Component {
                   alt="profile-pic"
                 />
               </p>
-              <p className="about-me">
-                Bacon ipsum dolor amet strip steak filet mignon capicola,
-                picanha boudin pig frankfurter shank kielbasa tri-tip pancetta.
-                Frankfurter shoulder swine picanha pig. Tongue ribeye pig strip
-                steak brisket, ham shankle pork chop doner jowl turducken cow
-                tenderloin frankfurter t-bone. Ribeye pastrami filet mignon
-                burgdoggen. Tri-tip corned beef beef kevin drumstick. Cow
-                picanha alcatra tail meatloaf.{" "}
-              </p>
+              {aboutMe ? (
+                <div className nes-container is-rounded>
+                  {aboutMe}
+                </div>
+              ) : (
+                <AboutMeForm />
+              )}
             </div>
           </section>
         </div>
@@ -88,6 +82,7 @@ const mapStateToProps = state => {
   const { currentUser } = state.auth;
 
   return {
+    aboutMe: state.user.aboutMe,
     topHistory: state.user.topHistory,
     userId: currentUser.id,
     username: state.auth.currentUser.username,

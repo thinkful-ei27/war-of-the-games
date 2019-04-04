@@ -25,9 +25,55 @@ export const getUserTopHistorySuccess = history => ({
   history
 });
 
+export const POST_USER_ABOUT_ME_REQUEST = "POST_USER_ABOUT_ME_REQUEST";
+export const postUserAboutMeRequest = () => ({
+  type: POST_USER_ABOUT_ME_REQUEST
+});
+
+export const POST_USER_ABOUT_ME_SUCCESS = "POST_USER_ABOUT_ME_SUCCESS";
+export const postUserAboutMeSuccess = content => {
+  return {
+    type: POST_USER_ABOUT_ME_SUCCESS,
+    content
+  };
+};
+
+export const POST_USER_ABOUT_ME_ERROR = "POST_USER_ABOUT_ME_ERROR";
+export const postUserAboutMeError = error => ({
+  type: POST_USER_ABOUT_ME_ERROR,
+  error
+});
+
+export const postUserAboutMe = content => (dispatch, getState) => {
+  dispatch(postUserAboutMeRequest());
+
+  const { authToken } = getState().auth;
+  const aboutMe = { content };
+  // eslint-disable-next-line no-undef
+  return fetch(`${API_BASE_URL}/users/aboutMe`, {
+    method: "POST",
+    body: JSON.stringify(aboutMe),
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+      "Content-Type": "application/json"
+    }
+  })
+    .then(res => {
+      if (!res.ok) {
+        return Promise.reject(res.statusText);
+      }
+      return res;
+    })
+    .then(data => {
+      console.log(content);
+      dispatch(postUserAboutMeSuccess(content));
+    })
+    .catch(err => dispatch(postUserAboutMeError(err)));
+};
+
 export const getUserTopHistory = userId => (dispatch, getState) => {
   dispatch(getUserRequest());
-  const authToken = getState().auth.authToken;
+  const { authToken } = getState().auth;
   return fetch(`${API_BASE_URL}/users/${userId}/topHistory`, {
     method: "GET",
     headers: {
@@ -41,6 +87,7 @@ export const getUserTopHistory = userId => (dispatch, getState) => {
       return res.json();
     })
     .then(data => {
+      console.log(data);
       return dispatch(getUserTopHistorySuccess(data));
     })
     .catch(err => dispatch(getUserError(err)));
@@ -48,7 +95,7 @@ export const getUserTopHistory = userId => (dispatch, getState) => {
 export const getUser = userId => (dispatch, getState) => {
   dispatch(getUserRequest());
 
-  const authToken = getState().auth.authToken;
+  const { authToken } = getState().auth;
   return fetch(`${API_BASE_URL}/users/${userId}/history`, {
     method: "GET",
     headers: {

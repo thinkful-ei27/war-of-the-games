@@ -33,7 +33,6 @@ export class Recommendations extends Component {
         .then(results => {
           // Creates a massaged array of user recommendations
           const { data } = results;
-          console.log(data);
 
           // Places recommendations into state.
           this.setState({
@@ -64,6 +63,7 @@ export class Recommendations extends Component {
         <div className="flex">
           {recs.map(rec => (
             <Game
+              key={rec.id}
               name={rec.name}
               slug={rec.igdb.slug}
               cloudImage={rec.cloudImage}
