@@ -9,6 +9,15 @@ const users = [
     password: "$2a$10$0S5GdCkGJTDeaAH272/bmeZmmpC4rv6ItXIOZKwVQIfQOqSURhkhu"
   },
   {
+    _id: "333333333333333333333301",
+    firstName: "Adam",
+    lastName: "Admin",
+    username: "adamadmin",
+    // hash digest for the string 'baseball'
+    password: "$2a$10$iZyK.rKrq4vIOM54A4pYm.wvVAYLPB1me.D5CrUHqtLbJ5ClrTdH6",
+    admin: true
+  },
+  {
     _id: "222222222222222222222200",
     firstName: "Johnny",
     lastName: "Salt",

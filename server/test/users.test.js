@@ -14,7 +14,9 @@ const sandbox = sinon.createSandbox();
 
 describe("ASYNC Capstone API - Users", () => {
   let user;
+  let admin;
   let token;
+  let adminToken;
   const username = "exampleUser";
   const password = "examplePass";
   const firstName = "Example";
@@ -33,7 +35,9 @@ describe("ASYNC Capstone API - Users", () => {
       Game.createIndexes()
     ]).then(([dbUsers]) => {
       [user] = dbUsers;
+      [admin] = dbUsers.filter(dbUser => !!dbUser.admin);
       token = jwt.sign({ user }, JWT_SECRET, { subject: user.username });
+      adminToken = jwt.sign({ admin }, JWT_SECRET, { subject: admin.username });
     });
   });
   afterEach(() => {
@@ -61,7 +65,8 @@ describe("ASYNC Capstone API - Users", () => {
             "username",
             "firstName",
             "lastName",
-            "history"
+            "history",
+            "admin"
           );
           expect(res.body.username).to.equal(username.toLowerCase());
           expect(res.body.firstName).to.equal(firstName);
@@ -91,27 +96,31 @@ describe("ASYNC Capstone API - Users", () => {
         expect(res.body.length).to.equal(hist.length);
       });
     });
+
+    it("should catch errors and respond properly", () => {
+      sandbox
+        .stub(History.schema.options.toJSON, "transform")
+        .throws("FakeError");
+
+      return chai
+        .request(app)
+        .get(`/api/users/${user.id}/history`)
+        .then(res => {
+          expect(res).to.have.status(500);
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Internal Server Error");
+        });
+    });
   });
 
   describe("GET /api/users/recommendations", () => {
-    it("should return the correct number of recommendations", () => {
-      return chai
-        .request(app)
-        .get(`/api/users/recommendations`)
-        .set("Authorization", `Bearer ${token}`)
-        .then(res => {
-          expect(res).to.have.status(200);
-          expect(res.body).to.be.an("array");
-          expect(res.body.length).to.equal(5);
-        });
-    });
-
     it("should return recommendations with the correct fields", () => {
       return chai
         .request(app)
         .get(`/api/users/recommendations`)
         .set("Authorization", `Bearer ${token}`)
         .then(res => {
+          expect(res).to.have.status(200);
           expect(res.body).to.be.an("array");
           expect(res.body[0]).to.be.an("object");
           expect(res.body[0]).to.include.all.keys(

@@ -26,3 +26,7 @@ export default class LongText extends Component {
       </div>
   }
 }
+
+LongText.defaultProps = {
+    content: ''
+}
