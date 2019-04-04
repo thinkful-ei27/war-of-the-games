@@ -58,7 +58,7 @@ export class Recommendations extends Component {
       <div>
         {isMobile && <hr className="mt-8" />}
         <Link to="/profile/recommendations">
-          <h3 className={isMobile && "w-3/4 mx-auto text-base mt-4"}>
+          <h3 className={isMobile ? "w-3/4 mx-auto text-base mt-4" : ""}>
             <i className="nes-icon coin" />
             Recommendations >
           </h3>
