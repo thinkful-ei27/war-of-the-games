@@ -2,13 +2,14 @@ import React from "react";
 import ConnectedGame from "./Game";
 
 export default function GameSimilar(props) {
-  const { currentGame, location } = props;
+  const { currentGame, location, screenWidth } = props;
   const { name } = currentGame;
   const similarGames = currentGame.similar_games;
   const renderSimilarGames = games => {
     return games.map(vgame => {
       return (
         <ConnectedGame
+          screenWidth={screenWidth}
           key={vgame.id}
           location={location}
           slug={vgame.igdb.slug}
@@ -19,8 +20,8 @@ export default function GameSimilar(props) {
     });
   };
   return (
-    <section className="mt-16">
-      <h3 className="mt-4">
+    <section className="mt-16 p-4">
+      <h3 className="mt-4 text-center">
         <i className="nes-icon heart" />
         Games similar to {name}
       </h3>

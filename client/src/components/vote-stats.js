@@ -9,12 +9,8 @@ export default function VoteStats(props) {
   const percent = parseInt(Number(percentage) * 100, 10);
 
   return (
-    <div className="vote-stats-container">
-      <VoteCard
-        src={cloudImage ? cloudImage : coverUrl}
-        percent={percent}
-        name={name}
-      />
+    <div className="vote-stats-container shadow">
+      <VoteCard src={cloudImage || coverUrl} percent={percent} name={name} />
     </div>
   );
 }

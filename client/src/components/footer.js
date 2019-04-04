@@ -1,7 +1,15 @@
 import React from "react";
+import { connect } from "react-redux";
 import "./styles/footer.css";
 
-export default function Footer() {
+export function Footer(props) {
+  const { screenWidth } = props;
+
+  let linkText = "Learn More";
+
+  if (screenWidth > 768) {
+    linkText = "Learn more about the creators";
+  }
   return (
     <footer className="footer">
       <p className="footer-content">
@@ -12,9 +20,15 @@ export default function Footer() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn more about the creators
+          {linkText}
         </a>
       </p>
     </footer>
   );
 }
+
+const mapStateToProps = state => ({
+  screenWidth: state.window.width
+});
+
+export default connect(mapStateToProps)(Footer);
