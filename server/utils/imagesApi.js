@@ -21,15 +21,6 @@ const saveImgById = (id, coverUrl) => {
   });
 };
 
-const allGames = async (id, log) => {
-  const query = id ? { _id: id } : {};
-  const all = await Game.find(query);
-  if (log) console.log(all);
-
-  return all;
-};
-
 module.exports = {
-  saveImgById,
-  allGames
+  saveImgById
 };

@@ -86,24 +86,21 @@ export const handleVote = (gameOne, gameTwo, choice, userId) => (
 ) => {
   const { authToken } = getState().auth;
   axios
-    .post(`${API_BASE_URL}/history`, {
-      gameOne,
-      gameTwo,
-      choice,
-      userId,
-      headers: {
-        Authorization: `Bearer ${authToken}`
-      }
-    })
-    .then(function(response) {
-      return response;
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
+    .post(
+      `${API_BASE_URL}/history`,
+      {
+        gameOne,
+        gameTwo,
+        choice,
+        userId
+      },
+      { headers: { Authorization: `Bearer ${authToken}` } }
+    )
+    .then(response => response)
+    .catch(error => console.log(error));
 };
 
-export const fetchFeedback = game => (dispatch, getState) => {
+export const fetchFeedback = game => dispatch => {
   axios
     .get(`${API_BASE_URL}/history/${game}/results`)
     .then(response => dispatch(fetchFeedbackSuccess(response.data)))
