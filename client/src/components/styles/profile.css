@@ -38,6 +38,9 @@
   width: 100%;
 }
 
+.choice-count {
+  margin-top: -30px;
+}
 .recent-choices > div {
   width: 100%;
   /* margin: auto; */

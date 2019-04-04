@@ -37,8 +37,10 @@ export class ProfilePage extends React.Component {
             cloudImage={cloudImage}
             key={id}
             screenWidth={screenWidth}
+            profileWidth="w-1"
+            profileFontSize="text-xs"
           />
-          <p className="nes-text is-primary mx-auto">
+          <p className="nes-text is-primary mx-auto choice-count">
             {isMobile
               ? `selected ${count} times`
               : `You've selected ${name} ${count} times`}
@@ -55,6 +57,8 @@ export class ProfilePage extends React.Component {
             slug={choice.igdb.slug}
             name={choice.name}
             cloudImage={choice.cloudImage}
+            profileFontSize="text-xs"
+            profileWidth="w-1"
           />
         </div>
       );
@@ -101,7 +105,7 @@ export class ProfilePage extends React.Component {
             </div>
           </section>
         </div>
-        <ConnectedRecommendations isMobile={isMobile} />
+        <ConnectedRecommendations profileWidth="w-1" isMobile={isMobile} />
         <section className="nes-container top-six m-4">
           <h4>
             <i className={`nes-icon ${iconSize} heart`} />

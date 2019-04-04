@@ -52,7 +52,7 @@ export class Recommendations extends Component {
 
   render() {
     const { error, isLoading, recs } = this.state;
-    const { isMobile } = this.props;
+    const { isMobile, profileWidth } = this.props;
 
     return (
       <div>
@@ -70,6 +70,8 @@ export class Recommendations extends Component {
               name={rec.name}
               slug={rec.igdb.slug}
               cloudImage={rec.cloudImage}
+              profileFontSize="text-xs"
+              profileWidth={profileWidth}
             />
           ))}
         </div>
