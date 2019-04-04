@@ -30,13 +30,13 @@ export class ProfilePage extends React.Component {
     const topSix = topHistory.map(history => {
       const { name, cloudImage, igdb, count, id } = history;
       return (
-        <div key={id} className="mt-4">
+        <div key={id} className="mt-4 text-center">
           <ConnectedGame
             slug={igdb.slug}
             name={name}
             cloudImage={cloudImage}
             key={id}
-            isMobile={isMobile}
+            screenWidth={screenWidth}
           />
           <p className="nes-text is-primary mx-auto">
             {isMobile

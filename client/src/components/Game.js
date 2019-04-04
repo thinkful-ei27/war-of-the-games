@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 export default function Game(props) {
   const { slug, name, cloudImage, screenWidth } = props;
-
   let width;
   let fontSize;
   let padding;
