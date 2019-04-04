@@ -95,10 +95,9 @@ router.get("/recommendations", jwtAuth, (req, res, next) => {
             : (similarGamesCount[similarGame] = 1);
         })
       );
-      sortedSimilarGames = Object.keys(similarGamesCount).sort(
-        (a, b) => similarGamesCount[b] - similarGamesCount[a]
-      );
-      // .slice(0, 100);
+      sortedSimilarGames = Object.keys(similarGamesCount)
+        .sort((a, b) => similarGamesCount[b] - similarGamesCount[a])
+        .slice(0, 10);
       return Game.find({ "igdb.id": { $in: sortedSimilarGames } });
     })
     .then(recs => {
