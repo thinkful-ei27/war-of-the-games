@@ -35,7 +35,8 @@ const getGame = async id =>
       "genres.name",
       "platforms.name",
       // "similar_games" is an array of IGDB ID numbers
-      "similar_games"
+      "similar_games",
+      "first_release_date"
     ])
     .where(`id = ${id}`)
     .request("/games")

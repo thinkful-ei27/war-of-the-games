@@ -25,6 +25,10 @@
   width: 100%;
 }
 
+.game-summary {
+  line-height: 2rem;
+}
+
 .similar {
   height: 64px;
   width: 64px;
@@ -35,6 +39,10 @@
 
 .similar-game {
   text-decoration: none;
+}
+
+.nes-text {
+  font-size: 12px;
 }
 
 @media (min-width: 576px) {
@@ -194,6 +202,10 @@
 }
 
 /* Width */
+.w-1 {
+  width: 100%
+}
+
 .w-1\/2 {
   width: 50%;
 }
@@ -244,6 +256,10 @@
 /* Padding */
 .p-4 {
   padding: 1rem;
+}
+
+.p-6 {
+  padding: 1.25rem;
 }
 
 /* Shadows */

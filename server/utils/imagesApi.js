@@ -1,7 +1,7 @@
 const cloudinary = require("cloudinary");
 const Game = require("../models/game");
 
-const types = ["t_thumb", "t_720p"];
+// const types = ["t_thumb", "t_720p"];
 
 cloudinary.config({
   cloud_name: "hjihgo1pd",
@@ -9,20 +9,10 @@ cloudinary.config({
   api_secret: "_xROAc1eiDqLrhIxV0m_TKzcABU"
 });
 
-// const ageOfEmpires =
-//   "https://images.igdb.com/igdb/image/upload/t_720p/yoqdjsssreh8sjs9nvtv.jpg";
-
-// cloudinary.uploader.upload(
-//   ageOfEmpires,
-//   result => {
-//     console.log(result);
-//   },
-//   { public_id: "5c9bfe5d054d8f2e1010f133" }
-// );
-
+// used by saveImgById
 const saveImgCallback = result => {
-  const { secure_url } = result;
-  return secure_url;
+  const { secure_url: secureUrl } = result;
+  return secureUrl;
 };
 
 const saveImgById = (id, coverUrl) => {
@@ -31,16 +21,6 @@ const saveImgById = (id, coverUrl) => {
   });
 };
 
-const allGames = async (id, log) => {
-  const query = id ? { _id: id } : {};
-  const all = await Game.find(query);
-  if (log) console.log(all);
-
-  return all;
-};
-
 module.exports = {
-  saveImgCallback,
-  saveImgById,
-  allGames
+  saveImgById
 };
