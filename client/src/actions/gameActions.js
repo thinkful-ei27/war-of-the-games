@@ -84,7 +84,7 @@ export const handleVote = (gameOne, gameTwo, choice, userId) => (
   dispatch,
   getState
 ) => {
-  const authToken = getState().auth.authToken;
+  const { authToken } = getState().auth;
   axios
     .post(`${API_BASE_URL}/history`, {
       gameOne,

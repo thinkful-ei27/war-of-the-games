@@ -1,6 +1,6 @@
-// "use strict";
 const express = require("express");
 const mongoose = require("mongoose");
+const passport = require("passport");
 const { totalGamesPlayed, gamesWon } = require("../utils/queries");
 
 const History = require("../models/history");
@@ -9,6 +9,12 @@ const User = require("../models/user");
 const Game = require("../models/game");
 
 const { isValidId } = require("./validators");
+
+const router = express.Router();
+const jwtAuth = passport.authenticate("jwt", {
+  session: false,
+  failWithError: true
+});
 
 const missingChoice = (req, res, next) => {
   const { choice } = req.body;
@@ -20,11 +26,6 @@ const missingChoice = (req, res, next) => {
   }
   return next();
 };
-
-const router = express.Router();
-
-// const passport = require('passport');
-// router.use('/', passport.authenticate('jwt', {session: false, failWithError: true}));
 
 /* ========== GET/READ ALL ITEMS ========== */
 
@@ -110,7 +111,7 @@ router.get("/:id/results", async (req, res, next) => {
 });
 
 /* ========== POST/CREATE AN ITEM ========== */
-router.post("/", (req, res, next) => {
+router.post("/", jwtAuth, (req, res, next) => {
   const { gameOne, gameTwo, choice, userId } = req.body;
   // const userId = req.user.id;
 
