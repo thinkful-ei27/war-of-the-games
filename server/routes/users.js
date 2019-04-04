@@ -112,11 +112,7 @@ router.get("/recommendations", jwtAuth, (req, res, next) => {
 router.post("/aboutMe", jwtAuth, (req, res, next) => {
   const { content } = req.body;
   const userId = req.user.id;
-  const aboutMe = {
-    content,
-    userId
-  };
-  console.log(aboutMe);
+
   let user;
   User.findOne({ _id: userId })
     .then(_user => {
@@ -132,10 +128,11 @@ router.post("/aboutMe", jwtAuth, (req, res, next) => {
         .json(result);
     })
     .catch(err => {
-      console.log(err);
       next(err);
     });
 });
+
+/* =========== EDIT ABOUT ME ============ */
 
 /* ========== POST USERS ========== */
 
