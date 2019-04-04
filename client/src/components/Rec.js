@@ -3,16 +3,25 @@ import { Link } from "react-router-dom";
 import LongText from "./LongText";
 
 export default function Rec(props) {
-  const { cloudImage, igdb, name, summary } = props.game;
+  const { cloudImage, igdb, name, summary, id } = props.game;
   const { excludeRec } = props;
   const { slug } = igdb;
   const url = `/games/${slug}`;
   return (
     <section className="nes-container is-dark flex game-recommendation">
-      <i
+      {/* <i
         className="nes-icon close is-small rec-delete"
-        onClick={() => excludeRec()}
-      />
+        onClick={e => excludeRec(e)}
+      /> */}
+      <div
+        role="button"
+        tabIndex={0}
+        onKeyPress={e => excludeRec(e, id)}
+        onClick={e => excludeRec(e, id)}
+        className="rec-delete"
+      >
+        X
+      </div>
       <div className="mx-4">
         <img className="img-responsive rec-img" src={cloudImage} alt={slug} />
       </div>

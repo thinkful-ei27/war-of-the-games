@@ -51,8 +51,17 @@ export class RecommendationsPage extends Component {
     });
   }
 
-  handleExcludeRec(e) {
-    console.log("hit me!");
+  handleExcludeRec(e, id) {
+    if (e.type === "keypress" && e.key === "Enter") {
+      this.handleFilter(id);
+    }
+    this.handleFilter(id);
+  }
+
+  handleFilter(id) {
+    this.setState(prevState => ({
+      recs: prevState.recs.filter(rec => rec.id !== id)
+    }));
   }
 
   render() {
@@ -73,7 +82,11 @@ export class RecommendationsPage extends Component {
             //   slug={rec.igdb.slug}
             //   cloudImage={rec.cloudImage}
             // />
-            <Rec excludeRec={e => this.handleExcludeRec(e)} game={rec} />
+            <Rec
+              key={rec.id}
+              excludeRec={(e, id) => this.handleExcludeRec(e, id)}
+              game={rec}
+            />
           ))}
         </div>
         <hr />

@@ -18,9 +18,10 @@
 }
 
 .rec-delete {
-  order: 3;
-  background-color: white;
-  padding: 8px;
+  order: 1;
+  background-color:#212529;
+  color: #f8f8f8;
+  height: 16px;
 }
 
 .game-recommendation {
