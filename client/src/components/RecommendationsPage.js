@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
 import { API_BASE_URL } from "../config";
-import Game from "./Game";
+// import Game from "./Game";
 import Rec from "./Rec";
+import Loading from "./loading";
 
 export class RecommendationsPage extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ export class RecommendationsPage extends Component {
     // Sets up our initial state
     this.state = {
       error: false,
-      isLoading: false,
+      isLoading: true,
       recs: []
     };
   }
@@ -76,28 +77,32 @@ export class RecommendationsPage extends Component {
           <i className="nes-icon coin" />
         </h1>
         <div className="game-container mx-auto mt-16">
-          {topFiveRecs.length ? (
-            topFiveRecs.map(rec => (
-              // <Game
-              //   name={rec.name}
-              //   slug={rec.igdb.slug}
-              //   cloudImage={rec.cloudImage}
-              // />
-              <Rec
-                key={rec.id}
-                excludeRec={(e, id) => this.handleExcludeRec(e, id)}
-                game={rec}
-              />
-            ))
-          ) : (
-            <div className="text-center">
-              No recommendations for you ¯\_(ツ)_/¯
-            </div>
-          )}
+          {topFiveRecs.length
+            ? topFiveRecs.map(rec => (
+                // <Game
+                //   name={rec.name}
+                //   slug={rec.igdb.slug}
+                //   cloudImage={rec.cloudImage}
+                // />
+                <Rec
+                  key={rec.id}
+                  excludeRec={(e, id) => this.handleExcludeRec(e, id)}
+                  game={rec}
+                />
+              ))
+            : !isLoading && (
+                <div className="text-center">
+                  No recommendations for you ¯\_(ツ)_/¯
+                </div>
+              )}
         </div>
         <hr />
         {error && <div style={{ color: "#900" }}>{error}</div>}
-        {isLoading && <div>Loading...</div>}
+        {isLoading && (
+          <div className="w-1/3 mx-auto">
+            <Loading size="lg" incrementBy={5} />
+          </div>
+        )}
       </div>
     );
   }
