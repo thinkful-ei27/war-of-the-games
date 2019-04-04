@@ -2,6 +2,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Battle from "./battle";
+import Sprites from "./Sprites";
 import VoteStats from "./vote-stats";
 import UserOnboard from './userOnboard';
 import "./styles/landing-page.css";
@@ -36,7 +37,7 @@ export class LandingPage extends React.Component {
     let content;
     const count = parseInt(loadVoteCount(), 10);
     if (count <= 11 && !loggedIn) {
-      content = <UserOnboard />;
+      content = <Sprites />;
     }
     else if (count > 11 && !loggedIn) {
       content = <SignupPrompt />;
