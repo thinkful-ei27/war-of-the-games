@@ -26,17 +26,23 @@ export class ProfilePage extends React.Component {
       topHistory,
       screenWidth
     } = this.props;
+    const isMobile = screenWidth <= 768;
     const topSix = topHistory.map(history => {
       const { name, cloudImage, igdb, count, id } = history;
       return (
-        <div key={id}>
-          <p className="nes-text is-primary">{`You've selected ${name} ${count} times`}</p>
+        <div key={id} className="mt-4">
           <ConnectedGame
             slug={igdb.slug}
             name={name}
             cloudImage={cloudImage}
             key={id}
+            isMobile={isMobile}
           />
+          <p className="nes-text is-primary mx-auto">
+            {isMobile
+              ? `selected ${count} times`
+              : `You've selected ${name} ${count} times`}
+          </p>
         </div>
       );
     });
@@ -54,11 +60,12 @@ export class ProfilePage extends React.Component {
       );
     });
 
-    const isMobile = screenWidth <= 768;
     let nesContainer = "";
+    let iconSize = "is-small";
 
     if (!isMobile) {
       nesContainer = "nes-container";
+      iconSize = "is-medium";
     }
 
     const aboutMeContent = `Bacon ipsum dolor amet strip steak filet mignon capicola,
@@ -94,16 +101,19 @@ export class ProfilePage extends React.Component {
             </div>
           </section>
         </div>
+        <ConnectedRecommendations isMobile={isMobile} />
+        <section className="nes-container top-six m-4">
+          <h4>
+            <i className={`nes-icon ${iconSize} heart`} />
+            Your Top 6 choices!
+          </h4>
+          {topSix}
+        </section>
         <aside className="nes-container with-title recent-choices">
           <h4>Your Most Recent Choices!</h4>
           {recentHistory}
         </aside>
-        <section className="nes-container top-6">
-          <h4>Your Top 6 choices!</h4>
-          {topSix}
-        </section>
         <ul>{recentHistory}</ul>
-        <ConnectedRecommendations />
       </div>
     );
   }
