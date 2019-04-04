@@ -209,7 +209,8 @@ describe("ASYNC Capstone API - Games", () => {
               "igdb",
               "platforms",
               "summary",
-              "similar_games"
+              "similar_games",
+              "firstReleaseDate"
             );
             expect(game.igdb).to.have.keys("id", "slug");
           });
