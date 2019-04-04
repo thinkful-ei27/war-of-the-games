@@ -44,7 +44,7 @@ export class UserOnboard extends React.Component {
     let { tests } = this.props;
     let content;
 
-    if (this.count < 11) {
+    if (this.count < 13) {
       content =
         <>
           <div className="battle-container">
