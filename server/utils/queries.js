@@ -12,16 +12,16 @@ const gamesWon = async id => {
   return played.length;
 };
 
-const gameName = async id => {
-  const name = await History.find({ choice: id }).populate("choice");
-  console.log(name);
-  if (name.length < 1) {
-    // Game has never been chosen...pull cover art from games
-    const noChoiceName = await Game.find({ _id: id });
-    return noChoiceName[0].name;
-  }
-  return name[0].choice.name;
-};
+// const gameName = async id => {
+//   const name = await History.find({ choice: id }).populate("choice");
+//   console.log(name);
+//   if (name.length < 1) {
+//     // Game has never been chosen...pull cover art from games
+//     const noChoiceName = await Game.find({ _id: id });
+//     return noChoiceName[0].name;
+//   }
+//   return name[0].choice.name;
+// };
 
 const gamePic = async id => {
   const picture = await History.find({ choice: id }).populate("choice");
@@ -33,4 +33,4 @@ const gamePic = async id => {
   return picture[0].choice.coverUrl;
 };
 
-module.exports = { totalGamesPlayed, gamesWon, gameName, gamePic };
+module.exports = { totalGamesPlayed, gamesWon, gamePic };
