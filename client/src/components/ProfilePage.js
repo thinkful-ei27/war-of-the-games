@@ -65,11 +65,13 @@ export class ProfilePage extends React.Component {
     });
 
     let nesContainer = "";
+    let shadow = "";
     let iconSize = "is-small";
 
     if (!isMobile) {
       nesContainer = "nes-container";
       iconSize = "is-medium";
+      shadow = "shadow";
     }
 
     const aboutMeContent = `Bacon ipsum dolor amet strip steak filet mignon capicola,
@@ -86,7 +88,7 @@ export class ProfilePage extends React.Component {
           <p className="title user shadow">Hello {name}!</p>
           <section className="personal-info">
             <div className={`${nesContainer} with-title about-me-container`}>
-              <p className="title">
+              <p className={`title ${shadow} profile-pic-container`}>
                 <img
                   className="title profile-pic"
                   src="https://i.pinimg.com/originals/2f/56/20/2f5620472cc9033a970e3b0bd4fa66d7.png"

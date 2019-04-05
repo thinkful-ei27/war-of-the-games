@@ -5,6 +5,11 @@
 .nes-container.with-title > .title.profile-pic {
   background-color: #f8f8f8;
 }
+
+.nes-container.with-title > .title.profile-pic-container {
+  background-color: #f8f8f8;
+}
+
 .profile-pic {
   width: 75px;
   height: 75px;
