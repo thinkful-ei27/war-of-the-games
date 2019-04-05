@@ -1,11 +1,12 @@
+/* eslint-disable no-nested-ternary */
 import React from "react";
 import { connect } from "react-redux";
 import requiresLogin from "./requires-login";
 import "./styles/profile.css";
-import { getUser, getUserTopHistory } from "../actions/users";
-import LongText from "./LongText";
+import { getUser, getUserTopHistory, getUserAboutMe } from "../actions/users";
 import Loading from "./loading";
 import ConnectedGame from "./Game";
+import AboutMe from "./AboutMe";
 import ConnectedRecommendations from "./Recommendations";
 
 export class ProfilePage extends React.Component {
@@ -13,6 +14,7 @@ export class ProfilePage extends React.Component {
     const { userId, dispatch } = this.props;
     return Promise.all([
       dispatch(getUserTopHistory(userId)),
+      dispatch(getUserAboutMe()),
       dispatch(getUser(userId)).then(user => user)
     ]);
   }
@@ -24,9 +26,11 @@ export class ProfilePage extends React.Component {
       name,
       loading,
       topHistory,
-      screenWidth
+      screenWidth,
+      aboutMe
     } = this.props;
     const isMobile = screenWidth <= 768;
+
     const topSix = topHistory.map(history => {
       const { name, cloudImage, igdb, count, id } = history;
       return (
@@ -48,6 +52,7 @@ export class ProfilePage extends React.Component {
         </div>
       );
     });
+
     const recentHistory = history.map(histInstance => {
       const { choice, id } = histInstance;
       return (
@@ -71,21 +76,16 @@ export class ProfilePage extends React.Component {
       nesContainer = "nes-container";
       iconSize = "is-medium";
     }
-
-    const aboutMeContent = `Bacon ipsum dolor amet strip steak filet mignon capicola,
-    picanha boudin pig frankfurter shank kielbasa tri-tip pancetta.
-    Frankfurter shoulder swine picanha pig. Tongue ribeye pig strip
-    steak brisket, ham shankle pork chop doner jowl turducken cow
-    tenderloin frankfurter t-bone. Ribeye pastrami filet mignon
-    burgdoggen. Tri-tip corned beef beef kevin drumstick. Cow
-    picanha alcatra tail meatloaf.`;
-
-    return (
+    return loading ? (
+      <Loading />
+    ) : (
       <div className="dashboard">
         <div className="nes-container with-title profile-info-container">
           <p className="title user shadow">Hello {name}!</p>
           <section className="personal-info">
-            <div className={`${nesContainer} with-title about-me-container`}>
+            <div
+              className={`${nesContainer} with-title is-dark about-me-container`}
+            >
               <p className="title">
                 <img
                   className="title profile-pic"
@@ -93,15 +93,7 @@ export class ProfilePage extends React.Component {
                   alt="profile-pic"
                 />
               </p>
-              {isMobile ? (
-                <LongText
-                  className="about-me"
-                  limit={175}
-                  content={aboutMeContent}
-                />
-              ) : (
-                <p className="about-me">{aboutMeContent}</p>
-              )}
+              <AboutMe aboutMe={aboutMe} />
             </div>
           </section>
         </div>
@@ -117,7 +109,6 @@ export class ProfilePage extends React.Component {
           <h4>Your Most Recent Choices!</h4>
           {recentHistory}
         </aside>
-        <ul>{recentHistory}</ul>
       </div>
     );
   }
@@ -127,6 +118,7 @@ const mapStateToProps = state => {
   const { currentUser } = state.auth;
 
   return {
+    aboutMe: state.user.aboutMe,
     topHistory: state.user.topHistory,
     userId: currentUser.id,
     username: state.auth.currentUser.username,
