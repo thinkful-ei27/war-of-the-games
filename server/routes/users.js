@@ -213,6 +213,7 @@ router.post("/", (req, res, next) => {
     });
 });
 
+/* ========= POST EXCLUDED GAMES ============= */
 router.post("/excludedGames", jwtAuth, (req, res, next) => {
   const { id } = req.user;
   const { excludedId } = req.body;
@@ -224,7 +225,7 @@ router.post("/excludedGames", jwtAuth, (req, res, next) => {
       user.excludedGames.push(excludedId);
       user.save();
     })
-    .then(result => {
+    .then(() => {
       res
         .location(`${req.originalUrl}`)
         .status(201)
