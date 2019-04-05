@@ -19,4 +19,4 @@ schema.set("toJSON", {
   }
 });
 
-module.exports = mongoose.model("Top", schema);
+module.exports = mongoose.model("Core", schema);

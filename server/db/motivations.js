@@ -173,9 +173,13 @@ const allMotivationGames = motivations => {
     });
   });
 
-  const uniqueArray = filterNonUniqueBy(games, (a, b) => a.game == b.game);
+  // const uniqueArray = filterNonUniqueBy(games, (a, b) => a.game == b.game);
 
-  return uniqueArray.length;
+  return games;
 };
 
-console.log(allMotivationGames(motivations));
+const util = require("util");
+
+console.log(
+  util.inspect(allMotivationGames(motivations), { maxArrayLength: null })
+);
