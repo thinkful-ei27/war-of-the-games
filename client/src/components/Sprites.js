@@ -8,15 +8,13 @@ export class Sprites extends React.Component {
     return (
       <form name="sprite-form">
         <p>Select an avatar</p>
-        <div className="cc-selector-2">
-          <input id="visa2" type="radio" name="creditcard" value="visa" />
-          <label id="drinkcard-cc visa" for="visa2"></label>
-          <input id="mastercard2" type="radio" name="creditcard" value="mastercard" />
-          <label id="drinkcard-cc mastercard" for="mastercard2"></label>
+        <div className="cc-selector">
+          <input id="visa" type="radio" name="credit-card" value="visa" />
+          <label className="drinkcard-cc visa" for="visa"></label>
+          <input id="mastercard" type="radio" name="credit-card" value="mastercard" />
+          <label className="drinkcard-cc mastercard" for="mastercard"></label>
         </div>
-        <button type="submit">set avatar</button>
       </form>
-
     )
   }
 }

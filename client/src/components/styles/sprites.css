@@ -4,29 +4,25 @@
        -moz-appearance:none;
             appearance:none;
 }
+.visa{background-image:url('../../assets/demon.png');}
+.mastercard{background-image:url(../../assets/knight.png);}
 
-.cc-selector-2 input{
-    position:absolute;
-    z-index:999;
-}
-
-#visa{background-image:url('../../assets/demon.png');}
-#mastercard{background-image:url(../../assets/knight.png);}
-
-.cc-selector-2 input:active +#drinkcard-cc, .cc-selector input:active +#drinkcard-cc{opacity: .9;}
-.cc-selector-2 input:checked +#drinkcard-cc, .cc-selector input:checked +#drinkcard-cc{
+.cc-selector input:active +.drinkcard-cc{opacity: .9;}
+.cc-selector input:checked +.drinkcard-cc{
     -webkit-filter: none;
        -moz-filter: none;
             filter: none;
 }
-#drinkcard-cc{
+.drinkcard-cc{
+    cursor:pointer;
     background-size:contain;
     background-repeat:no-repeat;
     display:inline-block;
     width:100px;height:70px;
+    -webkit-transition: all 100ms ease-in;
+       -moz-transition: all 100ms ease-in;
+            transition: all 100ms ease-in;
+    -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
+       -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
+            filter: brightness(1.8) grayscale(1) opacity(.7);
 }
-
-/* Extras */
-a:visited{color:#888}
-a{color:#444;text-decoration:none;}
-p{margin-bottom:.3em;}
