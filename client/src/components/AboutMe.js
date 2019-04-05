@@ -18,7 +18,6 @@ class AboutMe extends Component {
     dispatch(postUserAboutMe(e.target.aboutMe.value));
   }
   render() {
-    console.log(this.state);
     const { aboutMe, screenWidth } = this.props;
     const { submitSucceeded, isEditing, previousAboutMe } = this.state;
     const isMobile = screenWidth <= 768;
