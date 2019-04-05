@@ -67,7 +67,7 @@ export class RecommendationsPage extends Component {
     }));
     axios({
       url: `${API_BASE_URL}/users/excludedGames`,
-      method: "POST",
+      method: "PUT",
       headers: { Authorization: `Bearer ${token}` },
       body: {
         excludedId: id
