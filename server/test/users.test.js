@@ -65,7 +65,6 @@ describe("ASYNC Capstone API - Users", () => {
             "username",
             "firstName",
             "lastName",
-            "history",
             "admin",
             "battles"
           );
@@ -110,6 +109,19 @@ describe("ASYNC Capstone API - Users", () => {
           expect(res).to.have.status(500);
           expect(res.body).to.be.a("object");
           expect(res.body.message).to.equal("Internal Server Error");
+        });
+    });
+  });
+
+  describe("GET /api/users/:id/topHistory", () => {
+    it("should return the correct number of games", function() {
+      return chai
+        .request(app)
+        .get(`/api/users/${user.id}/topHistory`)
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.be.an("array");
+          expect(res.body.length).to.equal(6);
         });
     });
   });
