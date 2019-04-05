@@ -19,6 +19,7 @@ userSchema.set("toJSON", {
     delete result._id;
     delete result.__v;
     delete result.password;
+    delete result.history;
   }
 });
 
