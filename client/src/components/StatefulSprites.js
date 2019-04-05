@@ -1,13 +1,11 @@
 import React from 'react'
 import { connect } from "react-redux";
-import { Field, reduxForm, focus } from "redux-form";
 import './styles/sprites.css'
 export class Sprites extends React.Component {
-
-  state = {
-    selectedOption: "demon"
+  handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(e)
   }
-
 
   handleOptionChange = (e) => {
     this.setState({
@@ -15,15 +13,11 @@ export class Sprites extends React.Component {
     });
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(this.state.selectedOption)
-  }
-
   render() {
 
     return (
-      <div className="form-input">
+      <form name="sprite-form">
+        <p>Select an avatar</p>
         <div className="profile-selector">
           <input id="demon" type="radio" name="profile-pic" value="demon" />
           <label className="avatar demon" htmlFor="demon"></label>
@@ -38,7 +32,7 @@ export class Sprites extends React.Component {
           <label className="avatar femaleElf" htmlFor="femaleElf"></label>
 
           <input id="femaleWizard" type="radio" name="profile-pic" value="femaleWizard" />
-          <label className="avatar femaleWizard" htmlFor="femaleWizard"></label>
+          <label className="avatar femaleWizard" for="femaleWizard"></label>
 
           <input id="maleElf" type="radio" name="profile-pic" value="maleElf" />
           <label className="avatar maleElf" htmlFor="maleElf"></label>
@@ -51,16 +45,18 @@ export class Sprites extends React.Component {
 
           <input id="shaman" type="radio" name="profile-pic" value="shaman" />
           <label className="avatar shaman" htmlFor="shaman"></label>
-
-          <input id="angel" type="radio" name="profile-pic" value="angel" />
-          <label className="avatar angel" htmlFor="angel"></label>
         </div>
-      </div >
+        <button type="submit"
+          className="nes-btn is-primary"
+          htmlFor="sprite-form"
+          onClick={e => this.handleSubmit(e)}>
+          Select Avatar
+        </button>
+      </form>
     )
   }
 }
 
-// Field name = "sex" component = { input } type = "radio" value = "male" />
 const mapStateToProps = state => ({
   user: state.user
 });
