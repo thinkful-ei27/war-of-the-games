@@ -5,7 +5,10 @@ import {
   GET_USER_TOP_HISTORY_SUCCESS,
   POST_USER_ABOUT_ME_ERROR,
   POST_USER_ABOUT_ME_REQUEST,
-  POST_USER_ABOUT_ME_SUCCESS
+  POST_USER_ABOUT_ME_SUCCESS,
+  GET_USER_ABOUT_ME_SUCCESS,
+  GET_USER_ABOUT_ME_ERROR,
+  GET_USER_ABOUT_ME_REQUEST
 } from "../actions/users";
 
 const initialState = {
@@ -44,19 +47,31 @@ export default function reducer(state = initialState, action) {
     case POST_USER_ABOUT_ME_REQUEST:
       return {
         ...state,
-        loading: true,
+        // loading: true,
         error: null
       };
     case POST_USER_ABOUT_ME_SUCCESS:
       return {
         ...state,
-        aboutMe: action.content
+        aboutMe: action.content,
+        loading: false
       };
     case POST_USER_ABOUT_ME_ERROR:
       return {
         ...state,
         loading: false,
         error: null
+      };
+    case GET_USER_ABOUT_ME_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    case GET_USER_ABOUT_ME_SUCCESS:
+      return {
+        ...state,
+        aboutMe: action.content
       };
     default:
       return state;

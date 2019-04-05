@@ -4,7 +4,7 @@ import { updateGame } from "../actions/gameActions";
 import LongText from "./LongText";
 
 export function GameDetails(props) {
-  const { dispatch, game, feedback, error, loggedIn } = props;
+  const { dispatch, game, feedback, error, loggedIn, width } = props;
   const { name, coverUrl, slug, platforms, genres, summary, cloudImage } = game;
   let platformDisplay;
   const genreDisplay = genres.map(gen => (
@@ -36,9 +36,33 @@ export function GameDetails(props) {
     return <p>No ratings yet</p>;
   };
 
+  // Mobile Config
+  let imgWidth;
+  let flexState;
+  let title;
+  let imgDivMargin;
+  let fontSize;
+  let contentWidth;
+  if (width > 768) {
+    // width for img and rating div: w-1/3
+    imgWidth = "w-1/3";
+    flexState = "flex-row";
+    title = <h2>{name}</h2>;
+    contentWidth = "w-2/3";
+  }
+  if (width < 768) {
+    // width for img and rating div : w-1
+    imgWidth = "w-3/4";
+    flexState = "flex-col";
+    imgDivMargin = "mx-auto mt-4";
+    title = undefined;
+    contentWidth = "w-1";
+    fontSize = "text-sm";
+  }
+
   return (
-    <section className="flex flex-row">
-      <div className="w-1/3 m-4">
+    <section className={`flex ${flexState}`}>
+      <div className={`${imgWidth} ${imgDivMargin}`}>
         <img
           className="game-info-img p-4 rounded shadow"
           src={cloudImage || coverUrl}
@@ -46,15 +70,14 @@ export function GameDetails(props) {
         />
         {renderWinPercentage()}
       </div>
-      <div className="flex flex-col p-4 w-2/3">
-        <h2>{name}</h2>
-
-        <h3 className="mt-4">
+      <div className={`flex flex-col p-4 ${contentWidth} ${fontSize}`}>
+        {title}
+        <h3 className="mt-8">
           <i className="nes-icon star" />
           Genres
         </h3>
         <p className="">{genreDisplay}</p>
-        <h3 className="mt-4">
+        <h3 className="mt-8">
           <i className="nes-icon star" />
           Platforms
         </h3>

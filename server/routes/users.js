@@ -132,8 +132,14 @@ router.post("/aboutMe", jwtAuth, (req, res, next) => {
     });
 });
 
-/* =========== EDIT ABOUT ME ============ */
-
+router.get("/aboutMe", jwtAuth, (req, res, next) => {
+  let user;
+  const userId = req.user.id;
+  User.findOne({ _id: userId }).then(_user => {
+    user = _user;
+    res.json(user.aboutMe);
+  });
+});
 /* ========== POST USERS ========== */
 
 router.post("/", (req, res, next) => {

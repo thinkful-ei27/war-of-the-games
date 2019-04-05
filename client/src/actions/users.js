@@ -44,6 +44,40 @@ export const postUserAboutMeError = error => ({
   error
 });
 
+export const GET_USER_ABOUT_ME_REQUEST = "GET_USER_ABOUT_ME_REQUEST";
+export const getUserAboutMRequest = () => ({
+  type: GET_USER_ABOUT_ME_REQUEST
+});
+export const GET_USER_ABOUT_ME_SUCCESS = "GET_USER_ABOUT_ME_SUCCESS";
+export const getUserAboutMeSuccess = content => ({
+  type: GET_USER_ABOUT_ME_SUCCESS,
+  content
+});
+export const GET_USER_ABOUT_ME_ERROR = "GET_USER_ABOUT_ME_SUCCESS";
+export const getUserAboutMeError = error => ({
+  type: GET_USER_ABOUT_ME_ERROR,
+  error
+});
+
+export const getUserAboutMe = content => (dispatch, getState) => {
+  const { authToken } = getState().auth;
+  dispatch(getUserAboutMRequest());
+  return fetch(`${API_BASE_URL}/users/aboutMe`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${authToken}`
+    }
+  })
+    .then(res => {
+      if (!res.ok) {
+        return Promise.reject(res.statusText);
+      }
+      return res.json();
+    })
+    .then(data => dispatch(getUserAboutMeSuccess(data)))
+    .catch(err => dispatch(getUserAboutMeError(err)));
+};
+
 export const postUserAboutMe = content => (dispatch, getState) => {
   dispatch(postUserAboutMeRequest());
 
@@ -64,7 +98,7 @@ export const postUserAboutMe = content => (dispatch, getState) => {
       }
       return res;
     })
-    .then(data => {
+    .then(() => {
       console.log(content);
       dispatch(postUserAboutMeSuccess(content));
     })
@@ -86,10 +120,7 @@ export const getUserTopHistory = userId => (dispatch, getState) => {
       }
       return res.json();
     })
-    .then(data => {
-      console.log(data);
-      return dispatch(getUserTopHistorySuccess(data));
-    })
+    .then(data => dispatch(getUserTopHistorySuccess(data)))
     .catch(err => dispatch(getUserError(err)));
 };
 export const getUser = userId => (dispatch, getState) => {
@@ -111,7 +142,7 @@ export const getUser = userId => (dispatch, getState) => {
     .then(data => {
       return dispatch(getUserSuccess(data));
     })
-    .catch(err => dispatch(getUserError(err)));
+    .catch(err => dispatch(getUserAboutMeError(err)));
 };
 
 export const registerUser = user => dispatch => {

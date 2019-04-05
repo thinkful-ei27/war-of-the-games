@@ -1,5 +1,6 @@
 const express = require("express");
 const passport = require("passport");
+const moment = require("moment");
 const Game = require("../models/game");
 const igdbApi = require("../utils/gameApi");
 const imagesApi = require("../utils/imagesApi");
@@ -10,10 +11,16 @@ const jwtAuth = passport.authenticate("jwt", {
   session: false,
   failWithError: true
 });
+const sixMonthsAgo = moment()
+  .subtract(6, "months")
+  .unix();
 
 const findRandGame = count => {
   const rand = Math.floor(Math.random() * count);
-  return Game.findOne().skip(rand);
+  return Game.findOne()
+    .where("firstReleaseDate")
+    .lt(sixMonthsAgo)
+    .skip(rand);
 };
 
 const findTwoRandGames = count =>
@@ -54,6 +61,8 @@ router.get("/", (req, res, next) => {
 // GET /api/games/battle must go before GET /api/games/:id or else it will never get called.
 router.get("/battle", (req, res, next) =>
   Game.countDocuments()
+    .where("firstReleaseDate")
+    .lt(sixMonthsAgo)
     .then(count => findTwoRandGames(count))
     .then(results => res.json(results))
     .catch(err => next(err))
@@ -107,7 +116,7 @@ router.post("/", jwtAuth, igdbIdRequired, (req, res, next) => {
 
   return igdbApi
     .getGame(igdbId)
-    .then(res => {
+    .then(result => {
       const {
         name,
         cover,
@@ -115,28 +124,30 @@ router.post("/", jwtAuth, igdbIdRequired, (req, res, next) => {
         summary,
         genres,
         platforms,
-        similar_games
-      } = res;
-      const { image_id } = cover;
+        similar_games: similarGames,
+        first_release_date: firstReleaseDate
+      } = result;
+      const { image_id: imageId } = cover;
       const newGame = {
         igdb: {
           id: igdbId,
           slug
         },
         name,
-        coverUrl: `https://images.igdb.com/igdb/image/upload/t_720p/${image_id}.jpg`,
+        coverUrl: `https://images.igdb.com/igdb/image/upload/t_720p/${imageId}.jpg`,
         summary,
         genres,
         platforms,
-        similar_games
+        similar_games: similarGames,
+        firstReleaseDate
       };
       return Game.create(newGame);
     })
     .then(async game => {
       const { id, coverUrl } = game;
       const imgResults = await imagesApi.saveImgById(id, coverUrl);
-      const { secure_url } = imgResults;
-      const toUpdate = { cloudImage: secure_url };
+      const { secure_url: secureUrl } = imgResults;
+      const toUpdate = { cloudImage: secureUrl };
 
       return Game.findOneAndUpdate({ _id: id }, toUpdate, { new: true });
     })
@@ -172,7 +183,8 @@ router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
         summary,
         genres,
         platforms,
-        similar_games: similarGames
+        similar_games: similarGames,
+        first_release_date: firstReleaseDate
       } = result;
       const { image_id: imageId } = cover;
       const coverUrl = `https://images.igdb.com/igdb/image/upload/t_720p/${imageId}.jpg`;
@@ -189,7 +201,8 @@ router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
         genres,
         platforms,
         similar_games: similarGames,
-        cloudImage: secureUrl
+        cloudImage: secureUrl,
+        firstReleaseDate
       };
       return Game.findOneAndUpdate({ _id: id }, toUpdate, { new: true });
     })
@@ -211,7 +224,8 @@ router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
         summary,
         createdAt,
         updatedAt,
-        cloudImage
+        cloudImage,
+        firstReleaseDate
       } = game;
       const gameInfo = Object.assign(
         {},
@@ -225,7 +239,8 @@ router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
           summary,
           createdAt,
           updatedAt,
-          cloudImage
+          cloudImage,
+          firstReleaseDate
         },
         { similar_games: similarGames }
       );

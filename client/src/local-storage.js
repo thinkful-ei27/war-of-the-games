@@ -46,4 +46,7 @@ export const checkVoteCount = () => {
     if (Number(loadVoteCount()) === 0 || loadVoteCount === NaN) {
         saveVoteCount(1);
     }
+    else if (Number(loadVoteCount()) > 13) {
+        saveVoteCount(13)
+    }
 }
