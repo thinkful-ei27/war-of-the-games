@@ -25,6 +25,7 @@ class AboutMe extends Component {
     const aboutMeWithContent = (
       <div>
         <button
+          className="nes button is-primary"
           type="reset"
           onClick={() =>
             this.setState({ submitSucceeded: false, isEditing: true })
