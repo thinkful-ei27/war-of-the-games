@@ -11,16 +11,6 @@ const jwtAuth = passport.authenticate("jwt", {
   failWithError: true
 });
 
-router.get("/:id", (req, res, next) => {
-  const { id } = req.params;
-
-  User.find({ _id: id })
-    .then(results => {
-      res.json(results);
-    })
-    .catch(err => next(err));
-});
-
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
 
