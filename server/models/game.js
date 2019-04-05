@@ -24,7 +24,10 @@ const schema = new mongoose.Schema({
   // An array of IGDB ID numbers
   similar_games: [{ type: Number }],
   cloudImage: { type: String },
-  firstReleaseDate: Number
+  firstReleaseDate: Number,
+  motivation: { type: String },
+  subMotivation: { type: String },
+  core: { type: Boolean }
 });
 
 schema.set("timestamps", true);

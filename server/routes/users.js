@@ -208,8 +208,8 @@ router.post("/", (req, res, next) => {
       message: tooSmallField
         ? `Must be at least ${sizedFields[tooSmallField].min} characters long`
         : `Wow, what a secure password! However, passwords must be at most ${
-        sizedFields[tooLargeField].max
-        } characters long`,
+            sizedFields[tooLargeField].max
+          } characters long`,
       location: tooSmallField || tooLargeField
     });
   }
