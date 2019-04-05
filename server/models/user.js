@@ -34,4 +34,8 @@ userSchema.statics.hashPassword = incomingPassword => {
   return digest;
 };
 
+userSchema.virtual("historyCount").get(function() {
+  return this.history.length;
+});
+
 module.exports = mongoose.model("User", userSchema);
