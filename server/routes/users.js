@@ -213,4 +213,14 @@ router.post("/", (req, res, next) => {
     });
 });
 
+router.post("/excludedGames", jwtAuth, (req, res, next) => {
+  const { id } = req.user;
+  const { excludedId } = req.body;
+  let user;
+  User.find({ _id: id }).then(_user => {
+    user = _user;
+    console.log(user);
+  });
+});
+
 module.exports = router;
