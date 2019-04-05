@@ -2,31 +2,17 @@ import React from 'react'
 import { connect } from "react-redux";
 import { Field, reduxForm, focus } from "redux-form";
 import './styles/sprites.css'
-export class Sprites extends React.Component {
-
-  state = {
-    selectedOption: "demon"
-  }
-
-
-  handleOptionChange = (e) => {
-    this.setState({
-      selectedOption: e.target.value
-    });
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(this.state.selectedOption)
-  }
+const { input } = React
+export default class Sprites extends React.Component {
 
   render() {
 
     return (
       <div className="form-input">
         <div className="profile-selector">
-          <input id="demon" type="radio" name="profile-pic" value="demon" />
+
           <label className="avatar demon" htmlFor="demon"></label>
+          <input id="demon" type="radio" name="profile-pic" value="demon" />
 
           <input id="knight" type="radio" name="profile-pic" value="knight" />
           <label className="avatar knight" htmlFor="knight"></label>
@@ -61,8 +47,8 @@ export class Sprites extends React.Component {
 }
 
 // Field name = "sex" component = { input } type = "radio" value = "male" />
-const mapStateToProps = state => ({
-  user: state.user
-});
+// const mapStateToProps = state => ({
+//   user: state.user
+// });
 
-export default connect(mapStateToProps)(Sprites);
+// export default connect(mapStateToProps)(Sprites);
