@@ -83,7 +83,9 @@ export class ProfilePage extends React.Component {
         <div className="nes-container with-title profile-info-container">
           <p className="title user shadow">Hello {name}!</p>
           <section className="personal-info">
-            <div className={`${nesContainer} with-title about-me-container`}>
+            <div
+              className={`${nesContainer} with-title is-dark about-me-container`}
+            >
               <p className="title">
                 <img
                   className="title profile-pic"
