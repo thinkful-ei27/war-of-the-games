@@ -65,8 +65,7 @@ describe("ASYNC Capstone API - Users", () => {
             "username",
             "firstName",
             "lastName",
-            "admin",
-            "battles"
+            "admin"
           );
           expect(res.body.username).to.equal(username.toLowerCase());
           expect(res.body.firstName).to.equal(firstName);

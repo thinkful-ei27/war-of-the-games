@@ -11,19 +11,6 @@ const jwtAuth = passport.authenticate("jwt", {
   failWithError: true
 });
 
-// DELETE THIS MF AFTER YOU'RE DONE EXPERIMENTING
-router.get("/", jwtAuth, (req, res, next) => {
-  const userId = req.user.id;
-  User.findOne({ _id: userId })
-    .then(result => {
-      res.json(result);
-    })
-    .catch(err => {
-      console.log(err);
-      next(err);
-    });
-});
-
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
 
@@ -85,10 +72,10 @@ router.get("/:userId/topHistory", (req, res, next) => {
 router.get("/recommendations", jwtAuth, (req, res, next) => {
   let topChoices;
   let sortedSimilarGames;
-
+  const userId = req.user.id;
   // Find top game choices for user
   return History.aggregate([
-    { $match: { userId: mongoose.Types.ObjectId(req.user.id) } },
+    { $match: { userId: mongoose.Types.ObjectId(userId) } },
     { $group: { _id: "$choice", count: { $sum: 1 } } }
   ])
     .sort({ count: "desc" })
@@ -111,7 +98,21 @@ router.get("/recommendations", jwtAuth, (req, res, next) => {
       sortedSimilarGames = Object.keys(similarGamesCount)
         .sort((a, b) => similarGamesCount[b] - similarGamesCount[a])
         .slice(0, 10);
-      return Game.find({ "igdb.id": { $in: sortedSimilarGames } });
+      // Filter out excluded games here
+      return User.findOne({ _id: userId }, { excludedGames: 1 });
+    })
+    .then(dbUser => {
+      const { excludedGames } = dbUser;
+      console.log(sortedSimilarGames);
+
+      let filteredSimilarGames;
+
+      if (excludedGames) {
+        filteredSimilarGames = sortedSimilarGames.filter(function(simGame) {
+          return this.indexOf(simGame) < 0;
+        }, excludedGames);
+      }
+      return Game.find({ "igdb.id": { $in: filteredSimilarGames } });
     })
     .then(recs => {
       const sortedRecs = sortedSimilarGames
@@ -226,12 +227,14 @@ router.post("/", (req, res, next) => {
     });
 });
 
-/* ========= POST EXCLUDED GAMES ============= */
+/* ========= PUT EXCLUDED GAMES ============= */
 router.put("/excludedgames", jwtAuth, (req, res, next) => {
   const { id } = req.user;
   const { excludedId } = req.body;
-  if (!mongoose.Types.ObjectId.isValid(excludedId)) {
-    const err = new Error("The `id` is not valid");
+  console.log("THIS IS EXCLUDED ID FROM REQ.BODY", excludedId);
+
+  if (typeof excludedId !== "number") {
+    const err = new Error("The id is not valid");
     err.status = 400;
     return next(err);
   }
@@ -240,17 +243,18 @@ router.put("/excludedgames", jwtAuth, (req, res, next) => {
     $addToSet: { excludedGames: excludedId }
   };
 
+  console.log("update", update);
+
   let user;
-  User.findOneAndUpdate({ _id: id }, update, { new: true })
+  return User.findOneAndUpdate({ _id: id }, update, { new: true })
     .then(_user => {
       user = _user;
       res
         .location(`${req.originalUrl}`)
-        .status(201)
+        .status(200)
         .json(user);
     })
     .catch(err => {
-      console.log(err);
       next(err);
     });
 });
