@@ -5,7 +5,7 @@ import Battle from "./battle";
 import VoteStats from "./vote-stats";
 import UserOnboard from './userOnboard';
 import "./styles/landing-page.css";
-import { SignupPrompt } from "./signupPrompt";
+import ErrorBoundary from './errorBoundary';
 import "./styles/card.css";
 import { fetchGames, fetchFeedback, handleVote } from "../actions/gameActions";
 import { loadVoteCount, setVoteLocalStorageVariable } from "../local-storage";
@@ -35,11 +35,11 @@ export class LandingPage extends React.Component {
     const { games, loggedIn, feedback } = this.props;
     let content;
     const count = parseInt(loadVoteCount(), 10);
-    if (count <= 11 && !loggedIn) {
+    if (count <= 13 && !loggedIn) {
       content = <UserOnboard />;
     }
-    else if (count > 11 && !loggedIn) {
-      content = <SignupPrompt />;
+    else if (count > 13 && !loggedIn) {
+      content = <ErrorBoundary />;
     }
     else if (games.length && feedback) {
       content = (

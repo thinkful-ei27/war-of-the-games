@@ -8,29 +8,12 @@ export class UserOnboard extends React.Component {
 
   count = Number(loadVoteCount());
 
-  evaluateCount = function (count) {
-    const table = {
-      '1': 100,
-      '2': 90,
-      '3': 80,
-      '4': 70,
-      '5': 60,
-      '6': 50,
-      '7': 40,
-      '8': 30,
-      '9': 20,
-      '10': 10,
-    }
-    return table[count]
-  }
-
   handleVote = () => {
     let myKey;
     this.count++
     incrementVoteCount();
     myKey = `test${this.count}`;
     this.props.dispatch(nextTest(myKey))
-    this.value -= 10
   }
 
   componentWillMount() {
@@ -44,7 +27,7 @@ export class UserOnboard extends React.Component {
     let { tests } = this.props;
     let content;
 
-    if (this.count < 11) {
+    if (this.count < 13) {
       content =
         <>
           <div className="battle-container">
@@ -85,8 +68,8 @@ export class UserOnboard extends React.Component {
             </div>
           </div >
           <div className="onboarding-progress-container">
-            <p>Health:</p>
-            <progress id="onboarding-progress" className="nes-progress is-primary" value={this.evaluateCount(loadVoteCount())} max="100"></progress>
+            <p>Exp:</p>
+            <progress id="onboarding-progress" className="nes-progress is-primary" value={this.count * 10} max="120"></progress>
           </div>
         </>
     }

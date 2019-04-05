@@ -58,7 +58,8 @@ describe("ASYNC Capstone API - Games", () => {
           "summary",
           "genres",
           "platforms",
-          "similar_games"
+          "similar_games",
+          "first_release_date"
         );
         expect(res.id).to.equal(getGameRes.id);
         expect(res.name).to.equal(getGameRes.name);
@@ -208,7 +209,8 @@ describe("ASYNC Capstone API - Games", () => {
               "igdb",
               "platforms",
               "summary",
-              "similar_games"
+              "similar_games",
+              "firstReleaseDate"
             );
             expect(game.igdb).to.have.keys("id", "slug");
           });
@@ -347,7 +349,8 @@ describe("ASYNC Capstone API - Games", () => {
             "genres",
             "platforms",
             "similar_games",
-            "cloudImage"
+            "cloudImage",
+            "firstReleaseDate"
           );
           return Game.findOne({ _id: res.body.id });
         })
@@ -458,7 +461,8 @@ describe("ASYNC Capstone API - Games", () => {
             "summary",
             "genres",
             "platforms",
-            "similar_games"
+            "similar_games",
+            "firstReleaseDate"
           );
           const updateItem = {
             igdbId: game.igdb.id
@@ -483,7 +487,8 @@ describe("ASYNC Capstone API - Games", () => {
             "genres",
             "platforms",
             "similar_games",
-            "cloudImage"
+            "cloudImage",
+            "firstReleaseDate"
           );
           expect(res.body.id).to.equal(game.id);
           expect(new Date(res.body.createdAt)).to.eql(game.createdAt);
