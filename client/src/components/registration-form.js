@@ -68,6 +68,7 @@ export class RegistrationForm extends React.Component {
         />
 
         <div className="profile-selector form-input">
+          <h3>Select an Avatar</h3>
           <Field
             id="demon"
             name="profilePic"
@@ -157,16 +158,6 @@ export class RegistrationForm extends React.Component {
             component={Input2}
             type="radio"
             value="Shaman" />
-
-
-          <Field
-            id="angel"
-            name="profilePic"
-            className="avatar angel"
-            htmlFor="angel"
-            component={Input2}
-            type="radio"
-            value="Angel" />
 
         </div>
         <button type="submit" disabled={pristine || submitting}>
