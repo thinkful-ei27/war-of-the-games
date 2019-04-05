@@ -19,7 +19,7 @@ router.get("/:id/history", (req, res, next) => {
     .populate("gameTwo", "name")
     .populate("choice")
     .sort({ createdAt: -1 })
-    .limit(20)
+    .limit(6)
     .then(results => {
       res.json(results);
     })
@@ -109,6 +109,37 @@ router.get("/recommendations", jwtAuth, (req, res, next) => {
     .catch(err => next(err));
 });
 
+router.post("/aboutMe", jwtAuth, (req, res, next) => {
+  const { content } = req.body;
+  const userId = req.user.id;
+
+  let user;
+  User.findOne({ _id: userId })
+    .then(_user => {
+      user = _user;
+      user.aboutMe = content;
+      user.save();
+    })
+    .then(result => {
+      console.log(req.originalUrl);
+      res
+        .location(`${req.originalUrl}`)
+        .status(201)
+        .json(result);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+router.get("/aboutMe", jwtAuth, (req, res, next) => {
+  let user;
+  const userId = req.user.id;
+  User.findOne({ _id: userId }).then(_user => {
+    user = _user;
+    res.json(user.aboutMe);
+  });
+});
 /* ========== POST USERS ========== */
 
 router.post("/", (req, res, next) => {

@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true, lowercase: true },
   password: { type: String, required: true },
   history: [{ type: mongoose.Schema.Types.ObjectId, ref: "History" }],
-  // about: { type: String }
+  aboutMe: { type: String },
   admin: { type: Boolean, default: false },
   battles: { type: Number, default: 0 },
   profilePic: { type: String }
@@ -34,5 +34,9 @@ userSchema.statics.hashPassword = incomingPassword => {
   const digest = bcrypt.hash(incomingPassword, 10);
   return digest;
 };
+
+userSchema.virtual("historyCount").get(function() {
+  return this.history.length;
+});
 
 module.exports = mongoose.model("User", userSchema);
