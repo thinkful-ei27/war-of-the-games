@@ -40,7 +40,7 @@ class AboutMe extends Component {
         >
           Edit About me
         </button>
-        <p className="about-me">{aboutMe}</p>
+        <LongText content={aboutMe} limit={175} />
       </div>
     );
     const unSubmittedForm = (
@@ -69,15 +69,11 @@ class AboutMe extends Component {
       </form>
     );
 
-    return aboutMe && !isEditing ? (
-      aboutMeWithContent
-    ) : isMobile && aboutMe && !isEditing ? (
-      <LongText content={aboutMe} limit={175} />
-    ) : !submitSucceeded ? (
-      unSubmittedForm
-    ) : (
-      aboutMeWithContent
-    );
+    return aboutMe && !isEditing
+      ? aboutMeWithContent
+      : !submitSucceeded
+      ? unSubmittedForm
+      : aboutMeWithContent;
   }
 }
 
