@@ -112,7 +112,7 @@ router.get("/recommendations", jwtAuth, (req, res, next) => {
 /* ========== POST USERS ========== */
 
 router.post("/", (req, res, next) => {
-  const { firstName, lastName, username, password } = req.body;
+  const { firstName, lastName, username, password, profilePic } = req.body;
 
   const requiredFields = ["firstName", "lastName", "username", "password"];
   const missingField = requiredFields.find(field => !(field in req.body));
@@ -177,8 +177,8 @@ router.post("/", (req, res, next) => {
       message: tooSmallField
         ? `Must be at least ${sizedFields[tooSmallField].min} characters long`
         : `Wow, what a secure password! However, passwords must be at most ${
-            sizedFields[tooLargeField].max
-          } characters long`,
+        sizedFields[tooLargeField].max
+        } characters long`,
       location: tooSmallField || tooLargeField
     });
   }
@@ -191,7 +191,8 @@ router.post("/", (req, res, next) => {
         username,
         password: digest,
         firstName: trimmedFirstName,
-        lastName: trimmedLastName
+        lastName: trimmedLastName,
+        profilePic
       };
       return User.create(newUser);
     })
