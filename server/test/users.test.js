@@ -65,7 +65,6 @@ describe("ASYNC Capstone API - Users", () => {
             "username",
             "firstName",
             "lastName",
-            "history",
             "admin",
             "battles"
           );
