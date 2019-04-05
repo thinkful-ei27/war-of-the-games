@@ -7,7 +7,7 @@ const { DATABASE_URL } = require("../config");
 const Top = require("../models/top");
 
 const fields =
-  "aggregated_rating,aggregated_rating_count,artworks,category,cover,created_at,first_release_date,follows,franchise,franchises,genres,name,parent_game,platforms,player_perspectives,popularity,pulse_count,rating,rating_count,release_dates,screenshots,similar_games,slug,status,storyline,summary,tags,themes,time_to_beat,total_rating,total_rating_count,updated_at,url,videos,websites";
+  "id, aggregated_rating,aggregated_rating_count,artworks,category,cover,created_at,first_release_date,follows,franchise,franchises,genres,name,parent_game,platforms,player_perspectives,popularity,pulse_count,rating,rating_count,release_dates,screenshots,similar_games,slug,status,storyline,summary,tags,themes,time_to_beat,total_rating,total_rating_count,updated_at,url,videos,websites";
 
 const keys = process.env.IGDB_KEYS.split(",");
 const randomKey = arr => arr[Math.floor(Math.random() * arr.length)];
@@ -27,7 +27,7 @@ const requestOptions = {
 // Recursively gets all games from the igdb based on rating count
 const getGames = async (ratingCount = 2000, allGames = []) => {
   // Base case
-  if (allGames.length > 1000) {
+  if (allGames.length > 1500) {
     return allGames;
   }
 
@@ -41,7 +41,10 @@ const getGames = async (ratingCount = 2000, allGames = []) => {
     .then(result => {
       const { data } = result;
       const minRating = minBy(data, o => o.rating_count);
-      data.forEach(game => allGames.push(game));
+      data.forEach(game => {
+        const { id } = game;
+        allGames.push({ igdbId: id, ...game });
+      });
       return minRating;
     });
 

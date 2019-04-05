@@ -2,7 +2,7 @@ const apicalypseDefault = require("apicalypse");
 
 const apicalypse = apicalypseDefault.default;
 
-const fields = "name, similar_games, rating_count, genres";
+const fields = "id, name, similar_games, rating_count, genres";
 
 const keys = process.env.IGDB_KEYS.split(",");
 const randomKey = arr => arr[Math.floor(Math.random() * arr.length)];
