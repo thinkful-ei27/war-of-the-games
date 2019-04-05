@@ -40,7 +40,7 @@ class AboutMe extends Component {
         >
           Edit About me
         </button>
-        <LongText content={aboutMe} limit={175} />
+        <LongText className="nes-text-area" content={aboutMe} limit={175} />
       </div>
     );
     const unSubmittedForm = (
