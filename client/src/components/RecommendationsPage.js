@@ -66,7 +66,7 @@ export class RecommendationsPage extends Component {
       recs: prevState.recs.filter(rec => rec.id !== id)
     }));
     axios({
-      url: `${API_BASE_URL}/users/excludedGames`,
+      url: `${API_BASE_URL}/users/excludedgames`,
       method: "PUT",
       headers: { Authorization: `Bearer ${token}` },
       body: {
