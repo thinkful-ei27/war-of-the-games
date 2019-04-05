@@ -21,6 +21,13 @@ class AboutMe extends Component {
     const { aboutMe, screenWidth } = this.props;
     const { submitSucceeded, isEditing, previousAboutMe } = this.state;
     const isMobile = screenWidth <= 768;
+    console.log(screenWidth);
+    let nesContainer = "";
+    let iconSize = "is-small";
+    if (!isMobile) {
+      nesContainer = "nes-container";
+      iconSize = "is-medium";
+    }
 
     const aboutMeWithContent = (
       <div>
@@ -64,8 +71,8 @@ class AboutMe extends Component {
 
     return aboutMe && !isEditing ? (
       aboutMeWithContent
-    ) : isMobile && aboutMe ? (
-      <LongText content={aboutMeWithContent} limit={175} />
+    ) : isMobile && aboutMe && !isEditing ? (
+      <LongText content={aboutMe} limit={175} />
     ) : !submitSucceeded ? (
       unSubmittedForm
     ) : (

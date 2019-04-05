@@ -93,7 +93,7 @@ export class ProfilePage extends React.Component {
                   alt="profile-pic"
                 />
               </p>
-              <AboutMe aboutMe={aboutMe} />
+              <AboutMe aboutMe={aboutMe} screenWidth={screenWidth} />
             </div>
           </section>
         </div>
