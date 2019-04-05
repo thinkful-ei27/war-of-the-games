@@ -20,7 +20,7 @@ class AboutMeFrom extends Component {
     const { aboutMe, screenWidth } = this.props;
     const { submitSucceeded, isEditing } = this.state;
     const isMobile = screenWidth <= 768;
-    console.log(this.state);
+
     const aboutMeWithContent = (
       <div>
         <button
@@ -36,6 +36,7 @@ class AboutMeFrom extends Component {
     );
     const unSubmittedForm = (
       <form onSubmit={e => this.handleSubmit(e)}>
+        <p onClick={() => this.setState({ isEditing: false })}>X</p>
         <label htmlFor="textarea_field">Write about yourself</label>
         <textarea id="textarea_field" name="aboutMe" className="nes-textarea" />
         <button type="submit" className="nes-btn is-warning">
@@ -44,13 +45,15 @@ class AboutMeFrom extends Component {
       </form>
     );
 
-    return aboutMe && !isEditing
-      ? aboutMeWithContent
-      : isMobile && aboutMe
-      ? aboutMeWithContent
-      : !submitSucceeded
-      ? unSubmittedForm
-      : aboutMeWithContent;
+    return aboutMe && !isEditing ? (
+      aboutMeWithContent
+    ) : isMobile && aboutMe ? (
+      <LongText content={aboutMeWithContent} limit={175} />
+    ) : !submitSucceeded ? (
+      unSubmittedForm
+    ) : (
+      aboutMeWithContent
+    );
   }
 }
 

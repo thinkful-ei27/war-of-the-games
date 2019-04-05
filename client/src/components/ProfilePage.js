@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import requiresLogin from "./requires-login";
 import "./styles/profile.css";
 import { getUser, getUserTopHistory, getUserAboutMe } from "../actions/users";
-import LongText from "./LongText";
 import Loading from "./loading";
 import ConnectedGame from "./Game";
 import AboutMeForm from "./AboutMeForm";
@@ -96,8 +95,8 @@ export class ProfilePage extends React.Component {
                   alt="profile-pic"
                 />
               </p>
+              <AboutMeForm aboutMe={aboutMe} />
             </div>
-            <AboutMeForm aboutMe={aboutMe} />
           </section>
         </div>
         <ConnectedRecommendations profileWidth="w-1" isMobile={isMobile} />
