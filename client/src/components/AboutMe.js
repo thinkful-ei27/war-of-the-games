@@ -7,7 +7,8 @@ import LongText from "./LongText";
 class AboutMe extends Component {
   state = {
     submitSucceeded: false,
-    isEditing: false
+    isEditing: false,
+    previousAboutMe: this.props.aboutMe
   };
 
   handleSubmit(e) {
@@ -17,8 +18,9 @@ class AboutMe extends Component {
     dispatch(postUserAboutMe(e.target.aboutMe.value));
   }
   render() {
+    console.log(this.state);
     const { aboutMe, screenWidth } = this.props;
-    const { submitSucceeded, isEditing } = this.state;
+    const { submitSucceeded, isEditing, previousAboutMe } = this.state;
     const isMobile = screenWidth <= 768;
 
     const aboutMeWithContent = (
@@ -45,7 +47,12 @@ class AboutMe extends Component {
         >
           X
         </span>
-        <textarea id="textarea_field" name="aboutMe" className="nes-textarea" />
+        <textarea
+          id="textarea_field"
+          name="aboutMe"
+          className="nes-textarea"
+          value={previousAboutMe}
+        />
         <button type="submit" className="nes-btn is-warning">
           Submit
         </button>

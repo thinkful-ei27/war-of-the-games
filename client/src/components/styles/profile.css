@@ -59,6 +59,10 @@
 .about-me-label {
   position: relative;
 }
+.nes-textarea {
+  font-size: 10px;
+  height: 180px;
+}
 
 .cancel {
   padding: 10px;
