@@ -6,14 +6,10 @@ import "./styles/profile.css";
 import { getUser, getUserTopHistory, getUserAboutMe } from "../actions/users";
 import Loading from "./loading";
 import ConnectedGame from "./Game";
-import AboutMeForm from "./AboutMeForm";
+import AboutMe from "./AboutMe";
 import ConnectedRecommendations from "./Recommendations";
 
 export class ProfilePage extends React.Component {
-  state = {
-    submitSucceeded: false,
-    isEditing: false
-  };
   componentDidMount() {
     const { userId, dispatch } = this.props;
     return Promise.all([
@@ -95,7 +91,7 @@ export class ProfilePage extends React.Component {
                   alt="profile-pic"
                 />
               </p>
-              <AboutMeForm aboutMe={aboutMe} />
+              <AboutMe aboutMe={aboutMe} />
             </div>
           </section>
         </div>

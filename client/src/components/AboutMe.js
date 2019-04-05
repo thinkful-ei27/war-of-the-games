@@ -4,7 +4,7 @@ import { Field } from "redux-form";
 import { postUserAboutMe } from "../actions/users";
 import LongText from "./LongText";
 
-class AboutMeFrom extends Component {
+class AboutMe extends Component {
   state = {
     submitSucceeded: false,
     isEditing: false
@@ -36,8 +36,15 @@ class AboutMeFrom extends Component {
     );
     const unSubmittedForm = (
       <form onSubmit={e => this.handleSubmit(e)}>
-        <p onClick={() => this.setState({ isEditing: false })}>X</p>
-        <label htmlFor="textarea_field">Write about yourself</label>
+        <label className="about-me-label" htmlFor="textarea_field">
+          Write about yourself{" "}
+        </label>
+        <span
+          className="cancel"
+          onClick={() => this.setState({ isEditing: false })}
+        >
+          X
+        </span>
         <textarea id="textarea_field" name="aboutMe" className="nes-textarea" />
         <button type="submit" className="nes-btn is-warning">
           Submit
@@ -57,4 +64,4 @@ class AboutMeFrom extends Component {
   }
 }
 
-export default connect()(AboutMeFrom);
+export default connect()(AboutMe);
