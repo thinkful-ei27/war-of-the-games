@@ -38,17 +38,8 @@ export default class Sprites extends React.Component {
           <input id="shaman" type="radio" name="profile-pic" value="shaman" />
           <label className="avatar shaman" htmlFor="shaman"></label>
 
-          <input id="angel" type="radio" name="profile-pic" value="angel" />
-          <label className="avatar angel" htmlFor="angel"></label>
         </div>
       </div >
     )
   }
 }
-
-// Field name = "sex" component = { input } type = "radio" value = "male" />
-// const mapStateToProps = state => ({
-//   user: state.user
-// });
-
-// export default connect(mapStateToProps)(Sprites);
