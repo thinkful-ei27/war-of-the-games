@@ -1,28 +1,64 @@
-.cc-selector input{
+.profile-selector input{
     margin:0;padding:0;
     -webkit-appearance:none;
        -moz-appearance:none;
             appearance:none;
 }
-.visa{background-image:url('../../assets/demon.png');}
-.mastercard{background-image:url(../../assets/knight.png);}
 
-.cc-selector input:active +.drinkcard-cc{opacity: .9;}
-.cc-selector input:checked +.drinkcard-cc{
-    -webkit-filter: none;
-       -moz-filter: none;
-            filter: none;
+.profile-selector input:active +.avatar {
+   opacity: .9;
 }
-.drinkcard-cc{
-    cursor:pointer;
-    background-size:contain;
-    background-repeat:no-repeat;
-    display:inline-block;
-    width:100px;height:70px;
-    -webkit-transition: all 100ms ease-in;
-       -moz-transition: all 100ms ease-in;
-            transition: all 100ms ease-in;
-    -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
-       -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
-            filter: brightness(1.8) grayscale(1) opacity(.7);
+
+.profile-selector input:checked +.avatar {
+   -webkit-filter: none;
+   -moz-filter: none;
+   filter: none;
+}
+
+.avatar{
+   cursor:pointer;
+   background-size:contain;
+   background-repeat:no-repeat;
+   display:inline-block;
+   width:100px;height:70px;
+   -webkit-transition: all 100ms ease-in;
+   -moz-transition: all 100ms ease-in;
+   transition: all 100ms ease-in;
+   -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
+   -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
+   filter: brightness(1.8) grayscale(1) opacity(.7);
+}
+
+.demon {
+   background-image:url('../../assets/demon.png');
+}
+.knight{
+   background-image:url(../../assets/knight.png);
+}
+.bigZombie{
+   background-image: url(../../assets/bigZombie.png)
+}
+
+.femaleElf{
+   background-image: url(../../assets/femaleElf.png)
+}
+
+.femaleWizard{
+   background-image: url(../../assets/femaleWizard.png)
+}
+
+.maleElf{
+   background-image: url(../../assets/maleElf.png)
+}
+
+.maleWizard{
+   background-image:url(../../assets/maleWizard.png)
+}
+
+.ogre{
+   background-image: url(../../assets/ogre.png)
+}
+
+.shaman{
+   background-image: url(../../assets/shaman.png)
 }
