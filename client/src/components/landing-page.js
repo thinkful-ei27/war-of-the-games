@@ -37,7 +37,7 @@ export class LandingPage extends React.Component {
     let content;
     const count = parseInt(loadVoteCount(), 10);
     if (count <= 13 && !loggedIn) {
-      content = <Sprites />;
+      content = <UserOnboard />;
     }
     else if (count > 13 && !loggedIn) {
       content = <SignupPrompt />;
