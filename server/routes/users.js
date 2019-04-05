@@ -11,6 +11,19 @@ const jwtAuth = passport.authenticate("jwt", {
   failWithError: true
 });
 
+// DELETE THIS MF AFTER YOU'RE DONE EXPERIMENTING
+router.get("/", jwtAuth, (req, res, next) => {
+  const userId = req.user.id;
+  User.findOne({ _id: userId })
+    .then(result => {
+      res.json(result);
+    })
+    .catch(err => {
+      console.log(err);
+      next(err);
+    });
+});
+
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
 
@@ -214,10 +227,9 @@ router.post("/", (req, res, next) => {
 });
 
 /* ========= POST EXCLUDED GAMES ============= */
-router.put("/excludedGames", jwtAuth, (req, res, next) => {
+router.put("/excludedgames", jwtAuth, (req, res, next) => {
   const { id } = req.user;
   const { excludedId } = req.body;
-
   if (!mongoose.Types.ObjectId.isValid(excludedId)) {
     const err = new Error("The `id` is not valid");
     err.status = 400;
