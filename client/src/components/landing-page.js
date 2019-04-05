@@ -6,7 +6,7 @@ import Sprites from "./Sprites";
 import VoteStats from "./vote-stats";
 import UserOnboard from './userOnboard';
 import "./styles/landing-page.css";
-import { SignupPrompt } from "./signupPrompt";
+import ErrorBoundary from './errorBoundary';
 import "./styles/card.css";
 import { fetchGames, fetchFeedback, handleVote } from "../actions/gameActions";
 import { loadVoteCount, setVoteLocalStorageVariable } from "../local-storage";
@@ -40,7 +40,7 @@ export class LandingPage extends React.Component {
       content = <UserOnboard />;
     }
     else if (count > 13 && !loggedIn) {
-      content = <SignupPrompt />;
+      content = <ErrorBoundary />;
     }
     else if (games.length && feedback) {
       content = (
