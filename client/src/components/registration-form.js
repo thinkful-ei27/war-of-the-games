@@ -3,6 +3,8 @@ import { Field, reduxForm, focus } from "redux-form";
 import { registerUser } from "../actions/users";
 import { login } from "../actions/auth";
 import Input from "./input";
+import './styles/sprites.css'
+import Sprites from './Sprites';
 import { required, nonEmpty, matches, length, isTrimmed } from "../validators";
 
 const passwordLength = length({ min: 10, max: 72 });
@@ -62,6 +64,27 @@ export class RegistrationForm extends React.Component {
           label="confirm password"
           validate={[required, nonEmpty, matchesPassword]}
         />
+        <div className='profile-selector'>
+          <label>Select an Avatar</label>
+          <label className="avatar demon" htmlFor="demon">
+            <Field
+              className="avatar demon"
+              name="profile-pic"
+              component={Input}
+              type="radio"
+              value="demon"
+            />
+          </label>
+          <label className="avatar knight" htmlFor="knight">
+            <Field
+              className="avatar knight"
+              name="profile-pic"
+              component={Input}
+              type="radio"
+              value="knight"
+            />
+          </label>
+        </div>
         <button type="submit" disabled={pristine || submitting}>
           Register
         </button>

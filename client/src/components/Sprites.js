@@ -2,9 +2,21 @@ import React from 'react'
 import { connect } from "react-redux";
 import './styles/sprites.css'
 export class Sprites extends React.Component {
+
+  state = {
+    selectedOption: "demon"
+  }
+
+
+  handleOptionChange = (e) => {
+    this.setState({
+      selectedOption: e.target.value
+    });
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e)
+    console.log(this.state.selectedOption)
   }
 
   render() {
@@ -13,32 +25,35 @@ export class Sprites extends React.Component {
       <form name="sprite-form">
         <p>Select an avatar</p>
         <div className="profile-selector">
-          <input id="demon" type="radio" name="profile-pic" value="demon" />
+          <input id="demon" type="radio" name="profile-pic" value="demon" onChange={this.handleOptionChange} />
           <label className="avatar demon" htmlFor="demon"></label>
 
-          <input id="knight" type="radio" name="profile-pic" value="knight" />
+          <input id="knight" type="radio" name="profile-pic" value="knight" onChange={this.handleOptionChange} />
           <label className="avatar knight" htmlFor="knight"></label>
 
-          <input id="bigZombie" type="radio" name="profile-pic" value="bigZombie" />
+          <input id="bigZombie" type="radio" name="profile-pic" value="bigZombie" onChange={this.handleOptionChange} />
           <label className="avatar bigZombie" htmlFor="bigZombie"></label>
 
-          <input id="femaleElf" type="radio" name="profile-pic" value="femaleElf" />
+          <input id="femaleElf" type="radio" name="profile-pic" value="femaleElf" onChange={this.handleOptionChange} />
           <label className="avatar femaleElf" htmlFor="femaleElf"></label>
 
-          <input id="femaleWizard" type="radio" name="profile-pic" value="femaleWizard" />
-          <label className="avatar femaleWizard" for="femaleWizard"></label>
+          <input id="femaleWizard" type="radio" name="profile-pic" value="femaleWizard" onChange={this.handleOptionChange} />
+          <label className="avatar femaleWizard" htmlFor="femaleWizard"></label>
 
-          <input id="maleElf" type="radio" name="profile-pic" value="maleElf" />
+          <input id="maleElf" type="radio" name="profile-pic" value="maleElf" onChange={this.handleOptionChange} />
           <label className="avatar maleElf" htmlFor="maleElf"></label>
 
-          <input id="maleWizard" type="radio" name="profile-pic" value="maleWizard" />
+          <input id="maleWizard" type="radio" name="profile-pic" value="maleWizard" onChange={this.handleOptionChange} />
           <label className="avatar maleWizard" htmlFor="maleWizard"></label>
 
-          <input id="ogre" type="radio" name="profile-pic" value="ogre" />
+          <input id="ogre" type="radio" name="profile-pic" value="ogre" onChange={this.handleOptionChange} />
           <label className="avatar ogre" htmlFor="ogre"></label>
 
-          <input id="shaman" type="radio" name="profile-pic" value="shaman" />
+          <input id="shaman" type="radio" name="profile-pic" value="shaman" onChange={this.handleOptionChange} />
           <label className="avatar shaman" htmlFor="shaman"></label>
+
+          <input id="angel" type="radio" name="profile-pic" value="angel" onChange={this.handleOptionChange} />
+          <label className="avatar angel" htmlFor="angel"></label>
         </div>
         <button type="submit"
           className="nes-btn is-primary"
