@@ -214,18 +214,24 @@ router.post("/", (req, res, next) => {
 });
 
 /* ========= POST EXCLUDED GAMES ============= */
-router.post("/excludedGames", jwtAuth, (req, res, next) => {
+router.put("/excludedGames", jwtAuth, (req, res, next) => {
   const { id } = req.user;
   const { excludedId } = req.body;
-  console.log(excludedId);
+
+  if (!mongoose.Types.ObjectId.isValid(excludedId)) {
+    const err = new Error("The `id` is not valid");
+    err.status = 400;
+    return next(err);
+  }
+
+  const update = {
+    $addToSet: { excludedGames: excludedId }
+  };
+
   let user;
-  User.findOne({ _id: id })
+  User.findOneAndUpdate({ _id: id }, update, { new: true })
     .then(_user => {
       user = _user;
-      user.excludedGames.push(excludedId);
-      user.save();
-    })
-    .then(() => {
       res
         .location(`${req.originalUrl}`)
         .status(201)
