@@ -51,6 +51,9 @@ class AboutMe extends Component {
           id="textarea_field"
           name="aboutMe"
           className="nes-textarea"
+          onChange={e =>
+            this.setState({ previousAboutMe: e.currentTarget.value })
+          }
           value={previousAboutMe}
         />
         <button type="submit" className="nes-btn is-warning">
