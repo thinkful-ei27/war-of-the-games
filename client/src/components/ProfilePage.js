@@ -8,6 +8,17 @@ import Loading from "./loading";
 import ConnectedGame from "./Game";
 import AboutMe from "./AboutMe";
 import ConnectedRecommendations from "./Recommendations";
+// profile pic imports
+
+import Demon from '../assets/demon.png';
+import Knight from '../assets/knight.png';
+import BigZombie from '../assets/bigZombie.png';
+import FemaleElf from '../assets/femaleElf.png';
+import FemaleWizard from '../assets/femaleWizard.png';
+import MaleElf from '../assets/maleElf.png';
+import MaleWizard from '../assets/maleWizard.png';
+import Ogre from '../assets/ogre.png';
+import Shaman from '../assets/shaman.png';
 
 export class ProfilePage extends React.Component {
   componentDidMount() {
@@ -19,6 +30,31 @@ export class ProfilePage extends React.Component {
     ]);
   }
 
+  evaluateProfilePic(userInfo) {
+    const { profilePic } = this.props;
+    switch (profilePic) {
+      case "Demon":
+        return Demon;
+      case "Knight":
+        return Knight;
+      case "BigZombie":
+        return BigZombie;
+      case "FemaleElf":
+        return FemaleElf;
+      case "FemaleWizard":
+        return FemaleWizard;
+      case "MaleElf":
+        return MaleElf;
+      case "MaleWizard":
+        return MaleWizard;
+      case "Ogre":
+        return Ogre;
+      case "Shaman":
+        return Shaman;
+      default:
+        return Knight
+    }
+  }
   render() {
     const {
       username,
@@ -79,38 +115,38 @@ export class ProfilePage extends React.Component {
     return loading ? (
       <Loading />
     ) : (
-      <div className="dashboard">
-        <div className="nes-container with-title profile-info-container">
-          <p className="title user shadow">Hello {name}!</p>
-          <section className="personal-info">
-            <div
-              className={`${nesContainer} with-title is-dark about-me-container`}
-            >
-              <p className="title">
-                <img
-                  className="title profile-pic"
-                  src="https://i.pinimg.com/originals/2f/56/20/2f5620472cc9033a970e3b0bd4fa66d7.png"
-                  alt="profile-pic"
-                />
-              </p>
-              <AboutMe aboutMe={aboutMe} />
-            </div>
-          </section>
-        </div>
-        <ConnectedRecommendations profileWidth="w-1" isMobile={isMobile} />
-        <section className="nes-container top-six m-4">
-          <h4>
-            <i className={`nes-icon ${iconSize} heart`} />
-            Your Top 6 choices!
+        <div className="dashboard">
+          <div className="nes-container with-title profile-info-container">
+            <p className="title user shadow">Hello {name}!</p>
+            <section className="personal-info">
+              <div
+                className={`${nesContainer} with-title is-dark about-me-container`}
+              >
+                <p className="title">
+                  <img
+                    className="title profile-pic"
+                    src={this.evaluateProfilePic(this.props.profilePic)}
+                    alt="profile-pic"
+                  />
+                </p>
+                <AboutMe aboutMe={aboutMe} />
+              </div>
+            </section>
+          </div>
+          <ConnectedRecommendations profileWidth="w-1" isMobile={isMobile} />
+          <section className="nes-container top-six m-4">
+            <h4>
+              <i className={`nes-icon ${iconSize} heart`} />
+              Your Top 6 choices!
           </h4>
-          {topSix}
-        </section>
-        <aside className="nes-container with-title recent-choices">
-          <h4>Your Most Recent Choices!</h4>
-          {recentHistory}
-        </aside>
-      </div>
-    );
+            {topSix}
+          </section>
+          <aside className="nes-container with-title recent-choices">
+            <h4>Your Most Recent Choices!</h4>
+            {recentHistory}
+          </aside>
+        </div>
+      );
   }
 }
 
@@ -125,7 +161,8 @@ const mapStateToProps = state => {
     name: `${currentUser.firstName} ${currentUser.lastName}`,
     history: state.user.history,
     loading: state.user.loading,
-    screenWidth: state.window.width
+    screenWidth: state.window.width,
+    profilePic: state.auth.currentUser.profilePic
   };
 };
 

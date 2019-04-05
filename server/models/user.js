@@ -10,7 +10,8 @@ const userSchema = new mongoose.Schema({
   history: [{ type: mongoose.Schema.Types.ObjectId, ref: "History" }],
   aboutMe: { type: String },
   admin: { type: Boolean, default: false },
-  battles: { type: Number, default: 0 }
+  battles: { type: Number, default: 0 },
+  profilePic: { type: String }
 });
 
 userSchema.set("toJSON", {
@@ -24,7 +25,7 @@ userSchema.set("toJSON", {
 });
 
 // this will break if switched to an arrow function
-userSchema.methods.validatePassword = function(incomingPassword) {
+userSchema.methods.validatePassword = function (incomingPassword) {
   const user = this; // for clarity
   return bcrypt.compare(incomingPassword, user.password);
 };
