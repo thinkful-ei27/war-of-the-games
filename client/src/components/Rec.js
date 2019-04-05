@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import LongText from "./LongText";
 
 export default function Rec(props) {
-  const { cloudImage, igdb, name, summary, id } = props.game;
+  const { cloudImage, igdb, name, summary } = props.game;
   const { excludeRec } = props;
   const { slug } = igdb;
   const url = `/games/${slug}`;
@@ -16,8 +16,8 @@ export default function Rec(props) {
       <div
         role="button"
         tabIndex={0}
-        onKeyPress={e => excludeRec(e, id)}
-        onClick={e => excludeRec(e, id)}
+        onKeyPress={e => excludeRec(e, igdb.id)}
+        onClick={e => excludeRec(e, igdb.id)}
         className="rec-delete"
       >
         X

@@ -63,16 +63,15 @@ export class RecommendationsPage extends Component {
   handleFilter(id) {
     const { token } = this.props;
     this.setState(prevState => ({
-      recs: prevState.recs.filter(rec => rec.id !== id)
+      recs: prevState.recs.filter(rec => rec.igdb.id !== id)
     }));
-    axios({
-      url: `${API_BASE_URL}/users/excludedgames`,
-      method: "PUT",
-      headers: { Authorization: `Bearer ${token}` },
-      body: {
+    axios.put(
+      `${API_BASE_URL}/users/excludedgames`,
+      {
         excludedId: id
-      }
-    });
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
   }
 
   render() {
