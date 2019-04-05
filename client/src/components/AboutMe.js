@@ -25,7 +25,7 @@ class AboutMe extends Component {
     let nesContainer = "";
     let iconSize = "is-small";
     if (!isMobile) {
-      nesContainer = "nes-container";
+      nesContainer = "nes-container is-dark";
       iconSize = "is-medium";
     }
 
