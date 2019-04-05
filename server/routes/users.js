@@ -216,11 +216,24 @@ router.post("/", (req, res, next) => {
 router.post("/excludedGames", jwtAuth, (req, res, next) => {
   const { id } = req.user;
   const { excludedId } = req.body;
+  console.log(excludedId);
   let user;
-  User.find({ _id: id }).then(_user => {
-    user = _user;
-    console.log(user);
-  });
+  User.findOne({ _id: id })
+    .then(_user => {
+      user = _user;
+      user.excludedGames.push(excludedId);
+      user.save();
+    })
+    .then(result => {
+      res
+        .location(`${req.originalUrl}`)
+        .status(201)
+        .json(user);
+    })
+    .catch(err => {
+      console.log(err);
+      next(err);
+    });
 });
 
 module.exports = router;
