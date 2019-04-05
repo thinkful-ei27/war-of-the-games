@@ -460,6 +460,13 @@ const histories = [
     gameOne: "5c9a959ba5d0dd09e07f45a3",
     gameTwo: "5c9a959ba5d0dd09e07f45a1",
     choice: "5c9a959ba5d0dd09e07f45a3"
+  },
+  {
+    _id: "222222222222222222222217",
+    userId: "333333333333333333333300",
+    gameOne: "5c9a959ba5d0dd09e07f45a2",
+    gameTwo: "5c9a959ba5d0dd09e07f45a1",
+    choice: "5c9a959ba5d0dd09e07f45a2"
   }
 ];
 
