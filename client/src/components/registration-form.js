@@ -14,11 +14,11 @@ const matchesPassword = matches("password");
 
 export class RegistrationForm extends React.Component {
   onSubmit(values) {
-    const { username, password, firstName, lastName } = values;
-    const user = { username, password, firstName, lastName };
+    const { username, password, firstName, lastName, profilePic } = values;
+    const user = { username, password, firstName, lastName, profilePic };
     const { dispatch } = this.props;
     return dispatch(registerUser(user)).then(() =>
-      dispatch(login(username, password, firstName, lastName))
+      dispatch(login(username, password, firstName, lastName, profilePic))
     );
   }
 
@@ -70,102 +70,103 @@ export class RegistrationForm extends React.Component {
         <div className="profile-selector form-input">
           <Field
             id="demon"
-            name="profile-pic"
+            name="profilePic"
             className="avatar demon"
             component={Input2}
             type="radio"
-            value="demon"
+            value="Demon"
             htmlFor="demon" />
 
           <Field
             id="knight"
-            name="profile-pic"
+            name="profilePic"
             className="avatar knight"
             htmlFor="knight"
             type="radio"
-            value="knight"
+            value="Knight"
             component={Input2} />
 
 
           <Field
             id="bigZombie"
-            name="profile-pic"
+            name="profilePic"
             className="avatar bigZombie"
             htmlFor="bigZombie"
             className="avatar bigZombie"
             htmlFor="bigZombie"
             component={Input2}
             type="radio"
-            value="bigZombie" />
+            value="BigZombie" />
 
 
           <Field
             id="femaleElf"
-            name="profile-pic"
+            name="profilePic"
             className="avatar femaleElf"
             htmlFor="femaleElf"
             component={Input2}
             type="radio"
-            value="femaleElf" />
+            value="FemaleElf" />
 
 
           <Field
             id="femaleWizard"
-            name="profile-pic"
+            name="profilePic"
             className="avatar femaleWizard"
             htmlFor="femaleWizard"
             component={Input2}
             type="radio"
-            value="femaleWizard" />
+            value="FemaleWizard" />
 
 
           <Field
             id="maleElf"
-            name="profile-pic"
+            name="profilePic"
             className="avatar maleElf"
             htmlFor="maleElf"
             component={Input2}
             type="radio"
-            value="maleElf" />
+            value="MaleElf" />
 
 
           <Field
             id="maleWizard"
-            name="profile-pic"
+            name="profilePic"
             className="avatar maleWizard"
             htmlFor="maleWizard"
             component={Input2}
             type="radio"
-            value="maleWizard" />
+            value="MaleWizard" />
 
 
           <Field
-            id="ogre" name="profile-pic"
+            id="ogre"
+            name="profilePic"
             className="avatar ogre"
             htmlFor="ogre"
             component={Input2}
             type="radio"
-            value="ogre" />
+            value="Ogre" />
 
 
           <Field
             id="shaman"
-            name="profile-pic"
+            name="profilePic"
             className="avatar shaman"
             htmlFor="shaman"
             component={Input2}
             type="radio"
-            value="shaman" />
+            value="Shaman" />
 
 
           <Field
             id="angel"
-            name="profile-pic"
+            name="profilePic"
             className="avatar angel"
             htmlFor="angel"
             component={Input2}
             type="radio"
-            value="angel" />
+            value="Angel" />
 
         </div>
         <button type="submit" disabled={pristine || submitting}>

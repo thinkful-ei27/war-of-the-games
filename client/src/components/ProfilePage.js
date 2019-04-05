@@ -7,6 +7,17 @@ import LongText from "./LongText";
 import Loading from "./loading";
 import ConnectedGame from "./Game";
 import ConnectedRecommendations from "./Recommendations";
+// profile pic imports
+
+import Demon from '../assets/demon.png';
+import Knight from '../assets/knight.png';
+import BigZombie from '../assets/bigZombie.png';
+import FemaleElf from '../assets/femaleElf.png';
+import FemaleWizard from '../assets/femaleWizard.png';
+import MaleElf from '../assets/maleElf.png';
+import MaleWizard from '../assets/maleWizard.png';
+import Ogre from '../assets/ogre.png';
+import Shaman from '../assets/shaman.png';
 
 export class ProfilePage extends React.Component {
   componentDidMount() {
@@ -17,6 +28,31 @@ export class ProfilePage extends React.Component {
     ]);
   }
 
+  evaluateProfilePic(userInfo) {
+    const { profilePic } = this.props;
+    switch (profilePic) {
+      case "Demon":
+        return Demon;
+      case "Knight":
+        return Knight;
+      case "BigZombie":
+        return BigZombie;
+      case "FemaleElf":
+        return FemaleElf;
+      case "FemaleWizard":
+        return FemaleWizard;
+      case "MaleElf":
+        return MaleElf;
+      case "MaleWizard":
+        return MaleWizard;
+      case "Ogre":
+        return Ogre;
+      case "Shaman":
+        return Shaman;
+      default:
+        return Knight
+    }
+  }
   render() {
     const {
       username,
@@ -89,7 +125,7 @@ export class ProfilePage extends React.Component {
               <p className="title">
                 <img
                   className="title profile-pic"
-                  src="https://i.pinimg.com/originals/2f/56/20/2f5620472cc9033a970e3b0bd4fa66d7.png"
+                  src={this.evaluateProfilePic(this.props.profilePic)}
                   alt="profile-pic"
                 />
               </p>
@@ -100,8 +136,8 @@ export class ProfilePage extends React.Component {
                   content={aboutMeContent}
                 />
               ) : (
-                <p className="about-me">{aboutMeContent}</p>
-              )}
+                  <p className="about-me">{aboutMeContent}</p>
+                )}
             </div>
           </section>
         </div>
@@ -133,7 +169,8 @@ const mapStateToProps = state => {
     name: `${currentUser.firstName} ${currentUser.lastName}`,
     history: state.user.history,
     loading: state.user.loading,
-    screenWidth: state.window.width
+    screenWidth: state.window.width,
+    profilePic: state.auth.currentUser.profilePic
   };
 };
 
