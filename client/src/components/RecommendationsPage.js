@@ -16,7 +16,7 @@ export class RecommendationsPage extends Component {
       error: false,
       isLoading: true,
       recs: [],
-      showModal: true,
+      showModal: false,
       igdbId: null
     };
   }
@@ -74,7 +74,7 @@ export class RecommendationsPage extends Component {
     this.setState({ igdbId: null });
   }
 
-  handleExcludeRec(e, id) {
+  handleExcludeRec(id) {
     const { token } = this.props;
     this.handleFilter(id);
     axios.put(
@@ -84,6 +84,7 @@ export class RecommendationsPage extends Component {
       },
       { headers: { Authorization: `Bearer ${token}` } }
     );
+    this.handleModal();
   }
 
   handleFilter(id) {
@@ -93,7 +94,7 @@ export class RecommendationsPage extends Component {
   }
 
   render() {
-    const { error, isLoading, recs, showModal } = this.state;
+    const { error, isLoading, recs, showModal, igdbId } = this.state;
     const topFiveRecs = recs.slice(0, 5);
 
     return (
@@ -124,7 +125,7 @@ export class RecommendationsPage extends Component {
                 Cancel
               </button>
               <button
-                onClick={() => {}}
+                onClick={() => this.handleExcludeRec(igdbId)}
                 className="nes-btn modal is-primary"
                 type="button"
               >
