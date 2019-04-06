@@ -103,10 +103,7 @@ router.get("/recommendations", jwtAuth, (req, res, next) => {
     })
     .then(dbUser => {
       const { excludedGames } = dbUser;
-      console.log(sortedSimilarGames);
-
       let filteredSimilarGames;
-
       if (excludedGames) {
         filteredSimilarGames = sortedSimilarGames.filter(function(simGame) {
           return this.indexOf(simGame) < 0;
@@ -231,7 +228,6 @@ router.post("/", (req, res, next) => {
 router.put("/excludedgames", jwtAuth, (req, res, next) => {
   const { id } = req.user;
   const { excludedId } = req.body;
-  console.log("THIS IS EXCLUDED ID FROM REQ.BODY", excludedId);
 
   if (typeof excludedId !== "number") {
     const err = new Error("The id is not valid");
@@ -242,8 +238,6 @@ router.put("/excludedgames", jwtAuth, (req, res, next) => {
   const update = {
     $addToSet: { excludedGames: excludedId }
   };
-
-  console.log("update", update);
 
   let user;
   return User.findOneAndUpdate({ _id: id }, update, { new: true })
