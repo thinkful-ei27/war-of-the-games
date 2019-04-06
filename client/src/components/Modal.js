@@ -1,33 +1,38 @@
 import React from "react";
+import ReactModal from "react-modal";
 
 export default function Modal(props) {
-  const { handleClick, handleCancel } = props;
+  const { handleModal, handleExcludeRec, igdbId, showModal } = props;
   return (
-    <div className="nes-dialog is-dark" id="dialog-dark">
-      <form method="dialog">
-        <p className="title">Are You Sure?</p>
-        <p>
-          Confirming this action will remove this game from your
-          reccomendations.
+    <ReactModal className="Modal" overlayClassName="Overlay" isOpen={showModal}>
+      <button
+        type="button"
+        className="text-xs close-modal"
+        onClick={() => handleModal()}
+      >
+        X
+      </button>
+      <div className="flex flex-col justify-around items-center h-1 text-xs">
+        <p className="text-center modal-content">
+          Are you sure you want to remove this game from your recommendations?
         </p>
-        <p className="title">Do you wish to continue?</p>
-        <menu className="dialog-menu">
+        <menu className="flex w-2/3 justify-around">
           <button
-            onClick={() => handleCancel()}
+            onClick={() => handleModal()}
+            className="nes-btn modal"
             type="button"
-            className="nes-btn"
           >
             Cancel
           </button>
           <button
-            onClick={() => handleClick()}
+            onClick={() => handleExcludeRec(igdbId)}
+            className="nes-btn modal is-primary"
             type="button"
-            className="nes-btn is-primary"
           >
             Confirm
           </button>
         </menu>
-      </form>
-    </div>
+      </div>
+    </ReactModal>
   );
 }

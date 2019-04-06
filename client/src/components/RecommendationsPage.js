@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import ReactModal from "react-modal";
+import Modal from "./Modal";
 import { API_BASE_URL } from "../config";
 // import Game from "./Game";
 import Rec from "./Rec";
@@ -99,41 +99,12 @@ export class RecommendationsPage extends Component {
 
     return (
       <div>
-        <ReactModal
-          className="Modal"
-          overlayClassName="Overlay"
-          isOpen={showModal}
-        >
-          <button
-            type="button"
-            className="text-xs close-modal"
-            onClick={() => this.handleModal()}
-          >
-            X
-          </button>
-          <div className="flex flex-col justify-around items-center h-1 text-xs">
-            <p className="text-center modal-content">
-              Are you sure you want to remove this game from your
-              recommendations?
-            </p>
-            <menu className="flex w-2/3 justify-around">
-              <button
-                onClick={() => this.handleModal()}
-                className="nes-btn modal"
-                type="button"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => this.handleExcludeRec(igdbId)}
-                className="nes-btn modal is-primary"
-                type="button"
-              >
-                Confirm
-              </button>
-            </menu>
-          </div>
-        </ReactModal>
+        <Modal
+          showModal={showModal}
+          igdbId={igdbId}
+          handleModal={() => this.handleModal()}
+          handleExcludeRec={id => this.handleExcludeRec(id)}
+        />
         <h1 className="text-center mt-16">
           <i className="nes-icon coin" />
           Recommendations
@@ -142,14 +113,8 @@ export class RecommendationsPage extends Component {
         <div className="game-container mx-auto mt-16">
           {topFiveRecs.length
             ? topFiveRecs.map(rec => (
-                // <Game
-                //   name={rec.name}
-                //   slug={rec.igdb.slug}
-                //   cloudImage={rec.cloudImage}
-                // />
                 <Rec
                   key={rec.id}
-                  excludeRec={(e, id) => this.handleExcludeRec(e, id)}
                   game={rec}
                   openModal={id => this.handleModal(id)}
                 />
