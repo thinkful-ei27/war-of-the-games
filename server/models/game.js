@@ -25,9 +25,9 @@ const schema = new mongoose.Schema({
   similar_games: [{ type: Number }],
   cloudImage: { type: String },
   firstReleaseDate: Number,
-  motivation: { type: String },
-  subMotivation: { type: String },
-  core: { type: Boolean }
+  motivations: [{ type: String, unique: true }],
+  subMotivations: [{ type: String, unique: true }],
+  core: { type: Boolean, default: false }
 });
 
 schema.set("timestamps", true);
