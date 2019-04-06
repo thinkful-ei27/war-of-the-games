@@ -54,7 +54,6 @@ export class RecommendationsPage extends Component {
   }
 
   handleExcludeRec(e, id) {
-    console.log(id);
     if (e.type === "keypress" && e.key === "Enter") {
       this.handleFilter(id);
     }
