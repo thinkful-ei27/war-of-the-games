@@ -1,5 +1,6 @@
 import React from "react";
 import ReactModal from "react-modal";
+import "./styles/modal.css";
 
 export default function Modal(props) {
   const { handleModal, handleExcludeRec, igdbId, showModal } = props;
