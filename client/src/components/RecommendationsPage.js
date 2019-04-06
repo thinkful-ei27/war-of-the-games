@@ -6,6 +6,7 @@ import { API_BASE_URL } from "../config";
 // import Game from "./Game";
 import Rec from "./Rec";
 import Loading from "./loading";
+import Modal from "./Modal";
 
 export class RecommendationsPage extends Component {
   constructor(props) {
