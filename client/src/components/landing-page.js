@@ -2,6 +2,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Battle from "./battle";
+import Sprites from "./Sprites";
 import VoteStats from "./vote-stats";
 import UserOnboard from './userOnboard';
 import "./styles/landing-page.css";

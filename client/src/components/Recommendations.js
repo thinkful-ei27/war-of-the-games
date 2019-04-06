@@ -33,7 +33,6 @@ export class Recommendations extends Component {
         .then(results => {
           // Creates a massaged array of user recommendations
           const { data } = results;
-          console.log(data);
 
           // Places recommendations into state.
           this.setState({
@@ -59,7 +58,7 @@ export class Recommendations extends Component {
       <div className="rec-container">
         {isMobile && <hr className="mt-8" />}
         <Link to="/profile/recommendations">
-          <h3 className={isMobile ? "w-3/4 mx-auto text-base mt-4" : ""}>
+          <h3 className={isMobile ? "w-3/4 mx-auto text-base mt-4" : undefined}>
             <i className="nes-icon coin" />
             Recommendations >
           </h3>
