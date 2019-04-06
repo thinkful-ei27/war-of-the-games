@@ -50,7 +50,7 @@ describe("ASYNC Capstone API - Users", () => {
   });
 
   describe("POST /api/users", () => {
-    it("should create a new user with lowercase username", () => {
+    it.only("should create a new user with lowercase username", () => {
       let res;
       return chai
         .request(app)
@@ -66,9 +66,7 @@ describe("ASYNC Capstone API - Users", () => {
             "firstName",
             "lastName",
             "admin",
-            "battles",
-            "historyCount",
-            "excludedGames"
+            "historyCount"
           );
           expect(res.body.username).to.equal(username.toLowerCase());
           expect(res.body.firstName).to.equal(firstName);
