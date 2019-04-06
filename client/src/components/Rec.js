@@ -4,7 +4,7 @@ import LongText from "./LongText";
 
 export default function Rec(props) {
   const { cloudImage, igdb, name, summary } = props.game;
-  const { excludeRec } = props;
+  const { openModal } = props;
   const { slug } = igdb;
   const url = `/games/${slug}`;
   return (
@@ -13,15 +13,13 @@ export default function Rec(props) {
         className="nes-icon close is-small rec-delete"
         onClick={e => excludeRec(e)}
       /> */}
-      <div
-        role="button"
-        tabIndex={0}
-        onKeyPress={e => excludeRec(e, igdb.id)}
-        onClick={e => excludeRec(e, igdb.id)}
+      <button
+        type="button"
+        onClick={() => openModal(igdb.id)}
         className="rec-delete"
       >
         X
-      </div>
+      </button>
       <div className="mx-4">
         <img className="img-responsive rec-img" src={cloudImage} alt={slug} />
       </div>

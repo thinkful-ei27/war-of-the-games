@@ -21,7 +21,9 @@
   order: 1;
   background-color:#212529;
   color: #f8f8f8;
-  height: 16px;
+  border: none;
+  height: 20px;
+  padding: 0;
 }
 
 .game-recommendation {
@@ -233,6 +235,11 @@
   width: 75%;
 }
 
+/* Height */
+.h-1 {
+  height: 100%
+}
+
 /* Margin */
 .m-4 {
   margin: 1rem;
@@ -321,4 +328,67 @@
 
 .text-6xl {
   font-size: 3.75rem;
+}
+
+/* Modal */
+
+.nes-btn.modal {
+  height: 32px;
+  width: 80px;
+  font-size: 10px;
+  box-shadow: -2px -2px;
+  border-width: 3px;
+}
+
+.nes-btn.modal::after{
+  box-shadow: inset -2px -2px #006bb3;
+  align-self: flex-end;
+}
+
+.nes-btn.modal:hover::after {
+  box-shadow: inset -3px -3px #006bb3;
+}
+
+.close-modal {
+  border: none;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  padding: 0;
+  background-color: inherit;
+}
+
+.modal-content {
+  color: rgba(245, 27, 50, 0.7);
+  font-style: italic;
+  line-height: 25px;
+}
+
+.Modal {
+  position: absolute;
+  top: 20%;
+  left: 15%;
+  right: 15%;
+  bottom: 20%;
+  background-color: #f8f8f8;
+  padding: 20px;
+} 
+
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color:rgba(33, 37, 41, 0.5);
+  z-index: 0;
+}
+
+@media (min-width: 769px) {
+  .Modal{
+    top: 25%;
+    left: 33%;
+    right: 33%;
+    bottom: 25%;
+  }
 }
