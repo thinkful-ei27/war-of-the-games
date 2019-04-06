@@ -11,6 +11,12 @@ const jwtAuth = passport.authenticate("jwt", {
   failWithError: true
 });
 
+const countBy = (arr, fn) =>
+  arr.map(typeof fn === "function" ? fn : val => val[fn]).reduce((acc, val) => {
+    acc[val] = (acc[val] || 0) + 1;
+    return acc;
+  }, {});
+
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
 
@@ -22,6 +28,24 @@ router.get("/:id/history", (req, res, next) => {
     .limit(6)
     .then(results => {
       res.json(results);
+    })
+    .catch(err => next(err));
+});
+
+router.get("/:id/history/motivations", (req, res, next) => {
+  const { id } = req.params;
+
+  History.find({ userId: id })
+    .populate("choice", ["name", "motivations"])
+    .sort({ createdAt: -1 })
+    .then(results => {
+      const allM = [];
+      const m = results.map(res => {
+        const { motivations } = res.choice;
+        motivations.forEach(ms => allM.push(ms));
+      });
+      const motives = countBy(allM, v => v);
+      res.json(motives);
     })
     .catch(err => next(err));
 });
