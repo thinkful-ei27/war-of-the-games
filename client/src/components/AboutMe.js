@@ -21,6 +21,13 @@ class AboutMe extends Component {
     const { aboutMe, screenWidth } = this.props;
     const { submitSucceeded, isEditing, previousAboutMe } = this.state;
     const isMobile = screenWidth <= 768;
+    console.log(screenWidth);
+    let nesContainer = "";
+    let iconSize = "is-small";
+    if (!isMobile) {
+      nesContainer = "nes-container is-dark";
+      iconSize = "is-medium";
+    }
 
     const aboutMeWithContent = (
       <div>
@@ -33,7 +40,7 @@ class AboutMe extends Component {
         >
           Edit About me
         </button>
-        <p className="about-me">{aboutMe}</p>
+        <LongText className="nes-text-area" content={aboutMe} limit={175} />
       </div>
     );
     const unSubmittedForm = (
@@ -62,15 +69,11 @@ class AboutMe extends Component {
       </form>
     );
 
-    return aboutMe && !isEditing ? (
-      aboutMeWithContent
-    ) : isMobile && aboutMe ? (
-      <LongText content={aboutMeWithContent} limit={175} />
-    ) : !submitSucceeded ? (
-      unSubmittedForm
-    ) : (
-      aboutMeWithContent
-    );
+    return aboutMe && !isEditing
+      ? aboutMeWithContent
+      : !submitSucceeded
+      ? unSubmittedForm
+      : aboutMeWithContent;
   }
 }
 
