@@ -6,7 +6,7 @@ export default function GameHelp(props) {
   const { name } = game;
   return (
     <div className="nes-container with-title is-centered mt-16 m-4 mx-auto">
-      <p className="title">
+      <p className="title shadow">
         <span className="nes-text is-primary">{name}</span> needs your help!
       </p>
       <Link to="/">

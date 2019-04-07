@@ -38,6 +38,10 @@
   padding: 15px;
 } */
 
+.nes-container.with-title > p.title {
+  background-color: #f8f8f8;
+}
+
 .game-container {
   width: 100%;
 }
