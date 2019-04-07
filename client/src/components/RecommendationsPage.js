@@ -105,7 +105,7 @@ export class RecommendationsPage extends Component {
           handleModal={() => this.handleModal()}
           handleExcludeRec={id => this.handleExcludeRec(id)}
         />
-        <h1 className="text-center mt-16">
+        <h1 className="rec-pg-title text-center mt-16">
           <i className="nes-icon coin" />
           Recommendations
           <i className="nes-icon coin" />

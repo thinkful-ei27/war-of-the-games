@@ -11,6 +11,10 @@
   height: auto;
 }
 
+.rec-pg-title {
+  font-size: 14px;
+}
+
 .rec-img {
   vertical-align: middle;
   min-width: 100px;
@@ -68,11 +72,19 @@
   .game-container {
     max-width: 768px;
   }
+
+  .rec-pg-title {
+    font-size: 22px;
+  }
 }
 
 @media (min-width: 992px) {
   .game-container {
     max-width: 992px;
+  }
+
+  .rec-pg-title {
+    font-size: 32px;
   }
 }
 
