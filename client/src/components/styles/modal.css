@@ -11,7 +11,15 @@
   align-self: flex-end;
 }
 
+.nes-btn.is-primary.modal::after{
+  box-shadow: inset -2px -2px #006bb3;
+  align-self: flex-end;
+}
+
 .nes-btn.modal:hover::after {
+  box-shadow: inset -3px -3px #006bb3;
+}
+.nes-btn.is-primary.modal:hover::after {
   box-shadow: inset -3px -3px #006bb3;
 }
 

@@ -95,7 +95,9 @@ export class RecommendationsPage extends Component {
 
   render() {
     const { error, isLoading, recs, showModal, igdbId } = this.state;
+    const { screenWidth } = this.props;
     const topFiveRecs = recs.slice(0, 5);
+    const iconSize = screenWidth <= 576 ? "is-small" : undefined;
 
     return (
       <div>
@@ -106,9 +108,9 @@ export class RecommendationsPage extends Component {
           handleExcludeRec={id => this.handleExcludeRec(id)}
         />
         <h1 className="rec-pg-title text-center mt-16">
-          <i className="nes-icon coin" />
+          <i className={`nes-icon coin ${iconSize}`} />
           Recommendations
-          <i className="nes-icon coin" />
+          <i className={`nes-icon coin ${iconSize}`} />
         </h1>
         <div className="game-container mx-auto mt-16">
           {topFiveRecs.length
@@ -140,7 +142,8 @@ export class RecommendationsPage extends Component {
 const mapStateToProps = state => ({
   loggedIn: state.auth.currentUser !== null,
   loading: state.auth.loading,
-  token: state.auth.authToken
+  token: state.auth.authToken,
+  screenWidth: state.window.width
 });
 
 export default connect(mapStateToProps)(RecommendationsPage);

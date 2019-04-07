@@ -5,7 +5,12 @@ import "./styles/modal.css";
 export default function Modal(props) {
   const { handleModal, handleExcludeRec, igdbId, showModal } = props;
   return (
-    <ReactModal className="Modal" overlayClassName="Overlay" isOpen={showModal}>
+    <ReactModal
+      appElement={document.getElementById("root")}
+      className="Modal"
+      overlayClassName="Overlay"
+      isOpen={showModal}
+    >
       <button
         type="button"
         className="text-xs close-modal"
