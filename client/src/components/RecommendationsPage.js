@@ -17,7 +17,8 @@ export class RecommendationsPage extends Component {
       isLoading: true,
       recs: [],
       showModal: false,
-      igdbId: null
+      igdbId: null,
+      showMoreRecs: false
     };
   }
 
@@ -93,11 +94,33 @@ export class RecommendationsPage extends Component {
     }));
   }
 
+  handleMoreRecs() {
+    this.setState(prevState => ({
+      showMoreRecs: !prevState.showMoreRecs
+    }));
+  }
+
   render() {
-    const { error, isLoading, recs, showModal, igdbId } = this.state;
+    const {
+      error,
+      isLoading,
+      recs,
+      showModal,
+      igdbId,
+      showMoreRecs
+    } = this.state;
     const { screenWidth } = this.props;
     const topFiveRecs = recs.slice(0, 5);
     const iconSize = screenWidth <= 576 ? "is-small" : undefined;
+    const moreRecs = recs.length ? (
+      recs
+        .slice(5)
+        .map(rec => (
+          <Rec key={rec.id} game={rec} openModal={id => this.handleModal(id)} />
+        ))
+    ) : (
+      <div>No more recommendations</div>
+    );
 
     return (
       <div>
@@ -126,6 +149,18 @@ export class RecommendationsPage extends Component {
                   No recommendations for you ¯\_(ツ)_/¯
                 </div>
               )}
+          {showMoreRecs ? moreRecs : undefined}
+          {!isLoading && (
+            <button
+              onClick={() => this.handleMoreRecs()}
+              className="nes-btn"
+              type="button"
+            >
+              {!showMoreRecs
+                ? "Show More Recommentations"
+                : "Show Less Recommentations"}
+            </button>
+          )}
         </div>
         <hr />
         {error && <div style={{ color: "#900" }}>{error}</div>}
