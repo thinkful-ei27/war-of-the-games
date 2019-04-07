@@ -36,16 +36,72 @@ router.get("/:id/history/motivations", (req, res, next) => {
   const { id } = req.params;
 
   History.find({ userId: id })
+    .populate("gameOne", ["name", "motivations"])
+    .populate("gameTwo", ["name", "motivations"])
     .populate("choice", ["name", "motivations"])
     .sort({ createdAt: -1 })
     .then(results => {
-      const allM = [];
+      const all = [];
+      const choices = [];
       const m = results.map(res => {
-        const { motivations } = res.choice;
-        motivations.forEach(ms => allM.push(ms));
+        const gameOneMotivations = res.gameOne.motivations;
+        const gameTwoMotivations = res.gameTwo.motivations;
+        const choiceMotivations = res.choice.motivations;
+        gameOneMotivations.forEach(ms => all.push(ms));
+        gameTwoMotivations.forEach(ms => all.push(ms));
+        choiceMotivations.forEach(ms => choices.push(ms));
       });
-      const motives = countBy(allM, v => v);
-      res.json(motives);
+      const allMotives = countBy(all, v => v);
+      const choiceMotives = countBy(choices, v => v);
+      const percentagesMotives = Object.keys(choiceMotives).reduce((a, key) => {
+        const percentage = Math.floor(
+          (choiceMotives[key] / allMotives[key]) * 100
+        );
+        a[key] = percentage;
+        return a;
+      }, {});
+      res.json({
+        "All Motivations": allMotives,
+        "All Choices": choiceMotives,
+        "Choice Percentages": percentagesMotives
+      });
+    })
+    .catch(err => next(err));
+});
+
+router.get("/:id/history/submotivations", (req, res, next) => {
+  const { id } = req.params;
+
+  History.find({ userId: id })
+    .populate("gameOne", ["name", "subMotivations"])
+    .populate("gameTwo", ["name", "subMotivations"])
+    .populate("choice", ["name", "subMotivations"])
+    .sort({ createdAt: -1 })
+    .then(results => {
+      const all = [];
+      const choices = [];
+      const m = results.map(res => {
+        const gameOneSubMotivations = res.gameOne.subMotivations;
+        const gameTwoSubMotivations = res.gameTwo.subMotivations;
+        const choiceSubMotivations = res.choice.subMotivations;
+        gameOneSubMotivations.forEach(ms => all.push(ms));
+        gameTwoSubMotivations.forEach(ms => all.push(ms));
+        choiceSubMotivations.forEach(ms => choices.push(ms));
+      });
+      const allMotives = countBy(all, v => v);
+      const choiceMotives = countBy(choices, v => v);
+      const percentagesMotives = Object.keys(choiceMotives).reduce((a, key) => {
+        const percentage = Math.floor(
+          (choiceMotives[key] / allMotives[key]) * 100
+        );
+        a[key] = percentage;
+        return a;
+      }, {});
+      res.json({
+        "All SubMotivations": allMotives,
+        "All Choices": choiceMotives,
+        "Choice Percentages": percentagesMotives
+      });
     })
     .catch(err => next(err));
 });
