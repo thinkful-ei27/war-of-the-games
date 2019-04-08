@@ -158,8 +158,8 @@ export class RecommendationsPage extends Component {
                 type="button"
               >
                 {!showMoreRecs
-                  ? "Show More Recommentations"
-                  : "Show Less Recommentations"}
+                  ? "Show More Recommendations"
+                  : "Show Less Recommendations"}
               </button>
             </div>
           )}
