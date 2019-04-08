@@ -5,6 +5,20 @@ import { connect } from "react-redux";
 import { API_BASE_URL } from "../config";
 import Game from "./Game";
 
+const orderBy = (arr, props, orders) =>
+  [...arr].sort((a, b) =>
+    props.reduce((acc, prop, i) => {
+      if (acc === 0) {
+        const [p1, p2] =
+          orders && orders[i] === "desc"
+            ? [b[prop], a[prop]]
+            : [a[prop], b[prop]];
+        acc = p1 > p2 ? 1 : p1 < p2 ? -1 : 0;
+      }
+      return acc;
+    }, 0)
+  );
+
 export class Recommendations extends Component {
   constructor(props) {
     super(props);
@@ -13,7 +27,8 @@ export class Recommendations extends Component {
     this.state = {
       error: false,
       isLoading: false,
-      recs: []
+      recs: [],
+      subMotivations: ""
     };
   }
 
@@ -24,17 +39,37 @@ export class Recommendations extends Component {
 
   loadRecs() {
     this.setState({ isLoading: true }, () => {
-      const { token } = this.props;
+      const { token, userId } = this.props;
       axios({
-        url: `${API_BASE_URL}/users/recs`,
-        method: "POST",
-        data: {
-          motivations: ["story", "fantasy"],
-          dateNumber: 1,
-          timeFrame: "Years"
-        },
+        url: `${API_BASE_URL}/users/${userId}/history/submotivations`,
+        method: "GET",
         headers: { Authorization: `Bearer ${token}` }
       })
+        .then(subMotivations => {
+          const { choicePercentages } = subMotivations.data;
+          const motivations = Object.keys(choicePercentages).reduce(
+            (a, key) => {
+              const obj = { name: key, value: choicePercentages[key] };
+              a.push(obj);
+              return a;
+            },
+            []
+          );
+          const orderedMotivations = orderBy(motivations, ["value"], ["desc"]);
+          return axios({
+            url: `${API_BASE_URL}/users/recs`,
+            method: "POST",
+            data: {
+              motivations: [
+                orderedMotivations[0].name,
+                orderedMotivations[1].name
+              ],
+              dateNumber: 1,
+              timeFrame: "Years"
+            },
+            headers: { Authorization: `Bearer ${token}` }
+          });
+        })
         .then(results => {
           // Creates a massaged array of user recommendations
           const { data } = results;
@@ -87,10 +122,14 @@ export class Recommendations extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  loggedIn: state.auth.currentUser !== null,
-  loading: state.auth.loading,
-  token: state.auth.authToken
-});
+const mapStateToProps = state => {
+  const { currentUser } = state.auth;
+  return {
+    userId: currentUser.id,
+    loggedIn: state.auth.currentUser !== null,
+    loading: state.auth.loading,
+    token: state.auth.authToken
+  };
+};
 
 export default connect(mapStateToProps)(Recommendations);

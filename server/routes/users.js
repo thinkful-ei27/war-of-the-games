@@ -103,9 +103,9 @@ router.get("/:id/history/submotivations", (req, res, next) => {
         return a;
       }, {});
       res.json({
-        "All SubMotivations": allMotives,
-        "All Choices": choiceMotives,
-        "Choice Percentages": percentagesMotives
+        all: allMotives,
+        choices: choiceMotives,
+        choicePercentages: percentagesMotives
       });
     })
     .catch(err => next(err));

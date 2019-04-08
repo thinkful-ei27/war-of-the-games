@@ -25,7 +25,7 @@ userSchema.set("toJSON", {
 });
 
 // this will break if switched to an arrow function
-userSchema.methods.validatePassword = function (incomingPassword) {
+userSchema.methods.validatePassword = function(incomingPassword) {
   const user = this; // for clarity
   return bcrypt.compare(incomingPassword, user.password);
 };

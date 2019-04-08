@@ -8,12 +8,16 @@ import {
   POST_USER_ABOUT_ME_SUCCESS,
   GET_USER_ABOUT_ME_SUCCESS,
   GET_USER_ABOUT_ME_ERROR,
-  GET_USER_ABOUT_ME_REQUEST
+  GET_USER_ABOUT_ME_REQUEST,
+  GET_USER_SUBMOTIVATIONS_REQUEST,
+  GET_USER_SUBMOTIVATIONS_SUCCESS,
+  GET_USER_SUBMOTIVATIONS_ERROR
 } from "../actions/users";
 
 const initialState = {
   history: [],
   topHistory: [],
+  subMotivations: "",
   aboutMe: "",
   loading: false,
   error: null
@@ -72,6 +76,23 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         aboutMe: action.content
+      };
+    case GET_USER_SUBMOTIVATIONS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    case GET_USER_SUBMOTIVATIONS_SUCCESS:
+      return {
+        ...state,
+        subMotivations: action.content.choicePercentages
+      };
+    case GET_USER_SUBMOTIVATIONS_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.error
       };
     default:
       return state;
