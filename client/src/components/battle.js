@@ -9,9 +9,9 @@ export function Battle(props) {
   return (
     <div className="battle-container">
       <ConnectedCard
+        game={props[0]}
         src={props[0].cloudImage}
         alt={props[0].name}
-        name={props[0].name}
         id={props[0].id}
         fetchFeedback={id => fetchFeedback(id)}
       />
@@ -19,9 +19,9 @@ export function Battle(props) {
         <span className="vs">VS</span>
       </div>
       <ConnectedCard
+        game={props[1]}
         src={props[1].cloudImage}
         alt={props[1].name}
-        name={props[1].name}
         id={props[1].id}
         fetchFeedback={id => fetchFeedback(id)}
       />
