@@ -12,19 +12,31 @@ process.env.NODE_ENV = "test";
 // Clear the console before each run
 process.stdout.write("\x1Bc\n");
 
-const expect = chai.expect;
+const { expect } = chai;
 chai.use(chaiHttp);
 
-before(function() {
-  return dbConnect(TEST_DATABASE_URL);
-});
-
-after(function() {
-  return dbDisconnect();
-});
-
 describe("Mocha and Chai", function() {
+  before(function() {
+    return dbConnect(TEST_DATABASE_URL);
+  });
+
+  after(function() {
+    return dbDisconnect();
+  });
   it("should be properly setup", function() {
     expect(true).to.be.true;
+  });
+});
+
+describe("Mongoose", function() {
+  it("should catch errors", function() {
+    dbConnect("")
+      .then(res => {
+        expect(res).to.throw();
+        expect(res.name).to.equal("MongoParseError");
+      })
+      .catch(err => {
+        expect(err).to.be.an("object");
+      });
   });
 });

@@ -67,6 +67,6 @@ const getGame = async id =>
 //     .request("/covers")
 //     .then(res => res.data[0]);
 
-getThemes().then(result => console.log(result));
+// getThemes().then(result => console.log(result));
 
 module.exports = { getGames, getGame };
