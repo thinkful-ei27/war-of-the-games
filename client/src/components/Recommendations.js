@@ -27,8 +27,7 @@ export class Recommendations extends Component {
     this.state = {
       error: false,
       isLoading: false,
-      recs: [],
-      subMotivations: ""
+      recs: []
     };
   }
 
@@ -39,9 +38,9 @@ export class Recommendations extends Component {
 
   loadRecs() {
     this.setState({ isLoading: true }, () => {
-      const { token, userId } = this.props;
+      const { token } = this.props;
       axios({
-        url: `${API_BASE_URL}/users/${userId}/history/submotivations`,
+        url: `${API_BASE_URL}/users/history/submotivations`,
         method: "GET",
         headers: { Authorization: `Bearer ${token}` }
       })
@@ -123,9 +122,7 @@ export class Recommendations extends Component {
 }
 
 const mapStateToProps = state => {
-  const { currentUser } = state.auth;
   return {
-    userId: currentUser.id,
     loggedIn: state.auth.currentUser !== null,
     loading: state.auth.loading,
     token: state.auth.authToken

@@ -74,8 +74,8 @@ router.get("/:id/history/motivations", (req, res, next) => {
     .catch(err => next(err));
 });
 
-router.get("/:id/history/submotivations", (req, res, next) => {
-  const { id } = req.params;
+router.get("/history/submotivations", jwtAuth, (req, res, next) => {
+  const { id } = req.user;
 
   History.find({ userId: id })
     .populate("gameOne", ["name", "subMotivations"])

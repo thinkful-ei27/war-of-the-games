@@ -3,13 +3,17 @@ import { Link } from "react-router-dom";
 import LongText from "./LongText";
 
 export default function Rec(props) {
-  const { cloudImage, igdb, name, summary } = props.game;
-  const { slug } = igdb;
-  const url = `/games/${slug}`;
+  const { cloudImage, igdb, name, summary, slug, cover } = props.game;
+  // const { slug } = igdb;
+  const url = `/games/${slug || igdb.slug}`;
   return (
     <section className="nes-container is-dark flex game-recommendation">
       <div className="mx-4">
-        <img className="img-responsive rec-img" src={cloudImage} alt={slug} />
+        <img
+          className="img-responsive rec-img"
+          src={cloudImage || cover.url}
+          alt={slug}
+        />
       </div>
       <div className="profile flex flex-col">
         <Link to={url}>

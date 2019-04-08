@@ -51,7 +51,14 @@ const getGamesBySubmotivations = async (motivationsArray, from) => {
 
   return (
     apicalypse(requestOptions)
-      .fields(["name", "slug", "cover.url", "popularity", "first_release_date"])
+      .fields([
+        "name",
+        "slug",
+        "cover.url",
+        "popularity",
+        "first_release_date",
+        "summary"
+      ])
       .limit(50)
       // .sort("first_release_date", "desc")
       .sort("popularity", "desc")
