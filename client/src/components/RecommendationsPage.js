@@ -151,15 +151,17 @@ export class RecommendationsPage extends Component {
               )}
           {showMoreRecs ? moreRecs : undefined}
           {!isLoading && (
-            <button
-              onClick={() => this.handleMoreRecs()}
-              className="nes-btn"
-              type="button"
-            >
-              {!showMoreRecs
-                ? "Show More Recommentations"
-                : "Show Less Recommentations"}
-            </button>
+            <div className="game-container text-center">
+              <button
+                onClick={() => this.handleMoreRecs()}
+                className="nes-btn"
+                type="button"
+              >
+                {!showMoreRecs
+                  ? "Show More Recommentations"
+                  : "Show Less Recommentations"}
+              </button>
+            </div>
           )}
         </div>
         <hr />
