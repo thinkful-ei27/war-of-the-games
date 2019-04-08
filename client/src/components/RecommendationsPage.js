@@ -129,7 +129,7 @@ export class RecommendationsPage extends Component {
 
   handleFilter(id) {
     this.setState(prevState => ({
-      recs: prevState.recs.filter(rec => rec.igdb.id !== id)
+      recs: prevState.recs.filter(rec => rec.id !== id)
     }));
   }
 

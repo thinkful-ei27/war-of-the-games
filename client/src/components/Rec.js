@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import LongText from "./LongText";
 
 export default function Rec(props) {
-  const { cloudImage, igdb, name, summary, slug, cover } = props.game;
+  const { cloudImage, igdb, name, summary, slug, cover, id } = props.game;
   const { openModal } = props;
   const url = `/games/${slug || igdb.slug}`;
   return (
@@ -14,7 +14,7 @@ export default function Rec(props) {
       /> */}
       <button
         type="button"
-        onClick={() => openModal(igdb.id)}
+        onClick={() => openModal(id || igdb.id)}
         className="rec-delete"
       >
         X
