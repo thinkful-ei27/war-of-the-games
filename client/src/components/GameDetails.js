@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { updateGame } from "../actions/gameActions";
 import LongText from "./LongText";
+import Logo from "../assets/favicon3.ico";
 
 export function GameDetails(props) {
   const {
@@ -73,7 +74,7 @@ export function GameDetails(props) {
       <div className={`${imgWidth} ${imgDivMargin}`}>
         <img
           className="game-info-img p-4 rounded shadow"
-          src={cloudImage || coverUrl}
+          src={cloudImage || coverUrl || Logo}
           alt={slug}
         />
         {renderWinPercentage()}
