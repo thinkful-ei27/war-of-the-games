@@ -14,7 +14,7 @@ const users = [
     lastName: "Admin",
     username: "adamadmin",
     // hash digest for the string 'baseball'
-    password: "$2a$10$iZyK.rKrq4vIOM54A4pYm.wvVAYLPB1me.D5CrUHqtLbJ5ClrTdH6",
+    password: "$2a$10$LQz6cN6wv0umXxrAM.vXdu8H.Gt4k2iSAsMGSN/9DvlZa2VUjwg66",
     admin: true
   },
   {

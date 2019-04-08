@@ -4,7 +4,7 @@ const moment = require("moment");
 const Game = require("../models/game");
 const igdbApi = require("../utils/gameApi");
 const imagesApi = require("../utils/imagesApi");
-const { isValidId } = require("./validators");
+const { isValidId, requiresAdmin } = require("./validators");
 
 const router = express.Router();
 const jwtAuth = passport.authenticate("jwt", {
