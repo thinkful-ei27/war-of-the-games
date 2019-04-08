@@ -66,7 +66,6 @@ describe("ASYNC Capstone API - Users", () => {
             "firstName",
             "lastName",
             "admin",
-            "battles",
             "historyCount"
           );
           expect(res.body.username).to.equal(username.toLowerCase());
@@ -158,6 +157,44 @@ describe("ASYNC Capstone API - Users", () => {
           expect(res).to.have.status(500);
           expect(res.body).to.be.a("object");
           expect(res.body.message).to.equal("Internal Server Error");
+        });
+    });
+  });
+
+  describe("PUT /api/users/excludedgames", () => {
+    it("should add an excluded game to a users collection", function() {
+      const excludedId = 123;
+      return chai
+        .request(app)
+        .put("/api/users/excludedgames")
+        .set("Authorization", `Bearer ${token}`)
+        .send({ excludedId })
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.be.a("object");
+          expect(res.body).to.include.all.keys(
+            "id",
+            "username",
+            "firstName",
+            "lastName",
+            "admin",
+            "historyCount"
+          );
+          expect(res).to.be.json;
+        });
+    });
+
+    it("should throw an error when excludedId is not a number", () => {
+      const excludedId = "french fries";
+      return chai
+        .request(app)
+        .put("/api/users/excludedgames")
+        .set("Authorization", `Bearer ${token}`)
+        .send({ excludedId })
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("The id is not valid");
         });
     });
   });

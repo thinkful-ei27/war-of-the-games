@@ -4,7 +4,15 @@ import { updateGame } from "../actions/gameActions";
 import LongText from "./LongText";
 
 export function GameDetails(props) {
-  const { dispatch, game, feedback, error, loggedIn, width } = props;
+  const {
+    currentUser,
+    dispatch,
+    game,
+    feedback,
+    error,
+    loggedIn,
+    width
+  } = props;
   const { name, coverUrl, slug, platforms, genres, summary, cloudImage } = game;
   let platformDisplay;
   const genreDisplay = genres.map(gen => (
@@ -85,7 +93,7 @@ export function GameDetails(props) {
         <div className="my-4">
           <LongText content={summary || "No description...yet."} limit={250} />
         </div>
-        {loggedIn ? (
+        {loggedIn && currentUser.admin ? (
           <small>
             Is this game missing some info? Try{" "}
             <button type="button" onClick={() => dispatch(updateGame(game))}>
@@ -102,7 +110,8 @@ export function GameDetails(props) {
 }
 
 const mapStateToProps = state => ({
-  loggedIn: state.auth.currentUser !== null
+  loggedIn: state.auth.currentUser !== null,
+  currentUser: state.auth.currentUser
 });
 
 export default connect(mapStateToProps)(GameDetails);

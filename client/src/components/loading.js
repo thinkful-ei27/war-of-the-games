@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import './styles/loading.css';
+import React, { Component } from "react";
+import "./styles/loading.css";
 
 export default class Loading extends Component {
   constructor(props) {
@@ -49,5 +49,5 @@ export default class Loading extends Component {
 Loading.defaultProps = {
   intervalSpeed: 25,
   incrementBy: 3,
-  size: 'md'
+  size: "md"
 };

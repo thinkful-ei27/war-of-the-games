@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
   aboutMe: { type: String },
   admin: { type: Boolean, default: false },
   battles: { type: Number, default: 0 },
+  excludedGames: [Number],
   profilePic: { type: String }
 });
 
@@ -21,11 +22,13 @@ userSchema.set("toJSON", {
     delete result.__v;
     delete result.password;
     delete result.history;
+    delete result.excludedGames;
+    delete result.battles;
   }
 });
 
 // this will break if switched to an arrow function
-userSchema.methods.validatePassword = function (incomingPassword) {
+userSchema.methods.validatePassword = function(incomingPassword) {
   const user = this; // for clarity
   return bcrypt.compare(incomingPassword, user.password);
 };
