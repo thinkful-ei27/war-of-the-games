@@ -65,7 +65,8 @@ export class ProfilePage extends React.Component {
       loading,
       topHistory,
       screenWidth,
-      aboutMe
+      aboutMe,
+      profilePic
     } = this.props;
     const isMobile = screenWidth <= 768;
 
@@ -121,18 +122,14 @@ export class ProfilePage extends React.Component {
         <div className="nes-container with-title profile-info-container">
           <p className="title user shadow">Hello {name}!</p>
           <section className="personal-info">
-            <div
-              className={`${nesContainer} with-title is-dark about-me-container`}
-            >
-              <p className="title">
-                <img
-                  className="title profile-pic"
-                  src={this.evaluateProfilePic(this.props.profilePic)}
-                  alt="profile-pic"
-                />
-              </p>
-              {/* <AboutMe aboutMe={aboutMe} /> */}
-            </div>
+            <p className="title">
+              <img
+                className="title profile-pic"
+                src={this.evaluateProfilePic(profilePic)}
+                alt="profile-pic"
+              />
+            </p>
+            {/* <AboutMe aboutMe={aboutMe} /> */}
             <Radar />
           </section>
         </div>

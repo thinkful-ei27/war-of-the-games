@@ -89,10 +89,7 @@ export const getUserMotivationData = () => (dispatch, getState) => {
       }
       return res.json();
     })
-    .then(data => {
-      console.log(data);
-      dispatch(getUserMotivationsSuccess(data));
-    })
+    .then(data => dispatch(getUserMotivationsSuccess(data)))
     .catch(err => dispatch(getUserMotivationsError(err)));
 };
 
