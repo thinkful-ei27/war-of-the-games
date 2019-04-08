@@ -58,6 +58,21 @@ router.get("/", (req, res, next) => {
     .catch(err => next(err));
 });
 
+router.get("/igdb/:slug", (req, res, next) => {
+  const { slug } = req.params;
+
+  console.log(slug);
+
+  return igdbApi
+    .getIdFromSlug(slug)
+    .then(result => {
+      res.json(result);
+    })
+    .catch(e => {
+      next(e);
+    });
+});
+
 // GET /api/games/battle must go before GET /api/games/:id or else it will never get called.
 router.get("/battle", (req, res, next) =>
   Game.countDocuments()

@@ -5,6 +5,12 @@ const moment = require("moment");
 
 const { subMotivationKeywords } = require("../db/subMotivations");
 
+const uniqueElementsBy = (arr, fn) =>
+  arr.reduce((acc, v) => {
+    if (!acc.some(x => fn(v, x))) acc.push(v);
+    return acc;
+  }, []);
+
 const {
   power,
   story,
@@ -33,15 +39,6 @@ const requestOptions = {
   responseType: "json"
 };
 
-const getGames = async () =>
-  apicalypse(requestOptions)
-    .fields(["name", "url"])
-    .limit(2)
-    // .sort('name', 'desc') // sorts by name, descending
-    // .where(['age > 50', 'movies != n'])
-    .request("/games")
-    .then(res => res.data);
-
 const getGamesBySubmotivations = async (motivationsArray, from) => {
   // 1 subMotivation <---> 3 subMotivations
   // 1 month <---> 5 years
@@ -52,11 +49,9 @@ const getGamesBySubmotivations = async (motivationsArray, from) => {
     .subtract(from[0], from[1])
     .unix();
 
-  console.log("motivations array is ", motivations);
-
   return (
     apicalypse(requestOptions)
-      .fields(["name", "slug", "popularity", "first_release_date"])
+      .fields(["name", "slug", "cover.url", "popularity", "first_release_date"])
       .limit(50)
       // .sort("first_release_date", "desc")
       .sort("popularity", "desc")
@@ -64,12 +59,16 @@ const getGamesBySubmotivations = async (motivationsArray, from) => {
         `keywords.name = (${motivations}) & first_release_date > ${fromDate} & first_release_date < ${today}`
       )
       .request("/games")
-      .then(res => res.data)
+      .then(res => {
+        const { data } = res;
+
+        return uniqueElementsBy(data, (a, b) => a.id == b.id);
+      })
   );
 };
 
-getGamesBySubmotivations([...story, ...fantasy], [1, "Months"])
-  .then(result => console.log(result))
-  .catch(e => console.log(e.response.data));
+// getGamesBySubmotivations([...story, ...fantasy], [1, "Months"])
+//   .then(result => console.log(result))
+//   .catch(e => console.log(e.response.data));
 
-module.exports = { getGames, getGamesBySubmotivations };
+module.exports = { getGamesBySubmotivations };

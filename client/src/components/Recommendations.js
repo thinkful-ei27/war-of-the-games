@@ -26,8 +26,13 @@ export class Recommendations extends Component {
     this.setState({ isLoading: true }, () => {
       const { token } = this.props;
       axios({
-        url: `${API_BASE_URL}/users/recommendations`,
-        method: "GET",
+        url: `${API_BASE_URL}/users/recs`,
+        method: "POST",
+        data: {
+          motivations: ["story", "fantasy"],
+          dateNumber: 1,
+          timeFrame: "Years"
+        },
         headers: { Authorization: `Bearer ${token}` }
       })
         .then(results => {
@@ -67,8 +72,8 @@ export class Recommendations extends Component {
             <Game
               key={rec.name}
               name={rec.name}
-              slug={rec.igdb.slug}
-              cloudImage={rec.cloudImage}
+              slug={rec.slug}
+              cloudImage={rec.cloudImage || rec.cover.url}
               profileFontSize="text-xs"
               profileWidth={profileWidth}
             />

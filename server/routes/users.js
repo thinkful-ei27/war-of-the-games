@@ -155,7 +155,7 @@ router.get("/:userId/topHistory", (req, res, next) => {
     .catch(err => next(err));
 });
 
-router.get("/recs", jwtAuth, (req, res, next) => {
+router.post("/recs", jwtAuth, (req, res, next) => {
   const { motivations, dateNumber, timeFrame } = req.body;
   const arrayOfKeywords = motivations.reduce((a, b) => {
     const keywords = subMotivationKeywords[b];

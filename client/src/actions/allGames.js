@@ -73,12 +73,38 @@ export const fetchCurrentGameError = error => ({
   error
 });
 
-export const fetchCurrentGame = slug => dispatch => {
+export const fetchCurrentGame = slug => (dispatch, getState) => {
+  const { authToken } = getState().auth;
   dispatch(fetchCurrentGameRequest());
   return axios({
     url: `${API_BASE_URL}/games?slug=${slug}`,
     method: "GET"
   })
+    .then(response => {
+      console.log("first response is ", response);
+      if (response.data.length < 1) {
+        return axios({
+          url: `${API_BASE_URL}/games/igdb/${slug}`,
+          method: "GET",
+          headers: { Authorization: `Bearer ${authToken}` }
+        }).then(result => {
+          console.log("second result is ", result);
+          const freshId = result.data[0].id;
+          return axios({
+            url: `${API_BASE_URL}/games`,
+            method: "POST",
+            data: {
+              igdbId: freshId
+            },
+            headers: { Authorization: `Bearer ${authToken}` }
+          }).then(theFinalResult => {
+            console.log("final result is ", theFinalResult);
+            return theFinalResult;
+          });
+        });
+      }
+      return response;
+    })
     .then(response => {
       const { id } = response.data[0];
       dispatch(fetchCurrentFeedback(id));

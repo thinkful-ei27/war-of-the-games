@@ -19,7 +19,7 @@ export class RecommendationsPage extends Component {
   }
 
   componentDidMount() {
-    // Loads some users on initial load
+    // Loads some recs on initial load
     this.loadRecs();
   }
 
@@ -63,11 +63,6 @@ export class RecommendationsPage extends Component {
         </h1>
         <div className="game-container mx-auto mt-16">
           {recs.map(rec => (
-            // <Game
-            //   name={rec.name}
-            //   slug={rec.igdb.slug}
-            //   cloudImage={rec.cloudImage}
-            // />
             <Rec game={rec} />
           ))}
         </div>
