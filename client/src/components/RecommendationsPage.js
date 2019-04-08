@@ -77,7 +77,6 @@ export class RecommendationsPage extends Component {
         .then(results => {
           // Creates a massaged array of user recommendations
           const { data } = results;
-          console.log(data);
 
           // Places recommendations into state.
           this.setState({

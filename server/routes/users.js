@@ -162,7 +162,6 @@ router.post("/recs", jwtAuth, (req, res, next) => {
     a.push(...keywords);
     return a;
   }, []);
-  console.log(motivations);
   recs
     .getGamesBySubmotivations(
       // [...story, ...fantasy],

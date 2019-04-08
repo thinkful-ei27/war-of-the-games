@@ -45,6 +45,7 @@ const getGamesBySubmotivations = async (motivationsArray, from) => {
   // 1 platform <---> All platforms
   // niche <---> popular
   const motivations = motivationsArray.map(word => `\"${word}\"`).join(",");
+  console.log("motivations is ", motivations);
   const fromDate = moment()
     .subtract(from[0], from[1])
     .unix();

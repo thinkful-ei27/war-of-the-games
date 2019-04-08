@@ -116,7 +116,6 @@ export const postUserAboutMe = content => (dispatch, getState) => {
       return res;
     })
     .then(() => {
-      console.log(content);
       dispatch(postUserAboutMeSuccess(content));
     })
     .catch(err => dispatch(postUserAboutMeError(err)));
@@ -201,7 +200,6 @@ export const getUserSubmotivations = userId => (dispatch, getState) => {
       return res.json();
     })
     .then(data => {
-      console.log(data);
       dispatch(getUserSubmotivationsSuccess(data));
     })
     .catch(err => dispatch(getUserSubmotivationsError(err)));
