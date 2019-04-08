@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import ReactTooltip from 'react-tooltip'
 import {
   fetchGames,
   handleVote,
@@ -20,7 +21,9 @@ export function Card(props) {
     id,
     fetchFeedback,
     loggedIn,
-    userId
+    userId,
+    summary,
+    gameSummaryNum
   } = props;
 
   const handleVoteClick = () => {
@@ -35,20 +38,27 @@ export function Card(props) {
   const slug =
     name.charAt(name.length - 1) === "."
       ? // check to see if the last character is a period, which a few games do have, which would break the link
-        // if period is found, remove it and build slug with that e.g Super Smash Bros. becomes super-smash-bros
-        name
-          .substring(0, name.length - 1)
-          .toLowerCase()
-          .replace(/[^A-Z0-9]+/gi, "-")
+      // if period is found, remove it and build slug with that e.g Super Smash Bros. becomes super-smash-bros
+      name
+        .substring(0, name.length - 1)
+        .toLowerCase()
+        .replace(/[^A-Z0-9]+/gi, "-")
       : name.toLowerCase().replace(/[^A-Z0-9]+/gi, "-");
 
   return (
     <div className="card">
       <div className="title-container">
         <Link to={gamesUrl + slug} target="_blank">
-          <h1 className="game-title">{name}</h1>
+          <h1 data-tip
+            data-for={gameSummaryNum}
+            className="game-title">
+            {name}
+          </h1>
         </Link>
       </div>
+      <ReactTooltip id={gameSummaryNum} type="info" place={"bottom"} multiline={true}>
+        <span>{summary}</span>
+      </ReactTooltip>
       <img className="game-img" src={src} alt={alt} />
       <button
         id="vote-button"
