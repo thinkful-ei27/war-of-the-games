@@ -5,6 +5,11 @@
 .nes-container.with-title > .title.profile-pic {
   background-color: #f8f8f8;
 }
+
+.nes-container.with-title > .title.profile-pic-container {
+  background-color: #f8f8f8;
+}
+
 .profile-pic {
   width: 75px;
   height: 75px;
@@ -32,7 +37,10 @@
   align-self: flex-start;
   width: 100%;
 }
-
+.rec-container {
+  width: 100%;
+  text-align: center;
+}
 .recent-choices {
   margin: 16px;
   width: 100%;
@@ -46,8 +54,8 @@
   /* margin: auto; */
 }
 
-.top-6 {
-  margin: 30px;
+.top-six {
+  margin: 16px;
   width: 100%;
 }
 
@@ -84,12 +92,17 @@
     width: 60%;
   }
 
-  .top-6 {
+  .top-six {
     width: 56%;
   }
 
   .recent-choices {
-    margin: 30px;
     width: 30%;
+  }
+
+  .rec-container {
+    margin: 30px;
+    width: 90%;
+    text-align: left
   }
 }

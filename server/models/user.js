@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
   aboutMe: { type: String },
   admin: { type: Boolean, default: false },
   battles: { type: Number, default: 0 },
+  excludedGames: [Number],
   profilePic: { type: String }
 });
 
@@ -21,6 +22,8 @@ userSchema.set("toJSON", {
     delete result.__v;
     delete result.password;
     delete result.history;
+    delete result.excludedGames;
+    delete result.battles;
   }
 });
 

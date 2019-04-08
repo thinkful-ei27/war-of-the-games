@@ -10,6 +10,10 @@ body {
   background-color: #f8f8f8
 }
 
- html {
-   height: 100vh;
- }
+html {
+  height: 100vh;
+}
+
+menu {
+  padding-left: 0;
+}

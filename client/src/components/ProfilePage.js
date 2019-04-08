@@ -114,11 +114,13 @@ export class ProfilePage extends React.Component {
     });
 
     let nesContainer = "";
+    let shadow = "";
     let iconSize = "is-small";
 
     if (!isMobile) {
       nesContainer = "nes-container";
       iconSize = "is-medium";
+      shadow = "shadow";
     }
     return loading ? (
       <Loading />
