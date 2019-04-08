@@ -130,7 +130,7 @@ export class ProfilePage extends React.Component {
               />
             </p>
             {/* <AboutMe aboutMe={aboutMe} /> */}
-            <Radar />
+            <Radar name={name} />
           </section>
         </div>
         <ConnectedRecommendations profileWidth="w-1" isMobile={isMobile} />

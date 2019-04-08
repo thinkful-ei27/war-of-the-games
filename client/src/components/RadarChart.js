@@ -27,24 +27,33 @@ class MotivationsChart extends Component {
   }
 
   render() {
-    const { motivations } = this.props;
+    const { motivations, name } = this.props;
     const data = motivations;
     console.log(motivations);
     return (
       <div>
-        <RadarChart outerRadius={90} width={730} height={250} data={data}>
-          <PolarGrid />
-          <PolarAngleAxis dataKey="motivation" />
-          <PolarRadiusAxis angle={30} domain={[0, 100]} />
-          <Radar
-            name="User"
-            dataKey="percentage"
-            stroke="#8884d8"
-            fill="#8884d8"
-            fillOpacity={0.6}
-          />
-          <Legend />
-        </RadarChart>
+        <ResponsiveContainer aspect={2.8} width="100%">
+          <RadarChart
+            outerRadius={90}
+            width={700}
+            height={250}
+            cx="50%"
+            data={data}
+          >
+            <PolarGrid />
+            <PolarAngleAxis dataKey="motivation" />
+            <PolarRadiusAxis angle={30} domain={[0, 100]} />
+            <Legend />
+            <Radar
+              name={`${name}'s motivations`}
+              dataKey="percentage"
+              stroke="#8884d8"
+              fill="#8884d8"
+              fillOpacity={0.6}
+              // label={false}
+            />
+          </RadarChart>
+        </ResponsiveContainer>
       </div>
     );
   }
