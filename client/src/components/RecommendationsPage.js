@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
+import Modal from "./Modal";
 import { API_BASE_URL } from "../config";
-import Game from "./Game";
+// import Game from "./Game";
 import Rec from "./Rec";
+import Loading from "./loading";
 
 export class RecommendationsPage extends Component {
   constructor(props) {
@@ -13,8 +14,11 @@ export class RecommendationsPage extends Component {
     // Sets up our initial state
     this.state = {
       error: false,
-      isLoading: false,
-      recs: []
+      isLoading: true,
+      recs: [],
+      showModal: false,
+      igdbId: null,
+      showMoreRecs: false
     };
   }
 
@@ -51,29 +55,122 @@ export class RecommendationsPage extends Component {
     });
   }
 
+  handleModal(id = null) {
+    const { showModal } = this.state;
+    if (id) {
+      this.setState({
+        igdbId: id
+      });
+    }
+    if (showModal) {
+      this.clearId();
+    }
+
+    this.setState(prevState => ({
+      showModal: !prevState.showModal
+    }));
+  }
+
+  clearId() {
+    this.setState({ igdbId: null });
+  }
+
+  handleExcludeRec(id) {
+    const { token } = this.props;
+    this.handleFilter(id);
+    axios.put(
+      `${API_BASE_URL}/users/excludedgames`,
+      {
+        excludedId: id
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    this.handleModal();
+  }
+
+  handleFilter(id) {
+    this.setState(prevState => ({
+      recs: prevState.recs.filter(rec => rec.igdb.id !== id)
+    }));
+  }
+
+  handleMoreRecs() {
+    this.setState(prevState => ({
+      showMoreRecs: !prevState.showMoreRecs
+    }));
+  }
+
   render() {
-    const { error, isLoading, recs } = this.state;
+    const {
+      error,
+      isLoading,
+      recs,
+      showModal,
+      igdbId,
+      showMoreRecs
+    } = this.state;
+    const { screenWidth } = this.props;
+    const topFiveRecs = recs.slice(0, 5);
+    const iconSize = screenWidth <= 576 ? "is-small" : undefined;
+    const moreRecs = recs.length ? (
+      recs
+        .slice(5)
+        .map(rec => (
+          <Rec key={rec.id} game={rec} openModal={id => this.handleModal(id)} />
+        ))
+    ) : (
+      <div>No more recommendations</div>
+    );
 
     return (
       <div>
-        <h1 className="text-center mt-16">
-          <i className="nes-icon coin" />
+        <Modal
+          showModal={showModal}
+          igdbId={igdbId}
+          handleModal={() => this.handleModal()}
+          handleExcludeRec={id => this.handleExcludeRec(id)}
+        />
+        <h1 className="rec-pg-title text-center mt-16">
+          <i className={`nes-icon coin ${iconSize}`} />
           Recommendations
-          <i className="nes-icon coin" />
+          <i className={`nes-icon coin ${iconSize}`} />
         </h1>
         <div className="game-container mx-auto mt-16">
-          {recs.map(rec => (
-            // <Game
-            //   name={rec.name}
-            //   slug={rec.igdb.slug}
-            //   cloudImage={rec.cloudImage}
-            // />
-            <Rec game={rec} />
-          ))}
+          {topFiveRecs.length
+            ? topFiveRecs.map(rec => (
+                <Rec
+                  key={rec.id}
+                  game={rec}
+                  openModal={id => this.handleModal(id)}
+                />
+              ))
+            : !isLoading && (
+                <div className="text-center">
+                  No recommendations for you ¯\_(ツ)_/¯
+                </div>
+              )}
+          {showMoreRecs ? moreRecs : undefined}
+          {!isLoading && (
+            <div className="game-container text-center">
+              <button
+                onClick={() => this.handleMoreRecs()}
+                className="nes-btn"
+                type="button"
+              >
+                {!showMoreRecs
+                  ? "Show More Recommentations"
+                  : "Show Less Recommentations"}
+              </button>
+            </div>
+          )}
         </div>
         <hr />
         {error && <div style={{ color: "#900" }}>{error}</div>}
-        {isLoading && <div>Loading...</div>}
+        {isLoading && (
+          <div className="w-1/3 mx-auto">
+            <Loading size="lg" incrementBy={5} />
+          </div>
+        )}
       </div>
     );
   }
@@ -82,7 +179,8 @@ export class RecommendationsPage extends Component {
 const mapStateToProps = state => ({
   loggedIn: state.auth.currentUser !== null,
   loading: state.auth.loading,
-  token: state.auth.authToken
+  token: state.auth.authToken,
+  screenWidth: state.window.width
 });
 
 export default connect(mapStateToProps)(RecommendationsPage);

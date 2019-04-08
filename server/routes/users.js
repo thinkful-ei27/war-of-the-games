@@ -72,10 +72,10 @@ router.get("/:userId/topHistory", (req, res, next) => {
 router.get("/recommendations", jwtAuth, (req, res, next) => {
   let topChoices;
   let sortedSimilarGames;
-
+  const userId = req.user.id;
   // Find top game choices for user
   return History.aggregate([
-    { $match: { userId: mongoose.Types.ObjectId(req.user.id) } },
+    { $match: { userId: mongoose.Types.ObjectId(userId) } },
     { $group: { _id: "$choice", count: { $sum: 1 } } }
   ])
     .sort({ count: "desc" })
@@ -97,8 +97,19 @@ router.get("/recommendations", jwtAuth, (req, res, next) => {
       );
       sortedSimilarGames = Object.keys(similarGamesCount)
         .sort((a, b) => similarGamesCount[b] - similarGamesCount[a])
-        .slice(0, 5);
-      return Game.find({ "igdb.id": { $in: sortedSimilarGames } });
+        .slice(0, 10);
+      // Filter out excluded games here
+      return User.findOne({ _id: userId }, { excludedGames: 1 });
+    })
+    .then(dbUser => {
+      const { excludedGames } = dbUser;
+      let filteredSimilarGames;
+      if (excludedGames) {
+        filteredSimilarGames = sortedSimilarGames.filter(function(simGame) {
+          return this.indexOf(simGame) < 0;
+        }, excludedGames);
+      }
+      return Game.find({ "igdb.id": { $in: filteredSimilarGames } });
     })
     .then(recs => {
       const sortedRecs = sortedSimilarGames
@@ -208,8 +219,8 @@ router.post("/", (req, res, next) => {
       message: tooSmallField
         ? `Must be at least ${sizedFields[tooSmallField].min} characters long`
         : `Wow, what a secure password! However, passwords must be at most ${
-        sizedFields[tooLargeField].max
-        } characters long`,
+            sizedFields[tooLargeField].max
+          } characters long`,
       location: tooSmallField || tooLargeField
     });
   }
@@ -241,6 +252,35 @@ router.post("/", (req, res, next) => {
       } else {
         err = _err;
       }
+      next(err);
+    });
+});
+
+/* ========= PUT EXCLUDED GAMES ============= */
+router.put("/excludedgames", jwtAuth, (req, res, next) => {
+  const { id } = req.user;
+  const { excludedId } = req.body;
+
+  if (typeof excludedId !== "number") {
+    const err = new Error("The id is not valid");
+    err.status = 400;
+    return next(err);
+  }
+
+  const update = {
+    $addToSet: { excludedGames: excludedId }
+  };
+
+  let user;
+  return User.findOneAndUpdate({ _id: id }, update, { new: true })
+    .then(_user => {
+      user = _user;
+      res
+        .location(`${req.originalUrl}`)
+        .status(200)
+        .json(user);
+    })
+    .catch(err => {
       next(err);
     });
 });

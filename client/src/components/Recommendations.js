@@ -52,9 +52,10 @@ export class Recommendations extends Component {
   render() {
     const { error, isLoading, recs } = this.state;
     const { isMobile, profileWidth } = this.props;
+    const topFiveRecs = recs.slice(0, 5);
 
     return (
-      <div>
+      <div className="rec-container">
         {isMobile && <hr className="mt-8" />}
         <Link to="/profile/recommendations">
           <h3 className={isMobile ? "w-3/4 mx-auto text-base mt-4" : undefined}>
@@ -62,10 +63,12 @@ export class Recommendations extends Component {
             Recommendations >
           </h3>
         </Link>
-        <div className={`flex ${isMobile && "flex-col text-xs w-3/4 mx-auto"}`}>
-          {recs.map(rec => (
+        <div
+          className={`flex ${isMobile ? "flex-col text-xs w-3/4 mx-auto" : ""}`}
+        >
+          {topFiveRecs.map(rec => (
             <Game
-              key={rec.name}
+              key={rec.id}
               name={rec.name}
               slug={rec.igdb.slug}
               cloudImage={rec.cloudImage}
