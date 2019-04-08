@@ -5,7 +5,17 @@ const moment = require("moment");
 
 const { subMotivationKeywords } = require("../db/subMotivations");
 
-const { power } = subMotivationKeywords;
+const {
+  power,
+  story,
+  fantasy,
+  discovery,
+  design,
+  challenge,
+  competition,
+  completion,
+  destruction
+} = subMotivationKeywords;
 
 const keys = process.env.IGDB_KEYS.split(",");
 
@@ -32,12 +42,17 @@ const getGames = async () =>
     .request("/games")
     .then(res => res.data);
 
-const getGame = async (motivationsArray, from) => {
+const getGamesBySubmotivations = async (motivationsArray, from) => {
+  // 1 subMotivation <---> 3 subMotivations
+  // 1 month <---> 5 years
+  // 1 platform <---> All platforms
+  // niche <---> popular
   const motivations = motivationsArray.map(word => `\"${word}\"`).join(",");
-  console.log(motivations);
   const fromDate = moment()
     .subtract(from[0], from[1])
     .unix();
+
+  console.log("motivations array is ", motivations);
 
   return (
     apicalypse(requestOptions)
@@ -53,8 +68,8 @@ const getGame = async (motivationsArray, from) => {
   );
 };
 
-getGame(power, [5, "Years"])
+getGamesBySubmotivations([...story, ...fantasy], [1, "Months"])
   .then(result => console.log(result))
   .catch(e => console.log(e.response.data));
 
-module.exports = { getGames, getGame };
+module.exports = { getGames, getGamesBySubmotivations };

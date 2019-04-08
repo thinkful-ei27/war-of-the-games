@@ -4,6 +4,11 @@ const passport = require("passport");
 const User = require("../models/user");
 const History = require("../models/history");
 const Game = require("../models/game");
+const recs = require("../utils/recommendations");
+const { subMotivationKeywords } = require("../db/subMotivations");
+
+// Import submotivation keywords
+const { power, story, fantasy } = subMotivationKeywords;
 
 const router = express.Router();
 const jwtAuth = passport.authenticate("jwt", {
@@ -149,6 +154,29 @@ router.get("/:userId/topHistory", (req, res, next) => {
     })
     .catch(err => next(err));
 });
+
+router.get("/recs", jwtAuth, (req, res, next) => {
+  const { motivations, dateNumber, timeFrame } = req.body;
+  const arrayOfKeywords = motivations.reduce((a, b) => {
+    const keywords = subMotivationKeywords[b];
+    a.push(...keywords);
+    return a;
+  }, []);
+  console.log(motivations);
+  recs
+    .getGamesBySubmotivations(
+      // [...story, ...fantasy],
+      arrayOfKeywords,
+      [dateNumber, timeFrame]
+    )
+    .then(results => {
+      res.json(results);
+    })
+    .catch(e => {
+      next(e);
+    });
+});
+
 router.get("/recommendations", jwtAuth, (req, res, next) => {
   let topChoices;
   let sortedSimilarGames;
