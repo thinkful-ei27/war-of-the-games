@@ -17,17 +17,6 @@ export function Battle(props) {
       />
       <div className="vs-skip-container">
         <span className="vs">VS</span>
-        <button
-          onClick={() => {
-            dispatch(clearGames());
-            dispatch(fetchGames());
-          }}
-          className="nes-btn is-primary"
-          id="skip-btn"
-          type="button"
-        >
-          Skip
-        </button>
       </div>
       <ConnectedCard
         src={props[1].cloudImage}
@@ -36,6 +25,17 @@ export function Battle(props) {
         id={props[1].id}
         fetchFeedback={id => fetchFeedback(id)}
       />
+      <button
+        onClick={() => {
+          dispatch(clearGames());
+          dispatch(fetchGames());
+        }}
+        className="nes-btn is-primary"
+        id="skip-btn"
+        type="button"
+      >
+        Skip
+      </button>
     </div>
   );
 }
