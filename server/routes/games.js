@@ -4,7 +4,7 @@ const moment = require("moment");
 const Game = require("../models/game");
 const igdbApi = require("../utils/gameApi");
 const imagesApi = require("../utils/imagesApi");
-const { isValidId } = require("./validators");
+const { isValidId, requiresAdmin } = require("./validators");
 
 const router = express.Router();
 const jwtAuth = passport.authenticate("jwt", {
@@ -183,86 +183,93 @@ router.post("/", jwtAuth, igdbIdRequired, (req, res, next) => {
     });
 });
 
-router.put("/:id", jwtAuth, isValidId, igdbIdRequired, (req, res, next) => {
-  const { id } = req.params;
-  const { igdbId } = req.body;
-  let game;
+router.put(
+  "/:id",
+  jwtAuth,
+  requiresAdmin,
+  isValidId,
+  igdbIdRequired,
+  (req, res, next) => {
+    const { id } = req.params;
+    const { igdbId } = req.body;
+    let game;
 
-  return igdbApi
-    .getGame(igdbId)
-    .then(async result => {
-      const {
-        name,
-        cover,
-        slug,
-        summary,
-        genres,
-        platforms,
-        similar_games: similarGames,
-        first_release_date: firstReleaseDate
-      } = result;
-      const { image_id: imageId } = cover;
-      const coverUrl = `https://images.igdb.com/igdb/image/upload/t_720p/${imageId}.jpg`;
-      const imgResults = await imagesApi.saveImgById(id, coverUrl);
-      const { secure_url: secureUrl } = imgResults;
-      const toUpdate = {
-        igdb: {
-          id: igdbId,
-          slug
-        },
-        name,
-        coverUrl,
-        summary,
-        genres,
-        platforms,
-        similar_games: similarGames,
-        cloudImage: secureUrl,
-        firstReleaseDate
-      };
-      return Game.findOneAndUpdate({ _id: id }, toUpdate, { new: true });
-    })
-    .then(_game => {
-      // Returned game with updated items
-      game = _game;
-      if (game) {
-        return Game.find({ "igdb.id": { $in: game.similar_games } });
-      }
-      return next();
-    })
-    .then(similarGames => {
-      const {
-        name,
-        igdb,
-        coverUrl,
-        platforms,
-        genres,
-        summary,
-        createdAt,
-        updatedAt,
-        cloudImage,
-        firstReleaseDate
-      } = game;
-      const gameInfo = Object.assign(
-        {},
-        {
-          id,
+    return igdbApi
+      .getGame(igdbId)
+      .then(async result => {
+        const {
+          name,
+          cover,
+          slug,
+          summary,
+          genres,
+          platforms,
+          similar_games: similarGames,
+          first_release_date: firstReleaseDate
+        } = result;
+        const { image_id: imageId } = cover;
+        const coverUrl = `https://images.igdb.com/igdb/image/upload/t_720p/${imageId}.jpg`;
+        const imgResults = await imagesApi.saveImgById(id, coverUrl);
+        const { secure_url: secureUrl } = imgResults;
+        const toUpdate = {
+          igdb: {
+            id: igdbId,
+            slug
+          },
+          name,
+          coverUrl,
+          summary,
+          genres,
+          platforms,
+          similar_games: similarGames,
+          cloudImage: secureUrl,
+          firstReleaseDate
+        };
+        return Game.findOneAndUpdate({ _id: id }, toUpdate, { new: true });
+      })
+      .then(_game => {
+        // Returned game with updated items
+        game = _game;
+        if (game) {
+          return Game.find({ "igdb.id": { $in: game.similar_games } });
+        }
+        return next();
+      })
+      .then(similarGames => {
+        const {
           name,
           igdb,
-          platforms,
           coverUrl,
+          platforms,
           genres,
           summary,
           createdAt,
           updatedAt,
           cloudImage,
           firstReleaseDate
-        },
-        { similar_games: similarGames }
-      );
-      res.json(gameInfo);
-    })
-    .catch(err => next(err));
-});
+        } = game;
+        const gameInfo = Object.assign(
+          {},
+          {
+            id,
+            name,
+            igdb,
+            platforms,
+            coverUrl,
+            genres,
+            summary,
+            createdAt,
+            updatedAt,
+            cloudImage,
+            firstReleaseDate
+          },
+          { similar_games: similarGames }
+        );
+        res.json(gameInfo);
+      })
+      .catch(err => next(err));
+  }
+);
 
 router.put("/:id/images", jwtAuth, isValidId, async (req, res, next) => {
   const { id } = req.params;
