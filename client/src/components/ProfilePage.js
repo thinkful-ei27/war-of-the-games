@@ -19,6 +19,7 @@ import MaleElf from "../assets/maleElf.png";
 import MaleWizard from "../assets/maleWizard.png";
 import Ogre from "../assets/ogre.png";
 import Shaman from "../assets/shaman.png";
+import Radar from "./RadarChart";
 
 export class ProfilePage extends React.Component {
   componentDidMount() {
@@ -130,8 +131,9 @@ export class ProfilePage extends React.Component {
                   alt="profile-pic"
                 />
               </p>
-              <AboutMe aboutMe={aboutMe} />
+              {/* <AboutMe aboutMe={aboutMe} /> */}
             </div>
+            <Radar />
           </section>
         </div>
         <ConnectedRecommendations profileWidth="w-1" isMobile={isMobile} />
