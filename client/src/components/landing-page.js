@@ -44,7 +44,7 @@ export class LandingPage extends React.Component {
         <div className="battle-vote">
           <ConnectedBattle
             fetchFeedback={game => this.handleFetchFeedback(game)}
-            {...games}
+            games={games}
           />
           <div className="vote-stats-container">
             <VoteStats feedback={feedback} {...games} />
@@ -55,7 +55,7 @@ export class LandingPage extends React.Component {
       content = (
         <ConnectedBattle
           fetchFeedback={game => this.handleFetchFeedback(game)}
-          {...games}
+          games={games}
         />
       );
     } else {
