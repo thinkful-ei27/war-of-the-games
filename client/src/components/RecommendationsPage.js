@@ -6,7 +6,11 @@ import { API_BASE_URL } from "../config";
 // import Game from "./Game";
 import Rec from "./Rec";
 import Loading from "./loading";
+<<<<<<< HEAD
 import ExcludedGames from "./ExcludedGames";
+=======
+import MultiselectCheckbox from "./MultiSelectCheckbox";
+>>>>>>> dev
 
 const orderBy = (arr, props, orders) =>
   [...arr].sort((a, b) =>
@@ -37,7 +41,18 @@ export class RecommendationsPage extends Component {
       scope: 2,
       dateNumber: 1,
       timeFrame: "Years",
+<<<<<<< HEAD
       excludedGames: []
+=======
+      platforms: [
+        { label: "PC", id: 6, checked: false },
+        { label: "XBox One", id: 49, checked: false },
+        { label: "PS4", id: 48, checked: false },
+        { label: "Nintendo Switch", id: 130, checked: false },
+        { label: "PS3", id: 9, checked: false },
+        { label: "XBox 360", id: 12, checked: false }
+      ]
+>>>>>>> dev
     };
   }
 
@@ -94,7 +109,8 @@ export class RecommendationsPage extends Component {
             data: {
               motivations: final,
               dateNumber: this.state.dateNumber,
-              timeFrame: this.state.timeFrame
+              timeFrame: this.state.timeFrame,
+              platforms: this.state.platforms
             },
             headers: { Authorization: `Bearer ${token}` }
           });
@@ -192,7 +208,7 @@ export class RecommendationsPage extends Component {
 
   handleTimeFrame(e) {
     const { id } = e.target;
-    const dateNumber = id === "10 years" ? 10 : 1;
+    const dateNumber = id === "All time" ? 100 : id === "10 years" ? 10 : 1;
     const timeFrame = id === "1 month" ? "Months" : "Years";
 
     this.setState(
@@ -224,7 +240,8 @@ export class RecommendationsPage extends Component {
       showModal,
       igdbId,
       showMoreRecs,
-      excludedGames
+      excludedGames,
+      platforms
     } = this.state;
     const { screenWidth } = this.props;
     const topFiveRecs = recs.slice(0, 5);
@@ -290,39 +307,28 @@ export class RecommendationsPage extends Component {
               >
                 10 Years
               </button>
+              <button
+                type="button"
+                className={`nes-btn ${
+                  this.state.dateNumber > 10 ? "is-primary" : ""
+                } mx-4`}
+                id="All time"
+                onClick={e => this.handleTimeFrame(e)}
+              >
+                All Time
+              </button>
             </div>
             <div className="m-4">
-              <h3>Scope of Recommendations</h3>
-              <button
-                type="button"
-                className={`nes-btn ${
-                  this.state.scope === 1 ? "is-primary" : ""
-                } mx-4`}
-                id="Narrow"
-                onClick={e => this.handleScope(e)}
-              >
-                Narrow
-              </button>
-              <button
-                type="button"
-                className={`nes-btn ${
-                  this.state.scope === 2 ? "is-primary" : ""
-                } mx-4`}
-                id="Balanced"
-                onClick={e => this.handleScope(e)}
-              >
-                Balanced
-              </button>
-              {/* <button
-                type="button"
-                className={`nes-btn ${
-                  this.state.scope === 3 ? "is-primary" : ""
-                } mx-4`}
-                id="Broad"
-                onClick={e => this.handleScope(e)}
-              >
-                Broad
-              </button> */}
+              <h3>Platforms</h3>
+              <p className="text-xs">
+                (Hint: For all platforms, leave unchecked.)
+              </p>
+              <MultiselectCheckbox
+                options={platforms}
+                onChange={() => {
+                  this.loadRecs();
+                }}
+              />
             </div>
           </div>
         </div>
