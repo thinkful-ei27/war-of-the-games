@@ -1,62 +1,60 @@
 .battle-container {
-  display: flex;
-  flex-direction: column; 
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-areas:
+    "cardone versus cardtwo"
+    ". skip .";
+  grid-template-columns: 1fr auto 1fr;
   margin: 20px auto;
   padding: 16px;
+  text-align: center;
 }
 
-
 .game-img {
-  height: 250px;
-  width: 250px;
+  height: auto;
   margin-bottom: 20px;
+  max-width: 100px;
   text-align: center;
   /* box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .75); */
 }
 
 .title-container {
   display: none;
+  flex: 1 0 auto;
   margin-bottom: 20px;
-  height: 195px;
-} 
+}
 .game-title {
   font-size: 26px;
   text-align: center;
   margin-bottom: 0;
 }
 
-.card{
-  width: 50%;
+.card {
   display: flex;
   padding: 20px;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: flex-end;
 }
 
-.img-holder{
-  text-align: center
+.img-holder {
+  text-align: center;
 }
 
-#vote-button{
+#vote-button {
   margin-left: auto;
   margin-right: auto;
 }
 
-.landing-page-loader{
+.landing-page-loader {
   text-align: center;
   font-size: 25px;
 }
 
-.vs-skip-container{
+.vs-skip-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  margin: 0 15px;
-  padding: 20px 0;
 }
 
 .vs {
@@ -68,11 +66,12 @@
   height: 32px;
   width: 64px;
   font-size: 10px;
+  grid-area: skip;
   box-shadow: -2px -2px;
   border-width: 3px;
 }
 
-#skip-btn::after{
+#skip-btn::after {
   box-shadow: inset -2px -2px #006bb3;
   align-self: flex-end;
 }
@@ -85,18 +84,20 @@
   .battle-container {
     max-width: 576px;
   }
-  
+
+  #skip-btn {
+  }
+
   .game-img {
-    height: 300px;
-    width: 300px;
+    max-width: 250px;
   }
 }
 
-#onboarding-progress{
+#onboarding-progress {
   width: 50%;
 }
 
-.onboarding-progress-container{
+.onboarding-progress-container {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -110,10 +111,9 @@
     align-items: inherit;
   }
 
-  .title-container{
-    display: block
+  .title-container {
+    display: block;
   }
-
 }
 
 @media (min-width: 992px) {
@@ -124,12 +124,15 @@
 
 @media (min-width: 1200px) {
   .battle-container {
-    max-width: 1200px;
+    width: 75vw;
   }
 }
 
-@media (min-width: 1600px) {
-  .battle-container {
-    max-width: 1600px;
-  }
+.card-onboard-2{
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  grid-column-start: 3;
 }

@@ -18,8 +18,9 @@ const { expect } = chai;
 const sandbox = sinon.createSandbox();
 
 describe("ASYNC Capstone API - Games", () => {
-  let user = {};
+  let user;
   let token;
+  let adminToken;
 
   before(() => {
     sinon.stub(igdbApi, "getGame").resolves(getGameRes);
@@ -33,10 +34,19 @@ describe("ASYNC Capstone API - Games", () => {
       Game.insertMany(games),
       User.createIndexes(),
       Game.createIndexes()
-    ]).then(([results]) => {
-      [user] = results;
-      token = jwt.sign({ user }, JWT_SECRET, { subject: user.username });
-    });
+    ])
+      .then(([dbUsers]) => {
+        [user] = dbUsers;
+        token = jwt.sign({ user }, JWT_SECRET, { subject: user.username });
+        // get adminToken
+        return chai
+          .request(app)
+          .post("/api/login")
+          .send({ username: "adamadmin", password: "baseball" });
+      })
+      .then(res => {
+        adminToken = res.body.authToken;
+      });
   });
 
   afterEach(() => {
@@ -59,7 +69,9 @@ describe("ASYNC Capstone API - Games", () => {
           "genres",
           "platforms",
           "similar_games",
-          "first_release_date"
+          "first_release_date",
+          "motivations",
+          "subMotivations"
         );
         expect(res.id).to.equal(getGameRes.id);
         expect(res.name).to.equal(getGameRes.name);
@@ -210,7 +222,10 @@ describe("ASYNC Capstone API - Games", () => {
               "platforms",
               "summary",
               "similar_games",
-              "firstReleaseDate"
+              "firstReleaseDate",
+              "motivations",
+              "subMotivations",
+              "core"
             );
             expect(game.igdb).to.have.keys("id", "slug");
           });
@@ -350,7 +365,10 @@ describe("ASYNC Capstone API - Games", () => {
             "platforms",
             "similar_games",
             "cloudImage",
-            "firstReleaseDate"
+            "firstReleaseDate",
+            "motivations",
+            "subMotivations",
+            "core"
           );
           return Game.findOne({ _id: res.body.id });
         })
@@ -470,7 +488,7 @@ describe("ASYNC Capstone API - Games", () => {
           return chai
             .request(app)
             .put(`/api/games/${game.id}`)
-            .set("Authorization", `Bearer ${token}`)
+            .set("Authorization", `Bearer ${adminToken}`)
             .send(updateItem);
         })
         .then(res => {
@@ -504,6 +522,25 @@ describe("ASYNC Capstone API - Games", () => {
         });
     });
 
+    it("should respond with an error when the user is not an admin", () => {
+      return Game.findById("5c9a959ba5d0dd09e07f45a8")
+        .then(game => {
+          const updateItem = {
+            igdbId: game.igdb.id
+          };
+          return chai
+            .request(app)
+            .put(`/api/games/${game.id}`)
+            .set("Authorization", `Bearer ${token}`)
+            .send(updateItem);
+        })
+        .then(res => {
+          expect(res).to.have.status(401);
+          expect(res.body).to.be.an("object");
+          expect(res.body.message).to.equal("Unauthorized");
+        });
+    });
+
     it("should respond with status 400 and an error message when id is not valid", () => {
       return Game.findById("5c9a959ba5d0dd09e07f45a8")
         .then(game => {
@@ -513,7 +550,7 @@ describe("ASYNC Capstone API - Games", () => {
           return chai
             .request(app)
             .put("/api/games/NOT-A-VALID-ID")
-            .set("Authorization", `Bearer ${token}`)
+            .set("Authorization", `Bearer ${adminToken}`)
             .send(updateItem);
         })
         .then(res => {
@@ -532,7 +569,7 @@ describe("ASYNC Capstone API - Games", () => {
           return chai
             .request(app)
             .put("/api/games/DOESNOTEXIST")
-            .set("Authorization", `Bearer ${token}`)
+            .set("Authorization", `Bearer ${adminToken}`)
             .send(updateItem);
         })
         .then(res => {
@@ -547,7 +584,7 @@ describe("ASYNC Capstone API - Games", () => {
           return chai
             .request(app)
             .put(`/api/games/${game.id}`)
-            .set("Authorization", `Bearer ${token}`)
+            .set("Authorization", `Bearer ${adminToken}`)
             .send(newGame);
         })
         .then(res => {
@@ -566,7 +603,7 @@ describe("ASYNC Capstone API - Games", () => {
           return chai
             .request(app)
             .put(`/api/games/${game.id}`)
-            .set("Authorization", `Bearer ${token}`)
+            .set("Authorization", `Bearer ${adminToken}`)
             .send(newGame);
         })
         .then(res => {
@@ -587,7 +624,7 @@ describe("ASYNC Capstone API - Games", () => {
           return chai
             .request(app)
             .put(`/api/games/${game.id}`)
-            .set("Authorization", `Bearer ${token}`)
+            .set("Authorization", `Bearer ${adminToken}`)
             .send(updateItem);
         })
         .then(res => {

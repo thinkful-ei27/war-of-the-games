@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { updateGame } from "../actions/gameActions";
 import LongText from "./LongText";
+import Logo from "../assets/favicon3.ico";
 
 export function GameDetails(props) {
   const {
@@ -73,7 +74,7 @@ export function GameDetails(props) {
       <div className={`${imgWidth} ${imgDivMargin}`}>
         <img
           className="game-info-img p-4 rounded shadow"
-          src={cloudImage || coverUrl}
+          src={cloudImage || coverUrl || Logo}
           alt={slug}
         />
         {renderWinPercentage()}
@@ -84,12 +85,12 @@ export function GameDetails(props) {
           <i className="nes-icon star" />
           Genres
         </h3>
-        <p className="">{genreDisplay}</p>
+        <p className="">{genreDisplay || "No genres...yet."}</p>
         <h3 className="mt-8">
           <i className="nes-icon star" />
           Platforms
         </h3>
-        <p className="">{platformDisplay}</p>
+        <p className="">{platformDisplay || "No platforms in database."}</p>
         <div className="my-4">
           <LongText content={summary || "No description...yet."} limit={250} />
         </div>
@@ -108,6 +109,17 @@ export function GameDetails(props) {
     </section>
   );
 }
+
+GameDetails.defaultProps = {
+  game: {
+    name: "A game has no name",
+    coverUrl: "",
+    platforms: "No platforms",
+    genres: "No genres",
+    summary: "Game currently has no summary",
+    cloudImage: ""
+  }
+};
 
 const mapStateToProps = state => ({
   loggedIn: state.auth.currentUser !== null,
