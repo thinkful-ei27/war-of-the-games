@@ -15,7 +15,7 @@ export function Battle(props) {
         alt={props[0].name}
         name={props[0].name}
         id={props[0].id}
-        summary={props[0].summary.slice(0, 80)}
+        summary={props[0].summary.slice(0, 80).concat('...')}
         fetchFeedback={id => fetchFeedback(id)}
         gameSummaryNum="gameSummaryNum1"
       />
@@ -38,7 +38,7 @@ export function Battle(props) {
         alt={props[1].name}
         name={props[1].name}
         id={props[1].id}
-        summary={props[1].summary.slice(0, 80)}
+        summary={props[1].summary.slice(0, 80).concat('...')}
         gameSummaryNum="gameSummaryNum2"
         fetchFeedback={id => fetchFeedback(id)}
       />
