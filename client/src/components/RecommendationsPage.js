@@ -6,6 +6,7 @@ import { API_BASE_URL } from "../config";
 // import Game from "./Game";
 import Rec from "./Rec";
 import Loading from "./loading";
+import ExcludedGames from "./ExcludedGames";
 
 const orderBy = (arr, props, orders) =>
   [...arr].sort((a, b) =>
@@ -35,13 +36,33 @@ export class RecommendationsPage extends Component {
       showMoreRecs: false,
       scope: 2,
       dateNumber: 1,
-      timeFrame: "Years"
+      timeFrame: "Years",
+      excludedGames: []
     };
   }
 
   componentDidMount() {
     // Loads some recs on initial load
     this.loadRecs();
+    this.loadExcludedRecs();
+  }
+
+  loadExcludedRecs() {
+    this.setState({ isLoading: true }, () => {
+      const { token } = this.props;
+      axios({
+        url: `${API_BASE_URL}/users/excludedgames`,
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` }
+      })
+        .then(res => {
+          const excludedGames = res.data;
+          this.setState({ excludedGames, isLoading: false });
+        })
+        .catch(err => {
+          this.setState({ error: err.message, isLoading: false });
+        });
+    });
   }
 
   loadRecs() {
@@ -80,7 +101,7 @@ export class RecommendationsPage extends Component {
         })
         .then(results => {
           const { data } = results;
-          console.log("we have new data");
+          // console.log("we have new data");
 
           // Places recommendations into state.
           this.setState({
@@ -175,7 +196,8 @@ export class RecommendationsPage extends Component {
       recs,
       showModal,
       igdbId,
-      showMoreRecs
+      showMoreRecs,
+      excludedGames
     } = this.state;
     const { screenWidth } = this.props;
     const topFiveRecs = recs.slice(0, 5);
@@ -305,6 +327,10 @@ export class RecommendationsPage extends Component {
               </button>
             </div>
           )}
+          <ExcludedGames
+            screenWidth={screenWidth}
+            excludedGames={excludedGames}
+          />
         </div>
         <hr />
         {error && <div style={{ color: "#900" }}>{error}</div>}

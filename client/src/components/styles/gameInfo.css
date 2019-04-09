@@ -34,6 +34,19 @@
   flex-direction: column;
 }
 
+.add-excluded {
+  color: green;
+  background-color: inherit;
+  border: none;
+  font-size: 22px;
+  position: relative;
+  right: 0;
+}
+
+.add-excluded:focus {
+  transform: scale(1.2)
+}
+
 /* .nes-container.game-recommendation {
   padding: 15px;
 } */
