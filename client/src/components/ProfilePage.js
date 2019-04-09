@@ -32,7 +32,7 @@ export class ProfilePage extends React.Component {
     return Promise.all([
       dispatch(getUserTopHistory(userId)),
       dispatch(getUserAboutMe()),
-      dispatch(getUserSubmotivations(userId)),
+      dispatch(getUserSubmotivations()),
       dispatch(getUser(userId)).then(user => user)
     ]);
   }
