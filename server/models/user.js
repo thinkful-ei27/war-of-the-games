@@ -12,7 +12,10 @@ const userSchema = new mongoose.Schema({
   admin: { type: Boolean, default: false },
   battles: { type: Number, default: 0 },
   excludedGames: [Number],
-  profilePic: { type: String }
+  profilePic: { type: String },
+  games: {
+    neverPlayed: [{ type: mongoose.Schema.Types.ObjectId, ref: "Game" }]
+  }
 });
 
 userSchema.set("toJSON", {
@@ -24,6 +27,7 @@ userSchema.set("toJSON", {
     delete result.history;
     delete result.excludedGames;
     delete result.battles;
+    delete result.games;
   }
 });
 
