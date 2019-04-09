@@ -6,9 +6,7 @@ const History = require("../models/history");
 const Game = require("../models/game");
 const recs = require("../utils/recommendations");
 const { subMotivationKeywords } = require("../db/subMotivations");
-
-// Import submotivation keywords
-const { power, story, fantasy } = subMotivationKeywords;
+const { isValidId } = require("./validators");
 
 const router = express.Router();
 const jwtAuth = passport.authenticate("jwt", {
@@ -239,7 +237,6 @@ router.post("/aboutMe", jwtAuth, (req, res, next) => {
       user.save();
     })
     .then(result => {
-      console.log(req.originalUrl);
       res
         .location(`${req.originalUrl}`)
         .status(201)
@@ -253,10 +250,12 @@ router.post("/aboutMe", jwtAuth, (req, res, next) => {
 router.get("/aboutMe", jwtAuth, (req, res, next) => {
   let user;
   const userId = req.user.id;
-  User.findOne({ _id: userId }).then(_user => {
-    user = _user;
-    res.json(user.aboutMe);
-  });
+  User.findOne({ _id: userId })
+    .then(_user => {
+      user = _user;
+      res.json(user.aboutMe);
+    })
+    .catch(err => next(err));
 });
 /* ========== POST USERS ========== */
 
@@ -390,6 +389,20 @@ router.put("/excludedgames", jwtAuth, (req, res, next) => {
     .catch(err => {
       next(err);
     });
+});
+
+// TODO: Make this endpoint more flexible so it can update other properties
+router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
+  const { id } = req.params;
+  const { neverPlayed } = req.body;
+  const toUpdate = { games: { neverPlayed: [neverPlayed] } };
+  return User.findOneAndUpdate({ _id: id }, toUpdate, { new: true })
+    .then(user => {
+      const { createdAt, updatedAt, games } = user;
+      const returnObj = { id, createdAt, updatedAt, games };
+      return res.json(returnObj);
+    })
+    .catch(err => next(err));
 });
 
 module.exports = router;

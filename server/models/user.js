@@ -18,6 +18,8 @@ const userSchema = new mongoose.Schema({
   }
 });
 
+userSchema.set("timestamps", true);
+
 userSchema.set("toJSON", {
   virtuals: true,
   transform: (doc, result) => {

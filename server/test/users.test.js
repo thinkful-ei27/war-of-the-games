@@ -66,7 +66,9 @@ describe("ASYNC Capstone API - Users", () => {
             "firstName",
             "lastName",
             "admin",
-            "historyCount"
+            "historyCount",
+            "createdAt",
+            "updatedAt"
           );
           expect(res.body.username).to.equal(username.toLowerCase());
           expect(res.body.firstName).to.equal(firstName);
@@ -197,5 +199,63 @@ describe("ASYNC Capstone API - Users", () => {
           expect(res.body.message).to.equal("The id is not valid");
         });
     });
+  });
+
+  describe("PUT /api/users/:id", () => {
+    it("should update the neverPlayed property when provided a valid game ID", () => {
+      return Game.findOne()
+        .then(game => {
+          const updateObj = {
+            neverPlayed: game.id
+          };
+          return chai
+            .request(app)
+            .put(`/api/users/${user.id}`)
+            .set("Authorization", `Bearer ${token}`)
+            .send(updateObj);
+        })
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.be.an("object");
+          expect(res.body).to.have.keys(
+            "id",
+            "createdAt",
+            "updatedAt",
+            "games"
+          );
+          expect(res.body.id).to.equal(user.id);
+          expect(new Date(res.body.createdAt)).to.eql(user.createdAt);
+          // expect game to have been updated
+          expect(new Date(res.body.updatedAt)).to.greaterThan(user.updatedAt);
+          expect(res.body.games.neverPlayed).to.be.an("array");
+          expect(res.body.games.neverPlayed.length).to.be.greaterThan(0);
+        });
+    });
+
+    it("should respond with status 400 and an error message when id is not valid", () => {
+      return Game.findOne()
+        .then(game => {
+          const updateObj = {
+            neverPlayed: game.id
+          };
+          return chai
+            .request(app)
+            .put("/api/users/NOT-A-VALID-ID")
+            .set("Authorization", `Bearer ${token}`)
+            .send(updateObj);
+        })
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).to.equal("The `id` is not valid");
+        });
+    });
+
+    it("should respond with a 404 for an id that does not exist");
+
+    it(
+      "should respond with status 400 and an error message when game ID is not valid"
+    );
+
+    it("should catch errors and respond properly");
   });
 });
