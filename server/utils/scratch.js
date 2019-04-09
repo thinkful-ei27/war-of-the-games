@@ -1,78 +1,108 @@
-const apicalypseDefault = require("apicalypse");
+const axios = require("axios");
 
-const apicalypse = apicalypseDefault.default;
+const mongoose = require("mongoose");
+const { DATABASE_URL } = require("../config");
+const Core = require("../models/core");
+const Game = require("../models/game");
 
-const fields = "id, name, similar_games, rating_count, genres";
+const flatten = (arr, depth = 1) =>
+  arr.reduce(
+    (a, v) =>
+      a.concat(depth > 1 && Array.isArray(v) ? flatten(v, depth - 1) : v),
+    []
+  );
 
-const keys = process.env.IGDB_KEYS.split(",");
-const randomKey = arr => arr[Math.floor(Math.random() * arr.length)];
-const minBy = (arr, fn) =>
-  Math.min(...arr.map(typeof fn === "function" ? fn : val => val[fn]));
-
-const countBy = (arr, fn) =>
-  arr.map(typeof fn === "function" ? fn : val => val[fn]).reduce((acc, val) => {
-    acc[val] = (acc[val] || 0) + 1;
-    return acc;
-  }, {});
-
-const requestOptions = {
-  method: "post", // The default is `get`
-  baseURL: "https://api-v3.igdb.com",
-  headers: {
-    Accept: "application/json",
-    "user-key": randomKey(keys)
-  },
-  responseType: "json"
+const testGame = {
+  igdbId: 12515,
+  name: "Pokémon GO",
+  motivation: "action",
+  subMotivation: "destruction",
+  core: false
 };
 
-// Recursively gets all games from the igdb based on rating count
-const getGames = async (ratingCount = 2000, allGames = []) => {
-  // Base case
-  if (allGames.length > 100) {
-    return allGames;
-  }
-
-  const games = await apicalypse(requestOptions)
-    .fields(fields)
-    .limit(50)
-    .sort("rating_count", "desc")
-    .where([`rating_count < ${ratingCount}`])
-    // .search("Smite")
-    .request("/games")
-    .then(result => {
-      const { data } = result;
-      const minRating = minBy(data, o => o.rating_count);
-      data.forEach(game => allGames.push(game));
-      return minRating;
-    });
-
-  const newCount = games;
-
-  return getGames(newCount, allGames);
-  // return allGames;
+const updateMotivations = game => {
+  game = JSON.stringify(game);
+  game = JSON.parse(game);
+  const { name, motivation, subMotivation, core } = game;
+  // User.update({_id: user._id}, {$unset: {field: 1 }}, callback);
+  return Game.findOneAndUpdate(
+    { name },
+    { $addToSet: { motivations: motivation } },
+    { new: true }
+  ).then(result => {
+    return result;
+  });
 };
 
-const aggregateBy = category => {
-  getGames()
-    .then(result => {
-      const simCount = result.reduce((a, b) => {
-        const aggregate = b[category];
-        aggregate.forEach(gameid => {
-          a.push(gameid);
-        });
-        return a;
-      }, []);
-      const counts = countBy(simCount, name => name);
-      const sortable = [];
-      for (const game in counts) {
-        sortable.push([game, counts[game]]);
-      }
-      sortable.sort(function(a, b) {
-        return b[1] - a[1];
-      });
-      console.log(sortable);
-    })
-    .catch(e => console.error(e));
+const addGameToCollection = game => {
+  game = JSON.stringify(game);
+  game = JSON.parse(game);
+  const authToken =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImFkbWluIjpmYWxzZSwiYmF0dGxlcyI6MCwidXNlcm5hbWUiOiJ1c2VybmFtZTkwMDAxIiwiZmlyc3ROYW1lIjoiVGVzdCIsImxhc3ROYW1lIjoiSm9obiIsImhpc3RvcnlDb3VudCI6MCwiaWQiOiI1Y2E4MTA3YTllMjY5YWY5MmI1NDQ2MjIifSwiaWF0IjoxNTU0NTE4MTQzLCJleHAiOjE1NTUxMjI5NDMsInN1YiI6InVzZXJuYW1lOTAwMDEifQ.eSYBbXtB3SbppnyTXCg7q9omoGm81hvqJRxXnbd7X1Q";
+  const { igdbId } = game;
+  axios({
+    url: `http://localhost:8080/api/games`,
+    method: "POST",
+    data: {
+      igdbId
+    },
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+      "Content-Type": "application/json"
+    }
+  }).then(results => {
+    console.log(results.data);
+  });
 };
 
-aggregateBy("genres");
+const updateCore = game => {
+  game = JSON.stringify(game);
+  game = JSON.parse(game);
+  const { name, core } = game;
+  // User.update({_id: user._id}, {$unset: {field: 1 }}, callback);
+  return Game.findOneAndUpdate({ name }, { core }, { new: true }).then(
+    result => {
+      return result;
+    }
+  );
+};
+
+const removeMotivations = game => {
+  game = JSON.stringify(game);
+  game = JSON.parse(game);
+  const { name, motivation, subMotivation, core } = game;
+  // User.update({_id: user._id}, {$unset: {field: 1 }}, callback);
+  return Game.update(
+    { name },
+    { $unset: { subMotivations: 1 } },
+    { strict: false }
+  ).then(result => {
+    return result;
+  });
+};
+
+console.log(`Connecting to mongodb at ${DATABASE_URL}`);
+mongoose
+  .connect(DATABASE_URL, { useNewUrlParser: true })
+  .then(() => {
+    return Core.find();
+  })
+  .then(res => {
+    const actions = res.map(updateMotivations);
+    // const coreActions = res.map(updateCore);
+    // const games = res.map(addGameToCollection);
+    // const removals = res.map(removeMotivations);
+    return (results = Promise.all(actions));
+  })
+  .then(results => {
+    console.log(results);
+    // return Core.insertMany(results);
+  })
+  .then(results => {
+    // console.log("Results are ", results);
+    return mongoose.disconnect();
+  })
+  .catch(err => {
+    console.error(err);
+    return mongoose.disconnect();
+  });

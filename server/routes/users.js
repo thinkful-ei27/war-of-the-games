@@ -4,12 +4,23 @@ const passport = require("passport");
 const User = require("../models/user");
 const History = require("../models/history");
 const Game = require("../models/game");
+const recs = require("../utils/recommendations");
+const { subMotivationKeywords } = require("../db/subMotivations");
+
+// Import submotivation keywords
+const { power, story, fantasy } = subMotivationKeywords;
 
 const router = express.Router();
 const jwtAuth = passport.authenticate("jwt", {
   session: false,
   failWithError: true
 });
+
+const countBy = (arr, fn) =>
+  arr.map(typeof fn === "function" ? fn : val => val[fn]).reduce((acc, val) => {
+    acc[val] = (acc[val] || 0) + 1;
+    return acc;
+  }, {});
 
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
@@ -22,6 +33,80 @@ router.get("/:id/history", (req, res, next) => {
     .limit(6)
     .then(results => {
       res.json(results);
+    })
+    .catch(err => next(err));
+});
+
+router.get("/:id/history/motivations", (req, res, next) => {
+  const { id } = req.params;
+
+  History.find({ userId: id })
+    .populate("gameOne", ["name", "motivations"])
+    .populate("gameTwo", ["name", "motivations"])
+    .populate("choice", ["name", "motivations"])
+    .sort({ createdAt: -1 })
+    .then(results => {
+      const all = [];
+      const choices = [];
+      const m = results.map(res => {
+        const gameOneMotivations = res.gameOne.motivations;
+        const gameTwoMotivations = res.gameTwo.motivations;
+        const choiceMotivations = res.choice.motivations;
+        gameOneMotivations.forEach(ms => all.push(ms));
+        gameTwoMotivations.forEach(ms => all.push(ms));
+        choiceMotivations.forEach(ms => choices.push(ms));
+      });
+      const allMotives = countBy(all, v => v);
+      const choiceMotives = countBy(choices, v => v);
+      const percentagesMotives = Object.keys(choiceMotives).reduce((a, key) => {
+        const percentage = Math.floor(
+          (choiceMotives[key] / allMotives[key]) * 100
+        );
+        a[key] = percentage;
+        return a;
+      }, {});
+      res.json({
+        "All Motivations": allMotives,
+        "All Choices": choiceMotives,
+        "Choice Percentages": percentagesMotives
+      });
+    })
+    .catch(err => next(err));
+});
+
+router.get("/history/submotivations", jwtAuth, (req, res, next) => {
+  const { id } = req.user;
+
+  History.find({ userId: id })
+    .populate("gameOne", ["name", "subMotivations"])
+    .populate("gameTwo", ["name", "subMotivations"])
+    .populate("choice", ["name", "subMotivations"])
+    .sort({ createdAt: -1 })
+    .then(results => {
+      const all = [];
+      const choices = [];
+      const m = results.map(res => {
+        const gameOneSubMotivations = res.gameOne.subMotivations;
+        const gameTwoSubMotivations = res.gameTwo.subMotivations;
+        const choiceSubMotivations = res.choice.subMotivations;
+        gameOneSubMotivations.forEach(ms => all.push(ms));
+        gameTwoSubMotivations.forEach(ms => all.push(ms));
+        choiceSubMotivations.forEach(ms => choices.push(ms));
+      });
+      const allMotives = countBy(all, v => v);
+      const choiceMotives = countBy(choices, v => v);
+      const percentagesMotives = Object.keys(choiceMotives).reduce((a, key) => {
+        const percentage = Math.floor(
+          (choiceMotives[key] / allMotives[key]) * 100
+        );
+        a[key] = percentage;
+        return a;
+      }, {});
+      res.json({
+        all: allMotives,
+        choices: choiceMotives,
+        choicePercentages: percentagesMotives
+      });
     })
     .catch(err => next(err));
 });
@@ -69,6 +154,28 @@ router.get("/:userId/topHistory", (req, res, next) => {
     })
     .catch(err => next(err));
 });
+
+router.post("/recs", jwtAuth, (req, res, next) => {
+  const { motivations, dateNumber, timeFrame } = req.body;
+  const arrayOfKeywords = motivations.reduce((a, b) => {
+    const keywords = subMotivationKeywords[b];
+    a.push(...keywords);
+    return a;
+  }, []);
+  recs
+    .getGamesBySubmotivations(
+      // [...story, ...fantasy],
+      arrayOfKeywords,
+      [dateNumber, timeFrame]
+    )
+    .then(results => {
+      res.json(results);
+    })
+    .catch(e => {
+      next(e);
+    });
+});
+
 router.get("/recommendations", jwtAuth, (req, res, next) => {
   let topChoices;
   let sortedSimilarGames;
