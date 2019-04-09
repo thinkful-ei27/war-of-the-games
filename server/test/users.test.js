@@ -8,21 +8,24 @@ const User = require("../models/user");
 const Game = require("../models/game");
 const History = require("../models/history");
 const { games, histories, users } = require("../db/data");
+const apiRecsRes = require("../db/test-apiRecsRes.js");
+const recommendations = require("../utils/recommendations");
 
 const { expect } = chai;
 const sandbox = sinon.createSandbox();
 
 describe("ASYNC Capstone API - Users", () => {
   let user;
-  let admin;
   let token;
-  let adminToken;
   const username = "exampleUser";
   const password = "examplePass";
   const firstName = "Example";
   const lastName = "User";
 
   before(() => {
+    sinon
+      .stub(recommendations, "getGamesBySubmotivations")
+      .resolves(apiRecsRes);
     return dbConnect(TEST_DATABASE_URL);
   });
 
@@ -35,9 +38,7 @@ describe("ASYNC Capstone API - Users", () => {
       Game.createIndexes()
     ]).then(([dbUsers]) => {
       [user] = dbUsers;
-      [admin] = dbUsers.filter(dbUser => !!dbUser.admin);
       token = jwt.sign({ user }, JWT_SECRET, { subject: user.username });
-      adminToken = jwt.sign({ admin }, JWT_SECRET, { subject: admin.username });
     });
   });
   afterEach(() => {
@@ -66,7 +67,9 @@ describe("ASYNC Capstone API - Users", () => {
             "firstName",
             "lastName",
             "admin",
-            "historyCount"
+            "historyCount",
+            "createdAt",
+            "updatedAt"
           );
           expect(res.body.username).to.equal(username.toLowerCase());
           expect(res.body.firstName).to.equal(firstName);
@@ -122,6 +125,36 @@ describe("ASYNC Capstone API - Users", () => {
           expect(res).to.have.status(200);
           expect(res.body).to.be.an("array");
           expect(res.body.length).to.equal(6);
+        });
+    });
+  });
+
+  describe("POST /api/users/recs", () => {
+    it("should return recommendations with the correct fields", () => {
+      const recSettings = {
+        motivations: ["story"],
+        dateNumber: 1,
+        timeFrame: "Years",
+        platforms: [{ label: "PS4", id: 48, checked: true }]
+      };
+      return chai
+        .request(app)
+        .post("/api/users/recs")
+        .set("Authorization", `Bearer ${token}`)
+        .send(recSettings)
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.be.an("array");
+          expect(res.body[0]).to.be.an("object");
+          expect(res.body[0]).to.include.all.keys(
+            "id",
+            "name",
+            "cover",
+            "first_release_date",
+            "summary",
+            "slug",
+            "popularity"
+          );
         });
     });
   });
@@ -195,6 +228,110 @@ describe("ASYNC Capstone API - Users", () => {
           expect(res).to.have.status(400);
           expect(res.body).to.be.a("object");
           expect(res.body.message).to.equal("The id is not valid");
+        });
+    });
+  });
+
+  describe("PUT /api/users/:id", () => {
+    it("should update the neverPlayed property when provided a valid game ID", () => {
+      return Game.findOne()
+        .then(game => {
+          const updateObj = {
+            neverPlayed: game.id
+          };
+          return chai
+            .request(app)
+            .put(`/api/users/${user.id}`)
+            .set("Authorization", `Bearer ${token}`)
+            .send(updateObj);
+        })
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.be.an("object");
+          expect(res.body).to.have.keys(
+            "id",
+            "createdAt",
+            "updatedAt",
+            "games"
+          );
+          expect(res.body.id).to.equal(user.id);
+          expect(new Date(res.body.createdAt)).to.eql(user.createdAt);
+          // expect game to have been updated
+          expect(new Date(res.body.updatedAt)).to.greaterThan(user.updatedAt);
+          expect(res.body.games.neverPlayed).to.be.an("array");
+          expect(res.body.games.neverPlayed.length).to.be.greaterThan(0);
+        });
+    });
+
+    it("should respond with status 400 and an error message when id is not valid", () => {
+      return Game.findOne()
+        .then(game => {
+          const updateObj = {
+            neverPlayed: game.id
+          };
+          return chai
+            .request(app)
+            .put("/api/users/NOT-A-VALID-ID")
+            .set("Authorization", `Bearer ${token}`)
+            .send(updateObj);
+        })
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).to.equal("The `id` is not valid");
+        });
+    });
+
+    it("should respond with a 404 for an id that does not exist", () => {
+      return Game.findOne()
+        .then(game => {
+          const updateObj = {
+            neverPlayed: game.id
+          };
+          // The string "DOESNOTEXIST" is 12 bytes which is a valid Mongo ObjectId
+          return chai
+            .request(app)
+            .put("/api/users/DOESNOTEXIST")
+            .set("Authorization", `Bearer ${token}`)
+            .send(updateObj);
+        })
+        .then(res => {
+          expect(res).to.have.status(404);
+        });
+    });
+
+    it("should respond with status 400 and an error message when game ID is not valid", () => {
+      const updateObj = {
+        neverPlayed: "NOT-A-VALID-ID"
+      };
+      return chai
+        .request(app)
+        .put(`/api/users/${user.id}`)
+        .set("Authorization", `Bearer ${token}`)
+        .send(updateObj)
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).to.equal("The game ID is not valid");
+        });
+    });
+
+    it("should catch errors and respond properly", () => {
+      sandbox.stub(User, "findOneAndUpdate").returns(new Error("FakeError"));
+
+      return Game.findOne()
+        .then(game => {
+          const updateObj = {
+            neverPlayed: game.id
+          };
+          return chai
+            .request(app)
+            .put(`/api/users/${user.id}`)
+            .set("Authorization", `Bearer ${token}`)
+            .send(updateObj);
+        })
+        .then(res => {
+          expect(res).to.have.status(500);
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Internal Server Error");
         });
     });
   });
