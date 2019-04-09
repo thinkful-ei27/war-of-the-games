@@ -39,12 +39,7 @@
   background-color: inherit;
   border: none;
   font-size: 22px;
-  position: relative;
-  right: 0;
-}
-
-.add-excluded:focus {
-  transform: scale(1.2)
+  margin-left: 50%;
 }
 
 /* .nes-container.game-recommendation {

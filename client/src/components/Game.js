@@ -22,7 +22,7 @@ export default function Game(props) {
   if (props.excluded) {
     addButton = (
       <button
-        onClick={() => console.log(props.igdb.id)}
+        onClick={() => props.onRemoveExcluded(props.igdb.id)}
         className="add-excluded"
         type="button"
       >

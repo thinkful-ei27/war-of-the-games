@@ -2,7 +2,7 @@ import React from "react";
 import ConnectedGame from "./Game";
 
 export default function ExcludedGames(props) {
-  const { excludedGames, screenWidth } = props;
+  const { excludedGames, screenWidth, onRemoveExcluded } = props;
   const games = excludedGames.map(game => {
     const { id, name, cloudImage, igdb } = game;
     const { slug } = igdb;
@@ -13,11 +13,12 @@ export default function ExcludedGames(props) {
       igdb,
       slug,
       screenWidth,
+      onRemoveExcluded,
       excluded: true
     };
     return <ConnectedGame key={props.id} {...props} />;
   });
-  if (!excludedGames) {
+  if (!excludedGames.length) {
     return null;
   }
   return (

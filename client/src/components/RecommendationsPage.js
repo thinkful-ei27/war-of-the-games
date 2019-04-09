@@ -151,6 +151,12 @@ export class RecommendationsPage extends Component {
     this.handleModal();
   }
 
+  handleRemoveExcluded(id) {
+    this.setState(prevState => ({
+      excludedGames: prevState.excludedGames.filter(rec => rec.igdb.id !== id)
+    }));
+  }
+
   handleFilter(id) {
     this.setState(prevState => ({
       recs: prevState.recs.filter(rec => rec.id !== id)
@@ -328,6 +334,7 @@ export class RecommendationsPage extends Component {
             </div>
           )}
           <ExcludedGames
+            onRemoveExcluded={id => this.handleRemoveExcluded(id)}
             screenWidth={screenWidth}
             excludedGames={excludedGames}
           />
