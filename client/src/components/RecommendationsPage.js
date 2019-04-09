@@ -36,7 +36,15 @@ export class RecommendationsPage extends Component {
       showMoreRecs: false,
       scope: 2,
       dateNumber: 1,
-      timeFrame: "Years"
+      timeFrame: "Years",
+      platforms: [
+        { label: "PC", id: 6, checked: false },
+        { label: "XBox One", id: 49, checked: false },
+        { label: "PS4", id: 48, checked: false },
+        { label: "Nintendo Switch", id: 130, checked: false },
+        { label: "PS3", id: 9, checked: false },
+        { label: "XBox 360", id: 12, checked: false }
+      ]
     };
   }
 
@@ -74,7 +82,8 @@ export class RecommendationsPage extends Component {
             data: {
               motivations: final,
               dateNumber: this.state.dateNumber,
-              timeFrame: this.state.timeFrame
+              timeFrame: this.state.timeFrame,
+              platforms: this.state.platforms
             },
             headers: { Authorization: `Bearer ${token}` }
           });
@@ -145,7 +154,7 @@ export class RecommendationsPage extends Component {
 
   handleTimeFrame(e) {
     const { id } = e.target;
-    const dateNumber = id === "10 years" ? 10 : 1;
+    const dateNumber = id === "All time" ? 100 : id === "10 years" ? 10 : 1;
     const timeFrame = id === "1 month" ? "Months" : "Years";
 
     this.setState(
@@ -176,7 +185,8 @@ export class RecommendationsPage extends Component {
       recs,
       showModal,
       igdbId,
-      showMoreRecs
+      showMoreRecs,
+      platforms
     } = this.state;
     const { screenWidth } = this.props;
     const topFiveRecs = recs.slice(0, 5);
@@ -190,8 +200,6 @@ export class RecommendationsPage extends Component {
     ) : (
       <div>No more recommendations</div>
     );
-
-    const options = [{ label: "Item One" }, { label: "Item Two" }];
 
     return (
       <div>
@@ -244,13 +252,26 @@ export class RecommendationsPage extends Component {
               >
                 10 Years
               </button>
+              <button
+                type="button"
+                className={`nes-btn ${
+                  this.state.dateNumber > 10 ? "is-primary" : ""
+                } mx-4`}
+                id="All time"
+                onClick={e => this.handleTimeFrame(e)}
+              >
+                All Time
+              </button>
             </div>
             <div className="m-4">
               <h3>Platforms</h3>
+              <p className="text-xs">
+                (Hint: For all platforms, leave unchecked.)
+              </p>
               <MultiselectCheckbox
-                options={options}
-                onChange={data => {
-                  console.log(data);
+                options={platforms}
+                onChange={() => {
+                  this.loadRecs();
                 }}
               />
             </div>

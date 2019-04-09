@@ -156,17 +156,31 @@ router.get("/:userId/topHistory", (req, res, next) => {
 });
 
 router.post("/recs", jwtAuth, (req, res, next) => {
-  const { motivations, dateNumber, timeFrame } = req.body;
+  const { motivations, dateNumber, timeFrame, platforms } = req.body;
+  console.log("platforms is ", platforms);
   const arrayOfKeywords = motivations.reduce((a, b) => {
     const keywords = subMotivationKeywords[b];
     a.push(...keywords);
     return a;
   }, []);
+  const checkedPlatforms = platforms
+    .filter(p => {
+      if (p.checked) {
+        return p.id;
+      }
+    })
+    .map(p => p.id)
+    .join(",");
+
+  console.log("checkedPlatforms is ", checkedPlatforms);
+  const cp = !checkedPlatforms ? "6" : checkedPlatforms;
+
   recs
     .getGamesBySubmotivations(
       // [...story, ...fantasy],
       arrayOfKeywords,
-      [dateNumber, timeFrame]
+      [dateNumber, timeFrame],
+      cp
     )
     .then(results => {
       res.json(results);

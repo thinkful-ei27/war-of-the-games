@@ -4,40 +4,36 @@ const style = {
   listContainer: {
     listStyle: "none",
     paddingLeft: 0
-  },
-  itemStyle: {
-    cursor: "pointer",
-    padding: 5
   }
 };
 
 export default function MultiselectCheckbox({ options, onChange }) {
-  const [data, setData] = React.useState(options);
+  const [platforms, setData] = React.useState(options);
 
   const toggle = item => {
-    data.map((_, key) => {
-      if (data[key].label === item.label) data[key].checked = !item.checked;
+    platforms.map((_, key) => {
+      if (platforms[key].label === item.label)
+        platforms[key].checked = !item.checked;
     });
-    setData([...data]);
-    onChange(data);
+    setData([...platforms]);
+    onChange(platforms);
   };
 
   return (
-    <ul style={style.listContainer}>
-      {data.map(item => {
+    <ul
+      style={style.listContainer}
+      className="flex flex-row flex-wrap justify-between"
+    >
+      {platforms.map(item => {
         return (
-          <li
-            key={item.label}
-            style={style.itemStyle}
-            onClick={() => toggle(item)}
-          >
+          <li key={item.label} onClick={() => toggle(item)} className="p-2">
             <input
               readOnly
               type="checkbox"
               checked={item.checked || false}
               className="nes-checkbox"
             />
-            {item.label}
+            <span>{item.label}</span>
           </li>
         );
       })}
