@@ -155,6 +155,26 @@ router.get("/:userId/topHistory", (req, res, next) => {
     .catch(err => next(err));
 });
 
+router.get("/excludedgames", jwtAuth, (req, res, next) => {
+  const userId = req.user.id;
+
+  User.findOne({ _id: userId }, { excludedGames: 1 })
+    .then(user => {
+      const igdbIds = user.excludedGames;
+      return Game.find({ "igdb.id": { $in: igdbIds } });
+    })
+    .then(games => {
+      if (!games) {
+        next();
+      }
+      res.json(games);
+    })
+    .catch(err => {
+      console.log(err);
+      next(err);
+    });
+});
+
 router.post("/recs", jwtAuth, (req, res, next) => {
   const { motivations, dateNumber, timeFrame } = req.body;
   const arrayOfKeywords = motivations.reduce((a, b) => {
