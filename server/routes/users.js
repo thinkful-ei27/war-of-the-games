@@ -6,9 +6,7 @@ const History = require("../models/history");
 const Game = require("../models/game");
 const recs = require("../utils/recommendations");
 const { subMotivationKeywords } = require("../db/subMotivations");
-
-// Import submotivation keywords
-const { power, story, fantasy } = subMotivationKeywords;
+const { isValidId } = require("./validators");
 
 const router = express.Router();
 const jwtAuth = passport.authenticate("jwt", {
@@ -21,6 +19,16 @@ const countBy = (arr, fn) =>
     acc[val] = (acc[val] || 0) + 1;
     return acc;
   }, {});
+
+router.get("/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  User.find({ _id: id })
+    .then(results => {
+      res.json(results);
+    })
+    .catch(err => next(err));
+});
 
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
@@ -155,9 +163,14 @@ router.get("/:userId/topHistory", (req, res, next) => {
     .catch(err => next(err));
 });
 
-router.post("/recs", jwtAuth, (req, res, next) => {
+router.post("/recs", jwtAuth, async (req, res, next) => {
+  const userId = req.user.id;
+  const { excludedGames } = await User.findOne(
+    { _id: userId },
+    { excludedGames: 1 }
+  ).exec();
+  console.log("excluded games ", excludedGames);
   const { motivations, dateNumber, timeFrame, platforms } = req.body;
-  console.log("platforms is ", platforms);
   const arrayOfKeywords = motivations.reduce((a, b) => {
     const keywords = subMotivationKeywords[b];
     a.push(...keywords);
@@ -172,7 +185,6 @@ router.post("/recs", jwtAuth, (req, res, next) => {
     .map(p => p.id)
     .join(",");
 
-  console.log("checkedPlatforms is ", checkedPlatforms);
   const cp = !checkedPlatforms ? "6" : checkedPlatforms;
 
   recs
@@ -183,7 +195,8 @@ router.post("/recs", jwtAuth, (req, res, next) => {
       cp
     )
     .then(results => {
-      res.json(results);
+      const filter = results.filter(item => !excludedGames.includes(item.id));
+      res.json(filter);
     })
     .catch(e => {
       next(e);
@@ -253,7 +266,6 @@ router.post("/aboutMe", jwtAuth, (req, res, next) => {
       user.save();
     })
     .then(result => {
-      console.log(req.originalUrl);
       res
         .location(`${req.originalUrl}`)
         .status(201)
@@ -267,10 +279,12 @@ router.post("/aboutMe", jwtAuth, (req, res, next) => {
 router.get("/aboutMe", jwtAuth, (req, res, next) => {
   let user;
   const userId = req.user.id;
-  User.findOne({ _id: userId }).then(_user => {
-    user = _user;
-    res.json(user.aboutMe);
-  });
+  User.findOne({ _id: userId })
+    .then(_user => {
+      user = _user;
+      res.json(user.aboutMe);
+    })
+    .catch(err => next(err));
 });
 /* ========== POST USERS ========== */
 
@@ -404,6 +418,30 @@ router.put("/excludedgames", jwtAuth, (req, res, next) => {
     .catch(err => {
       next(err);
     });
+});
+
+// TODO: Make this endpoint more flexible so it can update other properties
+router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
+  const { id } = req.params;
+  const { neverPlayed } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(neverPlayed)) {
+    const err = new Error("The game ID is not valid");
+    err.status = 400;
+    return next(err);
+  }
+
+  const toUpdate = { games: { neverPlayed: [neverPlayed] } };
+  return User.findOneAndUpdate({ _id: id }, toUpdate, { new: true })
+    .then(user => {
+      if (!user) {
+        return next();
+      }
+      const { createdAt, updatedAt, games } = user;
+      const returnObj = { id, createdAt, updatedAt, games };
+      return res.json(returnObj);
+    })
+    .catch(err => next(err));
 });
 
 module.exports = router;

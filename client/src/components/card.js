@@ -50,6 +50,9 @@ export function Card(props) {
         alt={alt}
         data-tip
         data-for={gameSummaryNum} />
+      <button className="card__never-played" type="button">
+        {"Don't show again"}
+      </button>
       <button
         id="vote-button"
         className="nes-btn is-warning"

@@ -69,16 +69,8 @@ const getGame = async id =>
     .request("/games")
     .then(res => res.data[0]);
 
-// const getCover = async id =>
-//   await apicalypse(requestOptions)
-//     .fields(["image_id"])
-//     .where(`id = ${id}`)
-//     .request("/covers")
-//     .then(res => res.data[0]);
-
-getIdFromSlug("shadows-awakening")
-  // getGames()
-  .then(result => console.log(result))
-  .catch(e => console.error(e.response.statusText));
+// getIdFromSlug("shadows-awakening")
+//   .then(result => console.log(result))
+//   .catch(e => console.error(e.response.statusText));
 
 module.exports = { getGames, getGame, getIdFromSlug };
