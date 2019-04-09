@@ -21,16 +21,6 @@ const countBy = (arr, fn) =>
     return acc;
   }, {});
 
-// router.get("/:id", (req, res, next) => {
-//   const { id } = req.params;
-
-//   User.find({ _id: id })
-//     .then(results => {
-//       res.json(results);
-//     })
-//     .catch(err => next(err));
-// });
-
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
 
@@ -450,7 +440,7 @@ router.put("/removeexcluded", jwtAuth, (req, res, next) => {
     return next(err);
   }
   const update = {
-    $unset: { excludedGames: excludedId }
+    $pull: { excludedGames: excludedId }
   };
 
   let user;
@@ -485,6 +475,16 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
       const { createdAt, updatedAt, games } = user;
       const returnObj = { id, createdAt, updatedAt, games };
       return res.json(returnObj);
+    })
+    .catch(err => next(err));
+});
+
+router.get("/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  User.find({ _id: id })
+    .then(results => {
+      res.json(results);
     })
     .catch(err => next(err));
 });
