@@ -129,6 +129,24 @@ describe("ASYNC Capstone API - Users", () => {
     });
   });
 
+  describe("POST /api/users/recs", () => {
+    it("should return recommendations with the correct fields", () => {
+      /* 
+      {
+	"motivations": ["story"],
+	"dateNumber": 1,
+	"timeFrame": "Years",
+	"platforms": [
+        { "label": "PC", "id": 6, "checked": false },
+        { "label": "XBox One", "id": 49, "checked": false },
+        { "label": "PS4", "id": 48, "checked": false }
+      ]
+}
+      */
+      return chai.request(app).post(``);
+    });
+  });
+
   describe("GET /api/users/recommendations", () => {
     it("should return recommendations with the correct fields", () => {
       return chai
