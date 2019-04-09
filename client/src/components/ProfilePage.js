@@ -71,7 +71,9 @@ export class ProfilePage extends React.Component {
       loading,
       topHistory,
       screenWidth,
-      aboutMe
+      firstName,
+      aboutMe,
+      profilePic
     } = this.props;
     const isMobile = screenWidth <= 768;
 
@@ -125,24 +127,22 @@ export class ProfilePage extends React.Component {
     return loading ? (
       <Loading />
     ) : (
-      <div className="dashboard">
-        <div className="nes-container with-title profile-info-container">
+      <div className="game-container mx-auto">
+        {/* <div className="nes-container with-title profile-info-container">
           <p className="title user shadow">Hello {name}!</p>
           <section className="personal-info">
-            <div
-              className={`${nesContainer} with-title is-dark about-me-container`}
-            >
-              <p className="title">
-                <img
-                  className="title profile-pic"
-                  src={this.evaluateProfilePic(this.props.profilePic)}
-                  alt="profile-pic"
-                />
-              </p>
-              {/* <AboutMe aboutMe={aboutMe} /> */}
-            </div>
-            <Radar />
+            <p>
+              <img
+                className="profile-pic"
+                src={this.evaluateProfilePic(profilePic)}
+                alt="profile-pic"
+              />
+            </p>
+            <AboutMe aboutMe={aboutMe} /> 
           </section>
+        </div> */}
+        <div className="game-container mx-auto text-xs img-responsive">
+          <Radar name={firstName} />
         </div>
         <ConnectedRecommendations
           profileWidth="w-1"
@@ -174,6 +174,7 @@ const mapStateToProps = state => {
     userId: currentUser.id,
     username: state.auth.currentUser.username,
     name: `${currentUser.firstName} ${currentUser.lastName}`,
+    firstName: currentUser.firstName,
     history: state.user.history,
     subMotivations: state.user.subMotivations,
     loading: state.user.loading,

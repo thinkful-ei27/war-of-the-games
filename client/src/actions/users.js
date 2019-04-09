@@ -59,6 +59,40 @@ export const getUserAboutMeError = error => ({
   error
 });
 
+export const GET_USER_MOTIVATIONS_REQUEST = "GET_USER_MOTIVATIONS_REQUEST";
+export const getUserMotivationsRequest = () => ({
+  type: GET_USER_MOTIVATIONS_REQUEST
+});
+export const GET_USER_MOTIVATIONS_SUCCESS = "GET_USER_MOTIVATIONS_SUCCESS";
+export const getUserMotivationsSuccess = data => ({
+  type: GET_USER_MOTIVATIONS_SUCCESS,
+  data
+});
+export const GET_USER_MOTIVATIONS_ERROR = "GET_USER_MOTIVATIONS_ERROR";
+export const getUserMotivationsError = error => ({
+  type: GET_USER_MOTIVATIONS_ERROR,
+  error
+});
+
+export const getUserMotivationData = () => (dispatch, getState) => {
+  const { authToken } = getState().auth;
+  dispatch(getUserMotivationsRequest);
+  return fetch(`${API_BASE_URL}/users/history/motivations`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${authToken}`
+    }
+  })
+    .then(res => {
+      if (!res.ok) {
+        return Promise.reject(res.statusText);
+      }
+      return res.json();
+    })
+    .then(data => dispatch(getUserMotivationsSuccess(data)))
+    .catch(err => dispatch(getUserMotivationsError(err)));
+};
+
 export const GET_USER_SUBMOTIVATIONS_REQUEST =
   "GET_USER_SUBMOTIVATIONS_REQUEST";
 export const getUserSubmotivationsRequest = () => ({
