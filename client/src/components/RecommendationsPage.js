@@ -6,6 +6,7 @@ import { API_BASE_URL } from "../config";
 // import Game from "./Game";
 import Rec from "./Rec";
 import Loading from "./loading";
+import MultiselectCheckbox from "./MultiSelectCheckbox";
 
 const orderBy = (arr, props, orders) =>
   [...arr].sort((a, b) =>
@@ -190,6 +191,8 @@ export class RecommendationsPage extends Component {
       <div>No more recommendations</div>
     );
 
+    const options = [{ label: "Item One" }, { label: "Item Two" }];
+
     return (
       <div>
         <Modal
@@ -243,37 +246,13 @@ export class RecommendationsPage extends Component {
               </button>
             </div>
             <div className="m-4">
-              <h3>Scope of Recommendations</h3>
-              <button
-                type="button"
-                className={`nes-btn ${
-                  this.state.scope === 1 ? "is-primary" : ""
-                } mx-4`}
-                id="Narrow"
-                onClick={e => this.handleScope(e)}
-              >
-                Narrow
-              </button>
-              <button
-                type="button"
-                className={`nes-btn ${
-                  this.state.scope === 2 ? "is-primary" : ""
-                } mx-4`}
-                id="Balanced"
-                onClick={e => this.handleScope(e)}
-              >
-                Balanced
-              </button>
-              {/* <button
-                type="button"
-                className={`nes-btn ${
-                  this.state.scope === 3 ? "is-primary" : ""
-                } mx-4`}
-                id="Broad"
-                onClick={e => this.handleScope(e)}
-              >
-                Broad
-              </button> */}
+              <h3>Platforms</h3>
+              <MultiselectCheckbox
+                options={options}
+                onChange={data => {
+                  console.log(data);
+                }}
+              />
             </div>
           </div>
         </div>
