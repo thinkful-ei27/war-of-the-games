@@ -1,6 +1,6 @@
 const subMotivationKeywords = {
   discovery: ["discovery", "exploration", "tinker", "experiment"],
-  design: ["expression", "customization", "individuality"],
+  design: ["expression", "customization", "individuality", "design", "art"],
   challenge: ["challenge", "challenging", "difficult", "tough"],
   competition: [
     "competition",
@@ -28,16 +28,7 @@ const subMotivationKeywords = {
     "collaboration",
     "multiplayer"
   ],
-  power: [
-    "power",
-    "overpowered",
-    "powerful",
-    "dominant",
-    "impressive",
-    "mighty",
-    "damage per second",
-    "identifying loot"
-  ]
+  power: ["power", "overpowered", "powerful", "dominant", "damage per second"]
 };
 
 module.exports = { subMotivationKeywords };

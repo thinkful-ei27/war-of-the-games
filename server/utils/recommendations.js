@@ -5,6 +5,7 @@ const moment = require("moment");
 
 const { subMotivationKeywords } = require("../db/subMotivations");
 
+// can't test due to api call
 const uniqueElementsBy = (arr, fn) =>
   arr.reduce((acc, v) => {
     if (!acc.some(x => fn(v, x))) acc.push(v);
@@ -39,7 +40,12 @@ const requestOptions = {
   responseType: "json"
 };
 
-const getGamesBySubmotivations = async (motivationsArray, from) => {
+// can't test due to API call
+const getGamesBySubmotivations = async (
+  motivationsArray,
+  from,
+  platforms = 6
+) => {
   // 1 subMotivation <---> 3 subMotivations
   // 1 month <---> 5 years
   // 1 platform <---> All platforms
@@ -51,12 +57,19 @@ const getGamesBySubmotivations = async (motivationsArray, from) => {
 
   return (
     apicalypse(requestOptions)
-      .fields(["name", "slug", "cover.url", "popularity", "first_release_date"])
+      .fields([
+        "name",
+        "slug",
+        "cover.url",
+        "popularity",
+        "first_release_date",
+        "summary"
+      ])
       .limit(50)
       // .sort("first_release_date", "desc")
       .sort("popularity", "desc")
       .where(
-        `keywords.name = (${motivations}) & first_release_date > ${fromDate} & first_release_date < ${today}`
+        `keywords.name = (${motivations}) & first_release_date > ${fromDate} & first_release_date < ${today} & release_dates.platform = (${platforms}) & themes != (42)`
       )
       .request("/games")
       .then(res => {

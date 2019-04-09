@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import LongText from "./LongText";
+import Logo from "../assets/favicon3.ico";
 
 export default function Rec(props) {
-  const { cloudImage, igdb, name, summary } = props.game;
+  const { cloudImage, igdb, name, summary, slug, cover, id } = props.game;
   const { openModal } = props;
-  const { slug } = igdb;
-  const url = `/games/${slug}`;
+  const url = `/games/${slug || igdb.slug}`;
+
   return (
     <section className="nes-container is-dark flex game-recommendation">
       {/* <i
@@ -15,13 +16,17 @@ export default function Rec(props) {
       /> */}
       <button
         type="button"
-        onClick={() => openModal(igdb.id)}
+        onClick={() => openModal(id || igdb.id)}
         className="rec-delete"
       >
         X
       </button>
       <div className="mx-4">
-        <img className="img-responsive rec-img" src={cloudImage} alt={slug} />
+        <img
+          className="img-responsive rec-img"
+          src={cover ? cover.url : Logo}
+          alt={slug}
+        />
       </div>
       <div className="profile flex flex-col">
         <Link to={url}>

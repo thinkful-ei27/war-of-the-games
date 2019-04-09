@@ -3,7 +3,12 @@ import React from "react";
 import { connect } from "react-redux";
 import requiresLogin from "./requires-login";
 import "./styles/profile.css";
-import { getUser, getUserTopHistory, getUserAboutMe } from "../actions/users";
+import {
+  getUser,
+  getUserTopHistory,
+  getUserAboutMe,
+  getUserSubmotivations
+} from "../actions/users";
 import Loading from "./loading";
 import ConnectedGame from "./Game";
 import AboutMe from "./AboutMe";
@@ -27,6 +32,7 @@ export class ProfilePage extends React.Component {
     return Promise.all([
       dispatch(getUserTopHistory(userId)),
       dispatch(getUserAboutMe()),
+      dispatch(getUserSubmotivations()),
       dispatch(getUser(userId)).then(user => user)
     ]);
   }
@@ -138,7 +144,11 @@ export class ProfilePage extends React.Component {
         <div className="game-container mx-auto text-xs img-responsive">
           <Radar name={firstName} />
         </div>
-        <ConnectedRecommendations profileWidth="w-1" isMobile={isMobile} />
+        <ConnectedRecommendations
+          profileWidth="w-1"
+          isMobile={isMobile}
+          subMotivations={this.props.subMotivations}
+        />
         <section className="nes-container top-six m-4">
           <h4>
             <i className={`nes-icon ${iconSize} heart`} />
@@ -166,6 +176,7 @@ const mapStateToProps = state => {
     name: `${currentUser.firstName} ${currentUser.lastName}`,
     firstName: currentUser.firstName,
     history: state.user.history,
+    subMotivations: state.user.subMotivations,
     loading: state.user.loading,
     screenWidth: state.window.width,
     profilePic: state.auth.currentUser.profilePic

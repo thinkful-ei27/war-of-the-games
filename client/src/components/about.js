@@ -41,10 +41,7 @@ export function AboutPage(props) {
           <i className="snes-logo" />
         </div>
       </section>
-      <section className="about-page-text-section">
-        {content}
-        <p className="recomendations">(Recomendations coming soon...)</p>
-      </section>
+      <section className="about-page-text-section">{content}</section>
       <section className="about-page-btns">
         <Link to="/">
           <img className="about-img" src={demon} alt="demon" />

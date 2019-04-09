@@ -5,23 +5,12 @@ import {
   fetchGames,
   handleVote,
   clearGames,
-  setNonUserVotes,
   clearNonUserVotes
 } from "../actions/gameActions";
-import { incrementVoteCount } from "../local-storage";
 
 export function Card(props) {
-  const {
-    src,
-    alt,
-    name,
-    dispatch,
-    games,
-    id,
-    fetchFeedback,
-    loggedIn,
-    userId
-  } = props;
+  const { game, src, alt, dispatch, games, id, fetchFeedback, userId } = props;
+  const { name } = game;
 
   const handleVoteClick = () => {
     dispatch(handleVote(games[0].id, games[1].id, id, userId));
@@ -50,6 +39,9 @@ export function Card(props) {
         </Link>
       </div>
       <img className="game-img" src={src} alt={alt} />
+      <button className="card__never-played" type="button">
+        {"Don't show again"}
+      </button>
       <button
         id="vote-button"
         className="nes-btn is-warning"

@@ -93,6 +93,23 @@ export const getUserMotivationData = () => (dispatch, getState) => {
     .catch(err => dispatch(getUserMotivationsError(err)));
 };
 
+export const GET_USER_SUBMOTIVATIONS_REQUEST =
+  "GET_USER_SUBMOTIVATIONS_REQUEST";
+export const getUserSubmotivationsRequest = () => ({
+  type: GET_USER_SUBMOTIVATIONS_REQUEST
+});
+export const GET_USER_SUBMOTIVATIONS_SUCCESS =
+  "GET_USER_SUBMOTIVATIONS_SUCCESS";
+export const getUserSubmotivationsSuccess = content => ({
+  type: GET_USER_SUBMOTIVATIONS_SUCCESS,
+  content
+});
+export const GET_USER_SUBMOTIVATIONS_ERROR = "GET_USER_SUBMOTIVATIONS_ERROR";
+export const getUserSubmotivationsError = error => ({
+  type: GET_USER_SUBMOTIVATIONS_ERROR,
+  error
+});
+
 export const getUserAboutMe = content => (dispatch, getState) => {
   const { authToken } = getState().auth;
   dispatch(getUserAboutMRequest());
@@ -133,7 +150,6 @@ export const postUserAboutMe = content => (dispatch, getState) => {
       return res;
     })
     .then(() => {
-      console.log(content);
       dispatch(postUserAboutMeSuccess(content));
     })
     .catch(err => dispatch(postUserAboutMeError(err)));
@@ -200,4 +216,25 @@ export const registerUser = user => dispatch => {
         );
       }
     });
+};
+
+export const getUserSubmotivations = () => (dispatch, getState) => {
+  const { authToken } = getState().auth;
+  dispatch(getUserSubmotivationsRequest());
+  return fetch(`${API_BASE_URL}/users/history/submotivations`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${authToken}`
+    }
+  })
+    .then(res => {
+      if (!res.ok) {
+        return Promise.reject(res.statusText);
+      }
+      return res.json();
+    })
+    .then(data => {
+      dispatch(getUserSubmotivationsSuccess(data));
+    })
+    .catch(err => dispatch(getUserSubmotivationsError(err)));
 };

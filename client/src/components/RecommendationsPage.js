@@ -6,6 +6,21 @@ import { API_BASE_URL } from "../config";
 // import Game from "./Game";
 import Rec from "./Rec";
 import Loading from "./loading";
+import MultiselectCheckbox from "./MultiSelectCheckbox";
+
+const orderBy = (arr, props, orders) =>
+  [...arr].sort((a, b) =>
+    props.reduce((acc, prop, i) => {
+      if (acc === 0) {
+        const [p1, p2] =
+          orders && orders[i] === "desc"
+            ? [b[prop], a[prop]]
+            : [a[prop], b[prop]];
+        acc = p1 > p2 ? 1 : p1 < p2 ? -1 : 0;
+      }
+      return acc;
+    }, 0)
+  );
 
 export class RecommendationsPage extends Component {
   constructor(props) {
@@ -18,7 +33,18 @@ export class RecommendationsPage extends Component {
       recs: [],
       showModal: false,
       igdbId: null,
-      showMoreRecs: false
+      showMoreRecs: false,
+      scope: 2,
+      dateNumber: 1,
+      timeFrame: "Years",
+      platforms: [
+        { label: "PC", id: 6, checked: false },
+        { label: "XBox One", id: 49, checked: false },
+        { label: "PS4", id: 48, checked: false },
+        { label: "Nintendo Switch", id: 130, checked: false },
+        { label: "PS3", id: 9, checked: false },
+        { label: "XBox 360", id: 12, checked: false }
+      ]
     };
   }
 
@@ -31,14 +57,40 @@ export class RecommendationsPage extends Component {
     this.setState({ isLoading: true }, () => {
       const { token } = this.props;
       axios({
-        url: `${API_BASE_URL}/users/recommendations`,
+        url: `${API_BASE_URL}/users/history/submotivations`,
         method: "GET",
         headers: { Authorization: `Bearer ${token}` }
       })
+        .then(subMotivations => {
+          const { choicePercentages } = subMotivations.data;
+          const motivations = Object.keys(choicePercentages).reduce(
+            (a, key) => {
+              const obj = { name: key, value: choicePercentages[key] };
+              a.push(obj);
+              return a;
+            },
+            []
+          );
+          const orderedMotivations = orderBy(motivations, ["value"], ["desc"]);
+          const final = orderedMotivations
+            .slice(0, this.state.scope)
+            .map(motive => motive.name);
+          console.log(final);
+          return axios({
+            url: `${API_BASE_URL}/users/recs`,
+            method: "POST",
+            data: {
+              motivations: final,
+              dateNumber: this.state.dateNumber,
+              timeFrame: this.state.timeFrame,
+              platforms: this.state.platforms
+            },
+            headers: { Authorization: `Bearer ${token}` }
+          });
+        })
         .then(results => {
-          // Creates a massaged array of user recommendations
           const { data } = results;
-          console.log(data);
+          console.log("we have new data");
 
           // Places recommendations into state.
           this.setState({
@@ -90,7 +142,7 @@ export class RecommendationsPage extends Component {
 
   handleFilter(id) {
     this.setState(prevState => ({
-      recs: prevState.recs.filter(rec => rec.igdb.id !== id)
+      recs: prevState.recs.filter(rec => rec.id !== id)
     }));
   }
 
@@ -100,6 +152,32 @@ export class RecommendationsPage extends Component {
     }));
   }
 
+  handleTimeFrame(e) {
+    const { id } = e.target;
+    const dateNumber = id === "All time" ? 100 : id === "10 years" ? 10 : 1;
+    const timeFrame = id === "1 month" ? "Months" : "Years";
+
+    this.setState(
+      {
+        dateNumber,
+        timeFrame
+      },
+      () => this.loadRecs()
+    );
+  }
+
+  handleScope(e) {
+    const { id } = e.target;
+    const scope = id === "Narrow" ? 1 : id === "Broad" ? 3 : 2;
+
+    this.setState(
+      {
+        scope
+      },
+      () => this.loadRecs()
+    );
+  }
+
   render() {
     const {
       error,
@@ -107,7 +185,8 @@ export class RecommendationsPage extends Component {
       recs,
       showModal,
       igdbId,
-      showMoreRecs
+      showMoreRecs,
+      platforms
     } = this.state;
     const { screenWidth } = this.props;
     const topFiveRecs = recs.slice(0, 5);
@@ -135,6 +214,69 @@ export class RecommendationsPage extends Component {
           Recommendations
           <i className={`nes-icon coin ${iconSize}`} />
         </h1>
+        <div className="game-container mx-auto">
+          <div className="nes-container with-title is-centered">
+            <p className="title">Filters</p>
+            <div className="mt-4">
+              <h3>Time Frame</h3>
+              <button
+                type="button"
+                className={`nes-btn ${
+                  this.state.timeFrame === "Months" ? "is-primary" : ""
+                } mx-4`}
+                id="1 month"
+                onClick={e => this.handleTimeFrame(e)}
+              >
+                1 Month
+              </button>
+              <button
+                type="button"
+                className={`nes-btn ${
+                  this.state.dateNumber === 1 &&
+                  this.state.timeFrame === "Years"
+                    ? "is-primary"
+                    : ""
+                } mx-4`}
+                id="1 year"
+                onClick={e => this.handleTimeFrame(e)}
+              >
+                1 Year
+              </button>
+              <button
+                type="button"
+                className={`nes-btn ${
+                  this.state.dateNumber === 10 ? "is-primary" : ""
+                } mx-4`}
+                id="10 years"
+                onClick={e => this.handleTimeFrame(e)}
+              >
+                10 Years
+              </button>
+              <button
+                type="button"
+                className={`nes-btn ${
+                  this.state.dateNumber > 10 ? "is-primary" : ""
+                } mx-4`}
+                id="All time"
+                onClick={e => this.handleTimeFrame(e)}
+              >
+                All Time
+              </button>
+            </div>
+            <div className="m-4">
+              <h3>Platforms</h3>
+              <p className="text-xs">
+                (Hint: For all platforms, leave unchecked.)
+              </p>
+              <MultiselectCheckbox
+                options={platforms}
+                onChange={() => {
+                  this.loadRecs();
+                }}
+              />
+            </div>
+          </div>
+        </div>
         <div className="game-container mx-auto mt-16">
           {topFiveRecs.length
             ? topFiveRecs.map(rec => (
@@ -158,8 +300,8 @@ export class RecommendationsPage extends Component {
                 type="button"
               >
                 {!showMoreRecs
-                  ? "Show More Recommentations"
-                  : "Show Less Recommentations"}
+                  ? "Show More Recommendations"
+                  : "Show Less Recommendations"}
               </button>
             </div>
           )}
