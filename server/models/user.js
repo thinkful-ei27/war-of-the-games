@@ -12,8 +12,13 @@ const userSchema = new mongoose.Schema({
   admin: { type: Boolean, default: false },
   battles: { type: Number, default: 0 },
   excludedGames: [Number],
-  profilePic: { type: String }
+  profilePic: { type: String },
+  games: {
+    neverPlayed: [{ type: mongoose.Schema.Types.ObjectId, ref: "Game" }]
+  }
 });
+
+userSchema.set("timestamps", true);
 
 userSchema.set("toJSON", {
   virtuals: true,
@@ -24,6 +29,7 @@ userSchema.set("toJSON", {
     delete result.history;
     delete result.excludedGames;
     delete result.battles;
+    delete result.games;
   }
 });
 
@@ -40,6 +46,12 @@ userSchema.statics.hashPassword = incomingPassword => {
 
 userSchema.virtual("historyCount").get(function() {
   return this.history.length;
+});
+
+userSchema.virtual("level").get(function() {
+  const xp = this.history.length;
+  const level = 1 * Math.sqrt(xp);
+  return level;
 });
 
 module.exports = mongoose.model("User", userSchema);

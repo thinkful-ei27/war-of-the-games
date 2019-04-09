@@ -22,7 +22,7 @@ export default function Game(props) {
   if (props.excluded) {
     addButton = (
       <button
-        onClick={() => props.onRemoveExcluded(props.igdb.id)}
+        onClick={() => props.onRemoveExcluded(props.id)}
         className="add-excluded"
         type="button"
       >
@@ -36,7 +36,11 @@ export default function Game(props) {
     <div className={`similar-game ${profileWidth || width} ${padding}`}>
       {addButton}
       <Link to={url} className="flex flex-col items-center text-center">
-        <img className="similar m-4" src={cloudImage} alt={slug} />
+        <img
+          className="similar m-4"
+          src={cloudImage || props.coverUrl}
+          alt={slug}
+        />
         {/* <i className="nes-mario" /> */}
         <p>
           <span className={`${profileFontSize || fontSize} is-primary`}>

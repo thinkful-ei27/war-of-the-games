@@ -5,6 +5,7 @@ const moment = require("moment");
 
 const { subMotivationKeywords } = require("../db/subMotivations");
 
+// can't test due to api call
 const uniqueElementsBy = (arr, fn) =>
   arr.reduce((acc, v) => {
     if (!acc.some(x => fn(v, x))) acc.push(v);
@@ -39,6 +40,7 @@ const requestOptions = {
   responseType: "json"
 };
 
+// can't test due to API call
 const getGamesBySubmotivations = async (
   motivationsArray,
   from,
@@ -49,7 +51,6 @@ const getGamesBySubmotivations = async (
   // 1 platform <---> All platforms
   // niche <---> popular
   const motivations = motivationsArray.map(word => `\"${word}\"`).join(",");
-  console.log("motivations is ", motivations);
   const fromDate = moment()
     .subtract(from[0], from[1])
     .unix();

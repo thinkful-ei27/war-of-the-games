@@ -175,9 +175,7 @@ export class RecommendationsPage extends Component {
         )
         .then(() => {
           this.setState(prevState => ({
-            excludedGames: prevState.excludedGames.filter(
-              rec => rec.igdb.id !== id
-            ),
+            excludedGames: prevState.excludedGames.filter(rec => rec.id !== id),
             isLoading: false
           }));
         })
