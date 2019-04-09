@@ -37,6 +37,8 @@ const games = [
   {
     name: "Super Mario 64",
     _id: "5c9a959ba5d0dd09e07f45a7",
+    motivations: [],
+    subMotivations: [],
     firstReleaseDate: 835488000,
     igdb: {
       id: 1074,
@@ -91,6 +93,8 @@ const games = [
   {
     name: "The Legend of Zelda",
     _id: "5c9a959ba5d0dd09e07f45a8",
+    motivations: [],
+    subMotivations: [],
     firstReleaseDate: 509328000,
     igdb: {
       id: 1022,
@@ -114,6 +118,8 @@ const games = [
   {
     name: "Mortal Kombat",
     _id: "5c9a959ba5d0dd09e07f45a9",
+    motivations: [],
+    subMotivations: [],
     firstReleaseDate: 712713600,
     igdb: {
       id: 1618,
@@ -125,6 +131,8 @@ const games = [
   {
     name: "Street Fighter II",
     _id: "5c9a959ba5d0dd09e07f45a0",
+    motivations: [],
+    subMotivations: [],
     firstReleaseDate: 665798400,
     igdb: {
       id: 3186,
@@ -148,6 +156,8 @@ const games = [
     name: "Halo: Combat Evolved",
     _id: "5c9a959ba5d0dd09e07f45a1",
     firstReleaseDate: 1005782400,
+    motivations: [],
+    subMotivations: [],
     igdb: {
       id: 740,
       slug: "halo-combat-evolved"
@@ -160,6 +170,8 @@ const games = [
     name: "Superman",
     _id: "5c9a959ba5d0dd09e07f45a2",
     firstReleaseDate: 928108800,
+    motivations: [],
+    subMotivations: [],
     igdb: {
       id: 3005,
       slug: "superman"
@@ -171,6 +183,8 @@ const games = [
   {
     name: "Final Fantasy VII",
     _id: "5c9a959ba5d0dd09e07f45a3",
+    motivations: [],
+    subMotivations: [],
     firstReleaseDate: 854668800,
     igdb: {
       id: 427,
@@ -184,6 +198,8 @@ const games = [
     name: "WWF No Mercy",
     _id: "5c9a959ba5d0dd09e07f45a4",
     firstReleaseDate: 974419200,
+    motivations: [],
+    subMotivations: [],
     igdb: {
       id: 3644,
       slug: "wwf-no-mercy"
@@ -197,6 +213,8 @@ const games = [
   {
     name: "Super Smash Bros.",
     _id: "5c9a959ba5d0dd09e07f45a5",
+    motivations: [],
+    subMotivations: [],
     firstReleaseDate: 916876800,
     igdb: {
       id: 1626,
@@ -221,6 +239,8 @@ const games = [
   {
     name: "Candy Crush Saga",
     _id: "5c9a959ba5d0dd09e07f45a6",
+    motivations: [],
+    subMotivations: [],
     firstReleaseDate: 1334188800,
     igdb: {
       id: 5636,
@@ -249,6 +269,8 @@ const games = [
     },
     similar_games: [112, 127, 136, 499, 549, 550, 552, 1029, 1128, 3644],
     firstReleaseDate: 1173744000,
+    motivations: [],
+    subMotivations: [],
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/f3mwxy3opbrbmcyguhly.jpg",
     createdAt: "2019-03-27T22:42:41.704Z",
@@ -289,6 +311,8 @@ const games = [
   {
     name: "Super Mario Bros. 3",
     firstReleaseDate: 591840000,
+    motivations: [],
+    subMotivations: [],
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/u9s7ap9gi5kestfxhxdf.jpg",
     igdb: {

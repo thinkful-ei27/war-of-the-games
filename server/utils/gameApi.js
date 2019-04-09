@@ -25,6 +25,15 @@ const getGenres = async () =>
     .request("/genres")
     .then(res => res.data);
 
+const getIdFromSlug = async slug => {
+  const newSlug = `\"${slug}\"`;
+  return apicalypse(requestOptions)
+    .fields(["id", "name"])
+    .where(`slug = ${newSlug}`)
+    .request("/games")
+    .then(res => res.data);
+};
+
 const getThemes = async () =>
   apicalypse(requestOptions)
     .fields(["name", "url"])
@@ -67,6 +76,9 @@ const getGame = async id =>
 //     .request("/covers")
 //     .then(res => res.data[0]);
 
-// getThemes().then(result => console.log(result));
+getIdFromSlug("shadows-awakening")
+  // getGames()
+  .then(result => console.log(result))
+  .catch(e => console.error(e.response.statusText));
 
-module.exports = { getGames, getGame };
+module.exports = { getGames, getGame, getIdFromSlug };
