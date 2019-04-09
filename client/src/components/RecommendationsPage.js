@@ -179,7 +179,10 @@ export class RecommendationsPage extends Component {
             isLoading: false
           }));
         })
-        .then(() => this.loadExcludedRecs())
+        .then(() => {
+          this.loadExcludedRecs();
+          this.loadRecs();
+        })
         .catch(err => {
           this.setState({ error: err.message, isLoading: false });
         });
