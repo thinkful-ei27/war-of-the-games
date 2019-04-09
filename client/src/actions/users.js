@@ -184,10 +184,10 @@ export const registerUser = user => dispatch => {
     });
 };
 
-export const getUserSubmotivations = userId => (dispatch, getState) => {
+export const getUserSubmotivations = () => (dispatch, getState) => {
   const { authToken } = getState().auth;
   dispatch(getUserSubmotivationsRequest());
-  return fetch(`${API_BASE_URL}/users/${userId}/history/submotivations`, {
+  return fetch(`${API_BASE_URL}/users/history/submotivations`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${authToken}`
