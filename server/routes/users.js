@@ -398,6 +398,9 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
   const toUpdate = { games: { neverPlayed: [neverPlayed] } };
   return User.findOneAndUpdate({ _id: id }, toUpdate, { new: true })
     .then(user => {
+      if (!user) {
+        return next();
+      }
       const { createdAt, updatedAt, games } = user;
       const returnObj = { id, createdAt, updatedAt, games };
       return res.json(returnObj);
