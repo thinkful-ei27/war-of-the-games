@@ -7,7 +7,7 @@ const schema = new mongoose.Schema({
     id: { type: Number, required: true, unique: true },
     slug: { type: String, required: true }
   },
-  coverUrl: { type: String, required: true },
+  coverUrl: { type: String },
   summary: String,
   genres: [
     {
@@ -25,8 +25,8 @@ const schema = new mongoose.Schema({
   similar_games: [{ type: Number }],
   cloudImage: { type: String },
   firstReleaseDate: Number,
-  motivations: [{ type: String, unique: true }],
-  subMotivations: [{ type: String, unique: true }],
+  motivations: [{ type: String }],
+  subMotivations: [{ type: String }],
   core: { type: Boolean, default: false }
 });
 

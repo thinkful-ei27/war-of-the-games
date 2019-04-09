@@ -80,6 +80,5 @@ getIdFromSlug("shadows-awakening")
   // getGames()
   .then(result => console.log(result))
   .catch(e => console.error(e.response.statusText));
-// getThemes().then(result => console.log(result));
 
 module.exports = { getGames, getGame, getIdFromSlug };

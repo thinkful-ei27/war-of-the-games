@@ -134,7 +134,7 @@ router.post("/", jwtAuth, igdbIdRequired, (req, res, next) => {
     .then(result => {
       const {
         name,
-        cover,
+        cover = { image_id: false },
         slug,
         summary,
         genres,
@@ -143,13 +143,16 @@ router.post("/", jwtAuth, igdbIdRequired, (req, res, next) => {
         first_release_date: firstReleaseDate
       } = result;
       const { image_id: imageId } = cover;
+      const coverUrl = imageId
+        ? `https://images.igdb.com/igdb/image/upload/t_720p/${imageId}.jpg`
+        : null;
       const newGame = {
         igdb: {
           id: igdbId,
           slug
         },
         name,
-        coverUrl: `https://images.igdb.com/igdb/image/upload/t_720p/${imageId}.jpg`,
+        coverUrl,
         summary,
         genres,
         platforms,
@@ -160,8 +163,13 @@ router.post("/", jwtAuth, igdbIdRequired, (req, res, next) => {
     })
     .then(async game => {
       const { id, coverUrl } = game;
-      const imgResults = await imagesApi.saveImgById(id, coverUrl);
-      const { secure_url: secureUrl } = imgResults;
+      let secureUrl;
+      if (coverUrl) {
+        const imgResults = await imagesApi.saveImgById(id, coverUrl);
+        secureUrl = imgResults.secure_url;
+      } else {
+        secureUrl = null;
+      }
       const toUpdate = { cloudImage: secureUrl };
 
       return Game.findOneAndUpdate({ _id: id }, toUpdate, { new: true });
@@ -199,7 +207,7 @@ router.put(
       .then(async result => {
         const {
           name,
-          cover,
+          cover = { image_id: false },
           slug,
           summary,
           genres,
@@ -207,10 +215,18 @@ router.put(
           similar_games: similarGames,
           first_release_date: firstReleaseDate
         } = result;
+
         const { image_id: imageId } = cover;
-        const coverUrl = `https://images.igdb.com/igdb/image/upload/t_720p/${imageId}.jpg`;
-        const imgResults = await imagesApi.saveImgById(id, coverUrl);
-        const { secure_url: secureUrl } = imgResults;
+        const coverUrl = imageId
+          ? `https://images.igdb.com/igdb/image/upload/t_720p/${imageId}.jpg`
+          : null;
+        let secureUrl;
+        if (coverUrl) {
+          const imgResults = await imagesApi.saveImgById(id, coverUrl);
+          secureUrl = imgResults.secure_url;
+        } else {
+          secureUrl = null;
+        }
         const toUpdate = {
           igdb: {
             id: igdbId,

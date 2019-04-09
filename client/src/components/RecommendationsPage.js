@@ -32,7 +32,10 @@ export class RecommendationsPage extends Component {
       recs: [],
       showModal: false,
       igdbId: null,
-      showMoreRecs: false
+      showMoreRecs: false,
+      scope: 2,
+      dateNumber: 1,
+      timeFrame: "Years"
     };
   }
 
@@ -60,24 +63,24 @@ export class RecommendationsPage extends Component {
             []
           );
           const orderedMotivations = orderBy(motivations, ["value"], ["desc"]);
+          const final = orderedMotivations
+            .slice(0, this.state.scope)
+            .map(motive => motive.name);
+          console.log(final);
           return axios({
             url: `${API_BASE_URL}/users/recs`,
             method: "POST",
             data: {
-              motivations: [
-                orderedMotivations[0].name,
-                orderedMotivations[1].name
-              ],
-              dateNumber: 1,
-              timeFrame: "Years"
+              motivations: final,
+              dateNumber: this.state.dateNumber,
+              timeFrame: this.state.timeFrame
             },
             headers: { Authorization: `Bearer ${token}` }
           });
         })
         .then(results => {
-          // Creates a massaged array of user recommendations
           const { data } = results;
-          console.log(data);
+          console.log("we have new data");
 
           // Places recommendations into state.
           this.setState({
@@ -139,6 +142,32 @@ export class RecommendationsPage extends Component {
     }));
   }
 
+  handleTimeFrame(e) {
+    const { id } = e.target;
+    const dateNumber = id === "10 years" ? 10 : 1;
+    const timeFrame = id === "1 month" ? "Months" : "Years";
+
+    this.setState(
+      {
+        dateNumber,
+        timeFrame
+      },
+      () => this.loadRecs()
+    );
+  }
+
+  handleScope(e) {
+    const { id } = e.target;
+    const scope = id === "Narrow" ? 1 : id === "Broad" ? 3 : 2;
+
+    this.setState(
+      {
+        scope
+      },
+      () => this.loadRecs()
+    );
+  }
+
   render() {
     const {
       error,
@@ -174,6 +203,80 @@ export class RecommendationsPage extends Component {
           Recommendations
           <i className={`nes-icon coin ${iconSize}`} />
         </h1>
+        <div className="game-container mx-auto">
+          <div className="nes-container with-title is-centered">
+            <p className="title">Filters</p>
+            <div className="mt-4">
+              <h3>Time Frame</h3>
+              <button
+                type="button"
+                className={`nes-btn ${
+                  this.state.timeFrame === "Months" ? "is-primary" : ""
+                } mx-4`}
+                id="1 month"
+                onClick={e => this.handleTimeFrame(e)}
+              >
+                1 Month
+              </button>
+              <button
+                type="button"
+                className={`nes-btn ${
+                  this.state.dateNumber === 1 &&
+                  this.state.timeFrame === "Years"
+                    ? "is-primary"
+                    : ""
+                } mx-4`}
+                id="1 year"
+                onClick={e => this.handleTimeFrame(e)}
+              >
+                1 Year
+              </button>
+              <button
+                type="button"
+                className={`nes-btn ${
+                  this.state.dateNumber === 10 ? "is-primary" : ""
+                } mx-4`}
+                id="10 years"
+                onClick={e => this.handleTimeFrame(e)}
+              >
+                10 Years
+              </button>
+            </div>
+            <div className="m-4">
+              <h3>Scope of Recommendations</h3>
+              <button
+                type="button"
+                className={`nes-btn ${
+                  this.state.scope === 1 ? "is-primary" : ""
+                } mx-4`}
+                id="Narrow"
+                onClick={e => this.handleScope(e)}
+              >
+                Narrow
+              </button>
+              <button
+                type="button"
+                className={`nes-btn ${
+                  this.state.scope === 2 ? "is-primary" : ""
+                } mx-4`}
+                id="Balanced"
+                onClick={e => this.handleScope(e)}
+              >
+                Balanced
+              </button>
+              {/* <button
+                type="button"
+                className={`nes-btn ${
+                  this.state.scope === 3 ? "is-primary" : ""
+                } mx-4`}
+                id="Broad"
+                onClick={e => this.handleScope(e)}
+              >
+                Broad
+              </button> */}
+            </div>
+          </div>
+        </div>
         <div className="game-container mx-auto mt-16">
           {topFiveRecs.length
             ? topFiveRecs.map(rec => (

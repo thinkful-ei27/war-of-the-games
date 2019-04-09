@@ -1,11 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import LongText from "./LongText";
+import Logo from "../assets/favicon3.ico";
 
 export default function Rec(props) {
   const { cloudImage, igdb, name, summary, slug, cover, id } = props.game;
   const { openModal } = props;
   const url = `/games/${slug || igdb.slug}`;
+
   return (
     <section className="nes-container is-dark flex game-recommendation">
       {/* <i
@@ -22,7 +24,7 @@ export default function Rec(props) {
       <div className="mx-4">
         <img
           className="img-responsive rec-img"
-          src={cloudImage || cover.url}
+          src={cover ? cover.url : Logo}
           alt={slug}
         />
       </div>

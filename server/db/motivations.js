@@ -179,7 +179,3 @@ const allMotivationGames = motivations => {
 };
 
 const util = require("util");
-
-console.log(
-  util.inspect(allMotivationGames(motivations), { maxArrayLength: null })
-);
