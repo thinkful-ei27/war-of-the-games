@@ -39,7 +39,11 @@ const requestOptions = {
   responseType: "json"
 };
 
-const getGamesBySubmotivations = async (motivationsArray, from, platforms) => {
+const getGamesBySubmotivations = async (
+  motivationsArray,
+  from,
+  platforms = 6
+) => {
   // 1 subMotivation <---> 3 subMotivations
   // 1 month <---> 5 years
   // 1 platform <---> All platforms

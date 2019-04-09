@@ -64,7 +64,12 @@ export class Recommendations extends Component {
                 orderedMotivations[1].name
               ],
               dateNumber: 1,
-              timeFrame: "Years"
+              timeFrame: "Years",
+              platforms: [
+                { label: "PC", id: 6, checked: false },
+                { label: "XBox One", id: 49, checked: false },
+                { label: "PS4", id: 48, checked: false }
+              ]
             },
             headers: { Authorization: `Bearer ${token}` }
           });
