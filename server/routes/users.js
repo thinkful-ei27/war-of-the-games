@@ -22,6 +22,16 @@ const countBy = (arr, fn) =>
     return acc;
   }, {});
 
+router.get("/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  User.find({ _id: id })
+    .then(results => {
+      res.json(results);
+    })
+    .catch(err => next(err));
+});
+
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
 
@@ -155,7 +165,13 @@ router.get("/:userId/topHistory", (req, res, next) => {
     .catch(err => next(err));
 });
 
-router.post("/recs", jwtAuth, (req, res, next) => {
+router.post("/recs", jwtAuth, async (req, res, next) => {
+  const userId = req.user.id;
+  const { excludedGames } = await User.findOne(
+    { _id: userId },
+    { excludedGames: 1 }
+  ).exec();
+  console.log("excluded games ", excludedGames);
   const { motivations, dateNumber, timeFrame, platforms } = req.body;
   console.log("platforms is ", platforms);
   const arrayOfKeywords = motivations.reduce((a, b) => {
@@ -183,7 +199,8 @@ router.post("/recs", jwtAuth, (req, res, next) => {
       cp
     )
     .then(results => {
-      res.json(results);
+      const filter = results.filter(item => !excludedGames.includes(item.id));
+      res.json(filter);
     })
     .catch(e => {
       next(e);
