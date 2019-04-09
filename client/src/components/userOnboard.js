@@ -49,7 +49,7 @@ export class UserOnboard extends React.Component {
                 Vote
             </button>
             </div>
-            <div className="card">
+            <div className="card-onboard-2">
               <div className="title-container">
                 <h1 className="game-title" >{tests.showing[1].name}</h1>
               </div>
