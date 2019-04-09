@@ -395,6 +395,13 @@ router.put("/excludedgames", jwtAuth, (req, res, next) => {
 router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
   const { id } = req.params;
   const { neverPlayed } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(neverPlayed)) {
+    const err = new Error("The game ID is not valid");
+    err.status = 400;
+    return next(err);
+  }
+
   const toUpdate = { games: { neverPlayed: [neverPlayed] } };
   return User.findOneAndUpdate({ _id: id }, toUpdate, { new: true })
     .then(user => {

@@ -268,9 +268,20 @@ describe("ASYNC Capstone API - Users", () => {
         });
     });
 
-    it(
-      "should respond with status 400 and an error message when game ID is not valid"
-    );
+    it("should respond with status 400 and an error message when game ID is not valid", () => {
+      const updateObj = {
+        neverPlayed: "NOT-A-VALID-ID"
+      };
+      return chai
+        .request(app)
+        .put(`/api/users/${user.id}`)
+        .set("Authorization", `Bearer ${token}`)
+        .send(updateObj)
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).to.equal("The game ID is not valid");
+        });
+    });
 
     it("should catch errors and respond properly");
   });
