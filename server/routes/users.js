@@ -414,7 +414,7 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
     return next(err);
   }
 
-  const toUpdate = { games: { neverPlayed: [neverPlayed] } };
+  const toUpdate = { $push: { "games.neverPlayed": neverPlayed } };
   return User.findOneAndUpdate({ _id: id }, toUpdate, { new: true })
     .then(user => {
       if (!user) {
