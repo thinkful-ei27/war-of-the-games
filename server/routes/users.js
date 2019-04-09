@@ -35,8 +35,8 @@ router.get("/:id/history", (req, res, next) => {
     .catch(err => next(err));
 });
 
-router.get("/:id/history/motivations", (req, res, next) => {
-  const { id } = req.params;
+router.get("/history/motivations", jwtAuth, (req, res, next) => {
+  const { id } = req.user;
 
   History.find({ userId: id })
     .populate("gameOne", ["name", "motivations"])
@@ -56,17 +56,22 @@ router.get("/:id/history/motivations", (req, res, next) => {
       });
       const allMotives = countBy(all, v => v);
       const choiceMotives = countBy(choices, v => v);
-      const percentagesMotives = Object.keys(choiceMotives).reduce((a, key) => {
+      const percentages = Object.keys(choiceMotives).reduce((a, key) => {
         const percentage = Math.floor(
           (choiceMotives[key] / allMotives[key]) * 100
         );
-        a[key] = percentage;
+        const data = {
+          motivation: key,
+          percentage,
+          fullMark: 100
+        };
+        a.push(data);
         return a;
-      }, {});
+      }, []);
       res.json({
         "All Motivations": allMotives,
         "All Choices": choiceMotives,
-        "Choice Percentages": percentagesMotives
+        percentages
       });
     })
     .catch(err => next(err));
@@ -153,7 +158,13 @@ router.get("/:userId/topHistory", (req, res, next) => {
     .catch(err => next(err));
 });
 
-router.post("/recs", jwtAuth, (req, res, next) => {
+router.post("/recs", jwtAuth, async (req, res, next) => {
+  const userId = req.user.id;
+  const { excludedGames } = await User.findOne(
+    { _id: userId },
+    { excludedGames: 1 }
+  ).exec();
+  console.log("excluded games ", excludedGames);
   const { motivations, dateNumber, timeFrame, platforms } = req.body;
   const arrayOfKeywords = motivations.reduce((a, b) => {
     const keywords = subMotivationKeywords[b];
@@ -179,7 +190,8 @@ router.post("/recs", jwtAuth, (req, res, next) => {
       cp
     )
     .then(results => {
-      res.json(results);
+      const filter = results.filter(item => !excludedGames.includes(item.id));
+      res.json(filter);
     })
     .catch(e => {
       next(e);
@@ -233,6 +245,16 @@ router.get("/recommendations", jwtAuth, (req, res, next) => {
         .map(choice => recs.find(game => game.igdb.id === Number(choice)))
         .filter(e => typeof e === "object");
       res.json(sortedRecs);
+    })
+    .catch(err => next(err));
+});
+
+router.get("/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  User.find({ _id: id })
+    .then(results => {
+      res.json(results);
     })
     .catch(err => next(err));
 });

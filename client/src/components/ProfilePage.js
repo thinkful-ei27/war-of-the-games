@@ -6,7 +6,7 @@ import "./styles/profile.css";
 import {
   getUser,
   getUserTopHistory,
-  getUserAboutMe,
+  // getUserAboutMe,
   getUserSubmotivations
 } from "../actions/users";
 import Loading from "./loading";
@@ -30,7 +30,7 @@ export class ProfilePage extends React.Component {
     const { userId, dispatch } = this.props;
     return Promise.all([
       dispatch(getUserTopHistory(userId)),
-      dispatch(getUserAboutMe()),
+      // dispatch(getUserAboutMe()),
       dispatch(getUserSubmotivations()),
       dispatch(getUser(userId)).then(user => user)
     ]);
@@ -65,12 +65,11 @@ export class ProfilePage extends React.Component {
   render() {
     const {
       userHistory,
-      fullName,
       loading,
-      profilePic,
       topHistory,
       screenWidth,
-      subMotivations
+      subMotivations,
+      firstName
     } = this.props;
     const isMobile = screenWidth <= 768;
 
@@ -112,33 +111,30 @@ export class ProfilePage extends React.Component {
       );
     });
 
-    let nesContainer = "";
     let iconSize = "is-small";
 
     if (!isMobile) {
-      nesContainer = "nes-container";
       iconSize = "is-medium";
     }
     return loading ? (
       <Loading />
     ) : (
-      <div className="dashboard">
-        <div className="nes-container with-title profile-info-container">
-          <p className="title user shadow">Hello {fullName}!</p>
+      <div className="game-container mx-auto">
+        {/* <div className="nes-container with-title profile-info-container">
+          <p className="title user shadow">Hello {name}!</p>
           <section className="personal-info">
-            <div
-              className={`${nesContainer} with-title is-dark about-me-container`}
-            >
-              <p className="title">
-                <img
-                  className="title profile-pic"
-                  src={this.evaluateProfilePic(profilePic)}
-                  alt="profile-pic"
-                />
-              </p>
-            </div>
-            <Radar />
+            <p>
+              <img
+                className="profile-pic"
+                src={this.evaluateProfilePic(profilePic)}
+                alt="profile-pic"
+              />
+            </p>
+            <AboutMe aboutMe={aboutMe} /> 
           </section>
+        </div> */}
+        <div className="game-container mx-auto text-xs img-responsive">
+          <Radar name={firstName} />
         </div>
         <ConnectedRecommendations
           profileWidth="w-1"
@@ -170,6 +166,7 @@ const mapStateToProps = state => {
     userId: currentUser.id,
     username: state.auth.currentUser.username,
     fullName: `${currentUser.firstName} ${currentUser.lastName}`,
+    firstName: currentUser.firstName,
     userHistory: state.user.history,
     subMotivations: state.user.subMotivations,
     loading: state.user.loading,

@@ -5,12 +5,14 @@ import {
   GET_USER_ABOUT_ME_SUCCESS,
   GET_USER_SUBMOTIVATIONS_SUCCESS,
   USER_FETCH_REQUEST,
-  USER_FETCH_ERROR
+  USER_FETCH_ERROR,
+  GET_USER_MOTIVATIONS_SUCCESS
 } from "../actions/users";
 
 const initialState = {
   history: [],
   topHistory: [],
+  motivations: [],
   subMotivations: "",
   aboutMe: "",
   loading: false,
@@ -37,9 +39,12 @@ export default function reducer(state = initialState, action) {
         loading: false
       };
     case GET_USER_ABOUT_ME_SUCCESS:
+      return { ...state, aboutMe: action.content };
+    case GET_USER_MOTIVATIONS_SUCCESS:
       return {
         ...state,
-        aboutMe: action.content
+        motivations: [...action.data.percentages],
+        loading: false
       };
     case GET_USER_SUBMOTIVATIONS_SUCCESS:
       return {

@@ -13,7 +13,9 @@ export function Battle(props) {
         src={games[0].cloudImage}
         alt={games[0].name}
         id={games[0].id}
+        summary={games[0].summary}
         fetchFeedback={id => fetchFeedback(id)}
+        gameSummaryNum="gameSummaryNum1"
       />
       <div className="vs-skip-container">
         <span className="vs">VS</span>
@@ -23,6 +25,8 @@ export function Battle(props) {
         src={games[1].cloudImage}
         alt={games[1].name}
         id={games[1].id}
+        summary={games[1].summary}
+        gameSummaryNum="gameSummaryNum2"
         fetchFeedback={id => fetchFeedback(id)}
       />
       <button

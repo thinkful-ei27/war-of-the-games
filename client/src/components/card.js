@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import ReactTooltip from "react-tooltip";
+import SummaryComponent from "./summaryComponent";
 import {
   fetchGames,
   handleVote,
@@ -19,7 +21,9 @@ export function Card(props) {
     id,
     fetchFeedback,
     loggedIn,
-    userId
+    userId,
+    summary,
+    gameSummaryNum
   } = props;
   const { name } = game;
 
@@ -53,7 +57,18 @@ export function Card(props) {
           <h1 className="game-title">{name}</h1>
         </Link>
       </div>
-      <img className="game-img" src={src} alt={alt} />
+      <ReactTooltip id={gameSummaryNum} type="info" place="bottom" multiline>
+        <span className="hover-summary">
+          <SummaryComponent summary={summary} />
+        </span>
+      </ReactTooltip>
+      <img
+        className="game-img"
+        src={src}
+        alt={alt}
+        data-tip
+        data-for={gameSummaryNum}
+      />
       {loggedIn ? (
         <button
           className="card__never-played"
