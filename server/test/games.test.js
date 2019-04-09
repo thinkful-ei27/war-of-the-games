@@ -69,7 +69,9 @@ describe("ASYNC Capstone API - Games", () => {
           "genres",
           "platforms",
           "similar_games",
-          "first_release_date"
+          "first_release_date",
+          "motivations",
+          "subMotivations"
         );
         expect(res.id).to.equal(getGameRes.id);
         expect(res.name).to.equal(getGameRes.name);
@@ -220,7 +222,10 @@ describe("ASYNC Capstone API - Games", () => {
               "platforms",
               "summary",
               "similar_games",
-              "firstReleaseDate"
+              "firstReleaseDate",
+              "motivations",
+              "subMotivations",
+              "core"
             );
             expect(game.igdb).to.have.keys("id", "slug");
           });
@@ -360,7 +365,10 @@ describe("ASYNC Capstone API - Games", () => {
             "platforms",
             "similar_games",
             "cloudImage",
-            "firstReleaseDate"
+            "firstReleaseDate",
+            "motivations",
+            "subMotivations",
+            "core"
           );
           return Game.findOne({ _id: res.body.id });
         })
