@@ -136,3 +136,9 @@
   justify-content: flex-end;
   grid-column-start: 3;
 }
+
+
+.summary-div{
+   width: 200px;
+   text-align: center
+}

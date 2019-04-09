@@ -15,7 +15,7 @@ export function Battle(props) {
         src={props[0].cloudImage}
         alt={props[0].name}
         id={props[0].id}
-        summary={props[0].summary.slice(0, 80).concat('...')}
+        summary={props[0].summary}
         fetchFeedback={id => fetchFeedback(id)}
         gameSummaryNum="gameSummaryNum1"
       />
@@ -27,7 +27,7 @@ export function Battle(props) {
         src={props[1].cloudImage}
         alt={props[1].name}
         id={props[1].id}
-        summary={props[1].summary.slice(0, 80).concat('...')}
+        summary={props[1].summary}
         gameSummaryNum="gameSummaryNum2"
         fetchFeedback={id => fetchFeedback(id)}
       />

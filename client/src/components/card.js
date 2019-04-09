@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import ReactTooltip from 'react-tooltip'
+import SummaryComponent from './summaryComponent';
 import {
   fetchGames,
   handleVote,
@@ -36,17 +37,19 @@ export function Card(props) {
     <div className="card">
       <div className="title-container">
         <Link to={gamesUrl + slug} target="_blank">
-          <h1 data-tip
-            data-for={gameSummaryNum}
-            className="game-title">
+          <h1 className="game-title">
             {name}
           </h1>
         </Link>
       </div>
       <ReactTooltip id={gameSummaryNum} type="info" place={"bottom"} multiline={true}>
-        <span className="hover-summary">{summary}</span>
+        <span className="hover-summary"><SummaryComponent summary={summary} /></span>
       </ReactTooltip>
-      <img className="game-img" src={src} alt={alt} />
+      <img className="game-img"
+        src={src}
+        alt={alt}
+        data-tip
+        data-for={gameSummaryNum} />
       <button
         id="vote-button"
         className="nes-btn is-warning"
