@@ -155,7 +155,6 @@ router.get("/:userId/topHistory", (req, res, next) => {
 
 router.post("/recs", jwtAuth, (req, res, next) => {
   const { motivations, dateNumber, timeFrame, platforms } = req.body;
-  console.log("platforms is ", platforms);
   const arrayOfKeywords = motivations.reduce((a, b) => {
     const keywords = subMotivationKeywords[b];
     a.push(...keywords);
@@ -170,7 +169,6 @@ router.post("/recs", jwtAuth, (req, res, next) => {
     .map(p => p.id)
     .join(",");
 
-  console.log("checkedPlatforms is ", checkedPlatforms);
   const cp = !checkedPlatforms ? "6" : checkedPlatforms;
 
   recs

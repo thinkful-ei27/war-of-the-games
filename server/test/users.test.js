@@ -1,7 +1,6 @@
 const chai = require("chai");
 const jwt = require("jsonwebtoken");
 const sinon = require("sinon");
-const mongoose = require("mongoose");
 const { app } = require("../index");
 const { dbConnect, dbDisconnect, dbDrop } = require("../db-mongoose");
 const { JWT_SECRET, TEST_DATABASE_URL } = require("../config");
@@ -9,21 +8,24 @@ const User = require("../models/user");
 const Game = require("../models/game");
 const History = require("../models/history");
 const { games, histories, users } = require("../db/data");
+const apiRecsRes = require("../db/test-apiRecsRes.js");
+const recommendations = require("../utils/recommendations");
 
 const { expect } = chai;
 const sandbox = sinon.createSandbox();
 
 describe("ASYNC Capstone API - Users", () => {
   let user;
-  let admin;
   let token;
-  let adminToken;
   const username = "exampleUser";
   const password = "examplePass";
   const firstName = "Example";
   const lastName = "User";
 
   before(() => {
+    sinon
+      .stub(recommendations, "getGamesBySubmotivations")
+      .resolves(apiRecsRes);
     return dbConnect(TEST_DATABASE_URL);
   });
 
@@ -36,9 +38,7 @@ describe("ASYNC Capstone API - Users", () => {
       Game.createIndexes()
     ]).then(([dbUsers]) => {
       [user] = dbUsers;
-      [admin] = dbUsers.filter(dbUser => !!dbUser.admin);
       token = jwt.sign({ user }, JWT_SECRET, { subject: user.username });
-      adminToken = jwt.sign({ admin }, JWT_SECRET, { subject: admin.username });
     });
   });
   afterEach(() => {
@@ -131,19 +131,31 @@ describe("ASYNC Capstone API - Users", () => {
 
   describe("POST /api/users/recs", () => {
     it("should return recommendations with the correct fields", () => {
-      /* 
-      {
-	"motivations": ["story"],
-	"dateNumber": 1,
-	"timeFrame": "Years",
-	"platforms": [
-        { "label": "PC", "id": 6, "checked": false },
-        { "label": "XBox One", "id": 49, "checked": false },
-        { "label": "PS4", "id": 48, "checked": false }
-      ]
-}
-      */
-      return chai.request(app).post(``);
+      const recSettings = {
+        motivations: ["story"],
+        dateNumber: 1,
+        timeFrame: "Years",
+        platforms: [{ label: "PS4", id: 48, checked: true }]
+      };
+      return chai
+        .request(app)
+        .post("/api/users/recs")
+        .set("Authorization", `Bearer ${token}`)
+        .send(recSettings)
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.be.an("array");
+          expect(res.body[0]).to.be.an("object");
+          expect(res.body[0]).to.include.all.keys(
+            "id",
+            "name",
+            "cover",
+            "first_release_date",
+            "summary",
+            "slug",
+            "popularity"
+          );
+        });
     });
   });
 
