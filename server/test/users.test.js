@@ -1,6 +1,7 @@
 const chai = require("chai");
 const jwt = require("jsonwebtoken");
 const sinon = require("sinon");
+const mongoose = require("mongoose");
 const { app } = require("../index");
 const { dbConnect, dbDisconnect, dbDrop } = require("../db-mongoose");
 const { JWT_SECRET, TEST_DATABASE_URL } = require("../config");
@@ -283,6 +284,25 @@ describe("ASYNC Capstone API - Users", () => {
         });
     });
 
-    it("should catch errors and respond properly");
+    it("should catch errors and respond properly", () => {
+      sandbox.stub(User, "findOneAndUpdate").returns(new Error("FakeError"));
+
+      return Game.findOne()
+        .then(game => {
+          const updateObj = {
+            neverPlayed: game.id
+          };
+          return chai
+            .request(app)
+            .put(`/api/users/${user.id}`)
+            .set("Authorization", `Bearer ${token}`)
+            .send(updateObj);
+        })
+        .then(res => {
+          expect(res).to.have.status(500);
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Internal Server Error");
+        });
+    });
   });
 });
