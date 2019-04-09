@@ -65,6 +65,7 @@ export class ProfilePage extends React.Component {
       loading,
       topHistory,
       screenWidth,
+      firstName,
       aboutMe,
       profilePic
     } = this.props;
@@ -120,20 +121,22 @@ export class ProfilePage extends React.Component {
     return loading ? (
       <Loading />
     ) : (
-      <div className="dashboard">
-        <div className="nes-container with-title profile-info-container">
+      <div className="game-container mx-auto">
+        {/* <div className="nes-container with-title profile-info-container">
           <p className="title user shadow">Hello {name}!</p>
           <section className="personal-info">
-            <p className="title">
+            <p>
               <img
-                className="title profile-pic"
+                className="profile-pic"
                 src={this.evaluateProfilePic(profilePic)}
                 alt="profile-pic"
               />
             </p>
-            {/* <AboutMe aboutMe={aboutMe} /> */}
-            <Radar name={name} />
+            <AboutMe aboutMe={aboutMe} /> 
           </section>
+        </div> */}
+        <div className="game-container mx-auto text-xs img-responsive">
+          <Radar name={firstName} />
         </div>
         <ConnectedRecommendations profileWidth="w-1" isMobile={isMobile} />
         <section className="nes-container top-six m-4">
@@ -161,6 +164,7 @@ const mapStateToProps = state => {
     userId: currentUser.id,
     username: state.auth.currentUser.username,
     name: `${currentUser.firstName} ${currentUser.lastName}`,
+    firstName: currentUser.firstName,
     history: state.user.history,
     loading: state.user.loading,
     screenWidth: state.window.width,

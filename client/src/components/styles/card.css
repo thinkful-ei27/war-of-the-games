@@ -1,12 +1,11 @@
 .battle-container {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   margin: 20px auto;
   padding: 16px;
 }
-
 
 .game-img {
   height: 250px;
@@ -20,14 +19,14 @@
   display: none;
   margin-bottom: 20px;
   height: 195px;
-} 
+}
 .game-title {
   font-size: 26px;
   text-align: center;
   margin-bottom: 0;
 }
 
-.card{
+.card {
   width: 50%;
   display: flex;
   padding: 20px;
@@ -36,21 +35,21 @@
   justify-content: space-evenly;
 }
 
-.img-holder{
-  text-align: center
+.img-holder {
+  text-align: center;
 }
 
-#vote-button{
+#vote-button {
   margin-left: auto;
   margin-right: auto;
 }
 
-.landing-page-loader{
+.landing-page-loader {
   text-align: center;
   font-size: 25px;
 }
 
-.vs-skip-container{
+.vs-skip-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -72,7 +71,7 @@
   border-width: 3px;
 }
 
-#skip-btn::after{
+#skip-btn::after {
   box-shadow: inset -2px -2px #006bb3;
   align-self: flex-end;
 }
@@ -85,18 +84,18 @@
   .battle-container {
     max-width: 576px;
   }
-  
+
   .game-img {
     height: 300px;
     width: 300px;
   }
 }
 
-#onboarding-progress{
+#onboarding-progress {
   width: 50%;
 }
 
-.onboarding-progress-container{
+.onboarding-progress-container {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -110,10 +109,9 @@
     align-items: inherit;
   }
 
-  .title-container{
-    display: block
+  .title-container {
+    display: block;
   }
-
 }
 
 @media (min-width: 992px) {

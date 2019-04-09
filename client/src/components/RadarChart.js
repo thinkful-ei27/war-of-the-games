@@ -7,9 +7,11 @@ import {
   PolarAngleAxis,
   PolarRadiusAxis,
   Legend,
-  Tooltip
+  Tooltip,
+  Text
 } from "recharts";
 import { connect } from "react-redux";
+import CustomToolTip from "./RadarToolTip";
 import { getUserMotivationData } from "../actions/users";
 
 // const data = [
@@ -35,30 +37,41 @@ class MotivationsChart extends Component {
 
     return (
       <div>
-        <ResponsiveContainer aspect={3} width="100%" margin={0}>
+        <ResponsiveContainer
+          aspect={1}
+          width={320}
+          height="30%"
+          minWidth={320}
+          minHeight={320}
+          padding={0}
+        >
           <RadarChart
+            tick={{ fontSize: 5 }}
             outerRadius={90}
-            width={700}
-            height={250}
-            cx="50%"
             data={data}
             wrapperStyle={{ position: "absolute", left: "0" }}
           >
             <PolarGrid />
-            <PolarAngleAxis dataKey="motivation" />
+            <PolarAngleAxis dataKey="motivation" tick={{ fontSize: 6.5 }} />
             <PolarRadiusAxis angle={30} domain={[0, 100]} />
             <Legend wrapperStyle={{ position: "absolute", top: 30 }} />
             <Radar
-              // name={`${name}'s motivations`}
+              name={`${name}'s motivations`}
               dataKey="percentage"
               stroke="#8884d8"
               fill="#8884d8"
               fillOpacity={0.6}
-              // label={false}
             />
             <Tooltip
-              viewBox={{ x: 10, y: 10, width: 50, height: 100 }}
-              separator="  for this field is  "
+              wrapperStyle={{
+                background: "black",
+                opacity: 0.6,
+                borderRadius: 5,
+                color: "white",
+                padding: 5
+              }}
+              content={<CustomToolTip />}
+              coordinate={{ x: 10, y: 10 }}
             />
           </RadarChart>
         </ResponsiveContainer>
