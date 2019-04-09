@@ -6,11 +6,8 @@ import { API_BASE_URL } from "../config";
 // import Game from "./Game";
 import Rec from "./Rec";
 import Loading from "./loading";
-<<<<<<< HEAD
 import ExcludedGames from "./ExcludedGames";
-=======
 import MultiselectCheckbox from "./MultiSelectCheckbox";
->>>>>>> dev
 
 const orderBy = (arr, props, orders) =>
   [...arr].sort((a, b) =>
@@ -41,9 +38,7 @@ export class RecommendationsPage extends Component {
       scope: 2,
       dateNumber: 1,
       timeFrame: "Years",
-<<<<<<< HEAD
-      excludedGames: []
-=======
+      excludedGames: [],
       platforms: [
         { label: "PC", id: 6, checked: false },
         { label: "XBox One", id: 49, checked: false },
@@ -52,7 +47,6 @@ export class RecommendationsPage extends Component {
         { label: "PS3", id: 9, checked: false },
         { label: "XBox 360", id: 12, checked: false }
       ]
->>>>>>> dev
     };
   }
 
