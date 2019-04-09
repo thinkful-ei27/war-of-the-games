@@ -71,10 +71,6 @@ export class RecommendationsPage extends Component {
             url: `${API_BASE_URL}/users/recs`,
             method: "POST",
             data: {
-              // motivations: [
-              //   orderedMotivations[0].name,
-              //   orderedMotivations[1].name
-              // ],
               motivations: final,
               dateNumber: this.state.dateNumber,
               timeFrame: this.state.timeFrame
@@ -246,7 +242,7 @@ export class RecommendationsPage extends Component {
                 10 Years
               </button>
             </div>
-            <div className="mt-4">
+            <div className="m-4">
               <h3>Scope of Recommendations</h3>
               <button
                 type="button"
@@ -268,7 +264,7 @@ export class RecommendationsPage extends Component {
               >
                 Balanced
               </button>
-              <button
+              {/* <button
                 type="button"
                 className={`nes-btn ${
                   this.state.scope === 3 ? "is-primary" : ""
@@ -277,7 +273,7 @@ export class RecommendationsPage extends Component {
                 onClick={e => this.handleScope(e)}
               >
                 Broad
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
