@@ -39,7 +39,7 @@ const requestOptions = {
   responseType: "json"
 };
 
-const getGamesBySubmotivations = async (motivationsArray, from) => {
+const getGamesBySubmotivations = async (motivationsArray, from, platforms) => {
   // 1 subMotivation <---> 3 subMotivations
   // 1 month <---> 5 years
   // 1 platform <---> All platforms
@@ -64,7 +64,7 @@ const getGamesBySubmotivations = async (motivationsArray, from) => {
       // .sort("first_release_date", "desc")
       .sort("popularity", "desc")
       .where(
-        `keywords.name = (${motivations}) & first_release_date > ${fromDate} & first_release_date < ${today}`
+        `keywords.name = (${motivations}) & first_release_date > ${fromDate} & first_release_date < ${today} & release_dates.platform = (${platforms}) & themes != (42)`
       )
       .request("/games")
       .then(res => {
