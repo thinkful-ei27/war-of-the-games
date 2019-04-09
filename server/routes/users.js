@@ -164,9 +164,6 @@ router.get("/excludedgames", jwtAuth, (req, res, next) => {
       return Game.find({ "igdb.id": { $in: igdbIds } });
     })
     .then(games => {
-      if (!games) {
-        next();
-      }
       res.json(games);
     })
     .catch(err => {
@@ -396,6 +393,34 @@ router.put("/excludedgames", jwtAuth, (req, res, next) => {
 
   const update = {
     $addToSet: { excludedGames: excludedId }
+  };
+
+  let user;
+  return User.findOneAndUpdate({ _id: id }, update, { new: true })
+    .then(_user => {
+      user = _user;
+      res
+        .location(`${req.originalUrl}`)
+        .status(200)
+        .json(user);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+router.put("/removeexcluded", jwtAuth, (req, res, next) => {
+  const { id } = req.user;
+  const { excludedId } = req.body;
+
+  if (typeof excludedId !== "number") {
+    const err = new Error("The id is not valid");
+    err.status = 400;
+    return next(err);
+  }
+
+  const update = {
+    $unset: { excludedGames: excludedId }
   };
 
   let user;
