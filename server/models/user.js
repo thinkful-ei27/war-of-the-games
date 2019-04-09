@@ -42,4 +42,10 @@ userSchema.virtual("historyCount").get(function() {
   return this.history.length;
 });
 
+userSchema.virtual("level").get(function() {
+  const xp = this.history.length;
+  const level = 1 * Math.sqrt(xp);
+  return level;
+});
+
 module.exports = mongoose.model("User", userSchema);

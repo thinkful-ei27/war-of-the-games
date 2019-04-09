@@ -22,6 +22,34 @@ const countBy = (arr, fn) =>
     return acc;
   }, {});
 
+router.get("/all/profile", (req, res, next) => {
+  const { id } = req.params;
+
+  User.find({})
+    .then(results => {
+      results = JSON.stringify(results);
+      results = JSON.parse(results);
+      res.json(
+        results.sort((a, b) => {
+          if (a.level < b.level) return 1;
+          if (a.level > b.level) return -1;
+          return 0;
+        })
+      );
+    })
+    .catch(err => next(err));
+});
+
+router.get("/:id/profile", (req, res, next) => {
+  const { id } = req.params;
+
+  User.find({ _id: id })
+    .then(results => {
+      res.json(results);
+    })
+    .catch(err => next(err));
+});
+
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
 
