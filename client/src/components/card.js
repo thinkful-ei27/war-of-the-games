@@ -39,7 +39,11 @@ export function Card(props) {
         </Link>
       </div>
       <img className="game-img" src={src} alt={alt} />
-      <button className="card__never-played" type="button">
+      <button
+        className="card__never-played"
+        onClick={() => console.log("Never played was clicked")}
+        type="button"
+      >
         {"Don't show again"}
       </button>
       <button
