@@ -26,9 +26,11 @@ export default function ExcludedGames(props) {
     return null;
   }
   return (
-    <div className="game-container flex justify-start content-start flex-wrap mt-16">
+    <div className="mt-16">
       <h2>Excluded Games</h2>
-      {games}
+      <div className="game-container flex justify-start content-start flex-wrap">
+        {games}
+      </div>
     </div>
   );
 }
