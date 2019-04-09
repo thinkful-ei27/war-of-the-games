@@ -10,7 +10,7 @@ import {
 } from "../actions/gameActions";
 
 export function Card(props) {
-  const { game, src, alt, dispatch, games, id, fetchFeedback, userId } = props;
+  const { game, src, alt, dispatch, games, id, fetchFeedback, userId, summary, gameSummaryNum } = props;
   const { name } = game;
 
   const handleVoteClick = () => {
@@ -44,7 +44,7 @@ export function Card(props) {
         </Link>
       </div>
       <ReactTooltip id={gameSummaryNum} type="info" place={"bottom"} multiline={true}>
-        <span>{summary}</span>
+        <span className="hover-summary">{summary}</span>
       </ReactTooltip>
       <img className="game-img" src={src} alt={alt} />
       <button
