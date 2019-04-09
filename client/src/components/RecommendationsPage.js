@@ -149,12 +149,33 @@ export class RecommendationsPage extends Component {
       { headers: { Authorization: `Bearer ${token}` } }
     );
     this.handleModal();
+    this.loadExcludedRecs();
   }
 
   handleRemoveExcluded(id) {
-    this.setState(prevState => ({
-      excludedGames: prevState.excludedGames.filter(rec => rec.igdb.id !== id)
-    }));
+    this.setState({ isLoading: true }, () => {
+      const { token } = this.props;
+      axios
+        .put(
+          `${API_BASE_URL}/users/removeexcluded`,
+          {
+            excludedId: id
+          },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then(() => {
+          this.setState(prevState => ({
+            excludedGames: prevState.excludedGames.filter(
+              rec => rec.igdb.id !== id
+            ),
+            isLoading: false
+          }));
+        })
+        .then(() => this.loadExcludedRecs())
+        .catch(err => {
+          this.setState({ error: err.message, isLoading: false });
+        });
+    });
   }
 
   handleFilter(id) {
