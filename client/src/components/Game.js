@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Logo from "../assets/favicon3.ico";
 
 export default function Game(props) {
   const {
@@ -38,7 +39,7 @@ export default function Game(props) {
       <Link to={url} className="flex flex-col items-center text-center">
         <img
           className="similar m-4"
-          src={cloudImage || props.coverUrl}
+          src={cloudImage || props.coverUrl || Logo}
           alt={slug}
         />
         {/* <i className="nes-mario" /> */}

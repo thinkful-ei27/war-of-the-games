@@ -5,10 +5,13 @@ export default function ExcludedGames(props) {
   const { excludedGames, screenWidth, onRemoveExcluded } = props;
   const games = excludedGames.map(game => {
     const { id, name, cloudImage, igdb, slug, cover } = game;
-    const { image_id: imageId } = cover;
-    const coverUrl = imageId
-      ? `https://images.igdb.com/igdb/image/upload/t_720p/${imageId}.jpg`
-      : null;
+    let coverUrl;
+    if (cover) {
+      const { image_id: imageId } = cover;
+      coverUrl = imageId
+        ? `https://images.igdb.com/igdb/image/upload/t_720p/${imageId}.jpg`
+        : null;
+    }
     const props = {
       name,
       cloudImage,
