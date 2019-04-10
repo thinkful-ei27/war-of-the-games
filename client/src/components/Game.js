@@ -8,7 +8,11 @@ export default function Game(props) {
     cloudImage,
     screenWidth,
     profileWidth,
-    profileFontSize
+    profileFontSize,
+    dataTip,
+    dataFor,
+    dataEvent,
+    dataEventOff
   } = props;
   let width = "w-1/2";
   let fontSize = "text-sm";
@@ -23,7 +27,15 @@ export default function Game(props) {
   return (
     <div className={`similar-game ${profileWidth || width} ${padding}`}>
       <Link to={url} className="flex flex-col items-center text-center">
-        <img className="similar m-4" src={cloudImage} alt={slug} />
+        <img
+          className="similar m-4"
+          src={cloudImage}
+          alt={slug}
+          data-event={dataEvent}
+          data-tip={dataTip}
+          data-event-off={dataEventOff}
+          data-for={dataFor}
+        />
         {/* <i className="nes-mario" /> */}
         <p>
           <span className={`${profileFontSize || fontSize} is-primary`}>

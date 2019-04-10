@@ -20,6 +20,16 @@ const countBy = (arr, fn) =>
     return acc;
   }, {});
 
+router.get("/:id/data", (req, res, next) => {
+  const { id } = req.params;
+
+  User.find({ _id: id })
+    .then(results => {
+      res.json(results);
+    })
+    .catch(err => next(err));
+});
+
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
 

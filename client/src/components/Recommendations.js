@@ -97,7 +97,13 @@ export class Recommendations extends Component {
     const { error, isLoading, recs } = this.state;
     const { isMobile, profileWidth } = this.props;
     const topFiveRecs = recs.slice(0, 5);
-
+    if (!recs.length) {
+      return (
+        <div>
+          <strong>Start Voting to see some recommendations!!!</strong>
+        </div>
+      );
+    }
     return (
       <div className="rec-container">
         {isMobile && <hr className="mt-8" />}
