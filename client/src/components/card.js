@@ -67,7 +67,9 @@ export function Card(props) {
         delayShow={80}
       >
         <Link to={gamesUrl + slug}>
-          <h3 style={{ color: "white" }}>{name}</h3>
+          <p style={{ color: "white" }}>
+            <strong>{name}</strong>
+          </p>
         </Link>
         <span className="hover-summary">
           <SummaryComponent summary={summary} />
