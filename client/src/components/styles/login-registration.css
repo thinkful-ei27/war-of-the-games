@@ -25,3 +25,8 @@
 .login-form{
   padding: 15px;
 }
+
+.form-input{
+  padding-left: 15px;
+  padding-right: 15px;
+}

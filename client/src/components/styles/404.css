@@ -63,5 +63,10 @@
 .onboarding-nav{
   margin-bottom: auto;
   display: flex;
-  flex-direction: column
+  flex-direction: column;
+  
+}
+
+.onboard-signup-btn{
+ margin-bottom: 15px;
 }
