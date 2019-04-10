@@ -23,7 +23,7 @@ function getMotivationInfo(label) {
 }
 
 function CustomTooltip({ payload, label, active }) {
-  if (active) {
+  if (active && payload) {
     return (
       <div className="radar-tooltip">
         <p className="label">{`${label} : ${payload[0].value}%`}</p>

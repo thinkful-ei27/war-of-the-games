@@ -7,21 +7,11 @@ import {
   PolarAngleAxis,
   PolarRadiusAxis,
   Legend,
-  Tooltip,
-  Text
+  Tooltip
 } from "recharts";
 import { connect } from "react-redux";
 import CustomToolTip from "./RadarToolTip";
 import { getUserMotivationData } from "../actions/users";
-
-// const data = [
-//   { motivation: "Creativity", value: 62, fullMark: 100 },
-//   { motivation: "Mastery", value: 53, fullMark: 100 },
-//   { motivation: "Social", value: 57, fullMark: 100 },
-//   { motivation: "Action", value: 50, fullMark: 100 },
-//   { motivation: "Immersion", value: 72, fullMark: 100 },
-//   { motivation: "Achievement", value: 63, fullMark: 100 }
-// ];
 
 class MotivationsChart extends Component {
   componentDidMount() {
@@ -31,10 +21,12 @@ class MotivationsChart extends Component {
 
   render() {
     const { motivations, name } = this.props;
+    console.log(motivations);
     const data = motivations;
     const { motivation, percentage } = data;
-    console.log(data);
-
+    if (data.length < 4) {
+      return <div>Vote More to see your gaming motivations</div>;
+    }
     return (
       <div>
         <ResponsiveContainer
@@ -79,6 +71,17 @@ class MotivationsChart extends Component {
     );
   }
 }
+
+MotivationsChart.defaultProps = {
+  motivations: [
+    { motivation: "action", percentage: 0, fullMark: 100 },
+    { motivation: "social", percentage: 0, fullMark: 100 },
+    { motivation: "mastery", percentage: 0, fullMark: 100 },
+    { motivation: "immersion", percentage: 0, fullMark: 100 },
+    { motivation: "creativity", percentage: 0, fullMark: 100 },
+    { motivation: "achievment", percentage: 0, fullMark: 100 }
+  ]
+};
 
 const mapStateToProps = state => ({
   motivations: state.user.motivations

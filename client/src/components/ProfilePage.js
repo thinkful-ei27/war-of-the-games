@@ -31,7 +31,7 @@ export class ProfilePage extends React.Component {
     const { userId, dispatch } = this.props;
     return Promise.all([
       dispatch(getUserTopHistory(userId)),
-      dispatch(getUserAboutMe()),
+      // dispatch(getUserAboutMe()),
       dispatch(getUserSubmotivations()),
       dispatch(getUser(userId)).then(user => user)
     ]);
@@ -67,16 +67,16 @@ export class ProfilePage extends React.Component {
     const {
       username,
       history,
-      name,
+      fullName,
       loading,
       topHistory,
       screenWidth,
       firstName,
       aboutMe,
-      profilePic
+      profilePic,
+      subMotivations
     } = this.props;
     const isMobile = screenWidth <= 768;
-
     const topSix = topHistory.map(history => {
       const { name, cloudImage, igdb, count, id } = history;
       return (
@@ -147,7 +147,7 @@ export class ProfilePage extends React.Component {
         <ConnectedRecommendations
           profileWidth="w-1"
           isMobile={isMobile}
-          subMotivations={this.props.subMotivations}
+          subMotivations={subMotivations}
         />
         <section className="nes-container top-six m-4">
           <h4>
@@ -173,7 +173,7 @@ const mapStateToProps = state => {
     topHistory: state.user.topHistory,
     userId: currentUser.id,
     username: state.auth.currentUser.username,
-    name: `${currentUser.firstName} ${currentUser.lastName}`,
+    fullName: `${currentUser.firstName} ${currentUser.lastName}`,
     firstName: currentUser.firstName,
     history: state.user.history,
     subMotivations: state.user.subMotivations,
