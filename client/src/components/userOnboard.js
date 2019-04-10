@@ -10,33 +10,30 @@ import {
 } from "../local-storage";
 
 export class UserOnboard extends React.Component {
-  state = {
-    count: Number(loadVoteCount())
-  };
-
   count = Number(loadVoteCount());
 
   componentWillMount() {
     const { dispatch } = this.props;
     setVoteLocalStorageVariable();
-    const myKey = `test${this.count}`;
+    let myKey;
+    myKey = `test${this.count}`;
     dispatch(nextTest(myKey));
   }
 
   handleVote = () => {
     const { dispatch } = this.props;
-    this.setState(prevState => ({ count: prevState.count + 1 }));
+    let myKey;
+    this.count++;
     incrementVoteCount();
-    const myKey = `test${this.count}`;
+    myKey = `test${this.count}`;
     dispatch(nextTest(myKey));
   };
 
   render() {
-    const { count } = this.state;
     const { dispatch, tests } = this.props;
     let content;
 
-    if (count < 13) {
+    if (this.count < 13) {
       content = (
         <>
           <div className="battle-container">
@@ -67,6 +64,9 @@ export class UserOnboard extends React.Component {
               >
                 Vote
               </button>
+            </div>
+            <div className="vs-skip-container">
+              <span className="vs">VS</span>
             </div>
             <div className="card-onboard-2">
               <div className="title-container">
