@@ -24,12 +24,12 @@ export class UserOnboard extends React.Component {
   }
 
   handleVote = () => {
-    const { dispatch } = this.props;
-    this.setState(prevState => ({ count: prevState.count + 1 }));
+    let myKey;
+    this.count++
     incrementVoteCount();
-    const myKey = `test${this.count}`;
-    dispatch(nextTest(myKey));
-  };
+    myKey = `test${this.count}`;
+    this.props.dispatch(nextTest(myKey))
+  }
 
   render() {
     const { count } = this.state;
