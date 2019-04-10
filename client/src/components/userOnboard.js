@@ -107,7 +107,7 @@ export class UserOnboard extends React.Component {
           </div>
         </>
       );
-    } else if (this.count >= 11) {
+    } else if (this.count >= 13) {
       content = <OnboardPropmt />;
     }
     return content;
