@@ -599,11 +599,13 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
     }
   });
 
-  // if (!mongoose.Types.ObjectId.isValid(neverPlayed)) {
-  //   const err = new Error("The game ID is not valid");
-  //   err.status = 400;
-  //   return next(err);
-  // }
+  if (neverPlayed) {
+    if (!mongoose.Types.ObjectId.isValid(neverPlayed)) {
+      const err = new Error("The game ID is not valid");
+      err.status = 400;
+      return next(err);
+    }
+  }
 
   console.log("to update is ", toUpdate);
 
