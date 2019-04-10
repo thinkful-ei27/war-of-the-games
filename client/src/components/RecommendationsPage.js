@@ -271,10 +271,11 @@ export class RecommendationsPage extends Component {
     return (
       <div>
         <Modal
+          item="recommendations"
           showModal={showModal}
           igdbId={igdbId}
           handleModal={() => this.handleModal()}
-          handleExcludeRec={id => this.handleExcludeRec(id)}
+          onRemove={id => this.handleExcludeRec(id)}
         />
         <h1 className="rec-pg-title text-center mt-16">
           <i className={`nes-icon coin ${iconSize}`} />

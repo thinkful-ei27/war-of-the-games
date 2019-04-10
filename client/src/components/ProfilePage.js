@@ -143,7 +143,11 @@ export class ProfilePage extends React.Component {
           isMobile={isMobile}
           subMotivations={subMotivations}
         />
-        <ConnectedWishList username={username} profileWidth="w-1" isMobile={isMobile} />
+        <ConnectedWishList
+          username={username}
+          profileWidth="w-1"
+          isMobile={isMobile}
+        />
         <section className="nes-container top-six m-4">
           <h4>
             <i className={`nes-icon ${iconSize} heart`} />

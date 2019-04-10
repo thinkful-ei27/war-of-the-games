@@ -4,6 +4,7 @@ import axios from "axios";
 import { API_BASE_URL } from "../config";
 import ConnectedGame from "./Game";
 import Loading from "./loading";
+import Modal from "./Modal";
 
 export class WishListPage extends Component {
   constructor(props) {
@@ -11,19 +12,19 @@ export class WishListPage extends Component {
     this.state = {
       isLoading: false,
       error: false,
-      wishList: []
+      wishList: [],
+      showModal: false,
+      igdbId: null
     };
   }
 
   componentDidMount() {
-    const { isLoggedIn } = this.props;
-    if (isLoggedIn) {
-      this.loadWishList();
-    }
+    const { username } = this.props.match.params;
+    this.loadWishList(username);
   }
 
-  loadWishList() {
-    const { token, username } = this.props;
+  loadWishList(username) {
+    const { token } = this.props;
     this.setState({ isLoading: true }, () => {
       axios({
         url: `${API_BASE_URL}/users/wishlist/${username}`,
@@ -40,11 +41,55 @@ export class WishListPage extends Component {
     });
   }
 
-  handleRemoveFromWishList(id) {}
+  handleRemoveFromWishList(id) {
+    const { token } = this.props;
+    const { username } = this.props.match.params;
+    this.setState({ isLoading: true }, () => {
+      axios
+        .put(
+          `${API_BASE_URL}/users/removewishlist`,
+          {
+            wishListId: id
+          },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then(() => {
+          this.setState(prevState => ({
+            wishList: prevState.wishList.filter(game => game.id !== id),
+            isLoading: false
+          }));
+          this.handleModal();
+        })
+        .then(() => this.loadWishList(username))
+        .catch(err => {
+          this.setState({ isLoading: false, error: err.message });
+        });
+    });
+  }
+
+  clearId() {
+    this.setState({ igdbId: null });
+  }
+
+  handleModal(id = null) {
+    const { showModal } = this.state;
+    if (id) {
+      this.setState({
+        igdbId: id
+      });
+    }
+    if (showModal) {
+      this.clearId();
+    }
+
+    this.setState(prevState => ({
+      showModal: !prevState.showModal
+    }));
+  }
 
   render() {
     const { screenWidth } = this.props;
-    const { wishList, isLoading, error } = this.state;
+    const { wishList, isLoading, error, showModal, igdbId } = this.state;
     let wishListGames;
     if (wishList.length) {
       wishListGames = wishList.map(game => {
@@ -66,7 +111,13 @@ export class WishListPage extends Component {
           id,
           wishList: true
         };
-        return <ConnectedGame key={id} {...props} />;
+        return (
+          <ConnectedGame
+            onRemoveGame={id => this.handleModal(id)}
+            key={id}
+            {...props}
+          />
+        );
       });
     } else {
       return isLoading ? (
@@ -91,6 +142,13 @@ export class WishListPage extends Component {
           <i className="nes-icon heart" />
         </div>
         <div className="flex justify-start content-start flex-wrap mt-16">
+          <Modal
+            item="Wish List"
+            showModal={showModal}
+            igdbId={igdbId}
+            handleModal={() => this.handleModal()}
+            onRemove={id => this.handleRemoveFromWishList(id)}
+          />
           {wishListGames}
         </div>
       </div>
@@ -100,9 +158,7 @@ export class WishListPage extends Component {
 
 const mapStateToProps = state => ({
   token: state.auth.authToken,
-  screenWidth: state.window.width,
-  isLoggedIn: state.auth.currentUser !== null,
-  username: state.auth.currentUser.username
+  screenWidth: state.window.width
 });
 
 export default connect(mapStateToProps)(WishListPage);

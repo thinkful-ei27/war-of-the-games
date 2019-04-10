@@ -40,7 +40,7 @@ export default function Game(props) {
     removeButton = (
       <div className="remove-wishlist-btn-container">
         <button
-          onClick={() => props.onRemoveWishList(props.id)}
+          onClick={() => props.onRemoveGame(props.id)}
           className="remove-wishlist"
           type="button"
         >

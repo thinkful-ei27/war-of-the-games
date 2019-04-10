@@ -44,6 +44,10 @@ export class WishList extends Component {
     const { isMobile, profileWidth, username } = this.props;
     const { wishList, isLoading, error } = this.state;
     const topFiveWish = wishList.slice(0, 5);
+
+    if (!wishList.length) {
+      return null;
+    }
     return (
       <div className="rec-container">
         <Link to={`/users/${username}/wishlist`}>
