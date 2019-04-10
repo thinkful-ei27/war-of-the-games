@@ -76,6 +76,12 @@ export const userFetchRequest = () => ({
   type: USER_FETCH_REQUEST
 });
 
+export const USER_FETCH_SUCCESS = "USER_FETCH_SUCCESS";
+export const userFetchSuccess = profilePic => ({
+  type: USER_FETCH_SUCCESS,
+  profilePic
+});
+
 export const USER_FETCH_ERROR = "USER_FETCH_ERROR";
 export const userFetchError = error => ({
   type: USER_FETCH_ERROR,
@@ -226,5 +232,31 @@ export const updateUser = (userId, gameId) => (dispatch, getState) => {
     .then(res => normalizeResponseErrors(res))
     .then(res => res.json())
     .then(() => dispatch(fetchGames()))
+    .catch(err => dispatch(userFetchError(err)));
+};
+
+export const updateUserProfilePic = (userId, profilePic) => (
+  dispatch,
+  getState
+) => {
+  const { authToken } = getState().auth;
+  const updateObj = { profilePic };
+  dispatch(userFetchRequest());
+  return fetch(`${API_BASE_URL}/users/${userId}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+      "content-type": "application/json"
+    },
+    body: JSON.stringify(updateObj)
+  })
+    .then(res => normalizeResponseErrors(res))
+    .then(res => {
+      return res.json();
+    })
+    .then(res => {
+      const { profilePic } = res;
+      dispatch(userFetchSuccess(profilePic));
+    })
     .catch(err => dispatch(userFetchError(err)));
 };

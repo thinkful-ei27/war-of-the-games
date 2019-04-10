@@ -438,22 +438,40 @@ router.put("/excludedgames", jwtAuth, (req, res, next) => {
 // TODO: Make this endpoint more flexible so it can update other properties
 router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
   const { id } = req.params;
-  const { neverPlayed } = req.body;
+  const { neverPlayed, profilePic } = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(neverPlayed)) {
-    const err = new Error("The game ID is not valid");
-    err.status = 400;
-    return next(err);
-  }
+  const toUpdate = {};
+  const updateableFields = ["neverPlayed", "profilePic"];
 
-  const toUpdate = { $push: { "games.neverPlayed": neverPlayed } };
+  updateableFields.forEach(field => {
+    if (field in req.body) {
+      if (field === "neverPlayed") {
+        Object.assign(toUpdate, {
+          $push: { "games.neverPlayed": req.body[field] }
+        });
+      } else {
+        Object.assign(toUpdate, {
+          $set: { [field]: req.body[field] }
+        });
+      }
+    }
+  });
+
+  // if (!mongoose.Types.ObjectId.isValid(neverPlayed)) {
+  //   const err = new Error("The game ID is not valid");
+  //   err.status = 400;
+  //   return next(err);
+  // }
+
+  console.log("to update is ", toUpdate);
+
   return User.findOneAndUpdate({ _id: id }, toUpdate, { new: true })
     .then(user => {
       if (!user) {
         return next();
       }
-      const { createdAt, updatedAt, games } = user;
-      const returnObj = { id, createdAt, updatedAt, games };
+      const { createdAt, updatedAt, games, profilePic } = user;
+      const returnObj = { id, createdAt, updatedAt, games, profilePic };
       return res.json(returnObj);
     })
     .catch(err => next(err));

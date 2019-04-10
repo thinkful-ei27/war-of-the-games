@@ -3,6 +3,7 @@ import "./styles/gameInfo.css";
 import { connect } from "react-redux";
 import Avatar from "./Avatar";
 import requiresLogin from "./requires-login";
+import { updateUserProfilePic } from "../actions/users";
 
 class AvatarCard extends React.Component {
   showModal = () => {
@@ -15,14 +16,13 @@ class AvatarCard extends React.Component {
 
   updateProfilePic(e) {
     const pic = e.currentTarget.id;
-    this.setState({
-      profilePic: pic
-    });
+    const { userId, dispatch } = this.props;
+    dispatch(updateUserProfilePic(userId, pic));
     this.hideModal();
   }
 
   render() {
-    const { level, xpToNextLevel } = this.props;
+    const { level, xpToNextLevel, initialPic } = this.props;
     const classIconNames = [
       "nes-mario",
       "nes-ash",
@@ -43,7 +43,7 @@ class AvatarCard extends React.Component {
     ));
     return (
       <section>
-        <section>
+        <section className="full-dialog">
           <dialog className="nes-dialog" id="dialog-default">
             <form method="dialog">
               <p className="title">Profile Pic</p>
@@ -71,7 +71,7 @@ class AvatarCard extends React.Component {
               onClick={() => this.showModal()}
             >
               +
-              <Avatar profilePic={this.props.profilePic} />
+              <Avatar profilePic={this.props.profilePic || initialPic} />
             </button>
           </p>
           <div className="">
@@ -94,9 +94,10 @@ const mapStateToProps = state => {
   const { currentUser } = state.auth;
 
   return {
+    userId: currentUser.id,
     level: currentUser.level,
     xpToNextLevel: currentUser.xpToNextLevel,
-    profilePic: state.auth.currentUser.profilePic
+    profilePic: state.user.profilePic
   };
 };
 

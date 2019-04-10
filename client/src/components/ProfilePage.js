@@ -70,6 +70,7 @@ export class ProfilePage extends React.Component {
       history,
       level,
       xpToNextLevel,
+      initialPic,
       name,
       userHistory,
       loading,
@@ -153,8 +154,8 @@ export class ProfilePage extends React.Component {
           >
             <p className="title">{username}</p>
             <section className="profile-header">
-              <div className="profile-xp-card">
-                <ConnectedAvatarCard />
+              <div>
+                <ConnectedAvatarCard initialPic={initialPic} />
               </div>
               <div className="text-xxs">
                 <Radar name={firstName} />
@@ -196,6 +197,7 @@ const mapStateToProps = state => {
     topHistory: state.user.topHistory,
     level: currentUser.level,
     xpToNextLevel: currentUser.xpToNextLevel,
+    initialPic: currentUser.profilePic,
     userId: currentUser.id,
     username: state.auth.currentUser.username,
     fullName: `${currentUser.firstName} ${currentUser.lastName}`,
