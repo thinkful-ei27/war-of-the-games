@@ -142,24 +142,42 @@ export class ProfilePage extends React.Component {
           </section>
         </div> */}
         <div className="game-container mx-auto text-xs img-responsive">
-          <Radar name={firstName} />
+          <div className="nes-container with-title is-centered is-dark">
+            <p className="title">{username}</p>
+            <section className="flex flex-row justify-between">
+              <div className="">
+                <i className="nes-charmander" />
+              </div>
+              {/* <div className="profile">
+                <p>Yeah you know what it is.</p>
+              </div> */}
+              <div className="">
+                <Radar name={firstName} />
+              </div>
+            </section>
+          </div>
         </div>
         <ConnectedRecommendations
           profileWidth="w-1"
           isMobile={isMobile}
           subMotivations={this.props.subMotivations}
         />
-        <section className="nes-container top-six m-4">
-          <h4>
-            <i className={`nes-icon ${iconSize} heart`} />
-            Your Top 6 choices!
-          </h4>
-          {topSix}
-        </section>
-        <aside className="nes-container with-title recent-choices">
-          <h4>Your Most Recent Choices!</h4>
-          {recentHistory}
-        </aside>
+        <div className="flex flex-row">
+          <section className="nes-container m-4">
+            <h4>
+              <i className={`nes-icon ${iconSize} heart`} />
+              Your Top 6 choices!
+            </h4>
+            {topSix}
+          </section>
+          <aside className="nes-container m-4">
+            <h4>
+              <i className={`nes-icon ${iconSize} heart`} />
+              Your Most Recent Choices!
+            </h4>
+            {recentHistory}
+          </aside>
+        </div>
       </div>
     );
   }
