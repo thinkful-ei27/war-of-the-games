@@ -57,7 +57,18 @@ export function Card(props) {
           <h1 className="game-title">{name}</h1>
         </Link>
       </div>
-      <ReactTooltip id={gameSummaryNum} type="info" place="bottom" multiline>
+      <ReactTooltip
+        className="hover"
+        id={gameSummaryNum}
+        type="info"
+        multiline
+        effect="float"
+        clickable
+        delayShow={80}
+      >
+        <Link to={gamesUrl + slug}>
+          <h3 style={{ color: "white" }}>{name}</h3>
+        </Link>
         <span className="hover-summary">
           <SummaryComponent summary={summary} />
         </span>
@@ -67,8 +78,11 @@ export function Card(props) {
         src={src}
         alt={alt}
         data-tip
+        data-event="mousemove"
+        data-event-off="mouseleave"
         data-for={gameSummaryNum}
       />
+
       {loggedIn ? (
         <button
           className="card__never-played"

@@ -17,11 +17,12 @@ class AboutMe extends Component {
     this.setState({ submitSucceeded: true, isEditing: false });
     dispatch(postUserAboutMe(e.target.aboutMe.value));
   }
+
   render() {
     const { aboutMe, screenWidth } = this.props;
     const { submitSucceeded, isEditing, previousAboutMe } = this.state;
     const isMobile = screenWidth <= 768;
-    console.log(screenWidth);
+
     let nesContainer = "";
     let iconSize = "is-small";
     if (!isMobile) {

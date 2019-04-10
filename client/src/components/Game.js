@@ -9,7 +9,11 @@ export default function Game(props) {
     cloudImage,
     screenWidth,
     profileWidth,
-    profileFontSize
+    profileFontSize,
+    dataTip,
+    dataFor,
+    dataEvent,
+    dataEventOff
   } = props;
   let width = "w-1/2";
   let fontSize = "text-sm";
@@ -58,6 +62,10 @@ export default function Game(props) {
       <Link to={url} className="flex flex-col items-center text-center">
         <img
           className="similar m-4"
+          data-event={dataEvent}
+          data-tip={dataTip}
+          data-event-off={dataEventOff}
+          data-for={dataFor}
           src={cloudImage || props.coverUrl || Logo}
           alt={slug}
         />

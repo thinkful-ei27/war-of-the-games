@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { fetchAllGames } from "../actions/allGames";
 import { connect } from "react-redux";
+import { fetchAllGames } from "../actions/allGames";
 import ConnectedGame from "./Game";
 
 const normalize = (value, compare) => {
@@ -81,47 +81,45 @@ export class InfiniteGames extends Component {
   };
 
   render() {
-    const {
-      error,
-      hasMore,
-      isLoading,
-      loadedGames,
-      value
-    } = this.state;
+    const { error, hasMore, isLoading, loadedGames, value } = this.state;
     const { games, screenWidth } = this.props;
 
-    let renderGames = loadedGames.map(game => {
-      const { name, igdb, id, cloudImage } = game;
-      const { slug } = igdb;
-      const props = {
-        id,
-        name,
-        cloudImage,
-        slug,
-        screenWidth
-      };
-      return <ConnectedGame key={id} {...props} />;
-    }).filter(game => {
-      const { name } = game.props;
-      const { value } = this.state;
-      return normalize(value, name);
-    })
-    let filterGames = games.map(game => {
-      const { name, igdb, id, cloudImage } = game;
-      const { slug } = igdb;
-      const props = {
-        id,
-        name,
-        cloudImage,
-        slug,
-        screenWidth
-      };
-      return <ConnectedGame key={id} {...props} />;
-    }).filter(game => {
-      const { name } = game.props;
-      const { value } = this.state;
-      return normalize(value, name);
-    })
+    const renderGames = loadedGames
+      .map(game => {
+        const { name, igdb, id, cloudImage } = game;
+        const { slug } = igdb;
+        const props = {
+          id,
+          name,
+          cloudImage,
+          slug,
+          screenWidth
+        };
+        return <ConnectedGame key={id} {...props} />;
+      })
+      .filter(game => {
+        const { name } = game.props;
+        const { value } = this.state;
+        return normalize(value, name);
+      });
+    const filterGames = games
+      .map(game => {
+        const { name, igdb, id, cloudImage } = game;
+        const { slug } = igdb;
+        const props = {
+          id,
+          name,
+          cloudImage,
+          slug,
+          screenWidth
+        };
+        return <ConnectedGame key={id} {...props} />;
+      })
+      .filter(game => {
+        const { name } = game.props;
+        const { value } = this.state;
+        return normalize(value, name);
+      });
 
     return (
       <section className="game-container mx-auto">
@@ -133,32 +131,26 @@ export class InfiniteGames extends Component {
             {screenWidth > 768 && <i className="snes-logo mx-4" />}
             {screenWidth > 768 && <i className="snes-jp-logo mx-4" />}
           </h1>
-      </div>
-      <div className="nes-field mt-16 w-3/4 mx-auto">
-        <input
-          type='text'
-          className='nes-input'
-          value={this.state.value}
-          onChange={e => this.onChangeHandler(e)}
-          placeholder={screenWidth > 768 ? "Type something to search" : "Search Games"}
-        />
-      </div>
-      <div className="flex justify-start content-start flex-wrap mt-16">
-        {value ? filterGames : renderGames}
-        <hr />
-        {error &&
-          <div style={{ color: '#900' }}>
-            {error}
-          </div>
-        }
-        {isLoading &&
-          <div>Loading...</div>
-        }
-        {!hasMore &&
-          <div>You did it! You reached the end!</div>
-        }
-      </div>
-    </section>
+        </div>
+        <div className="nes-field mt-16 w-3/4 mx-auto">
+          <input
+            type="text"
+            className="nes-input"
+            value={this.state.value}
+            onChange={e => this.onChangeHandler(e)}
+            placeholder={
+              screenWidth > 768 ? "Type something to search" : "Search Games"
+            }
+          />
+        </div>
+        <div className="flex justify-start content-start flex-wrap mt-16">
+          {value ? filterGames : renderGames}
+          <hr />
+          {error && <div style={{ color: "#900" }}>{error}</div>}
+          {isLoading && <div>Loading...</div>}
+          {!hasMore && <div>You did it! You reached the end!</div>}
+        </div>
+      </section>
     );
   }
 }
