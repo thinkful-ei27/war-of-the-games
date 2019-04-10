@@ -20,7 +20,7 @@ export default function Modal(props) {
       </button>
       <div className="flex flex-col justify-around items-center h-1 text-xs">
         <p className="text-center modal-content">
-          Are you sure you want to remove this game from your {item}?
+          Are you sure you want to remove this game from your {item}
         </p>
         <menu className="flex w-2/3 justify-around">
           <button
