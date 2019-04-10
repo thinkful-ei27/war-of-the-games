@@ -273,7 +273,7 @@ export class RecommendationsPage extends Component {
     return (
       <div>
         <Modal
-          item="recommendations"
+          item="recommendations?"
           showModal={showModal}
           igdbId={igdbId}
           handleModal={() => this.handleModal()}
