@@ -1,6 +1,7 @@
 import React from "react";
 import { Field, reduxForm, focus } from "redux-form";
 import { registerUser } from "../actions/users";
+import { Link } from "react-router-dom";
 import { login } from "../actions/auth";
 import Input from "./input";
 import Input2 from "./input2"
@@ -53,6 +54,7 @@ export class RegistrationForm extends React.Component {
 
         <Field
           component={Input}
+          value="password"
           type="password"
           name="password"
           label="password"
@@ -68,7 +70,7 @@ export class RegistrationForm extends React.Component {
         />
 
         <div className="profile-selector form-input">
-          <h3>Select an Avatar</h3>
+          <h3 className="avatar-header">Select an Avatar</h3>
           <Field
             id="demon"
             name="profilePic"
@@ -163,6 +165,7 @@ export class RegistrationForm extends React.Component {
         <button type="submit" disabled={pristine || submitting}>
           Register
         </button>
+        <Link to="/login" className="login-link">Login</Link>
       </form>
     );
   }

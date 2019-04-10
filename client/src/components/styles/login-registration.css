@@ -1,0 +1,27 @@
+
+
+.signup-form-container{
+ display: flex;
+ flex-direction: column;
+ background-color: black;
+ color: lightgrey;
+ text-align: center;
+}
+
+.avatar-header{
+  margin-top: 25px;
+}
+
+.form-holder{
+  border: 2px solid blue;
+  margin: 15px;
+  margin-bottom: 40px;
+}
+
+.login-link{
+  display: block;
+}
+
+.login-form{
+  padding: 15px;
+}
