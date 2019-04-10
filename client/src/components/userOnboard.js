@@ -1,5 +1,3 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable prefer-const */
 import React from "react";
 import { connect } from "react-redux";
 import { setNonUserVotes } from "../actions/gameActions";
@@ -66,6 +64,9 @@ export class UserOnboard extends React.Component {
               >
                 Vote
               </button>
+            </div>
+            <div className="vs-skip-container">
+              <span className="vs">VS</span>
             </div>
             <div className="card-onboard-2">
               <div className="title-container">
