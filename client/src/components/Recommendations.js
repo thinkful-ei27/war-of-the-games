@@ -4,6 +4,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { API_BASE_URL } from "../config";
 import Game from "./Game";
+import Logo from "../assets/favicon3.ico";
 
 const orderBy = (arr, props, orders) =>
   [...arr].sort((a, b) =>
@@ -115,7 +116,7 @@ export class Recommendations extends Component {
               key={rec.id}
               name={rec.name}
               slug={rec.slug}
-              cloudImage={rec.cloudImage || rec.cover.url}
+              cloudImage={rec.cover ? rec.cover.url : rec.cloudImage || Logo}
               profileFontSize="text-xs"
               profileWidth={profileWidth}
             />

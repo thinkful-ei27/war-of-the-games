@@ -12,6 +12,7 @@ import {
 import Loading from "./loading";
 import ConnectedGame from "./Game";
 import ConnectedRecommendations from "./Recommendations";
+import ConnectedWishList from "./WishList";
 // profile pic imports
 
 import Demon from "../assets/demon.png";
@@ -69,7 +70,8 @@ export class ProfilePage extends React.Component {
       topHistory,
       screenWidth,
       subMotivations,
-      firstName
+      firstName,
+      username
     } = this.props;
     const isMobile = screenWidth <= 768;
 
@@ -140,6 +142,11 @@ export class ProfilePage extends React.Component {
           profileWidth="w-1"
           isMobile={isMobile}
           subMotivations={subMotivations}
+        />
+        <ConnectedWishList
+          username={username}
+          profileWidth="w-1"
+          isMobile={isMobile}
         />
         <section className="nes-container top-six m-4">
           <h4>
