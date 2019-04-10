@@ -1,5 +1,6 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
+
 export default function OnboardingPrompt(props) {
   return (
     <section className="section-404">
@@ -17,7 +18,7 @@ export default function OnboardingPrompt(props) {
               type="button"
             >
               Sign up
-          </button>
+            </button>
           </Link>
           <Link to="/login">
             <button
@@ -26,12 +27,12 @@ export default function OnboardingPrompt(props) {
               type="button"
             >
               Log in
-          </button>
+            </button>
           </Link>
         </nav>
         <p>Sign Up To Get Recommendations and See How Other Users Feel!</p>
-        <div className="bricks-onboarding-holder-2"></div>
+        <div className="bricks-onboarding-holder-2" />
       </div>
     </section>
-  )
+  );
 }

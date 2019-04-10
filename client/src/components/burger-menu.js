@@ -19,7 +19,9 @@ export default class BurgerMenu extends Component {
     const { menuItems } = this.props;
     let content;
     if (!expanded) {
-      content = <img alt="burger-menu" src={pixelBurger} />;
+      content = (
+        <img className="burger-img" alt="burger-menu" src={pixelBurger} />
+      );
     }
     if (expanded) {
       content = <Menu menuItems={menuItems} />;

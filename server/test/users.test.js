@@ -69,7 +69,9 @@ describe("ASYNC Capstone API - Users", () => {
             "admin",
             "historyCount",
             "createdAt",
-            "updatedAt"
+            "updatedAt",
+            "xpToNextLevel",
+            "level"
           );
           expect(res.body.username).to.equal(username.toLowerCase());
           expect(res.body.firstName).to.equal(firstName);
