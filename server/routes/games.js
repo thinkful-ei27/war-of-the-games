@@ -79,7 +79,7 @@ router.get("/igdb/:slug", (req, res, next) => {
 
 // GET /api/games/battle must go before GET /api/games/:id or else it will never get called.
 router.get("/battle", (req, res, next) => {
-  const filters = { firstReleaseDate: { $lt: sixMonthsAgo } };
+  const filters = { firstReleaseDate: { $lt: sixMonthsAgo }, core: true };
   // Get user if authToken is included in request
   let user;
   if (req.headers.authorization) {
