@@ -12,6 +12,7 @@ import {
 import { connect } from "react-redux";
 import CustomToolTip from "./RadarToolTip";
 import { getUserMotivationData } from "../actions/users";
+import Loading from "./loading";
 
 class MotivationsChart extends Component {
   componentDidMount() {
@@ -20,14 +21,14 @@ class MotivationsChart extends Component {
   }
 
   render() {
-    const { motivations, name } = this.props;
+    const { motivations, name, loading } = this.props;
     console.log(motivations);
     const data = motivations;
-    const { motivation, percentage } = data;
-    if (data.length < 4) {
-      return <div>Vote More to see your gaming motivations</div>;
+    let content;
+    if (loading) {
+      content = <Loading />;
     }
-    return (
+    content = (
       <div>
         <ResponsiveContainer
           aspect={1}
@@ -69,6 +70,8 @@ class MotivationsChart extends Component {
         </ResponsiveContainer>
       </div>
     );
+
+    return <div>{content}</div>;
   }
 }
 
@@ -84,7 +87,8 @@ MotivationsChart.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  motivations: state.user.motivations
+  motivations: state.user.motivations,
+  loading: state.user.loading
 });
 
 export default connect(mapStateToProps)(MotivationsChart);

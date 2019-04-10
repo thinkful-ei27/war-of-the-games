@@ -1,10 +1,9 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from "react";
 import { connect } from "react-redux";
-import Battle from "./battle";
-import Sprites from "./Sprites";
+import ConnectedBattle from "./battle";
 import VoteStats from "./vote-stats";
-import UserOnboard from "./userOnboard";
+import ConnectedUserOnboard from "./userOnboard";
 import "./styles/landing-page.css";
 import ErrorBoundary from "./errorBoundary";
 import "./styles/card.css";
@@ -37,16 +36,15 @@ export class LandingPage extends React.Component {
     let content;
     const count = parseInt(loadVoteCount(), 10);
     if (count <= 13 && !loggedIn) {
-      content = <UserOnboard />;
+      content = <ConnectedUserOnboard />;
     } else if (count > 13 && !loggedIn) {
       content = <ErrorBoundary />;
     } else if (games.length && feedback) {
       content = (
         <div className="battle-vote">
-          <dialog className="nes-dialog" id="dialog-default" />
-          <Battle
+          <ConnectedBattle
             fetchFeedback={game => this.handleFetchFeedback(game)}
-            {...games}
+            games={games}
           />
           <div className="vote-stats-container">
             <VoteStats feedback={feedback} {...games} />
@@ -55,9 +53,9 @@ export class LandingPage extends React.Component {
       );
     } else if (games.length) {
       content = (
-        <Battle
+        <ConnectedBattle
           fetchFeedback={game => this.handleFetchFeedback(game)}
-          {...games}
+          games={games}
         />
       );
     } else {

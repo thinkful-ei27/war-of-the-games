@@ -121,7 +121,7 @@ export class Recommendations extends Component {
               key={rec.id}
               name={rec.name}
               slug={rec.slug}
-              // cloudImage={rec.cloudImage || rec.cover.url}
+              cloudImage={rec.cloudImage || rec.cover.url}
               profileFontSize="text-xs"
               profileWidth={profileWidth}
             />

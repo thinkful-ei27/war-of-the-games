@@ -9,6 +9,7 @@ import {
   clearGames,
   clearNonUserVotes
 } from "../actions/gameActions";
+import { updateUser } from "../actions/users";
 
 export function Card(props) {
   const {
@@ -19,11 +20,16 @@ export function Card(props) {
     games,
     id,
     fetchFeedback,
+    loggedIn,
     userId,
     summary,
     gameSummaryNum
   } = props;
   const { name } = game;
+
+  const handleNeverPlayedClick = gameId => {
+    dispatch(updateUser(userId, gameId));
+  };
 
   const handleVoteClick = () => {
     dispatch(handleVote(games[0].id, games[1].id, id, userId));
@@ -76,9 +82,18 @@ export function Card(props) {
         data-event-off="mouseleave"
         data-for={gameSummaryNum}
       />
-      <button className="card__never-played" type="button">
-        {"Don't show again"}
-      </button>
+
+      {loggedIn ? (
+        <button
+          className="card__never-played"
+          onClick={() => handleNeverPlayedClick(id)}
+          type="button"
+        >
+          {"Don't show again"}
+        </button>
+      ) : (
+        ""
+      )}
       <button
         id="vote-button"
         className="nes-btn is-warning"
