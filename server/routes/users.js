@@ -176,9 +176,9 @@ router.get("/excludedgames", jwtAuth, (req, res, next) => {
 
 /* ========= GET WISHLIST GAMES ============= */
 
-router.get("/wishlist/:id", (req, res, next) => {
-  const userId = req.params.id;
-  User.findOne({ _id: userId }, { wishList: 1 })
+router.get("/wishlist/:username", (req, res, next) => {
+  const { username } = req.params;
+  User.findOne({ username }, { wishList: 1 })
     .then(user => {
       const igdbIds = user.wishList;
       return igdbApi.getGamesByIds(igdbIds);
