@@ -42,21 +42,6 @@
   margin-left: 50%;
 }
 
-.remove-wishlist {
-  color: red;
-  background-color: inherit;
-  border: none;
-  font-size: 28px;
-  position: absolute;
-  top: 5;
-  left: 1;
-  right: 5%;
-}
-
-.remove-wishlist-btn-container {
-  position: relative;
-}
-
 /* .nes-container.game-recommendation {
   padding: 15px;
 } */
@@ -128,9 +113,6 @@
 @media (min-width: 1200px) {
   .game-container {
     max-width: 1200px;
-  }
-  .remove-wishlist {
-    right: 100px;
   }
 }
 
