@@ -1,10 +1,14 @@
+/* eslint-disable camelcase */
 const express = require("express");
 const passport = require("passport");
 const moment = require("moment");
+const jwt = require("jsonwebtoken");
 const Game = require("../models/game");
+const User = require("../models/user");
 const igdbApi = require("../utils/gameApi");
 const imagesApi = require("../utils/imagesApi");
 const { isValidId, requiresAdmin } = require("./validators");
+const { JWT_SECRET } = require("../config");
 
 const router = express.Router();
 const jwtAuth = passport.authenticate("jwt", {
@@ -74,14 +78,40 @@ router.get("/igdb/:slug", (req, res, next) => {
 });
 
 // GET /api/games/battle must go before GET /api/games/:id or else it will never get called.
-router.get("/battle", (req, res, next) =>
-  Game.countDocuments()
-    .where("firstReleaseDate")
-    .lt(sixMonthsAgo)
+router.get("/battle", (req, res, next) => {
+  // Get user if authToken is included in request
+  let user;
+  if (req.headers.authorization) {
+    const authToken = req.headers.authorization.split(" ")[1];
+    jwt.verify(authToken, JWT_SECRET, (err, authData) => {
+      if (err) {
+        user = false;
+      } else {
+        ({ user } = authData);
+      }
+    });
+  } else {
+    user = false;
+  }
+  let userPromise;
+  user
+    ? (userPromise = User.findById(user.id, "games.neverPlayed"))
+    : (userPromise = Promise.resolve(null));
+  return userPromise
+    .then(dbUser => {
+      const filters = { firstReleaseDate: { $lt: sixMonthsAgo } };
+
+      // If user exists, filter their neverPlayed games out of the query
+      if (dbUser) {
+        const { neverPlayed } = dbUser.games;
+        filters.id = { $nin: neverPlayed };
+      }
+      return Game.countDocuments(filters);
+    })
     .then(count => findTwoRandGames(count))
     .then(results => res.json(results))
-    .catch(err => next(err))
-);
+    .catch(err => next(err));
+});
 
 router.get("/:id", isValidId, (req, res, next) => {
   const { id } = req.params;
