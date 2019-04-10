@@ -5,24 +5,28 @@ import ConnectedCard from "./card";
 import { fetchGames, clearGames } from "../actions/gameActions";
 
 export function Battle(props) {
-  const { fetchFeedback, dispatch } = props;
+  const { fetchFeedback, dispatch, games } = props;
   return (
     <div className="battle-container">
       <ConnectedCard
-        game={props[0]}
-        src={props[0].cloudImage}
-        alt={props[0].name}
-        id={props[0].id}
+        game={games[0]}
+        src={games[0].cloudImage}
+        alt={games[0].name}
+        id={games[0].id}
+        summary={games[0].summary}
         fetchFeedback={id => fetchFeedback(id)}
+        gameSummaryNum="gameSummaryNum1"
       />
       <div className="vs-skip-container">
         <span className="vs">VS</span>
       </div>
       <ConnectedCard
-        game={props[1]}
-        src={props[1].cloudImage}
-        alt={props[1].name}
-        id={props[1].id}
+        game={games[1]}
+        src={games[1].cloudImage}
+        alt={games[1].name}
+        id={games[1].id}
+        summary={games[1].summary}
+        gameSummaryNum="gameSummaryNum2"
         fetchFeedback={id => fetchFeedback(id)}
       />
       <button

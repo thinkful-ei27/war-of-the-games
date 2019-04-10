@@ -4,16 +4,12 @@ import LongText from "./LongText";
 import Logo from "../assets/favicon3.ico";
 
 export default function Rec(props) {
-  const { cloudImage, igdb, name, summary, slug, cover, id } = props.game;
-  const { openModal } = props;
+  const { game, openModal } = props;
+  const { igdb, name, summary, slug, cover, id } = game;
   const url = `/games/${slug || igdb.slug}`;
 
   return (
     <section className="nes-container is-dark flex game-recommendation">
-      {/* <i
-        className="nes-icon close is-small rec-delete"
-        onClick={e => excludeRec(e)}
-      /> */}
       <button
         type="button"
         onClick={() => openModal(id || igdb.id)}

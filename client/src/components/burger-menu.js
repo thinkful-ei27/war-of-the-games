@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Menu from './Menu';
-import burger from '../assets/burger-menu.svg';
-import pixelBurger from '../assets/pixel-burger.png'
+import Menu from "./Menu";
+import pixelBurger from "../assets/pixel-burger.png";
+import "./styles/burger-menu.css";
 
 export default class BurgerMenu extends Component {
   state = {
@@ -13,23 +13,26 @@ export default class BurgerMenu extends Component {
       expanded: !prevState.expanded
     }));
   }
-  
+
   render() {
     const { expanded } = this.state;
-    const { menuItems } = this.props 
+    const { menuItems } = this.props;
     let content;
     if (!expanded) {
-      content = <img alt="burger-menu" src={pixelBurger}/>;
+      content = <img alt="burger-menu" src={pixelBurger} />;
     }
     if (expanded) {
-      content = <Menu menuItems={menuItems}/>
+      content = <Menu menuItems={menuItems} />;
     }
 
-
     return (
-      <div onClick={() => this.handleClick()}>
+      <button
+        className="burger-menu__button"
+        type="button"
+        onClick={() => this.handleClick()}
+      >
         {content}
-      </div>
+      </button>
     );
   }
 }
