@@ -259,6 +259,28 @@ router.get("/recommendations", jwtAuth, (req, res, next) => {
     .catch(err => next(err));
 });
 
+router.get("/leaderboard", (req, res, next) => {
+  User.find({})
+    .then(results => {
+      const sortedByLevel = results
+        .reduce((a, b) => {
+          const { username, level, xpToNextLevel, profilePic } = b;
+          const obj = { username, level, xpToNextLevel, profilePic };
+          a.push(obj);
+          return a;
+        }, [])
+        .sort((a, b) => {
+          if (a.level < b.level) return 1;
+          if (a.level > b.level) return -1;
+          return 0;
+        });
+      res.json(sortedByLevel);
+    })
+    .catch(e => {
+      next(e);
+    });
+});
+
 router.get("/:id", (req, res, next) => {
   const { id } = req.params;
 
