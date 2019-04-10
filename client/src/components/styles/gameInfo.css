@@ -74,6 +74,11 @@
   font-size: 12px;
 }
 
+/* rec-pg */
+.wishlist-btn {
+  font-size: 8.5px;
+}
+
 @media (min-width: 576px) {
   .game-container {
     max-width: 576px;

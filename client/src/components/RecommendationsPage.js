@@ -343,7 +343,7 @@ export class RecommendationsPage extends Component {
               )}
           {showMoreRecs ? moreRecs : undefined}
           {!isLoading && (
-            <div className="game-container text-center">
+            <div className="game-container text-center mt-8">
               <button
                 onClick={() => this.handleMoreRecs()}
                 className="nes-btn"
