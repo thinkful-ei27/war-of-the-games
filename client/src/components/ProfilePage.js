@@ -2,6 +2,7 @@
 import React from "react";
 import ReactTooltip from "react-tooltip";
 import { connect } from "react-redux";
+import moment from "moment";
 import requiresLogin from "./requires-login";
 import "./styles/profile.css";
 import {
@@ -76,7 +77,8 @@ export class ProfilePage extends React.Component {
       screenWidth,
       firstName,
       profilePic,
-      subMotivations
+      subMotivations,
+      motivations
     } = this.props;
     const isMobile = screenWidth <= 768;
     const topSix = topHistory.map(history => {
@@ -108,11 +110,20 @@ export class ProfilePage extends React.Component {
     });
 
     const recentHistory = userHistory.map(histInstance => {
-      const { choice, id } = histInstance;
+      const { choice, id, createdAt } = histInstance;
+
+      const timeFromVote = moment(createdAt).fromNow();
+
       return (
         <div key={id} className="flex justify-start content-start flex-wrap">
+          <ReactTooltip id={id} className="hover">
+            <span>{`voted for ${timeFromVote}`}</span>
+          </ReactTooltip>
           <ConnectedGame
             screenWidth={screenWidth}
+            dataFor={id}
+            dataTip
+            dataOff="mouseleave"
             slug={choice.igdb.slug}
             name={choice.name}
             cloudImage={choice.cloudImage}

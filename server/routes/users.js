@@ -131,14 +131,13 @@ router.get("/:userId/topHistory", (req, res, next) => {
 
   History.find({ userId })
     .sort({ createdAt: -1 })
-    .populate("gameOne", "name")
-    .populate("gameTwo", "name")
     .populate("choice")
     .then(userHistory => {
       const names = [];
       const winCounts = userHistory
         .reduce((arr, game) => {
           const { name, id, igdb, cloudImage } = game.choice;
+          const { createdAt } = game;
           // check if inside accumulator
           if (!names.includes(name)) {
             names.push(name);
@@ -147,7 +146,8 @@ router.get("/:userId/topHistory", (req, res, next) => {
               name,
               id,
               igdb,
-              cloudImage
+              cloudImage,
+              createdAt
             });
           } else {
             const found = arr.find(game => game.name === name);
