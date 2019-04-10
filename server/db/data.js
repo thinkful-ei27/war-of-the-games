@@ -529,6 +529,62 @@ const games = [
     cloudImage:
       "https://res.cloudinary.com/hjihgo1pd/image/upload/v1554518495/5ca811df9cd89ef9c625903e.jpg",
     id: "5ca811df9cd89ef9c625903e"
+  },
+  {
+    igdb: {
+      id: 239,
+      slug: "starcraft-ii-wings-of-liberty"
+    },
+    similar_games: [
+      457,
+      8773,
+      9789,
+      11205,
+      13200,
+      30229,
+      34269,
+      34823,
+      55029,
+      78550
+    ],
+    motivations: ["social", "mastery"],
+    subMotivations: ["competition", "strategy"],
+    core: true,
+    name: "StarCraft II: Wings of Liberty",
+    coverUrl:
+      "https://images.igdb.com/igdb/image/upload/t_720p/bgn7cqukcnskka73rwse.jpg",
+    createdAt: "2019-03-27T22:38:21.905Z",
+    updatedAt: "2019-04-06T02:47:35.195Z",
+    genres: [
+      {
+        _id: "5ca6718f1a96641ab77ed417",
+        id: 11,
+        name: "Real Time Strategy (RTS)"
+      },
+      {
+        _id: "5ca6718f1a96641ab77ed416",
+        id: 15,
+        name: "Strategy"
+      }
+    ],
+    platforms: [
+      {
+        _id: "5ca6718f1a96641ab77ed419",
+        id: 6,
+        name: "PC (Microsoft Windows)"
+      },
+      {
+        _id: "5ca6718f1a96641ab77ed418",
+        id: 14,
+        name: "Mac"
+      }
+    ],
+    summary:
+      "In the distant future, in the darkest reaches of space, the ghosts of the past whisper your name. You are Jim Raynor, a marshal-turned-rebel on a vigilante crusade to bring down the Dominion and its nefarious leader, Arcturus Mengsk. Haunted by betrayal and remorse, some believe you may have given up the fight. But you have promises to keep… and a need for vengeance that’s long overdue.",
+    cloudImage:
+      "https://res.cloudinary.com/hjihgo1pd/image/upload/v1554169070/5c9bfb5d054d8f2e1010f118.jpg",
+    firstReleaseDate: 1280188800,
+    id: "5c9bfb5d054d8f2e1010f118"
   }
 ];
 
