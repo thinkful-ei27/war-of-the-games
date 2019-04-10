@@ -164,7 +164,6 @@ router.post("/recs", jwtAuth, async (req, res, next) => {
     { _id: userId },
     { excludedGames: 1 }
   ).exec();
-  console.log("excluded games ", excludedGames);
   const { motivations, dateNumber, timeFrame, platforms } = req.body;
   const arrayOfKeywords = motivations.reduce((a, b) => {
     const keywords = subMotivationKeywords[b];

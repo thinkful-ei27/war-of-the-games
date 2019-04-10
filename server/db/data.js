@@ -40,6 +40,7 @@ const games = [
     motivations: [],
     subMotivations: [],
     firstReleaseDate: 835488000,
+    core: true,
     igdb: {
       id: 1074,
       slug: "super-mario-64"
@@ -96,6 +97,7 @@ const games = [
     motivations: [],
     subMotivations: [],
     firstReleaseDate: 509328000,
+    core: false,
     igdb: {
       id: 1022,
       slug: "the-legend-of-zelda"
@@ -121,6 +123,7 @@ const games = [
     motivations: [],
     subMotivations: [],
     firstReleaseDate: 712713600,
+    core: true,
     igdb: {
       id: 1618,
       slug: "mortal-kombat--2"
@@ -134,6 +137,7 @@ const games = [
     motivations: [],
     subMotivations: [],
     firstReleaseDate: 665798400,
+    core: false,
     igdb: {
       id: 3186,
       slug: "street-fighter-ii"
@@ -158,6 +162,7 @@ const games = [
     firstReleaseDate: 1005782400,
     motivations: [],
     subMotivations: [],
+    core: true,
     igdb: {
       id: 740,
       slug: "halo-combat-evolved"
@@ -172,6 +177,7 @@ const games = [
     firstReleaseDate: 928108800,
     motivations: [],
     subMotivations: [],
+    core: false,
     igdb: {
       id: 3005,
       slug: "superman"
@@ -186,6 +192,7 @@ const games = [
     motivations: [],
     subMotivations: [],
     firstReleaseDate: 854668800,
+    core: true,
     igdb: {
       id: 427,
       slug: "final-fantasy-vii"
@@ -200,6 +207,7 @@ const games = [
     firstReleaseDate: 974419200,
     motivations: [],
     subMotivations: [],
+    core: false,
     igdb: {
       id: 3644,
       slug: "wwf-no-mercy"
@@ -216,6 +224,7 @@ const games = [
     motivations: [],
     subMotivations: [],
     firstReleaseDate: 916876800,
+    core: true,
     igdb: {
       id: 1626,
       slug: "super-smash-bros"
@@ -242,6 +251,7 @@ const games = [
     motivations: [],
     subMotivations: [],
     firstReleaseDate: 1334188800,
+    core: false,
     igdb: {
       id: 5636,
       slug: "candy-crush-saga"
@@ -271,6 +281,7 @@ const games = [
     firstReleaseDate: 1173744000,
     motivations: [],
     subMotivations: [],
+    core: true,
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/f3mwxy3opbrbmcyguhly.jpg",
     createdAt: "2019-03-27T22:42:41.704Z",
@@ -313,6 +324,7 @@ const games = [
     firstReleaseDate: 591840000,
     motivations: [],
     subMotivations: [],
+    core: false,
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/u9s7ap9gi5kestfxhxdf.jpg",
     igdb: {
@@ -362,6 +374,161 @@ const games = [
         name: "Virtual Console (Nintendo)"
       }
     ]
+  },
+  {
+    igdb: {
+      id: 1352,
+      slug: "journey"
+    },
+    similar_games: [
+      17548,
+      19150,
+      22387,
+      24426,
+      26226,
+      28309,
+      36198,
+      55190,
+      56033,
+      80916
+    ],
+    motivations: ["immersion"],
+    subMotivations: ["fantasy"],
+    core: true,
+    name: "Journey",
+    coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/co1hwe.jpg",
+    summary:
+      "In Journey the player controls a robed figure in a vast desert, traveling towards a mountain in the distance. Other players on the same journey can be discovered, and two players can meet and assist each other, but they cannot communicate via speech or text and cannot see each other's names. The only form of communication between the two is a musical chime. This chime also transforms dull, stiff pieces of cloth found throughout the levels into vibrant red, affecting the game world and allowing the player to progress through the levels. The robed figure wears a trailing scarf, which when charged by approaching floating pieces of cloth, briefly allows the player to float through the air.\n\nThe developers sought to evoke in the player a sense of smallness and wonder, and to forge an emotional connection between them and the anonymous players they meet along the way. The music, composed by Austin Wintory, dynamically responds to the player's actions, building a single theme to represent the game's emotional arc throughout the story. Reviewers of the game praised the visual and auditory art as well as the sense of companionship created by playing with a stranger, calling it a moving and emotional experience. Journey won several \"game of the year\" awards and received several other awards and nominations, including a Best Score Soundtrack for Visual Media nomination for the 2013 Grammy Awards.",
+    genres: [
+      {
+        _id: "5ca811db9cd89ef9c6258440",
+        id: 7,
+        name: "Music"
+      },
+      {
+        _id: "5ca811db9cd89ef9c625843f",
+        id: 8,
+        name: "Platform"
+      },
+      {
+        _id: "5ca811db9cd89ef9c625843e",
+        id: 12,
+        name: "Role-playing (RPG)"
+      },
+      {
+        _id: "5ca811db9cd89ef9c625843d",
+        id: 31,
+        name: "Adventure"
+      },
+      {
+        _id: "5ca811db9cd89ef9c625843c",
+        id: 32,
+        name: "Indie"
+      }
+    ],
+    platforms: [
+      {
+        _id: "5ca811db9cd89ef9c6258444",
+        id: 6,
+        name: "PC (Microsoft Windows)"
+      },
+      {
+        _id: "5ca811db9cd89ef9c6258443",
+        id: 9,
+        name: "PlayStation 3"
+      },
+      {
+        _id: "5ca811db9cd89ef9c6258442",
+        id: 45,
+        name: "PlayStation Network"
+      },
+      {
+        _id: "5ca811db9cd89ef9c6258441",
+        id: 48,
+        name: "PlayStation 4"
+      }
+    ],
+    firstReleaseDate: 1331596800,
+    createdAt: "2019-04-06T02:41:31.566Z",
+    updatedAt: "2019-04-06T02:47:35.191Z",
+    cloudImage:
+      "https://res.cloudinary.com/hjihgo1pd/image/upload/v1554518494/5ca811db9cd89ef9c625843b.jpg",
+    id: "5ca811db9cd89ef9c625843b"
+  },
+  {
+    igdb: {
+      id: 1318,
+      slug: "xcom-enemy-unknown"
+    },
+    similar_games: [20, 533, 538, 1020, 1254, 1377, 2031, 9498, 9727, 10919],
+    motivations: ["mastery"],
+    subMotivations: ["strategy"],
+    core: true,
+    name: "XCOM: Enemy Unknown",
+    coverUrl:
+      "https://images.igdb.com/igdb/image/upload/t_720p/hazhjs0yzk80vmifcmrg.jpg",
+    summary:
+      "XCOM: Enemy Unknown will place you in control of a secret paramilitary organization called XCOM. As the XCOM commander, you will defend against a terrifying global alien invasion by managing resources, advancing technologies, and overseeing combat strategies and individual unit tactics. \nThe original XCOM is widely regarded as one of the best games ever made and has now been re-imagined by the strategy experts at Firaxis Games. XCOM: Enemy Unknown will expand on that legacy with an entirely new invasion story, enemies and technologies to fight aliens and defend Earth. \nYou will control the fate of the human race through researching alien technologies, creating and managing a fully operational base, planning combat missions and controlling soldier movement in battle.",
+    genres: [
+      {
+        _id: "5ca811df9cd89ef9c6259043",
+        id: 11,
+        name: "Real Time Strategy (RTS)"
+      },
+      {
+        _id: "5ca811df9cd89ef9c6259042",
+        id: 12,
+        name: "Role-playing (RPG)"
+      },
+      {
+        _id: "5ca811df9cd89ef9c6259041",
+        id: 15,
+        name: "Strategy"
+      },
+      {
+        _id: "5ca811df9cd89ef9c6259040",
+        id: 16,
+        name: "Turn-based strategy (TBS)"
+      },
+      {
+        _id: "5ca811df9cd89ef9c625903f",
+        id: 24,
+        name: "Tactical"
+      }
+    ],
+    platforms: [
+      {
+        _id: "5ca811df9cd89ef9c6259048",
+        id: 3,
+        name: "Linux"
+      },
+      {
+        _id: "5ca811df9cd89ef9c6259047",
+        id: 6,
+        name: "PC (Microsoft Windows)"
+      },
+      {
+        _id: "5ca811df9cd89ef9c6259046",
+        id: 9,
+        name: "PlayStation 3"
+      },
+      {
+        _id: "5ca811df9cd89ef9c6259045",
+        id: 12,
+        name: "Xbox 360"
+      },
+      {
+        _id: "5ca811df9cd89ef9c6259044",
+        id: 14,
+        name: "Mac"
+      }
+    ],
+    firstReleaseDate: 1349740800,
+    createdAt: "2019-04-06T02:41:35.214Z",
+    updatedAt: "2019-04-06T02:47:35.191Z",
+    cloudImage:
+      "https://res.cloudinary.com/hjihgo1pd/image/upload/v1554518495/5ca811df9cd89ef9c625903e.jpg",
+    id: "5ca811df9cd89ef9c625903e"
   }
 ];
 
