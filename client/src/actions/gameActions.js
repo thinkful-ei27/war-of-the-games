@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_BASE_URL } from "../config";
 import { fetchCurrentGameSuccess } from "./allGames";
+import { normalizeResponseErrors } from "./utils";
 
 export const FETCH_GAMES = "FETCH_GAMES";
 
@@ -53,17 +54,14 @@ export const fetchImages = (gameOneId, gameTwoId, authToken) => {
   return axios.all([getFirstGame(), getSecondGame()]);
 };
 
-export const fetchGames = () => (dispatch, getState) => {
-  axios({
-    url: `${API_BASE_URL}/games/battle`,
-    method: "GET"
-  })
-    .then(response => {
-      dispatch(fetchGamesSuccess(response.data));
-      return response.data;
-    })
+export const fetchGames = loggedIn => (dispatch, getState) => {
+  fetch(`${API_BASE_URL}/games/battle`)
+    .then(res => normalizeResponseErrors(res))
+    .then(res => res.json())
     .then(data => {
       const { authToken } = getState().auth;
+      console.log(authToken);
+      dispatch(fetchGamesSuccess(data));
       const gameOneId = data[0].id;
       const gameTwoId = data[1].id;
       return !data[0].cloudImage || !data[1].cloudImage
