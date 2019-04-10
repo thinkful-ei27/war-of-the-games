@@ -66,13 +66,13 @@ export default class AvatarCard extends React.Component {
           </dialog>
         </section>
         <div>
-          <Avatar profilePic={this.state.profilePic} />
           <button
             type="button"
             className="nes-btn is-primary"
             onClick={() => this.showModal()}
           >
             +
+            <Avatar profilePic={this.state.profilePic} />
           </button>
         </div>
       </section>
