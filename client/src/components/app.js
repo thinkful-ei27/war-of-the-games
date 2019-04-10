@@ -16,6 +16,7 @@ import ConnectedGameInfo from "./GameInfo";
 import ConnectedGames from "./Games";
 import ConnectedFooter from "./footer";
 import ConnectedRecommendationsPage from "./RecommendationsPage";
+import ConnectedWishListPage from "./WishListPage";
 import ErrorBoundary from "./errorBoundary";
 
 export class App extends React.Component {
@@ -84,6 +85,10 @@ export class App extends React.Component {
             <Route path="/register" component={ConnectedRegistrationPage} />
             <Route exact path="/games" component={ConnectedGames} />
             <Route path="/games/:gameSlug" component={ConnectedGameInfo} />
+            <Route
+              path="/users/:username/wishlist"
+              component={ConnectedWishListPage}
+            />
             <Route component={Page404} />
           </Switch>
         </ErrorBoundary>

@@ -5,6 +5,7 @@ const User = require("../models/user");
 const History = require("../models/history");
 const Game = require("../models/game");
 const recs = require("../utils/recommendations");
+const igdbApi = require("../utils/gameApi");
 const { subMotivationKeywords } = require("../db/subMotivations");
 const { isValidId } = require("./validators");
 
@@ -158,13 +159,44 @@ router.get("/:userId/topHistory", (req, res, next) => {
     .catch(err => next(err));
 });
 
+router.get("/excludedgames", jwtAuth, (req, res, next) => {
+  const userId = req.user.id;
+  User.findOne({ _id: userId }, { excludedGames: 1 })
+    .then(user => {
+      const igdbIds = user.excludedGames;
+      return igdbApi.getGamesByIds(igdbIds);
+    })
+    .then(games => {
+      res.json(games);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+/* ========= GET WISHLIST GAMES ============= */
+
+router.get("/wishlist/:username", (req, res, next) => {
+  const { username } = req.params;
+  User.findOne({ username }, { wishList: 1 })
+    .then(user => {
+      const igdbIds = user.wishList;
+      return igdbApi.getGamesByIds(igdbIds);
+    })
+    .then(games => {
+      res.json(games);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
 router.post("/recs", jwtAuth, async (req, res, next) => {
   const userId = req.user.id;
   const { excludedGames } = await User.findOne(
     { _id: userId },
     { excludedGames: 1 }
   ).exec();
-  console.log("excluded games ", excludedGames);
   const { motivations, dateNumber, timeFrame, platforms } = req.body;
   const arrayOfKeywords = motivations.reduce((a, b) => {
     const keywords = subMotivationKeywords[b];
@@ -425,7 +457,83 @@ router.put("/excludedgames", jwtAuth, (req, res, next) => {
     });
 });
 
-// TODO: Make this endpoint more flexible so it can update other properties
+/* ========= PUT REMOVE EXCLUDED  ============= */
+router.put("/removeexcluded", jwtAuth, (req, res, next) => {
+  const { id } = req.user;
+  const { excludedId } = req.body;
+
+  if (typeof excludedId !== "number") {
+    const err = new Error("The id is not valid");
+    err.status = 400;
+    return next(err);
+  }
+  const update = {
+    $pull: { excludedGames: excludedId }
+  };
+
+  let user;
+  return User.findOneAndUpdate({ _id: id }, update, { new: true })
+    .then(_user => {
+      user = _user;
+      res
+        .location(`${req.originalUrl}`)
+        .status(200)
+        .json(user);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+/* ========= PUT WISHLIST GAMES ============= */
+router.put("/wishlist", jwtAuth, (req, res, next) => {
+  const { id } = req.user;
+  const { wishListId } = req.body;
+
+  if (typeof wishListId !== "number") {
+    const err = new Error("The id is not valid");
+    err.status = 400;
+    return next(err);
+  }
+
+  const update = {
+    $addToSet: { wishList: wishListId }
+  };
+
+  let user;
+  return User.findOneAndUpdate({ _id: id }, update, { new: true })
+    .then(_user => {
+      user = _user;
+      res
+        .location(`${req.originalUrl}`)
+        .status(200)
+        .json(user);
+    })
+    .catch(err => next(err));
+});
+
+/* =========PUT REMOVEWISHLIST GAMES ============= */
+router.put("/removewishlist", jwtAuth, (req, res, next) => {
+  const userId = req.user.id;
+  const { wishListId } = req.body;
+  const update = {
+    $pull: { wishList: wishListId }
+  };
+
+  let user;
+  return User.findOneAndUpdate({ _id: userId }, update, { new: true })
+    .then(_user => {
+      user = _user;
+      res
+        .location(`${req.originalUrl}`)
+        .status(200)
+        .json(user);
+    })
+    .catch(err => {
+      return next(err);
+    });
+});
+
 router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
   const { id } = req.params;
   const { neverPlayed } = req.body;
@@ -445,6 +553,16 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
       const { createdAt, updatedAt, games } = user;
       const returnObj = { id, createdAt, updatedAt, games };
       return res.json(returnObj);
+    })
+    .catch(err => next(err));
+});
+
+router.get("/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  User.find({ _id: id })
+    .then(results => {
+      res.json(results);
     })
     .catch(err => next(err));
 });
