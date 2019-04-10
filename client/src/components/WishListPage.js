@@ -5,6 +5,7 @@ import { API_BASE_URL } from "../config";
 import ConnectedGame from "./Game";
 import Loading from "./loading";
 import Modal from "./Modal";
+import "./styles/wishList.css";
 
 export class WishListPage extends Component {
   constructor(props) {
@@ -90,6 +91,11 @@ export class WishListPage extends Component {
   render() {
     const { screenWidth } = this.props;
     const { wishList, isLoading, error, showModal, igdbId } = this.state;
+    const isMobile = screenWidth <= 768;
+    let iconSize = "is-small";
+    if (!isMobile) {
+      iconSize = undefined;
+    }
     let wishListGames;
     if (wishList.length) {
       wishListGames = wishList.map(game => {
@@ -137,9 +143,9 @@ export class WishListPage extends Component {
     ) : (
       <div className="game-container mx-auto mt-8">
         <div className="flex justify-center mx-auto">
-          <i className="nes-icon heart" />
-          <h1>Wish List</h1>
-          <i className="nes-icon heart" />
+          <i className={`nes-icon heart ${iconSize}`} />
+          <h1 className="wishlist-header">Wish List</h1>
+          <i className={`nes-icon heart ${iconSize}`} />
         </div>
         <div className="flex justify-start content-start flex-wrap mt-16">
           <Modal
