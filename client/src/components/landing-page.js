@@ -1,12 +1,11 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from "react";
 import { connect } from "react-redux";
-import Battle from "./battle";
-import Sprites from "./Sprites";
+import ConnectedBattle from "./battle";
 import VoteStats from "./vote-stats";
-import UserOnboard from './userOnboard';
+import ConnectedUserOnboard from "./userOnboard";
 import "./styles/landing-page.css";
-import ErrorBoundary from './errorBoundary';
+import ErrorBoundary from "./errorBoundary";
 import "./styles/card.css";
 import { fetchGames, fetchFeedback, handleVote } from "../actions/gameActions";
 import { loadVoteCount, setVoteLocalStorageVariable } from "../local-storage";
@@ -37,17 +36,15 @@ export class LandingPage extends React.Component {
     let content;
     const count = parseInt(loadVoteCount(), 10);
     if (count <= 13 && !loggedIn) {
-      content = <UserOnboard />;
-    }
-    else if (count > 13 && !loggedIn) {
+      content = <ConnectedUserOnboard />;
+    } else if (count > 13 && !loggedIn) {
       content = <ErrorBoundary />;
-    }
-    else if (games.length && feedback) {
+    } else if (games.length && feedback) {
       content = (
         <div className="battle-vote">
-          <Battle
+          <ConnectedBattle
             fetchFeedback={game => this.handleFetchFeedback(game)}
-            {...games}
+            games={games}
           />
           <div className="vote-stats-container">
             <VoteStats feedback={feedback} {...games} />
@@ -56,9 +53,9 @@ export class LandingPage extends React.Component {
       );
     } else if (games.length) {
       content = (
-        <Battle
+        <ConnectedBattle
           fetchFeedback={game => this.handleFetchFeedback(game)}
-          {...games}
+          games={games}
         />
       );
     } else {

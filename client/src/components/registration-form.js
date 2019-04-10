@@ -4,11 +4,9 @@ import { registerUser } from "../actions/users";
 import { Link } from "react-router-dom";
 import { login } from "../actions/auth";
 import Input from "./input";
-import Input2 from "./input2"
-import './styles/sprites.css'
-import Sprites from './Sprites';
+import Input2 from "./input2";
+import "./styles/sprites.css";
 import { required, nonEmpty, matches, length, isTrimmed } from "../validators";
-
 
 const passwordLength = length({ min: 10, max: 72 });
 const matchesPassword = matches("password");
@@ -78,7 +76,8 @@ export class RegistrationForm extends React.Component {
             component={Input2}
             type="radio"
             value="Demon"
-            htmlFor="demon" />
+            htmlFor="demon"
+          />
 
           <Field
             id="knight"
@@ -87,20 +86,18 @@ export class RegistrationForm extends React.Component {
             htmlFor="knight"
             type="radio"
             value="Knight"
-            component={Input2} />
-
+            component={Input2}
+          />
 
           <Field
             id="bigZombie"
             name="profilePic"
             className="avatar bigZombie"
             htmlFor="bigZombie"
-            className="avatar bigZombie"
-            htmlFor="bigZombie"
             component={Input2}
             type="radio"
-            value="BigZombie" />
-
+            value="BigZombie"
+          />
 
           <Field
             id="femaleElf"
@@ -109,8 +106,8 @@ export class RegistrationForm extends React.Component {
             htmlFor="femaleElf"
             component={Input2}
             type="radio"
-            value="FemaleElf" />
-
+            value="FemaleElf"
+          />
 
           <Field
             id="femaleWizard"
@@ -119,8 +116,8 @@ export class RegistrationForm extends React.Component {
             htmlFor="femaleWizard"
             component={Input2}
             type="radio"
-            value="FemaleWizard" />
-
+            value="FemaleWizard"
+          />
 
           <Field
             id="maleElf"
@@ -129,8 +126,8 @@ export class RegistrationForm extends React.Component {
             htmlFor="maleElf"
             component={Input2}
             type="radio"
-            value="MaleElf" />
-
+            value="MaleElf"
+          />
 
           <Field
             id="maleWizard"
@@ -139,8 +136,8 @@ export class RegistrationForm extends React.Component {
             htmlFor="maleWizard"
             component={Input2}
             type="radio"
-            value="MaleWizard" />
-
+            value="MaleWizard"
+          />
 
           <Field
             id="ogre"
@@ -149,8 +146,8 @@ export class RegistrationForm extends React.Component {
             htmlFor="ogre"
             component={Input2}
             type="radio"
-            value="Ogre" />
-
+            value="Ogre"
+          />
 
           <Field
             id="shaman"
@@ -159,8 +156,8 @@ export class RegistrationForm extends React.Component {
             htmlFor="shaman"
             component={Input2}
             type="radio"
-            value="Shaman" />
-
+            value="Shaman"
+          />
         </div>
         <button type="submit" disabled={pristine || submitting}>
           Register
