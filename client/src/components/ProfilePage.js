@@ -13,8 +13,9 @@ import {
 import Loading from "./loading";
 import ConnectedGame from "./Game";
 import ConnectedRecommendations from "./Recommendations";
-// profile pic imports
+import ConnectedAvatarCard from "./AvatarCard";
 
+// profile pic imports
 import Demon from "../assets/demon.png";
 import Knight from "../assets/knight.png";
 import BigZombie from "../assets/bigZombie.png";
@@ -153,27 +154,8 @@ export class ProfilePage extends React.Component {
             <p className="title">{username}</p>
             <section className="profile-header">
               <div className="profile-xp-card">
-                <p>
-                  <i className="nes-charmander is-large" />
-                </p>
-                <div className="">
-                  <p className="text-2xl">
-                    <span className="nes-text is-success text-2xl mx-4">
-                      LV
-                    </span>
-                    {level}
-                  </p>
-                  <p className="text-2xl">
-                    <span className="nes-text is-success text-2xl mx-4">
-                      XP
-                    </span>
-                    {xpToNextLevel}
-                  </p>
-                </div>
+                <ConnectedAvatarCard />
               </div>
-              {/* <div className="profile">
-                <p>Yeah you know what it is.</p>
-              </div> */}
               <div className="text-xxs">
                 <Radar name={firstName} />
               </div>

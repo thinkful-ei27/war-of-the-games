@@ -1,8 +1,10 @@
 import React from "react";
 import "./styles/gameInfo.css";
+import { connect } from "react-redux";
 import Avatar from "./Avatar";
+import requiresLogin from "./requires-login";
 
-export default class AvatarCard extends React.Component {
+class AvatarCard extends React.Component {
   state = {
     profilePic: "nes-mario"
   };
@@ -16,7 +18,6 @@ export default class AvatarCard extends React.Component {
   };
 
   updateProfilePic(e) {
-    console.log(e.currentTarget.id);
     const pic = e.currentTarget.id;
     this.setState({
       profilePic: pic
@@ -25,6 +26,7 @@ export default class AvatarCard extends React.Component {
   }
 
   render() {
+    const { level, xpToNextLevel } = this.props;
     const classIconNames = [
       "nes-mario",
       "nes-ash",
@@ -66,16 +68,41 @@ export default class AvatarCard extends React.Component {
           </dialog>
         </section>
         <div>
-          <button
-            type="button"
-            className="nes-btn is-primary"
-            onClick={() => this.showModal()}
-          >
-            +
-            <Avatar profilePic={this.state.profilePic} />
-          </button>
+          <div className="profile-xp-card">
+            <p>
+              <button
+                type="button"
+                className="nes-btn"
+                onClick={() => this.showModal()}
+              >
+                +
+                <Avatar profilePic={this.state.profilePic} />
+              </button>
+            </p>
+            <div className="">
+              <p className="text-2xl">
+                <span className="nes-text is-success text-2xl mx-4">LV</span>
+                {level}
+              </p>
+              <p className="text-2xl">
+                <span className="nes-text is-success text-2xl mx-4">XP</span>
+                {xpToNextLevel}
+              </p>
+            </div>
+          </div>
         </div>
       </section>
     );
   }
 }
+
+const mapStateToProps = state => {
+  const { currentUser } = state.auth;
+
+  return {
+    level: currentUser.level,
+    xpToNextLevel: currentUser.xpToNextLevel
+  };
+};
+
+export default requiresLogin()(connect(mapStateToProps)(AvatarCard));

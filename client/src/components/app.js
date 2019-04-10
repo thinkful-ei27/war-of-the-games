@@ -17,8 +17,7 @@ import ConnectedGames from "./Games";
 import ConnectedFooter from "./footer";
 import ConnectedRecommendationsPage from "./RecommendationsPage";
 import ErrorBoundary from "./errorBoundary";
-import Avatar from "./Avatar";
-import AvatarCard from "./AvatarCard";
+import ConnectedAvatarCard from "./AvatarCard";
 
 export class App extends React.Component {
   componentDidMount() {
@@ -84,7 +83,7 @@ export class App extends React.Component {
             <Route path="/about" component={ConnectedAboutPage} />
             <Route path="/login" component={LoginForm} />
             <Route path="/register" component={ConnectedRegistrationPage} />
-            <Route path="/test/avatar" component={AvatarCard} />
+            <Route path="/test/avatar" component={ConnectedAvatarCard} />
             <Route exact path="/games" component={ConnectedGames} />
             <Route path="/games/:gameSlug" component={ConnectedGameInfo} />
             <Route component={Page404} />
