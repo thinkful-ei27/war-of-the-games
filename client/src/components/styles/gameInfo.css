@@ -56,7 +56,7 @@
   padding: 0;
 }
 
-.avatar-list{
+.avatar-sprite{
   cursor:pointer;
   -webkit-transition: all 100ms ease-in;
   -moz-transition: all 100ms ease-in;
@@ -67,6 +67,7 @@
 }
 
 .avatar-sprite:hover {
+  opacity: .9;
   -webkit-filter: none;
   -moz-filter: none;
   filter: none;

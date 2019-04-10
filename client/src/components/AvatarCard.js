@@ -5,10 +5,6 @@ import Avatar from "./Avatar";
 import requiresLogin from "./requires-login";
 
 class AvatarCard extends React.Component {
-  state = {
-    profilePic: "nes-mario"
-  };
-
   showModal = () => {
     document.getElementById("dialog-default").showModal();
   };
@@ -67,28 +63,26 @@ class AvatarCard extends React.Component {
             </form>
           </dialog>
         </section>
-        <div>
-          <div className="profile-xp-card">
-            <p>
-              <button
-                type="button"
-                className="nes-btn"
-                onClick={() => this.showModal()}
-              >
-                +
-                <Avatar profilePic={this.state.profilePic} />
-              </button>
+        <div className="profile-xp-card">
+          <p>
+            <button
+              type="button"
+              className="nes-btn"
+              onClick={() => this.showModal()}
+            >
+              +
+              <Avatar profilePic={this.props.profilePic} />
+            </button>
+          </p>
+          <div className="">
+            <p className="text-2xl">
+              <span className="nes-text is-success text-2xl mx-4">LV</span>
+              {level}
             </p>
-            <div className="">
-              <p className="text-2xl">
-                <span className="nes-text is-success text-2xl mx-4">LV</span>
-                {level}
-              </p>
-              <p className="text-2xl">
-                <span className="nes-text is-success text-2xl mx-4">XP</span>
-                {xpToNextLevel}
-              </p>
-            </div>
+            <p className="text-2xl">
+              <span className="nes-text is-success text-2xl mx-4">XP</span>
+              {xpToNextLevel}
+            </p>
           </div>
         </div>
       </section>
@@ -101,7 +95,8 @@ const mapStateToProps = state => {
 
   return {
     level: currentUser.level,
-    xpToNextLevel: currentUser.xpToNextLevel
+    xpToNextLevel: currentUser.xpToNextLevel,
+    profilePic: state.auth.currentUser.profilePic
   };
 };
 
