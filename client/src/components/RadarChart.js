@@ -36,25 +36,21 @@ class MotivationsChart extends Component {
     console.log(data);
 
     return (
-      <div>
-        <ResponsiveContainer
-          aspect={1}
-          width={320}
-          height="30%"
-          minWidth={320}
-          minHeight={320}
-          padding={0}
-        >
+      <div id="container">
+        <ResponsiveContainer>
           <RadarChart
-            tick={{ fontSize: 5 }}
-            outerRadius={90}
+            outerRadius="80%"
+            tick={{ fontSize: 5, fill: "white" }}
             data={data}
-            wrapperStyle={{ position: "absolute", left: "0" }}
+            // wrapperStyle={{ position: "absolute", left: "0" }}
           >
             <PolarGrid />
-            <PolarAngleAxis dataKey="motivation" tick={{ fontSize: 6.5 }} />
+            <PolarAngleAxis
+              dataKey="motivation"
+              tick={{ fontSize: 6.5, fill: "white" }}
+            />
             <PolarRadiusAxis angle={30} domain={[0, 100]} />
-            <Legend wrapperStyle={{ position: "absolute", top: 30 }} />
+            {/* <Legend wrapperStyle={{ position: "absolute", top: 30 }} /> */}
             <Radar
               name={`${name}'s motivations`}
               dataKey="percentage"

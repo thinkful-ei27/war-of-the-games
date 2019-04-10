@@ -67,6 +67,8 @@ export class ProfilePage extends React.Component {
     const {
       username,
       history,
+      level,
+      xpToNextLevel,
       name,
       loading,
       topHistory,
@@ -127,7 +129,7 @@ export class ProfilePage extends React.Component {
     return loading ? (
       <Loading />
     ) : (
-      <div className="game-container mx-auto">
+      <div className="game-container mx-auto mt-16">
         {/* <div className="nes-container with-title profile-info-container">
           <p className="title user shadow">Hello {name}!</p>
           <section className="personal-info">
@@ -141,17 +143,36 @@ export class ProfilePage extends React.Component {
             <AboutMe aboutMe={aboutMe} /> 
           </section>
         </div> */}
-        <div className="game-container mx-auto text-xs img-responsive">
-          <div className="nes-container with-title is-centered is-dark">
+        <div className="">
+          <div
+            className="nes-container with-title is-centered is-dark profile-details"
+            id="profile-details"
+          >
             <p className="title">{username}</p>
-            <section className="flex flex-row justify-between">
-              <div className="">
-                <i className="nes-charmander" />
+            <section className="profile-header">
+              <div className="profile-xp-card">
+                <p>
+                  <i className="nes-charmander is-large" />
+                </p>
+                <div className="">
+                  <p className="text-2xl">
+                    <span className="nes-text is-success text-2xl mx-4">
+                      LV
+                    </span>
+                    {level}
+                  </p>
+                  <p className="text-2xl">
+                    <span className="nes-text is-success text-2xl mx-4">
+                      XP
+                    </span>
+                    {xpToNextLevel}
+                  </p>
+                </div>
               </div>
               {/* <div className="profile">
                 <p>Yeah you know what it is.</p>
               </div> */}
-              <div className="">
+              <div className="text-xxs">
                 <Radar name={firstName} />
               </div>
             </section>
@@ -162,7 +183,7 @@ export class ProfilePage extends React.Component {
           isMobile={isMobile}
           subMotivations={this.props.subMotivations}
         />
-        <div className="flex flex-row">
+        <div className="profile-choices">
           <section className="nes-container m-4">
             <h4>
               <i className={`nes-icon ${iconSize} heart`} />
@@ -189,6 +210,8 @@ const mapStateToProps = state => {
   return {
     aboutMe: state.user.aboutMe,
     topHistory: state.user.topHistory,
+    level: currentUser.level,
+    xpToNextLevel: currentUser.xpToNextLevel,
     userId: currentUser.id,
     username: state.auth.currentUser.username,
     name: `${currentUser.firstName} ${currentUser.lastName}`,
