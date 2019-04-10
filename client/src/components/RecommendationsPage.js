@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-nested-ternary */
 import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
@@ -62,6 +64,7 @@ export class RecommendationsPage extends Component {
         headers: { Authorization: `Bearer ${token}` }
       })
         .then(subMotivations => {
+          const { scope, dateNumber, timeFrame, platforms } = this.state;
           const { choicePercentages } = subMotivations.data;
           const motivations = Object.keys(choicePercentages).reduce(
             (a, key) => {
@@ -73,24 +76,22 @@ export class RecommendationsPage extends Component {
           );
           const orderedMotivations = orderBy(motivations, ["value"], ["desc"]);
           const final = orderedMotivations
-            .slice(0, this.state.scope)
+            .slice(0, scope)
             .map(motive => motive.name);
-          console.log(final);
           return axios({
             url: `${API_BASE_URL}/users/recs`,
             method: "POST",
             data: {
               motivations: final,
-              dateNumber: this.state.dateNumber,
-              timeFrame: this.state.timeFrame,
-              platforms: this.state.platforms
+              dateNumber,
+              timeFrame,
+              platforms
             },
             headers: { Authorization: `Bearer ${token}` }
           });
         })
         .then(results => {
           const { data } = results;
-          console.log("we have new data");
 
           // Places recommendations into state.
           this.setState({
