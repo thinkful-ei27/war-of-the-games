@@ -1,10 +1,14 @@
+/* eslint-disable camelcase */
 const express = require("express");
 const passport = require("passport");
 const moment = require("moment");
+const jwt = require("jsonwebtoken");
 const Game = require("../models/game");
+const User = require("../models/user");
 const igdbApi = require("../utils/gameApi");
 const imagesApi = require("../utils/imagesApi");
 const { isValidId, requiresAdmin } = require("./validators");
+const { JWT_SECRET } = require("../config");
 
 const router = express.Router();
 const jwtAuth = passport.authenticate("jwt", {
@@ -15,16 +19,16 @@ const sixMonthsAgo = moment()
   .subtract(6, "months")
   .unix();
 
-const findRandGame = count => {
+const findRandGame = (count, filters) => {
   const rand = Math.floor(Math.random() * count);
-  return Game.findOne()
-    .where("firstReleaseDate")
-    .lt(sixMonthsAgo)
-    .skip(rand);
+  return Game.findOne(filters).skip(rand);
 };
 
-const findTwoRandGames = count =>
-  Promise.all([findRandGame(count), findRandGame(count)]).then(results =>
+const findTwoRandGames = (count, filters) =>
+  Promise.all([
+    findRandGame(count, filters),
+    findRandGame(count, filters)
+  ]).then(results =>
     results[0].id === results[1].id ? findTwoRandGames(count) : results
   );
 
@@ -74,14 +78,42 @@ router.get("/igdb/:slug", (req, res, next) => {
 });
 
 // GET /api/games/battle must go before GET /api/games/:id or else it will never get called.
-router.get("/battle", (req, res, next) =>
-  Game.countDocuments()
-    .where("firstReleaseDate")
-    .lt(sixMonthsAgo)
-    .then(count => findTwoRandGames(count))
+router.get("/battle", (req, res, next) => {
+  const filters = { firstReleaseDate: { $lt: sixMonthsAgo }, core: true };
+  // Get user if authToken is included in request
+  let user;
+  if (req.headers.authorization) {
+    const authToken = req.headers.authorization.split(" ")[1];
+    jwt.verify(authToken, JWT_SECRET, (err, authData) => {
+      if (err) {
+        user = false;
+      } else {
+        ({ user } = authData);
+      }
+    });
+  } else {
+    user = false;
+  }
+  let userPromise;
+  user
+    ? (userPromise = User.findById(user.id, "games.neverPlayed"))
+    : (userPromise = Promise.resolve(null));
+  return userPromise
+    .then(dbUser => {
+      // If user exists, filter their neverPlayed games out of the query
+      if (dbUser) {
+        const { neverPlayed } = dbUser.games;
+        // Must be `_id`, not `id`
+        filters._id = { $nin: neverPlayed };
+      }
+      return Game.countDocuments(filters);
+    })
+    .then(count => {
+      return findTwoRandGames(count, filters);
+    })
     .then(results => res.json(results))
-    .catch(err => next(err))
-);
+    .catch(err => next(err));
+});
 
 router.get("/:id", isValidId, (req, res, next) => {
   const { id } = req.params;

@@ -14,6 +14,7 @@ import {
 import Loading from "./loading";
 import ConnectedGame from "./Game";
 import ConnectedRecommendations from "./Recommendations";
+import ConnectedWishList from "./WishList";
 // profile pic imports
 
 import Demon from "../assets/demon.png";
@@ -77,8 +78,7 @@ export class ProfilePage extends React.Component {
       screenWidth,
       firstName,
       profilePic,
-      subMotivations,
-      motivations
+      subMotivations
     } = this.props;
     const isMobile = screenWidth <= 768;
     const topSix = topHistory.map(history => {
@@ -196,22 +196,22 @@ export class ProfilePage extends React.Component {
           isMobile={isMobile}
           subMotivations={subMotivations}
         />
-        <div className="profile-choices">
-          <section className="nes-container m-4">
-            <h4>
-              <i className={`nes-icon ${iconSize} heart`} />
-              Your Top 6 choices!
-            </h4>
-            {topSix}
-          </section>
-          <aside className="nes-container m-4">
-            <h4>
-              <i className={`nes-icon ${iconSize} heart`} />
-              Your Most Recent Choices!
-            </h4>
-            {recentHistory}
-          </aside>
-        </div>
+        <ConnectedWishList
+          username={username}
+          profileWidth="w-1"
+          isMobile={isMobile}
+        />
+        <section className="nes-container top-six m-4">
+          <h4>
+            <i className={`nes-icon ${iconSize} heart`} />
+            Your Top 6 choices!
+          </h4>
+          {topSix}
+        </section>
+        <aside className="nes-container with-title recent-choices">
+          <h4>Your Most Recent Choices!</h4>
+          {recentHistory}
+        </aside>
       </div>
     );
   }

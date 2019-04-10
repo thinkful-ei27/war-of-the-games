@@ -73,4 +73,19 @@ const getGame = async id =>
 //   .then(result => console.log(result))
 //   .catch(e => console.error(e.response.statusText));
 
-module.exports = { getGames, getGame, getIdFromSlug };
+const getGamesByIds = async arr => {
+  if (arr.length < 1) {
+    return [];
+  }
+  return apicalypse(requestOptions)
+    .fields(["name", "cover.image_id", "slug"])
+    .where(`id = (${arr})`)
+    .request("/games")
+    .then(res => res.data);
+};
+
+// getGamesByIds([3231])
+//   .then(result => console.log(result))
+//   .catch(e => console.error(e.response.statusText));
+
+module.exports = { getGames, getGame, getIdFromSlug, getGamesByIds };
