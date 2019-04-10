@@ -26,6 +26,7 @@ export class Card extends Component {
   handleNeverPlayedClick(gameId) {
     const { dispatch, userId } = this.props;
     dispatch(updateUser(userId, gameId));
+    this.handleModal();
   }
 
   handleVoteClick() {
@@ -65,8 +66,9 @@ export class Card extends Component {
         <Modal
           item="battles? This can not be undone."
           showModal={showModal}
-          onRemove={() => this.handleNeverPlayedClick()}
+          onRemove={gameId => this.handleNeverPlayedClick(gameId)}
           handleModal={() => this.handleModal()}
+          id={id}
         />
         <div className="title-container">
           <Link to={gamesUrl + slug} target="_blank">
@@ -88,7 +90,7 @@ export class Card extends Component {
         {loggedIn ? (
           <button
             className="card__never-played"
-            onClick={() => this.handleNeverPlayedClick(id)}
+            onClick={() => this.handleModal()}
             type="button"
           >
             {"Don't show again"}

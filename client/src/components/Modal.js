@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 import "./styles/modal.css";
 
 export default function Modal(props) {
-  const { handleModal, onRemove, igdbId, showModal, item } = props;
+  const { handleModal, onRemove, igdbId, showModal, item, id } = props;
   return (
     <ReactModal
       appElement={document.getElementById("root")}
@@ -31,7 +31,7 @@ export default function Modal(props) {
             Cancel
           </button>
           <button
-            onClick={() => onRemove(igdbId)}
+            onClick={() => onRemove(igdbId || id)}
             className="nes-btn modal is-primary"
             type="button"
           >
