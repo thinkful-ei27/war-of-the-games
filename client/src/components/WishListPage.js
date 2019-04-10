@@ -5,7 +5,7 @@ import { API_BASE_URL } from "../config";
 import ConnectedGame from "./Game";
 import Loading from "./loading";
 
-export class WishList extends Component {
+export class WishListPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,6 +16,10 @@ export class WishList extends Component {
   }
 
   componentDidMount() {
+    this.loadWishList();
+  }
+
+  loadWishList() {
     this.setState({ isLoading: true }, () => {
       const { token } = this.props;
       axios({
@@ -67,7 +71,7 @@ export class WishList extends Component {
       ) : (
         <div className="game-container mx-auto mt-8">
           You don&apos;t have any games in your wishlist. View your
-          reccomendations to add games to your list.
+          recommendations to add games to your list.
         </div>
       );
     }
@@ -94,4 +98,4 @@ const mapStateToProps = state => ({
   screenWidth: state.window.width
 });
 
-export default connect(mapStateToProps)(WishList);
+export default connect(mapStateToProps)(WishListPage);

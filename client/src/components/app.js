@@ -86,7 +86,7 @@ export class App extends React.Component {
             <Route exact path="/games" component={ConnectedGames} />
             <Route path="/games/:gameSlug" component={ConnectedGameInfo} />
             <Route
-              path="/users/:userId/wishlist"
+              path="/users/:username/wishlist"
               component={ConnectedWishListPage}
             />
             <Route component={Page404} />

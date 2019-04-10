@@ -13,6 +13,7 @@ import Loading from "./loading";
 import ConnectedGame from "./Game";
 import AboutMe from "./AboutMe";
 import ConnectedRecommendations from "./Recommendations";
+import ConnectedWishList from "./WishList";
 // profile pic imports
 
 import Demon from "../assets/demon.png";
@@ -149,6 +150,7 @@ export class ProfilePage extends React.Component {
           isMobile={isMobile}
           subMotivations={this.props.subMotivations}
         />
+        <ConnectedWishList profileWidth="w-1" isMobile={isMobile} />
         <section className="nes-container top-six m-4">
           <h4>
             <i className={`nes-icon ${iconSize} heart`} />
