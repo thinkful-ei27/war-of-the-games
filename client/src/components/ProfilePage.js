@@ -183,17 +183,19 @@ export class ProfilePage extends React.Component {
           profileWidth="w-1"
           isMobile={isMobile}
         />
-        <section className="nes-container top-six m-4">
-          <h4>
-            <i className={`nes-icon ${iconSize} heart`} />
-            Your Top 6 choices!
-          </h4>
-          {topSix}
-        </section>
-        <aside className="nes-container with-title recent-choices">
-          <h4>Your Most Recent Choices!</h4>
-          {recentHistory}
-        </aside>
+        <div className="flex flex-row">
+          <section className="nes-container m-4">
+            <h4>
+              <i className={`nes-icon ${iconSize} heart`} />
+              Your Top 6 choices!
+            </h4>
+            {topSix}
+          </section>
+          <section className="nes-container with-title m-4">
+            <h4>Your Most Recent Choices!</h4>
+            {recentHistory}
+          </section>
+        </div>
       </div>
     );
   }
