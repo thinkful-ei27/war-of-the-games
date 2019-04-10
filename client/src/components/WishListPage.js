@@ -16,12 +16,15 @@ export class WishListPage extends Component {
   }
 
   componentDidMount() {
-    this.loadWishList();
+    const { isLoggedIn } = this.props;
+    if (isLoggedIn) {
+      this.loadWishList();
+    }
   }
 
   loadWishList() {
+    const { token, username } = this.props;
     this.setState({ isLoading: true }, () => {
-      const { token, username } = this.props;
       axios({
         url: `${API_BASE_URL}/users/wishlist/${username}`,
         method: "GET",
@@ -29,7 +32,6 @@ export class WishListPage extends Component {
       })
         .then(res => {
           const wishList = res.data;
-          console.log(wishList);
           this.setState({ wishList, isLoading: false });
         })
         .catch(err => {
@@ -37,6 +39,8 @@ export class WishListPage extends Component {
         });
     });
   }
+
+  handleRemoveFromWishList(id) {}
 
   render() {
     const { screenWidth } = this.props;
@@ -59,7 +63,8 @@ export class WishListPage extends Component {
           slug,
           screenWidth,
           coverUrl,
-          id
+          id,
+          wishList: true
         };
         return <ConnectedGame key={id} {...props} />;
       });
@@ -96,6 +101,7 @@ export class WishListPage extends Component {
 const mapStateToProps = state => ({
   token: state.auth.authToken,
   screenWidth: state.window.width,
+  isLoggedIn: state.auth.currentUser !== null,
   username: state.auth.currentUser.username
 });
 
