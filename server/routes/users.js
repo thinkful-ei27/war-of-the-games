@@ -512,6 +512,28 @@ router.put("/wishlist", jwtAuth, (req, res, next) => {
     .catch(err => next(err));
 });
 
+/* =========PUT REMOVEWISHLIST GAMES ============= */
+router.put("/removewishlist", jwtAuth, (req, res, next) => {
+  const userId = req.user.id;
+  const { wishListId } = req.body;
+  const update = {
+    $pull: { wishList: wishListId }
+  };
+
+  let user;
+  return User.findOneAndUpdate({ _id: userId }, update, { new: true })
+    .then(_user => {
+      user = _user;
+      res
+        .location(`${req.originalUrl}`)
+        .status(200)
+        .json(user);
+    })
+    .catch(err => {
+      return next(err);
+    });
+});
+
 router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
   const { id } = req.params;
   const { neverPlayed } = req.body;
