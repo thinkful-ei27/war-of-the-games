@@ -156,19 +156,32 @@ router.get("/:userId/topHistory", (req, res, next) => {
 
 router.get("/excludedgames", jwtAuth, (req, res, next) => {
   const userId = req.user.id;
-  console.log(userId);
   User.findOne({ _id: userId }, { excludedGames: 1 })
     .then(user => {
-      console.log("user is =======", user);
       const igdbIds = user.excludedGames;
-      console.log("excluded games ", igdbIds);
       return igdbApi.getGamesByIds(igdbIds);
     })
     .then(games => {
       res.json(games);
     })
     .catch(err => {
-      console.log(err);
+      next(err);
+    });
+});
+
+/* ========= GET WISHLIST GAMES ============= */
+
+router.get("/wishlist", jwtAuth, (req, res, next) => {
+  const userId = req.user.id;
+  User.findOne({ _id: userId }, { wishList: 1 })
+    .then(user => {
+      const igdbIds = user.wishList;
+      return igdbApi.getGamesByIds(igdbIds);
+    })
+    .then(games => {
+      res.json(games);
+    })
+    .catch(err => {
       next(err);
     });
 });
@@ -473,7 +486,7 @@ router.put("/wishlist", jwtAuth, (req, res, next) => {
   };
 
   let user;
-  User.findOneAndUpdate({ _id: id }, update, { new: true })
+  return User.findOneAndUpdate({ _id: id }, update, { new: true })
     .then(_user => {
       user = _user;
       res
