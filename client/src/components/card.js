@@ -1,16 +1,35 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import ReactTooltip from "react-tooltip";
+import SummaryComponent from "./summaryComponent";
 import {
   fetchGames,
   handleVote,
   clearGames,
   clearNonUserVotes
 } from "../actions/gameActions";
+import { updateUser } from "../actions/users";
 
 export function Card(props) {
-  const { game, src, alt, dispatch, games, id, fetchFeedback, userId } = props;
+  const {
+    game,
+    src,
+    alt,
+    dispatch,
+    games,
+    id,
+    fetchFeedback,
+    loggedIn,
+    userId,
+    summary,
+    gameSummaryNum
+  } = props;
   const { name } = game;
+
+  const handleNeverPlayedClick = gameId => {
+    dispatch(updateUser(userId, gameId));
+  };
 
   const handleVoteClick = () => {
     dispatch(handleVote(games[0].id, games[1].id, id, userId));
@@ -38,10 +57,29 @@ export function Card(props) {
           <h1 className="game-title">{name}</h1>
         </Link>
       </div>
-      <img className="game-img" src={src} alt={alt} />
-      <button className="card__never-played" type="button">
-        {"Don't show again"}
-      </button>
+      <ReactTooltip id={gameSummaryNum} type="info" place="bottom" multiline>
+        <span className="hover-summary">
+          <SummaryComponent summary={summary} />
+        </span>
+      </ReactTooltip>
+      <img
+        className="game-img"
+        src={src}
+        alt={alt}
+        data-tip
+        data-for={gameSummaryNum}
+      />
+      {loggedIn ? (
+        <button
+          className="card__never-played"
+          onClick={() => handleNeverPlayedClick(id)}
+          type="button"
+        >
+          {"Don't show again"}
+        </button>
+      ) : (
+        ""
+      )}
       <button
         id="vote-button"
         className="nes-btn is-warning"

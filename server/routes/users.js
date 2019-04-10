@@ -20,16 +20,6 @@ const countBy = (arr, fn) =>
     return acc;
   }, {});
 
-router.get("/:id", (req, res, next) => {
-  const { id } = req.params;
-
-  User.find({ _id: id })
-    .then(results => {
-      res.json(results);
-    })
-    .catch(err => next(err));
-});
-
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
 
@@ -45,8 +35,8 @@ router.get("/:id/history", (req, res, next) => {
     .catch(err => next(err));
 });
 
-router.get("/:id/history/motivations", (req, res, next) => {
-  const { id } = req.params;
+router.get("/history/motivations", jwtAuth, (req, res, next) => {
+  const { id } = req.user;
 
   History.find({ userId: id })
     .populate("gameOne", ["name", "motivations"])
@@ -66,17 +56,22 @@ router.get("/:id/history/motivations", (req, res, next) => {
       });
       const allMotives = countBy(all, v => v);
       const choiceMotives = countBy(choices, v => v);
-      const percentagesMotives = Object.keys(choiceMotives).reduce((a, key) => {
+      const percentages = Object.keys(choiceMotives).reduce((a, key) => {
         const percentage = Math.floor(
           (choiceMotives[key] / allMotives[key]) * 100
         );
-        a[key] = percentage;
+        const data = {
+          motivation: key,
+          percentage,
+          fullMark: 100
+        };
+        a.push(data);
         return a;
-      }, {});
+      }, []);
       res.json({
         "All Motivations": allMotives,
         "All Choices": choiceMotives,
-        "Choice Percentages": percentagesMotives
+        percentages
       });
     })
     .catch(err => next(err));
@@ -250,6 +245,16 @@ router.get("/recommendations", jwtAuth, (req, res, next) => {
         .map(choice => recs.find(game => game.igdb.id === Number(choice)))
         .filter(e => typeof e === "object");
       res.json(sortedRecs);
+    })
+    .catch(err => next(err));
+});
+
+router.get("/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  User.find({ _id: id })
+    .then(results => {
+      res.json(results);
     })
     .catch(err => next(err));
 });
@@ -431,7 +436,7 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
     return next(err);
   }
 
-  const toUpdate = { games: { neverPlayed: [neverPlayed] } };
+  const toUpdate = { $push: { "games.neverPlayed": neverPlayed } };
   return User.findOneAndUpdate({ _id: id }, toUpdate, { new: true })
     .then(user => {
       if (!user) {
