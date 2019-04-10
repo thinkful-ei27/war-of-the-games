@@ -20,6 +20,7 @@ function getMotivationInfo(label) {
   if (label === "immersion") {
     return "Gamers with high Immersion scores want games with interesting narratives, characters, and settings so they can be deeply immersed in the alternate worlds created by games. Gamers with low Immersion scores are more grounded in the gameplay mechanics and care less about the narrative experiences that games offer.";
   }
+  return "We don't have a description for this motivation yet.";
 }
 
 function CustomTooltip({ payload, label, active }) {

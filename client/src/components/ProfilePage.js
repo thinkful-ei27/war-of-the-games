@@ -6,12 +6,11 @@ import "./styles/profile.css";
 import {
   getUser,
   getUserTopHistory,
-  getUserAboutMe,
+  // getUserAboutMe,
   getUserSubmotivations
 } from "../actions/users";
 import Loading from "./loading";
 import ConnectedGame from "./Game";
-import AboutMe from "./AboutMe";
 import ConnectedRecommendations from "./Recommendations";
 // profile pic imports
 
@@ -31,13 +30,13 @@ export class ProfilePage extends React.Component {
     const { userId, dispatch } = this.props;
     return Promise.all([
       dispatch(getUserTopHistory(userId)),
-      dispatch(getUserAboutMe()),
+      // dispatch(getUserAboutMe()),
       dispatch(getUserSubmotivations()),
       dispatch(getUser(userId)).then(user => user)
     ]);
   }
 
-  evaluateProfilePic(userInfo) {
+  evaluateProfilePic() {
     const { profilePic } = this.props;
     switch (profilePic) {
       case "Demon":
@@ -70,12 +69,12 @@ export class ProfilePage extends React.Component {
       level,
       xpToNextLevel,
       name,
+      userHistory,
       loading,
       topHistory,
       screenWidth,
-      firstName,
-      aboutMe,
-      profilePic
+      subMotivations,
+      firstName
     } = this.props;
     const isMobile = screenWidth <= 768;
 
@@ -101,7 +100,7 @@ export class ProfilePage extends React.Component {
       );
     });
 
-    const recentHistory = history.map(histInstance => {
+    const recentHistory = userHistory.map(histInstance => {
       const { choice, id } = histInstance;
       return (
         <div key={id} className="flex justify-start content-start flex-wrap">
@@ -117,14 +116,10 @@ export class ProfilePage extends React.Component {
       );
     });
 
-    let nesContainer = "";
-    let shadow = "";
     let iconSize = "is-small";
 
     if (!isMobile) {
-      nesContainer = "nes-container";
       iconSize = "is-medium";
-      shadow = "shadow";
     }
     return loading ? (
       <Loading />
@@ -181,7 +176,7 @@ export class ProfilePage extends React.Component {
         <ConnectedRecommendations
           profileWidth="w-1"
           isMobile={isMobile}
-          subMotivations={this.props.subMotivations}
+          subMotivations={subMotivations}
         />
         <div className="profile-choices">
           <section className="nes-container m-4">
@@ -214,9 +209,9 @@ const mapStateToProps = state => {
     xpToNextLevel: currentUser.xpToNextLevel,
     userId: currentUser.id,
     username: state.auth.currentUser.username,
-    name: `${currentUser.firstName} ${currentUser.lastName}`,
+    fullName: `${currentUser.firstName} ${currentUser.lastName}`,
     firstName: currentUser.firstName,
-    history: state.user.history,
+    userHistory: state.user.history,
     subMotivations: state.user.subMotivations,
     loading: state.user.loading,
     screenWidth: state.window.width,
