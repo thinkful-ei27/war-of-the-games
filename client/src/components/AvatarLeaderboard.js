@@ -1,24 +1,33 @@
 import React from "react";
 import Avatar from "./Avatar";
+import LongText from "./LongText";
 
 export default function AvatarLeaderboard(props) {
   const { username, level, xpToNextLevel, profilePic } = props;
+  let toShow;
+  if (username.length < 15) {
+    toShow = username;
+  } else {
+    toShow = `${username.substring(0, 10)}...`;
+  }
   return (
     <div
-      className="flex flex-row p-4 m-16 nes-container is-dark"
+      className="avatar-leaderboard m-16 nes-container is-dark"
       id="profile-details"
     >
-      <Avatar profilePic={profilePic} />
-      <div className="">
-        <p className="text-2xl">
-          <span className="nes-text is-success text-2xl mx-4">LV</span>
-          {level}
-        </p>
-        <p className="text-2xl">
-          <span className="nes-text is-success text-2xl mx-4">XP</span>
-          {xpToNextLevel}
-        </p>
+      <div className="avatar-leaderboard-pic">
+        <Avatar profilePic={profilePic} />
       </div>
+      <p className="text-2xl avatar-leaderboard-name">{toShow}</p>
+      <p className="text-2xl">
+        <span className="nes-text is-success text-2xl mx-4">LV</span>
+        {level}
+      </p>
+      <p className="text-2xl">
+        <span className="nes-text is-success text-2xl mx-4">XP</span>
+        {xpToNextLevel}
+      </p>
+      <div className="" />
     </div>
   );
 }

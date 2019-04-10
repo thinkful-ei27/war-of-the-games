@@ -264,14 +264,26 @@ router.get("/leaderboard", (req, res, next) => {
     .then(results => {
       const sortedByLevel = results
         .reduce((a, b) => {
-          const { username, level, xpToNextLevel, profilePic } = b;
-          const obj = { username, level, xpToNextLevel, profilePic };
+          const {
+            username,
+            level,
+            xpToNextLevel,
+            profilePic,
+            historyCount
+          } = b;
+          const obj = {
+            username,
+            level,
+            xpToNextLevel,
+            profilePic,
+            historyCount
+          };
           a.push(obj);
           return a;
         }, [])
         .sort((a, b) => {
-          if (a.level < b.level) return 1;
-          if (a.level > b.level) return -1;
+          if (a.historyCount < b.historyCount) return 1;
+          if (a.historyCount > b.historyCount) return -1;
           return 0;
         });
       res.json(sortedByLevel);

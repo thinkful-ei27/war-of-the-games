@@ -31,6 +31,20 @@
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
 }
 
+.avatar-leaderboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.avatar-leaderboard-pic {
+  flex: 0 1 126px;
+}
+
+.avatar-leaderboard-name {
+  flex: 0 1 15em;
+}
+
 .img-responsive {
   display: block;
   max-width: 100%;
@@ -123,6 +137,10 @@
   }
 
   .profile-choices {
+    flex-direction: row;
+  }
+
+  .avatar-leaderboard {
     flex-direction: row;
   }
 }
