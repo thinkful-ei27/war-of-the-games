@@ -68,16 +68,13 @@ export class ProfilePage extends React.Component {
   render() {
     const {
       username,
-      history,
       level,
       xpToNextLevel,
-      name,
       userHistory,
       loading,
       topHistory,
       screenWidth,
       firstName,
-      profilePic,
       subMotivations
     } = this.props;
     const isMobile = screenWidth <= 768;
