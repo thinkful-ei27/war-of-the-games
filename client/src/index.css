@@ -5,9 +5,9 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Press Start 2P', cursive;
+  font-family: "Press Start 2P", cursive;
   height: 100%;
-  background-color: #f8f8f8
+  background-color: #f8f8f8;
 }
 
 html {
@@ -16,4 +16,9 @@ html {
 
 menu {
   padding-left: 0;
+}
+
+img {
+  border-radius: 4px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
 }
