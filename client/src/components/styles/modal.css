@@ -29,16 +29,19 @@
   right: 20px;
   top: 20px;
   padding: 0;
-  background-color: inherit;
+  /* padding: 2px;
+  border-radius: 50%; */
 }
 
 .modal-content {
-  color: rgba(245, 27, 50, 0.7);
+  color: rgba(245, 27, 50, 0.8);
   font-style: italic;
   line-height: 25px;
 }
 
 .Modal {
+  /* background-image: url('https://opengameart.org/sites/default/files/styles/medium/public/parallax-industrial-anim_x2_0.gif');
+  background-size: cover; */
   position: absolute;
   top: 20%;
   left: 15%;
