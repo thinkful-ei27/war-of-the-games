@@ -19,16 +19,16 @@ const sixMonthsAgo = moment()
   .subtract(6, "months")
   .unix();
 
-const findRandGame = count => {
+const findRandGame = (count, filters) => {
   const rand = Math.floor(Math.random() * count);
-  return Game.findOne()
-    .where("firstReleaseDate")
-    .lt(sixMonthsAgo)
-    .skip(rand);
+  return Game.findOne(filters).skip(rand);
 };
 
-const findTwoRandGames = count =>
-  Promise.all([findRandGame(count), findRandGame(count)]).then(results =>
+const findTwoRandGames = (count, filters) =>
+  Promise.all([
+    findRandGame(count, filters),
+    findRandGame(count, filters)
+  ]).then(results =>
     results[0].id === results[1].id ? findTwoRandGames(count) : results
   );
 
@@ -79,6 +79,7 @@ router.get("/igdb/:slug", (req, res, next) => {
 
 // GET /api/games/battle must go before GET /api/games/:id or else it will never get called.
 router.get("/battle", (req, res, next) => {
+  const filters = { firstReleaseDate: { $lt: sixMonthsAgo } };
   // Get user if authToken is included in request
   let user;
   if (req.headers.authorization) {
@@ -99,16 +100,17 @@ router.get("/battle", (req, res, next) => {
     : (userPromise = Promise.resolve(null));
   return userPromise
     .then(dbUser => {
-      const filters = { firstReleaseDate: { $lt: sixMonthsAgo } };
-
       // If user exists, filter their neverPlayed games out of the query
       if (dbUser) {
         const { neverPlayed } = dbUser.games;
-        filters.id = { $nin: neverPlayed };
+        // Must be `_id`, not `id`
+        filters._id = { $nin: neverPlayed };
       }
       return Game.countDocuments(filters);
     })
-    .then(count => findTwoRandGames(count))
+    .then(count => {
+      return findTwoRandGames(count, filters);
+    })
     .then(results => res.json(results))
     .catch(err => next(err));
 });
