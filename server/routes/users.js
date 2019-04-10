@@ -291,6 +291,40 @@ router.get("/recommendations", jwtAuth, (req, res, next) => {
     .catch(err => next(err));
 });
 
+router.get("/leaderboard", (req, res, next) => {
+  User.find({})
+    .then(results => {
+      const sortedByLevel = results
+        .reduce((a, b) => {
+          const {
+            username,
+            level,
+            xpToNextLevel,
+            profilePic,
+            historyCount
+          } = b;
+          const obj = {
+            username,
+            level,
+            xpToNextLevel,
+            profilePic,
+            historyCount
+          };
+          a.push(obj);
+          return a;
+        }, [])
+        .sort((a, b) => {
+          if (a.historyCount < b.historyCount) return 1;
+          if (a.historyCount > b.historyCount) return -1;
+          return 0;
+        });
+      res.json(sortedByLevel);
+    })
+    .catch(e => {
+      next(e);
+    });
+});
+
 router.get("/:id", (req, res, next) => {
   const { id } = req.params;
 
@@ -546,22 +580,42 @@ router.put("/removewishlist", jwtAuth, (req, res, next) => {
 
 router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
   const { id } = req.params;
-  const { neverPlayed } = req.body;
+  const { neverPlayed, profilePic } = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(neverPlayed)) {
-    const err = new Error("The game ID is not valid");
-    err.status = 400;
-    return next(err);
+  const toUpdate = {};
+  const updateableFields = ["neverPlayed", "profilePic"];
+
+  updateableFields.forEach(field => {
+    if (field in req.body) {
+      if (field === "neverPlayed") {
+        Object.assign(toUpdate, {
+          $push: { "games.neverPlayed": req.body[field] }
+        });
+      } else {
+        Object.assign(toUpdate, {
+          $set: { [field]: req.body[field] }
+        });
+      }
+    }
+  });
+
+  if (neverPlayed) {
+    if (!mongoose.Types.ObjectId.isValid(neverPlayed)) {
+      const err = new Error("The game ID is not valid");
+      err.status = 400;
+      return next(err);
+    }
   }
 
-  const toUpdate = { $push: { "games.neverPlayed": neverPlayed } };
+  console.log("to update is ", toUpdate);
+
   return User.findOneAndUpdate({ _id: id }, toUpdate, { new: true })
     .then(user => {
       if (!user) {
         return next();
       }
-      const { createdAt, updatedAt, games } = user;
-      const returnObj = { id, createdAt, updatedAt, games };
+      const { createdAt, updatedAt, games, profilePic } = user;
+      const returnObj = { id, createdAt, updatedAt, games, profilePic };
       return res.json(returnObj);
     })
     .catch(err => next(err));

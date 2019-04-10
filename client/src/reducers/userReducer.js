@@ -5,6 +5,7 @@ import {
   GET_USER_ABOUT_ME_SUCCESS,
   GET_USER_SUBMOTIVATIONS_SUCCESS,
   USER_FETCH_REQUEST,
+  USER_FETCH_SUCCESS,
   USER_FETCH_ERROR,
   GET_USER_MOTIVATIONS_SUCCESS
 } from "../actions/users";
@@ -15,6 +16,7 @@ const initialState = {
   motivations: [],
   subMotivations: "",
   aboutMe: "",
+  profilePic: "",
   loading: false,
   error: null
 };
@@ -56,6 +58,12 @@ export default function reducer(state = initialState, action) {
         ...state,
         loading: true,
         error: null
+      };
+    case USER_FETCH_SUCCESS:
+      return {
+        ...state,
+        profilePic: action.profilePic,
+        loading: false
       };
     case USER_FETCH_ERROR:
       return {

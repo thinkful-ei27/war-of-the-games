@@ -31,6 +31,20 @@
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
 }
 
+.avatar-leaderboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.avatar-leaderboard-pic {
+  flex: 0 1 126px;
+}
+
+.avatar-leaderboard-name {
+  flex: 0 1 15em;
+}
+
 .img-responsive {
   display: block;
   max-width: 100%;
@@ -54,6 +68,23 @@
   border: none;
   height: 20px;
   padding: 0;
+}
+
+.avatar-sprite{
+  cursor:pointer;
+  -webkit-transition: all 100ms ease-in;
+  -moz-transition: all 100ms ease-in;
+  transition: all 100ms ease-in;
+  -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
+  -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
+  filter: brightness(1.8) grayscale(1) opacity(.7);
+}
+
+.avatar-sprite:hover {
+  opacity: .9;
+  -webkit-filter: none;
+  -moz-filter: none;
+  filter: none;
 }
 
 .game-recommendation {
@@ -118,11 +149,11 @@
     flex-direction: row;
   }
 
-  .profile-xp-card {
-    width: 50%;
+  .profile-choices {
+    flex-direction: row;
   }
 
-  .profile-choices {
+  .avatar-leaderboard {
     flex-direction: row;
   }
 }
@@ -163,6 +194,10 @@
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
+}
+
+.list-reset {
+  list-style: none; padding: 0;
 }
 
 /* Flex Helpers */
