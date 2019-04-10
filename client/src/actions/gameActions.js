@@ -54,13 +54,16 @@ export const fetchImages = (gameOneId, gameTwoId, authToken) => {
   return axios.all([getFirstGame(), getSecondGame()]);
 };
 
-export const fetchGames = loggedIn => (dispatch, getState) => {
-  fetch(`${API_BASE_URL}/games/battle`)
+export const fetchGames = () => (dispatch, getState) => {
+  const { authToken } = getState().auth;
+  const options = {};
+  if (authToken) {
+    options.headers = { Authorization: `Bearer ${authToken}` };
+  }
+  fetch(`${API_BASE_URL}/games/battle`, options)
     .then(res => normalizeResponseErrors(res))
     .then(res => res.json())
     .then(data => {
-      const { authToken } = getState().auth;
-      console.log(authToken);
       dispatch(fetchGamesSuccess(data));
       const gameOneId = data[0].id;
       const gameTwoId = data[1].id;
