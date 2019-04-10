@@ -1,9 +1,9 @@
-.about-page-div{
+.about-page-div {
   display: flex;
   justify-content: space-evenly;
 }
 
-.about-page-section{
+.about-page-section {
   margin: 0 15px 35px 15px;
 }
 
@@ -24,18 +24,18 @@
   font-size: 0.6em;
   color: rgb(155, 155, 155);
   margin: 0 auto 20px auto;
-  
 }
 
-.about-page-btns{
+.about-page-btns {
   text-align: center;
   margin: 0 auto 20px auto;
 }
 
-.about-img{
-    padding-left: 25px;
-    padding-right: 25px;
-    height: 50px;
+.about-img {
+  box-shadow: none;
+  padding-left: 25px;
+  padding-right: 25px;
+  height: 50px;
 }
 
 .about-container {
@@ -43,7 +43,7 @@
   margin: 0 auto;
   padding: 25px;
   display: flex;
-  flex-direction: column
+  flex-direction: column;
 }
 
 @media (min-width: 576px) {

@@ -2,6 +2,7 @@
 import React from "react";
 import ReactTooltip from "react-tooltip";
 import { connect } from "react-redux";
+import moment from "moment";
 import requiresLogin from "./requires-login";
 import "./styles/profile.css";
 import {
@@ -14,6 +15,8 @@ import Loading from "./loading";
 import ConnectedGame from "./Game";
 import ConnectedRecommendations from "./Recommendations";
 import ConnectedAvatarCard from "./AvatarCard";
+import ConnectedWishList from "./WishList";
+// profile pic imports
 
 // profile pic imports
 import Demon from "../assets/demon.png";
@@ -67,7 +70,6 @@ export class ProfilePage extends React.Component {
   render() {
     const {
       username,
-      history,
       level,
       xpToNextLevel,
       initialPic,
@@ -77,7 +79,6 @@ export class ProfilePage extends React.Component {
       topHistory,
       screenWidth,
       firstName,
-      profilePic,
       subMotivations
     } = this.props;
     const isMobile = screenWidth <= 768;
@@ -110,11 +111,20 @@ export class ProfilePage extends React.Component {
     });
 
     const recentHistory = userHistory.map(histInstance => {
-      const { choice, id } = histInstance;
+      const { choice, id, createdAt } = histInstance;
+
+      const timeFromVote = moment(createdAt).fromNow();
+
       return (
         <div key={id} className="flex justify-start content-start flex-wrap">
+          <ReactTooltip id={id} className="hover">
+            <span>{`voted for ${timeFromVote}`}</span>
+          </ReactTooltip>
           <ConnectedGame
             screenWidth={screenWidth}
+            dataFor={id}
+            dataTip
+            dataOff="mouseleave"
             slug={choice.igdb.slug}
             name={choice.name}
             cloudImage={choice.cloudImage}
@@ -168,22 +178,22 @@ export class ProfilePage extends React.Component {
           isMobile={isMobile}
           subMotivations={subMotivations}
         />
-        <div className="profile-choices">
-          <section className="nes-container m-4">
-            <h4>
-              <i className={`nes-icon ${iconSize} heart`} />
-              Your Top 6 choices!
-            </h4>
-            {topSix}
-          </section>
-          <aside className="nes-container m-4">
-            <h4>
-              <i className={`nes-icon ${iconSize} heart`} />
-              Your Most Recent Choices!
-            </h4>
-            {recentHistory}
-          </aside>
-        </div>
+        <ConnectedWishList
+          username={username}
+          profileWidth="w-1"
+          isMobile={isMobile}
+        />
+        <section className="nes-container top-six m-4">
+          <h4>
+            <i className={`nes-icon ${iconSize} heart`} />
+            Your Top 6 choices!
+          </h4>
+          {topSix}
+        </section>
+        <aside className="nes-container with-title recent-choices">
+          <h4>Your Most Recent Choices!</h4>
+          {recentHistory}
+        </aside>
       </div>
     );
   }

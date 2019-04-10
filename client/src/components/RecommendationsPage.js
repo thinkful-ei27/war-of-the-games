@@ -8,6 +8,7 @@ import { API_BASE_URL } from "../config";
 // import Game from "./Game";
 import Rec from "./Rec";
 import Loading from "./loading";
+import ExcludedGames from "./ExcludedGames";
 import MultiselectCheckbox from "./MultiSelectCheckbox";
 
 const orderBy = (arr, props, orders) =>
@@ -39,6 +40,7 @@ export class RecommendationsPage extends Component {
       scope: 2,
       dateNumber: 1,
       timeFrame: "Years",
+      excludedGames: [],
       platforms: [
         { label: "PC", id: 6, checked: false },
         { label: "XBox One", id: 49, checked: false },
@@ -53,6 +55,25 @@ export class RecommendationsPage extends Component {
   componentDidMount() {
     // Loads some recs on initial load
     this.loadRecs();
+    this.loadExcludedRecs();
+  }
+
+  loadExcludedRecs() {
+    this.setState({ isLoading: true }, () => {
+      const { token } = this.props;
+      axios({
+        url: `${API_BASE_URL}/users/excludedgames`,
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` }
+      })
+        .then(res => {
+          const excludedGames = res.data;
+          this.setState({ excludedGames, isLoading: false });
+        })
+        .catch(err => {
+          this.setState({ error: err.message, isLoading: false });
+        });
+    });
   }
 
   loadRecs() {
@@ -139,6 +160,34 @@ export class RecommendationsPage extends Component {
       { headers: { Authorization: `Bearer ${token}` } }
     );
     this.handleModal();
+    this.loadExcludedRecs();
+  }
+
+  handleRemoveExcluded(id) {
+    this.setState({ isLoading: true }, () => {
+      const { token } = this.props;
+      axios
+        .put(
+          `${API_BASE_URL}/users/removeexcluded`,
+          {
+            excludedId: id
+          },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then(() => {
+          this.setState(prevState => ({
+            excludedGames: prevState.excludedGames.filter(rec => rec.id !== id),
+            isLoading: false
+          }));
+        })
+        .then(() => {
+          this.loadExcludedRecs();
+          this.loadRecs();
+        })
+        .catch(err => {
+          this.setState({ error: err.message, isLoading: false });
+        });
+    });
   }
 
   handleFilter(id) {
@@ -179,15 +228,29 @@ export class RecommendationsPage extends Component {
     );
   }
 
+  handleAddToWishList(id) {
+    const { token } = this.props;
+    axios.put(
+      `${API_BASE_URL}/users/wishlist`,
+      {
+        wishListId: id
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+  }
+
   render() {
     const {
+      dateNumber,
       error,
       isLoading,
       recs,
       showModal,
       igdbId,
       showMoreRecs,
-      platforms
+      excludedGames,
+      platforms,
+      timeFrame
     } = this.state;
     const { screenWidth } = this.props;
     const topFiveRecs = recs.slice(0, 5);
@@ -196,7 +259,12 @@ export class RecommendationsPage extends Component {
       recs
         .slice(5)
         .map(rec => (
-          <Rec key={rec.id} game={rec} openModal={id => this.handleModal(id)} />
+          <Rec
+            key={rec.id}
+            game={rec}
+            openModal={id => this.handleModal(id)}
+            onAddToWishList={id => this.handleAddToWishList(id)}
+          />
         ))
     ) : (
       <div>No more recommendations</div>
@@ -205,10 +273,11 @@ export class RecommendationsPage extends Component {
     return (
       <div>
         <Modal
+          item="recommendations"
           showModal={showModal}
           igdbId={igdbId}
           handleModal={() => this.handleModal()}
-          handleExcludeRec={id => this.handleExcludeRec(id)}
+          onRemove={id => this.handleExcludeRec(id)}
         />
         <h1 className="rec-pg-title text-center mt-16">
           <i className={`nes-icon coin ${iconSize}`} />
@@ -223,7 +292,7 @@ export class RecommendationsPage extends Component {
               <button
                 type="button"
                 className={`nes-btn ${
-                  this.state.timeFrame === "Months" ? "is-primary" : ""
+                  timeFrame === "Months" ? "is-primary" : ""
                 } mx-4`}
                 id="1 month"
                 onClick={e => this.handleTimeFrame(e)}
@@ -233,10 +302,7 @@ export class RecommendationsPage extends Component {
               <button
                 type="button"
                 className={`nes-btn ${
-                  this.state.dateNumber === 1 &&
-                  this.state.timeFrame === "Years"
-                    ? "is-primary"
-                    : ""
+                  dateNumber === 1 && timeFrame === "Years" ? "is-primary" : ""
                 } mx-4`}
                 id="1 year"
                 onClick={e => this.handleTimeFrame(e)}
@@ -246,7 +312,7 @@ export class RecommendationsPage extends Component {
               <button
                 type="button"
                 className={`nes-btn ${
-                  this.state.dateNumber === 10 ? "is-primary" : ""
+                  dateNumber === 10 ? "is-primary" : ""
                 } mx-4`}
                 id="10 years"
                 onClick={e => this.handleTimeFrame(e)}
@@ -256,7 +322,7 @@ export class RecommendationsPage extends Component {
               <button
                 type="button"
                 className={`nes-btn ${
-                  this.state.dateNumber > 10 ? "is-primary" : ""
+                  dateNumber > 10 ? "is-primary" : ""
                 } mx-4`}
                 id="All time"
                 onClick={e => this.handleTimeFrame(e)}
@@ -285,6 +351,7 @@ export class RecommendationsPage extends Component {
                   key={rec.id}
                   game={rec}
                   openModal={id => this.handleModal(id)}
+                  onAddToWishList={id => this.handleAddToWishList(id)}
                 />
               ))
             : !isLoading && (
@@ -294,7 +361,7 @@ export class RecommendationsPage extends Component {
               )}
           {showMoreRecs ? moreRecs : undefined}
           {!isLoading && (
-            <div className="game-container text-center">
+            <div className="game-container text-center mt-8">
               <button
                 onClick={() => this.handleMoreRecs()}
                 className="nes-btn"
@@ -306,6 +373,11 @@ export class RecommendationsPage extends Component {
               </button>
             </div>
           )}
+          <ExcludedGames
+            onRemoveExcluded={id => this.handleRemoveExcluded(id)}
+            screenWidth={screenWidth}
+            excludedGames={excludedGames}
+          />
         </div>
         <hr />
         {error && <div style={{ color: "#900" }}>{error}</div>}

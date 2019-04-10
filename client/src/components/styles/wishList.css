@@ -1,0 +1,46 @@
+.wishlist-header {
+  font-size: 20px;
+}
+
+.remove-wishlist {
+  color: red;
+  background-color: inherit;
+  border: none;
+  font-size: 28px;
+  position: absolute;
+  top: 5;
+  left: 1;
+  right: 0px;
+}
+
+.remove-wishlist-btn-container {
+  position: relative;
+}
+
+@media (min-width: 576px) {
+  .wishlist-header {
+    font-size: 24px;
+  }
+}
+
+@media (min-width: 768px) {
+  .wishlist-header {
+    font-size: 28px;
+  }
+}
+
+@media (min-width: 992px) {
+  .wishlist-header {
+    font-size: 32px;
+  }
+  .remove-wishlist {
+    right: 70px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .remove-wishlist {
+    right: 100px;
+  }
+}
+

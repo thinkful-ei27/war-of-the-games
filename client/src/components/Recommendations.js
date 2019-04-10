@@ -4,6 +4,8 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { API_BASE_URL } from "../config";
 import Game from "./Game";
+import Logo from "../assets/favicon3.ico";
+import Loading from "../components/loading";
 
 const orderBy = (arr, props, orders) =>
   [...arr].sort((a, b) =>
@@ -95,9 +97,12 @@ export class Recommendations extends Component {
 
   render() {
     const { error, isLoading, recs } = this.state;
-    const { isMobile, profileWidth } = this.props;
+    const { isMobile, profileWidth, loading } = this.props;
     const topFiveRecs = recs.slice(0, 5);
-    if (!recs.length) {
+    if (isLoading) {
+      return <Loading />;
+    }
+    if (!recs.length && !isLoading) {
       return (
         <div>
           <strong>Start Voting to see some recommendations!!!</strong>
@@ -121,7 +126,7 @@ export class Recommendations extends Component {
               key={rec.id}
               name={rec.name}
               slug={rec.slug}
-              cloudImage={rec.cloudImage || rec.cover.url}
+              cloudImage={rec.cover ? rec.cover.url : rec.cloudImage || Logo}
               profileFontSize="text-xs"
               profileWidth={profileWidth}
             />

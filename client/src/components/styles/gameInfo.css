@@ -91,6 +91,14 @@
   flex-direction: column;
 }
 
+.add-excluded {
+  color: green;
+  background-color: inherit;
+  border: none;
+  font-size: 22px;
+  margin-left: 50%;
+}
+
 /* .nes-container.game-recommendation {
   padding: 15px;
 } */
@@ -121,6 +129,11 @@
 
 .nes-text {
   font-size: 12px;
+}
+
+/* rec-pg */
+.wishlist-btn {
+  font-size: 8.5px;
 }
 
 @media (min-width: 576px) {
@@ -163,6 +176,7 @@
   .rec-pg-title {
     font-size: 32px;
   }
+
 }
 
 @media (min-width: 1200px) {
