@@ -429,13 +429,13 @@ router.put("/excludedgames", jwtAuth, (req, res, next) => {
     });
 });
 
+/* ========= PUT REMOVE EXCLUDED  ============= */
 router.put("/removeexcluded", jwtAuth, (req, res, next) => {
   const { id } = req.user;
   const { excludedId } = req.body;
 
   if (typeof excludedId !== "number") {
     const err = new Error("The id is not valid");
-    // TODO: Make this endpoint more flexible so it can update other properties
     err.status = 400;
     return next(err);
   }
@@ -455,6 +455,33 @@ router.put("/removeexcluded", jwtAuth, (req, res, next) => {
     .catch(err => {
       next(err);
     });
+});
+
+/* ========= PUT WISHLIST GAMES ============= */
+router.put("/wishlist", jwtAuth, (req, res, next) => {
+  const { id } = req.user;
+  const { wishListId } = req.body;
+
+  if (typeof wishListId !== "number") {
+    const err = new Error("The id is not valid");
+    err.status = 400;
+    return next(err);
+  }
+
+  const update = {
+    $addToSet: { wishList: wishListId }
+  };
+
+  let user;
+  User.findOneAndUpdate({ _id: id }, update, { new: true })
+    .then(_user => {
+      user = _user;
+      res
+        .location(`${req.originalUrl}`)
+        .status(200)
+        .json(user);
+    })
+    .catch(err => next(err));
 });
 
 router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
