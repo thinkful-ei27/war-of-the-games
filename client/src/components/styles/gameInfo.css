@@ -30,6 +30,22 @@
   padding: 0;
 }
 
+.avatar-list{
+  cursor:pointer;
+  -webkit-transition: all 100ms ease-in;
+  -moz-transition: all 100ms ease-in;
+  transition: all 100ms ease-in;
+  -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
+  -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
+  filter: brightness(1.8) grayscale(1) opacity(.7);
+}
+
+.avatar-sprite:hover {
+  -webkit-filter: none;
+  -moz-filter: none;
+  filter: none;
+}
+
 .game-recommendation {
   flex-direction: column;
 }
@@ -111,6 +127,10 @@
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
+}
+
+.list-reset {
+  list-style: none; padding: 0;
 }
 
 /* Flex Helpers */
