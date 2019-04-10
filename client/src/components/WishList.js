@@ -23,9 +23,9 @@ export class WishList extends Component {
 
   loadWishList() {
     this.setState({ isLoading: true }, () => {
-      const { token } = this.props;
+      const { token, username } = this.props;
       axios({
-        url: `${API_BASE_URL}/users/wishlist`,
+        url: `${API_BASE_URL}/users/wishlist/${username}`,
         method: "GET",
         headers: { Authorization: `Bearer ${token}` }
       })

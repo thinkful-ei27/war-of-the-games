@@ -21,9 +21,9 @@ export class WishListPage extends Component {
 
   loadWishList() {
     this.setState({ isLoading: true }, () => {
-      const { token } = this.props;
+      const { token, username } = this.props;
       axios({
-        url: `${API_BASE_URL}/users/wishlist`,
+        url: `${API_BASE_URL}/users/wishlist/${username}`,
         method: "GET",
         headers: { Authorization: `Bearer ${token}` }
       })
@@ -95,7 +95,8 @@ export class WishListPage extends Component {
 
 const mapStateToProps = state => ({
   token: state.auth.authToken,
-  screenWidth: state.window.width
+  screenWidth: state.window.width,
+  username: state.auth.currentUser.username
 });
 
 export default connect(mapStateToProps)(WishListPage);

@@ -228,6 +228,17 @@ export class RecommendationsPage extends Component {
     );
   }
 
+  handleAddToWishList(id) {
+    const { token } = this.props;
+    axios.put(
+      `${API_BASE_URL}/users/wishlist`,
+      {
+        wishListId: id
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+  }
+
   render() {
     const {
       error,
@@ -239,14 +250,19 @@ export class RecommendationsPage extends Component {
       excludedGames,
       platforms
     } = this.state;
-    const { screenWidth } = this.props;
+    const { screenWidth, username } = this.props;
     const topFiveRecs = recs.slice(0, 5);
     const iconSize = screenWidth <= 576 ? "is-small" : undefined;
     const moreRecs = recs.length ? (
       recs
         .slice(5)
         .map(rec => (
-          <Rec key={rec.id} game={rec} openModal={id => this.handleModal(id)} />
+          <Rec
+            key={rec.id}
+            game={rec}
+            openModal={id => this.handleModal(id)}
+            onAddToWishList={id => this.handleAddToWishList(id)}
+          />
         ))
     ) : (
       <div>No more recommendations</div>
@@ -335,6 +351,7 @@ export class RecommendationsPage extends Component {
                   key={rec.id}
                   game={rec}
                   openModal={id => this.handleModal(id)}
+                  onAddToWishList={id => this.handleAddToWishList(id)}
                 />
               ))
             : !isLoading && (

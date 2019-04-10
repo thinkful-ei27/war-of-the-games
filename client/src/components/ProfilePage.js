@@ -70,7 +70,8 @@ export class ProfilePage extends React.Component {
       topHistory,
       screenWidth,
       subMotivations,
-      firstName
+      firstName,
+      username
     } = this.props;
     const isMobile = screenWidth <= 768;
 
@@ -142,7 +143,7 @@ export class ProfilePage extends React.Component {
           isMobile={isMobile}
           subMotivations={subMotivations}
         />
-        <ConnectedWishList profileWidth="w-1" isMobile={isMobile} />
+        <ConnectedWishList username={username} profileWidth="w-1" isMobile={isMobile} />
         <section className="nes-container top-six m-4">
           <h4>
             <i className={`nes-icon ${iconSize} heart`} />
