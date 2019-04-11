@@ -87,4 +87,20 @@
   #password{
     width: 100%;
   }
+
+  #name{
+    width: 100%
+  }
+
+  #passwordConfirm{
+    width: 100%
+  }
+
+  #firstName{
+    width: 100%;
+  }
+
+  #lastName{
+    width: 100%;
+  }
 }
