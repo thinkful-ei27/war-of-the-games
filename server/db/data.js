@@ -585,6 +585,67 @@ const games = [
       "https://res.cloudinary.com/hjihgo1pd/image/upload/v1554169070/5c9bfb5d054d8f2e1010f118.jpg",
     firstReleaseDate: 1280188800,
     id: "5c9bfb5d054d8f2e1010f118"
+  },
+  {
+    igdb: {
+      id: 1511,
+      slug: "pokemon-blue"
+    },
+    similar_games: [
+      427,
+      1512,
+      1514,
+      1517,
+      1558,
+      2286,
+      2287,
+      3222,
+      22387,
+      55092
+    ],
+    motivations: ["achievement"],
+    subMotivations: ["completion"],
+    core: true,
+    name: "Pokémon Blue",
+    coverUrl:
+      "https://images.igdb.com/igdb/image/upload/t_720p/dhsdbh50wrvoe6xmzx3i.jpg",
+    summary:
+      "You've finally been granted your Pokémon Trainer's license. Now, it's time to head out to become the world's greatest Pokémon Trainer. It's going to take all you've got to collect 150 Pokémon in this enormous world. Catch and train monsters like the shockingly-cute Pikachu. Face off against Blastoise's torrential water cannons. Stand strong when facing Pidgeot's stormy Gust. Trade with friends and watch your Pokémon evolve. Important—no single Pokémon can win at all. Can you develop the ultimate Pokémon strategy to defeat the eight Gym Leaders and become the greatest Pokémon Master of all time?",
+    genres: [
+      {
+        _id: "5ca811db9cd89ef9c62583b8",
+        id: 12,
+        name: "Role-playing (RPG)"
+      },
+      {
+        _id: "5ca811db9cd89ef9c62583b7",
+        id: 31,
+        name: "Adventure"
+      }
+    ],
+    platforms: [
+      {
+        _id: "5ca811db9cd89ef9c62583bb",
+        id: 33,
+        name: "Game Boy"
+      },
+      {
+        _id: "5ca811db9cd89ef9c62583ba",
+        id: 37,
+        name: "Nintendo 3DS"
+      },
+      {
+        _id: "5ca811db9cd89ef9c62583b9",
+        id: 47,
+        name: "Virtual Console (Nintendo)"
+      }
+    ],
+    firstReleaseDate: 831686400,
+    createdAt: "2019-04-06T02:41:31.484Z",
+    updatedAt: "2019-04-06T02:47:35.191Z",
+    cloudImage:
+      "https://res.cloudinary.com/hjihgo1pd/image/upload/v1554518492/5ca811db9cd89ef9c62583b6.jpg",
+    id: "5ca811db9cd89ef9c62583b6"
   }
 ];
 

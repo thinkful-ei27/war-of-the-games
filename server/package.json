@@ -52,7 +52,7 @@
   },
   "nyc": {
     "exclude": [
-      "utils/recommendations.js"
+      "utils/*.js"
     ]
   }
 }
