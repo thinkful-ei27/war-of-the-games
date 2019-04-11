@@ -580,7 +580,7 @@ router.put("/removewishlist", jwtAuth, (req, res, next) => {
 
 router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
   const { id } = req.params;
-  const { neverPlayed, profilePic } = req.body;
+  const { neverPlayed } = req.body;
 
   const toUpdate = {};
   const updateableFields = ["neverPlayed", "profilePic"];
@@ -606,8 +606,6 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
       return next(err);
     }
   }
-
-  console.log("to update is ", toUpdate);
 
   return User.findOneAndUpdate({ _id: id }, toUpdate, { new: true })
     .then(user => {
