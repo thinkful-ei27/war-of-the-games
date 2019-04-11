@@ -7,7 +7,6 @@ import { API_BASE_URL } from "../config";
 import Game from "./Game";
 import Logo from "../assets/favicon3.ico";
 import Loading from "./loading";
-import LongText from "./LongText";
 
 const orderBy = (arr, props, orders) =>
   [...arr].sort((a, b) =>
