@@ -252,6 +252,7 @@ export class RecommendationsPage extends Component {
       platforms,
       timeFrame
     } = this.state;
+    console.log(recs);
     const { screenWidth } = this.props;
     const topFiveRecs = recs.slice(0, 5);
     const iconSize = screenWidth <= 576 ? "is-small" : undefined;

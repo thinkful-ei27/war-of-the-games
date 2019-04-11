@@ -30,8 +30,6 @@ export default function Rec(props) {
         </Link>
         <LongText content={summary} limit={250} />
         <div className="mt-4">
-          {/* <i className="nes-icon like p-4" />
-          <i className="nes-icon youtube p-4" /> */}
           <button
             onClick={() => onAddToWishList(id || igdb.id)}
             type="button"

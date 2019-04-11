@@ -1,5 +1,6 @@
 import { SubmissionError } from "redux-form";
 
+import axios from "axios";
 import { API_BASE_URL } from "../config";
 import { normalizeResponseErrors } from "./utils";
 import { fetchGames } from "./gameActions";
@@ -86,6 +87,12 @@ export const USER_FETCH_ERROR = "USER_FETCH_ERROR";
 export const userFetchError = error => ({
   type: USER_FETCH_ERROR,
   error
+});
+
+export const USER_WISH_LIST_SUCCESS = "USER_WISH_LIST_SUCCESS";
+export const userWishListSuccess = wishList => ({
+  type: USER_WISH_LIST_SUCCESS,
+  wishList
 });
 
 export const getUserAboutMe = () => (dispatch, getState) => {
@@ -257,6 +264,25 @@ export const updateUserProfilePic = (userId, profilePic) => (
     .then(res => {
       const { profilePic } = res;
       dispatch(userFetchSuccess(profilePic));
+    })
+    .catch(err => dispatch(userFetchError(err)));
+};
+
+export const loadWishList = username => dispatch => {
+  dispatch(userFetchRequest());
+  return axios({
+    url: `${API_BASE_URL}/users/wishlist/${username}`,
+    method: "GET"
+  })
+    .then(res => {
+      if (!res.ok) {
+        return Promise.reject(res.statusText);
+      }
+      return res.json();
+    })
+    .then(data => {
+      console.log(data);
+      // dispatch(userWishListSuccess())
     })
     .catch(err => dispatch(userFetchError(err)));
 };
