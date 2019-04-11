@@ -58,7 +58,6 @@ export const fetchGames = () => (dispatch, getState) => {
   const { authToken } = getState().auth;
   const options = {};
   dispatch(fetchGameRequest());
-  console.log("this ran");
   if (authToken) {
     options.headers = { Authorization: `Bearer ${authToken}` };
   }

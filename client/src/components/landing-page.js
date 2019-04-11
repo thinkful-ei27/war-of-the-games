@@ -9,11 +9,9 @@ import ErrorBoundary from "./errorBoundary";
 import "./styles/card.css";
 import { fetchGames, fetchFeedback, handleVote } from "../actions/gameActions";
 import { loadVoteCount, setVoteLocalStorageVariable } from "../local-storage";
+import Loading from "./loading";
 
 export class LandingPage extends React.Component {
-  componentWillMount() {
-
-  }
   componentDidMount() {
     const { loggedIn, nonUserVotes, dispatch, userId } = this.props;
 
@@ -38,7 +36,11 @@ export class LandingPage extends React.Component {
     const { loading } = this.props;
     let content;
     if (loading) {
-      content = <div className="landing-page-loader">loading...</div>;
+      content = (
+        <div className="loading-screen">
+          <Loading />
+        </div>
+      );
     } else {
       const { games, loggedIn, feedback } = this.props;
       const count = parseInt(loadVoteCount(), 10);
@@ -46,6 +48,8 @@ export class LandingPage extends React.Component {
         content = <ConnectedUserOnboard />;
       } else if (count > 13 && !loggedIn) {
         content = <ErrorBoundary />;
+      } else if (games.length === 0) {
+        content = <div className="landing-page-loader">Just a moment...</div>;
       } else if (games.length && feedback) {
         content = (
           <div className="battle-vote">
