@@ -6,9 +6,10 @@ import moment from "moment";
 import requiresLogin from "./requires-login";
 import "./styles/profile.css";
 import {
-  getUser,
+  getUserHistory,
   getUserTopHistory,
   // getUserAboutMe,
+  fetchUser,
   getUserSubmotivations
 } from "../actions/users";
 import Loading from "./loading";
@@ -36,8 +37,9 @@ export class ProfilePage extends React.Component {
     return Promise.all([
       dispatch(getUserTopHistory(userId)),
       // dispatch(getUserAboutMe()),
+      dispatch(fetchUser(userId)).then(user => user),
       dispatch(getUserSubmotivations()),
-      dispatch(getUser(userId)).then(user => user)
+      dispatch(getUserHistory(userId)).then(userHistory => userHistory)
     ]);
   }
 
@@ -70,10 +72,7 @@ export class ProfilePage extends React.Component {
   render() {
     const {
       username,
-      level,
-      xpToNextLevel,
       initialPic,
-      name,
       userHistory,
       loading,
       topHistory,
@@ -81,6 +80,7 @@ export class ProfilePage extends React.Component {
       firstName,
       subMotivations
     } = this.props;
+
     const isMobile = screenWidth <= 768;
     const topSix = topHistory.map(history => {
       const { name, cloudImage, igdb, count, id } = history;
@@ -154,7 +154,7 @@ export class ProfilePage extends React.Component {
               <div>
                 <ConnectedAvatarCard initialPic={initialPic} />
               </div>
-              <div className="text-xxs">
+              <div className="text-xxs radar">
                 <Radar name={firstName} />
               </div>
             </section>
@@ -170,15 +170,15 @@ export class ProfilePage extends React.Component {
           profileWidth="w-1"
           isMobile={isMobile}
         />
-        <div className="flex flex-row">
-          <section className="nes-container m-4">
+        <div className="flex flex-row top-recent-container">
+          <section className="nes-container m-4 top-six">
             <h4>
               <i className={`nes-icon ${iconSize} heart`} />
               Your Top 6 choices!
             </h4>
             {topSix}
           </section>
-          <section className="nes-container with-title m-4">
+          <section className="nes-container m-4 recent-choices">
             <h4>Your Most Recent Choices!</h4>
             {recentHistory}
           </section>
@@ -190,20 +190,20 @@ export class ProfilePage extends React.Component {
 
 const mapStateToProps = state => {
   const { currentUser } = state.auth;
-
+  const { user } = state;
   return {
-    aboutMe: state.user.aboutMe,
-    topHistory: state.user.topHistory,
+    aboutMe: user.aboutMe,
+    topHistory: user.topHistory,
     level: currentUser.level,
     xpToNextLevel: currentUser.xpToNextLevel,
-    initialPic: currentUser.profilePic,
+    initialPic: user.userInfo.profilePic,
     userId: currentUser.id,
     username: state.auth.currentUser.username,
     fullName: `${currentUser.firstName} ${currentUser.lastName}`,
-    firstName: currentUser.firstName,
-    userHistory: state.user.history,
-    subMotivations: state.user.subMotivations,
-    loading: state.user.loading,
+    firstName: user.userInfo.firstName,
+    userHistory: user.history,
+    subMotivations: user.subMotivations,
+    loading: user.loading,
     screenWidth: state.window.width,
     profilePic: state.auth.currentUser.profilePic
   };

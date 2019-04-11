@@ -41,25 +41,28 @@ class MotivationsChart extends Component {
             minHeight={320}
             padding={0}
           >
-            <RadarChart
-              tick={{ fontSize: 5 }}
-              outerRadius={90}
-              data={data}
-              wrapperStyle={{ position: "absolute", left: "0" }}
-            >
+            <RadarChart tick={{ fontSize: 5 }} outerRadius={90} data={data}>
               <PolarGrid />
               <PolarAngleAxis
                 dataKey="motivation"
                 tick={{ fontSize: 6.5, fill: "white" }}
               />
               <PolarRadiusAxis angle={30} domain={[0, 100]} />
-              <Legend wrapperStyle={{ position: "absolute", top: 0 }} />
+              <Legend
+                wrapperStyle={{
+                  position: "absolute",
+                  top: 0,
+                  left: -15,
+                  fontSize: "10px"
+                }}
+              />
               <Radar
                 name={`${name}'s motivations`}
                 dataKey="percentage"
                 stroke="#8884d8"
                 fill="white"
                 fillOpacity={0.6}
+                legendType="line"
               />
               <Tooltip
                 wrapperStyle={{

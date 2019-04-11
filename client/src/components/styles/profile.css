@@ -2,9 +2,6 @@
   background-color: #f8f8f8;
 }
 
-.similar {
-}
-
 .nes-container.with-title > .title.profile-pic {
   background-color: #f8f8f8;
 }
@@ -107,5 +104,20 @@
     margin: 30px;
     width: 90%;
     text-align: left;
+  }
+}
+
+@media (max-width: 400px) {
+  .top-recent-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .top-six {
+    width: 80%;
+  }
+  .recent-choices {
+    width: 80%;
   }
 }

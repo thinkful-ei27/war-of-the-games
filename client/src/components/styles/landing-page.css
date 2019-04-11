@@ -2,3 +2,11 @@
   display: flex;
   flex-direction: column;
 }
+
+.loading-screen {
+  align-content: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}

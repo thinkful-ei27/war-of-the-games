@@ -8,17 +8,18 @@ import {
   USER_FETCH_SUCCESS,
   USER_FETCH_ERROR,
   GET_USER_MOTIVATIONS_SUCCESS,
-  USER_WISH_LIST_SUCCESS
+  USER_WISH_LIST_SUCCESS,
+  UPDATE_PIC_SUCCESS
 } from "../actions/users";
 
 const initialState = {
+  userInfo: {},
   history: [],
   topHistory: [],
   motivations: [],
   wishList: [],
   subMotivations: "",
   aboutMe: "",
-  profilePic: "",
   loading: false,
   error: null
 };
@@ -64,9 +65,16 @@ export default function reducer(state = initialState, action) {
     case USER_FETCH_SUCCESS:
       return {
         ...state,
-        profilePic: action.profilePic,
+        userInfo: { ...action.userInfo },
         loading: false
       };
+    case UPDATE_PIC_SUCCESS:
+      return {
+        ...state,
+        userInfo: { ...state.userInfo, profilePic: action.pic },
+        loading: false
+      };
+
     case USER_FETCH_ERROR:
       return {
         ...state,
