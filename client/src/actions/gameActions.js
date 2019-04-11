@@ -57,6 +57,8 @@ export const fetchImages = (gameOneId, gameTwoId, authToken) => {
 export const fetchGames = () => (dispatch, getState) => {
   const { authToken } = getState().auth;
   const options = {};
+  dispatch(fetchGameRequest());
+  console.log("this ran");
   if (authToken) {
     options.headers = { Authorization: `Bearer ${authToken}` };
   }
@@ -74,9 +76,7 @@ export const fetchGames = () => (dispatch, getState) => {
     .then(result => {
       return result;
     })
-    .catch(err => {
-      console.error(err);
-    });
+    .catch(err => fetchFeedbackError(err));
 };
 
 export const HANDLE_VOTE = "HANDLE_VOTE";
