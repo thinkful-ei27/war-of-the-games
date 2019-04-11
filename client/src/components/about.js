@@ -26,9 +26,10 @@ export function AboutPage(props) {
   if (screenWidth > 768) {
     title = "War of the Games";
     content = (
-      <p className="about-page-text">
-        {textOne} {textTwo}
-      </p>
+      <section className="about-page-text">
+        <p>{textOne}</p>
+        <p>{textTwo}</p>
+      </section>
     );
   }
 
@@ -43,13 +44,16 @@ export function AboutPage(props) {
       </section>
       <section className="about-page-text-section">{content}</section>
       <section className="about-page-btns">
-        <Link to="/">
-          <img className="about-img" src={demon} alt="demon" />
-          <button type="button" className="nes-btn is-success">
-            Get back to the action!
-          </button>
-          <img className="about-img" src={knight} alt="knight" />
-        </Link>
+        <img className="about-img" src={demon} alt="demon" />
+        <a
+          className="nes-btn is-success"
+          href="https://github.com/thinkful-ei27/war-of-the-games"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Check out our code on GitHub
+        </a>
+        <img className="about-img" src={knight} alt="knight" />
       </section>
     </div>
   );
