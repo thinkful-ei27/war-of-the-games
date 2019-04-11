@@ -10,7 +10,8 @@ export default function Avatar(props) {
     "nes-bulbasaur",
     "nes-charmander",
     "nes-squirtle",
-    "nes-kirby"
+    "nes-kirby",
+    "lich-king"
   ];
   const evaluateProfilePic = () => {
     // document.getElementById("dialog-default").close();
@@ -27,6 +28,8 @@ export default function Avatar(props) {
         return <i className="nes-squirtle" />;
       case "nes-kirby":
         return <i className="nes-kirby" />;
+      case "lich-king":
+        return <i className="lich-king" />;
       default:
         return <i className="nes-mario" />;
     }

@@ -45,6 +45,16 @@
   flex: 0 1 15em;
 }
 
+.lich-king {
+  position: relative;
+  display: inline-block;
+  width: 96px;
+  height: 96px;
+  background-image: url("../../assets/lich-king.gif");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .img-responsive {
   display: block;
   max-width: 100%;

@@ -30,7 +30,8 @@ class AvatarCard extends React.Component {
       "nes-bulbasaur",
       "nes-charmander",
       "nes-squirtle",
-      "nes-kirby"
+      "nes-kirby",
+      "lich-king"
     ];
     const classMap = classIconNames.map(icon => (
       <li
