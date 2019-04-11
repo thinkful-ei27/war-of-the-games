@@ -84,9 +84,9 @@ export class Card extends Component {
           clickable
           delayShow={80}
         >
-          <Link to={gamesUrl + slug}>
-            <p style={{ color: "white" }}>
-              <strong>{name}</strong>
+          <Link to={gamesUrl + slug} target="_blank">
+            <p style={{ fontSize: "10px", color: "white", fontWeight: "bold" }}>
+              {name}
             </p>
           </Link>
           <span className="hover-summary">
