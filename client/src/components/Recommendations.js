@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
+import ReactTooltip from "react-tooltip";
 import { API_BASE_URL } from "../config";
 import Game from "./Game";
 import Logo from "../assets/favicon3.ico";
-import Loading from "../components/loading";
+import Loading from "./loading";
 
 const orderBy = (arr, props, orders) =>
   [...arr].sort((a, b) =>
@@ -97,8 +98,9 @@ export class Recommendations extends Component {
 
   render() {
     const { error, isLoading, recs } = this.state;
-    const { isMobile, profileWidth, loading } = this.props;
+    const { isMobile, profileWidth } = this.props;
     const topFiveRecs = recs.slice(0, 5);
+
     if (isLoading) {
       return <Loading />;
     }
@@ -122,14 +124,23 @@ export class Recommendations extends Component {
           className={`flex ${isMobile ? "flex-col text-xs w-3/4 mx-auto" : ""}`}
         >
           {topFiveRecs.map(rec => (
-            <Game
-              key={rec.id}
-              name={rec.name}
-              slug={rec.slug}
-              cloudImage={rec.cover ? rec.cover.url : rec.cloudImage || Logo}
-              profileFontSize="text-xs"
-              profileWidth={profileWidth}
-            />
+            <div>
+              <ReactTooltip id={rec.name} className="hover">
+                <p>{rec.name}</p>
+                <p>{rec.summary}</p>
+              </ReactTooltip>
+              <Game
+                dataTip
+                dataFor={rec.name}
+                key={rec.id}
+                name={rec.name}
+                slug={rec.slug}
+                summary={rec.summary}
+                cloudImage={rec.cover ? rec.cover.url : rec.cloudImage || Logo}
+                profileFontSize="text-xs"
+                profileWidth={profileWidth}
+              />
+            </div>
           ))}
         </div>
         <hr />
