@@ -7,6 +7,7 @@ import { API_BASE_URL } from "../config";
 import Game from "./Game";
 import Logo from "../assets/favicon3.ico";
 import Loading from "./loading";
+import LongText from "./LongText";
 
 const orderBy = (arr, props, orders) =>
   [...arr].sort((a, b) =>
@@ -125,13 +126,27 @@ export class Recommendations extends Component {
         >
           {topFiveRecs.map(rec => (
             <div>
-              <ReactTooltip id={rec.name} className="hover">
-                <p>{rec.name}</p>
+              <ReactTooltip
+                id={rec.name}
+                className="hover rec-tool-tip"
+                delayShow={110}
+              >
+                <p
+                  style={{
+                    fontSize: "10px",
+                    color: "white",
+                    fontWeight: "bold"
+                  }}
+                >
+                  {rec.name}
+                </p>
                 <p>{rec.summary}</p>
               </ReactTooltip>
               <Game
                 dataTip
                 dataFor={rec.name}
+                dataEvent="mousemove"
+                dataEventOff="mouseleave"
                 key={rec.id}
                 name={rec.name}
                 slug={rec.slug}
