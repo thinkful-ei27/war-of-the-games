@@ -41,12 +41,7 @@ class MotivationsChart extends Component {
             minHeight={320}
             padding={0}
           >
-            <RadarChart
-              tick={{ fontSize: 5 }}
-              outerRadius={90}
-              data={data}
-              wrapperStyle={{ position: "absolute", left: "0" }}
-            >
+            <RadarChart tick={{ fontSize: 5 }} outerRadius={90} data={data}>
               <PolarGrid />
               <PolarAngleAxis
                 dataKey="motivation"
@@ -57,8 +52,8 @@ class MotivationsChart extends Component {
                 wrapperStyle={{
                   position: "absolute",
                   top: 0,
-                  fontSize: "10px",
-                  margin: "0 auto"
+                  left: -15,
+                  fontSize: "10px"
                 }}
               />
               <Radar

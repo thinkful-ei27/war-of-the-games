@@ -145,6 +145,14 @@
   }
 } */
 
+@media (min-width: 320px) {
+  .profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
 @media (min-width: 400px) {
   .profile-header {
     display: flex;

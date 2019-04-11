@@ -81,6 +81,7 @@ export class ProfilePage extends React.Component {
       firstName,
       subMotivations
     } = this.props;
+
     const isMobile = screenWidth <= 768;
     const topSix = topHistory.map(history => {
       const { name, cloudImage, igdb, count, id } = history;

@@ -33,14 +33,19 @@ router.get("/:id/data", (req, res, next) => {
 
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
-
-  History.find({ userId: id })
-    .populate("gameOne", "name")
-    .populate("gameTwo", "name")
-    .populate("choice")
-    .sort({ createdAt: -1 })
-    .limit(6)
+  let user;
+  User.findOne({ _id: id })
+    .then(_user => {
+      user = _user;
+      return History.find({ userId: id })
+        .populate("gameOne", "name")
+        .populate("gameTwo", "name")
+        .populate("choice")
+        .sort({ createdAt: -1 })
+        .limit(6);
+    })
     .then(results => {
+      console.log({ results, user });
       res.json(results);
     })
     .catch(err => next(err));
