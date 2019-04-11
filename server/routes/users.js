@@ -45,7 +45,6 @@ router.get("/:id/history", (req, res, next) => {
         .limit(6);
     })
     .then(results => {
-      console.log({ results, user });
       res.json(results);
     })
     .catch(err => next(err));
@@ -330,16 +329,6 @@ router.get("/leaderboard", (req, res, next) => {
     });
 });
 
-router.get("/:id", (req, res, next) => {
-  const { id } = req.params;
-
-  User.find({ _id: id })
-    .then(results => {
-      res.json(results);
-    })
-    .catch(err => next(err));
-});
-
 router.post("/aboutMe", jwtAuth, (req, res, next) => {
   const { content } = req.body;
   const userId = req.user.id;
@@ -619,6 +608,7 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
       }
       const { createdAt, updatedAt, games, profilePic } = user;
       const returnObj = { id, createdAt, updatedAt, games, profilePic };
+      console.log(returnObj);
       return res.json(returnObj);
     })
     .catch(err => next(err));
@@ -628,7 +618,7 @@ router.get("/:id", (req, res, next) => {
   const { id } = req.params;
 
   User.find({ _id: id })
-    .then(results => {
+    .then(([results]) => {
       res.json(results);
     })
     .catch(err => next(err));

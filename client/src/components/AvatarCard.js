@@ -18,6 +18,7 @@ class AvatarCard extends React.Component {
   };
 
   updateProfilePic(e) {
+    e.preventDefault();
     const pic = e.currentTarget.id;
     const { userId, dispatch } = this.props;
     dispatch(updateUserProfilePic(userId, pic));
@@ -101,12 +102,12 @@ class AvatarCard extends React.Component {
 
 const mapStateToProps = state => {
   const { currentUser } = state.auth;
-
+  const { userInfo } = state.user;
   return {
     userId: currentUser.id,
-    level: currentUser.level,
-    xpToNextLevel: currentUser.xpToNextLevel,
-    profilePic: state.user.profilePic
+    level: userInfo.level,
+    xpToNextLevel: userInfo.xpToNextLevel,
+    profilePic: userInfo.profilePic
   };
 };
 

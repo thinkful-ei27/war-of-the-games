@@ -6,9 +6,10 @@ import moment from "moment";
 import requiresLogin from "./requires-login";
 import "./styles/profile.css";
 import {
-  getUser,
+  getUserHistory,
   getUserTopHistory,
   // getUserAboutMe,
+  fetchUser,
   getUserSubmotivations
 } from "../actions/users";
 import Loading from "./loading";
@@ -36,8 +37,9 @@ export class ProfilePage extends React.Component {
     return Promise.all([
       dispatch(getUserTopHistory(userId)),
       // dispatch(getUserAboutMe()),
+      dispatch(fetchUser(userId)).then(user => user),
       dispatch(getUserSubmotivations()),
-      dispatch(getUser(userId)).then(user => user)
+      dispatch(getUserHistory(userId)).then(userHistory => userHistory)
     ]);
   }
 
@@ -191,20 +193,21 @@ export class ProfilePage extends React.Component {
 
 const mapStateToProps = state => {
   const { currentUser } = state.auth;
-
+  const { user } = state;
+  console.log(user);
   return {
-    aboutMe: state.user.aboutMe,
-    topHistory: state.user.topHistory,
+    aboutMe: user.aboutMe,
+    topHistory: user.topHistory,
     level: currentUser.level,
     xpToNextLevel: currentUser.xpToNextLevel,
-    initialPic: currentUser.profilePic,
+    initialPic: user.userInfo.profilePic,
     userId: currentUser.id,
     username: state.auth.currentUser.username,
     fullName: `${currentUser.firstName} ${currentUser.lastName}`,
-    firstName: currentUser.firstName,
-    userHistory: state.user.history,
-    subMotivations: state.user.subMotivations,
-    loading: state.user.loading,
+    firstName: user.userInfo.firstName,
+    userHistory: user.history,
+    subMotivations: user.subMotivations,
+    loading: user.loading,
     screenWidth: state.window.width,
     profilePic: state.auth.currentUser.profilePic
   };

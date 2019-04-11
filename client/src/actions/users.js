@@ -77,9 +77,14 @@ export const userFetchRequest = () => ({
 });
 
 export const USER_FETCH_SUCCESS = "USER_FETCH_SUCCESS";
-export const userFetchSuccess = profilePic => ({
+export const userFetchSuccess = userInfo => ({
   type: USER_FETCH_SUCCESS,
-  profilePic
+  userInfo
+});
+export const UPDATE_PIC_SUCCESS = "UPDATE_PIC_SUCCESS";
+export const updatePicSuccess = pic => ({
+  type: UPDATE_PIC_SUCCESS,
+  pic
 });
 
 export const USER_FETCH_ERROR = "USER_FETCH_ERROR";
@@ -151,7 +156,7 @@ export const getUserTopHistory = userId => (dispatch, getState) => {
     .then(data => dispatch(getUserTopHistorySuccess(data)))
     .catch(err => dispatch(userFetchError(err)));
 };
-export const getUser = userId => (dispatch, getState) => {
+export const getUserHistory = userId => (dispatch, getState) => {
   dispatch(userFetchRequest());
 
   const { authToken } = getState().auth;
@@ -235,6 +240,22 @@ export const updateUser = (userId, gameId) => (dispatch, getState) => {
     .catch(err => dispatch(userFetchError(err)));
 };
 
+export const fetchUser = (userId, userInfo) => (dispatch, getState) => {
+  const { authToken } = getState().auth;
+  dispatch(userFetchRequest());
+
+  return fetch(`${API_BASE_URL}/users/${userId}`, {
+    method: "GET",
+    headers: { Authorization: `Bearer ${authToken}` }
+  })
+    .then(res => normalizeResponseErrors(res))
+    .then(res => res.json())
+    .then(res => {
+      console.log("GET", res);
+      dispatch(userFetchSuccess(res));
+    });
+};
+
 export const updateUserProfilePic = (userId, profilePic) => (
   dispatch,
   getState
@@ -255,8 +276,11 @@ export const updateUserProfilePic = (userId, profilePic) => (
       return res.json();
     })
     .then(res => {
-      const { profilePic } = res;
-      dispatch(userFetchSuccess(profilePic));
+      console.log("PUT", res);
+      dispatch(updatePicSuccess(res.profilePic));
     })
-    .catch(err => dispatch(userFetchError(err)));
+    .catch(err => {
+      console.log(err);
+      dispatch(userFetchError(err));
+    });
 };
