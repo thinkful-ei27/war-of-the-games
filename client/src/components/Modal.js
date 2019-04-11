@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 import "./styles/modal.css";
 
 export default function Modal(props) {
-  const { handleModal, onRemove, igdbId, showModal, item } = props;
+  const { handleModal, onRemove, igdbId, showModal, item, id } = props;
   return (
     <ReactModal
       appElement={document.getElementById("root")}
@@ -20,7 +20,7 @@ export default function Modal(props) {
       </button>
       <div className="flex flex-col justify-around items-center h-1 text-xs">
         <p className="text-center modal-content">
-          Are you sure you want to remove this game from your {item}?
+          Are you sure you want to remove this game from your {item}
         </p>
         <menu className="flex w-2/3 justify-around">
           <button
@@ -31,7 +31,7 @@ export default function Modal(props) {
             Cancel
           </button>
           <button
-            onClick={() => onRemove(igdbId)}
+            onClick={() => onRemove(igdbId || id)}
             className="nes-btn modal is-primary"
             type="button"
           >

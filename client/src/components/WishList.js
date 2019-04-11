@@ -5,7 +5,6 @@ import axios from "axios";
 import { API_BASE_URL } from "../config";
 import ConnectedGame from "./Game";
 import Loading from "./loading";
-import Logo from "../assets/favicon3.ico";
 
 export class WishList extends Component {
   constructor(props) {
@@ -31,7 +30,6 @@ export class WishList extends Component {
       })
         .then(res => {
           const wishList = res.data;
-          console.log(wishList);
           this.setState({ wishList, isLoading: false });
         })
         .catch(err => {

@@ -14,9 +14,11 @@ import {
 import Loading from "./loading";
 import ConnectedGame from "./Game";
 import ConnectedRecommendations from "./Recommendations";
+import ConnectedAvatarCard from "./AvatarCard";
 import ConnectedWishList from "./WishList";
 // profile pic imports
 
+// profile pic imports
 import Demon from "../assets/demon.png";
 import Knight from "../assets/knight.png";
 import BigZombie from "../assets/bigZombie.png";
@@ -68,16 +70,15 @@ export class ProfilePage extends React.Component {
   render() {
     const {
       username,
-      history,
       level,
       xpToNextLevel,
+      initialPic,
       name,
       userHistory,
       loading,
       topHistory,
       screenWidth,
       firstName,
-      profilePic,
       subMotivations
     } = this.props;
     const isMobile = screenWidth <= 768;
@@ -163,28 +164,9 @@ export class ProfilePage extends React.Component {
           >
             <p className="title">{username}</p>
             <section className="profile-header">
-              <div className="profile-xp-card">
-                <p>
-                  <i className="nes-charmander is-large" />
-                </p>
-                <div className="">
-                  <p className="text-2xl">
-                    <span className="nes-text is-success text-2xl mx-4">
-                      LV
-                    </span>
-                    {level}
-                  </p>
-                  <p className="text-2xl">
-                    <span className="nes-text is-success text-2xl mx-4">
-                      XP
-                    </span>
-                    {xpToNextLevel}
-                  </p>
-                </div>
+              <div>
+                <ConnectedAvatarCard initialPic={initialPic} />
               </div>
-              {/* <div className="profile">
-                <p>Yeah you know what it is.</p>
-              </div> */}
               <div className="text-xxs">
                 <Radar name={firstName} />
               </div>
@@ -201,17 +183,19 @@ export class ProfilePage extends React.Component {
           profileWidth="w-1"
           isMobile={isMobile}
         />
-        <section className="nes-container top-six m-4">
-          <h4>
-            <i className={`nes-icon ${iconSize} heart`} />
-            Your Top 6 choices!
-          </h4>
-          {topSix}
-        </section>
-        <aside className="nes-container with-title recent-choices">
-          <h4>Your Most Recent Choices!</h4>
-          {recentHistory}
-        </aside>
+        <div className="flex flex-row">
+          <section className="nes-container m-4">
+            <h4>
+              <i className={`nes-icon ${iconSize} heart`} />
+              Your Top 6 choices!
+            </h4>
+            {topSix}
+          </section>
+          <section className="nes-container with-title m-4">
+            <h4>Your Most Recent Choices!</h4>
+            {recentHistory}
+          </section>
+        </div>
       </div>
     );
   }
@@ -225,6 +209,7 @@ const mapStateToProps = state => {
     topHistory: state.user.topHistory,
     level: currentUser.level,
     xpToNextLevel: currentUser.xpToNextLevel,
+    initialPic: currentUser.profilePic,
     userId: currentUser.id,
     username: state.auth.currentUser.username,
     fullName: `${currentUser.firstName} ${currentUser.lastName}`,
