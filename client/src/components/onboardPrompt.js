@@ -11,10 +11,10 @@ export default function OnboardingPrompt(props) {
           </div>
         </div>
         <nav className="onboarding-nav">
-          <Link to="/register">
+          <Link to="/register" className="onboard-signup-btn" >
             <button
-              id="sign-up-prompt-btn"
-              className="nes-btn is-primary"
+              id="sign-up-prompt-btn "
+              className="nes-btn is-primary "
               type="button"
             >
               Sign up
@@ -23,15 +23,15 @@ export default function OnboardingPrompt(props) {
           <Link to="/login">
             <button
               id="sign-up-prompt-btn"
-              className="nes-btn is-primary"
+              className="nes-btn is-primary "
               type="button"
             >
               Log in
             </button>
           </Link>
         </nav>
-        <p>Sign Up To Get Recommendations and See How Other Users Feel!</p>
-        <div className="bricks-onboarding-holder-2" />
+        <p>Don't Let Your Votes Go to Waste! Sign Up to Get Recommendations </p>
+        <div className="bricks-onboarding-holder-2"></div>
       </div>
     </section>
   );

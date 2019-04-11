@@ -11,6 +11,9 @@ import { fetchGames, fetchFeedback, handleVote } from "../actions/gameActions";
 import { loadVoteCount, setVoteLocalStorageVariable } from "../local-storage";
 
 export class LandingPage extends React.Component {
+  componentWillMount() {
+
+  }
   componentDidMount() {
     const { loggedIn, nonUserVotes, dispatch, userId } = this.props;
 

@@ -9,7 +9,7 @@ export default class Input extends React.Component {
 
   render() {
     let error;
-    const { meta, input, label, type, className } = this.props;
+    const { meta, input, label, type, className, placeholder } = this.props;
     if (meta.touched && meta.error) {
       error = <div className="form-error">{meta.error}</div>;
     }
@@ -33,6 +33,7 @@ export default class Input extends React.Component {
           ref={input => (this.input = input)}
           className={className}
           name={input.name}
+          placeholder={placeholder}
         />
       </div>
     );

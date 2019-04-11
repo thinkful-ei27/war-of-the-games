@@ -6,7 +6,8 @@ import Input from "./input";
 import Loading from "./loading";
 import { login } from "../actions/auth";
 import { required, nonEmpty } from "../validators";
-
+import warpPipe from "../assets/short-warp-pipe.png"
+import pirhanaPipe from "../assets/pirhana-pipe.png"
 class LoginForm extends React.Component {
   onSubmit(values) {
     const { dispatch } = this.props;
@@ -42,33 +43,46 @@ class LoginForm extends React.Component {
     }
 
     return (
-      <div>
-        <form
-          className="login-form"
-          onSubmit={handleSubmit(values => this.onSubmit(values))}
-        >
-          {err}
-          <Field
-            component={Input}
-            type="text"
-            label="username"
-            name="username"
-            id="username"
-            validate={[required, nonEmpty]}
-          />
-          <Field
-            component={Input}
-            type="password"
-            label="password"
-            name="password"
-            id="password"
-            validate={[required, nonEmpty]}
-          />
-          <button type="submit" disabled={pristine || submitting}>
-            Log in
+      <div className="login-form-container">
+        <div className="bricks-onboarding-holder-3"></div>
+        <h2 className="signup-header">Welcome Back!</h2>
+        <div className="form-holder2">
+          <form
+            className="login-form"
+            onSubmit={handleSubmit(values => this.onSubmit(values))}
+          >
+            {err}
+
+            <Field
+              placeholder="username"
+              component={Input}
+              type="text"
+              aria-label="username"
+              name="username"
+              id="username"
+              validate={[required, nonEmpty]}
+            />
+            <Field
+              placeholder="password"
+              component={Input}
+              type="password"
+              aria-label="password"
+              name="password"
+              id="password"
+              validate={[required, nonEmpty]}
+            />
+            <button type="submit" disabled={pristine || submitting}>
+              Log in
           </button>
-        </form>
-        {loadingView}
+          </form>
+
+          {loadingView}
+        </div>
+        <div className="pipe-div">
+          <img src={warpPipe} alt="warp-pipe" className="warp-pipe" />
+          <img src={pirhanaPipe} alt="pirhana-pipe" className="pirhana-pipe" />
+        </div>
+        <div className="bricks-onboarding-holder-4"></div>
       </div>
     );
   }
