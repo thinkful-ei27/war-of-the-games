@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { API_BASE_URL } from "../config";
 import Game from "./Game";
 import Logo from "../assets/favicon3.ico";
-import Loading from "../components/loading";
+import Loading from "./loading";
 
 const orderBy = (arr, props, orders) =>
   [...arr].sort((a, b) =>

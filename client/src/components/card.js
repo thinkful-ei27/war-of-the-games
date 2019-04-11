@@ -75,7 +75,20 @@ export class Card extends Component {
             <h1 className="game-title">{name}</h1>
           </Link>
         </div>
-        <ReactTooltip id={gameSummaryNum} type="info" place="bottom" multiline>
+        <ReactTooltip
+          className="hover"
+          id={gameSummaryNum}
+          type="info"
+          multiline
+          effect="float"
+          clickable
+          delayShow={80}
+        >
+          <Link to={gamesUrl + slug} target="_blank">
+            <p style={{ fontSize: "10px", color: "white", fontWeight: "bold" }}>
+              {name}
+            </p>
+          </Link>
           <span className="hover-summary">
             <SummaryComponent summary={summary} />
           </span>
@@ -85,8 +98,11 @@ export class Card extends Component {
           src={src}
           alt={alt}
           data-tip
+          data-event="mousemove"
+          data-event-off="mouseleave"
           data-for={gameSummaryNum}
         />
+
         {loggedIn ? (
           <button
             className="card__never-played"
