@@ -34,7 +34,13 @@ const subMotivationKeywords = {
     "collaboration",
     "multiplayer"
   ],
-  power: ["power", "overpowered", "powerful", "dominant", "damage per second"]
+  power: [
+    "leveling up",
+    "grinding",
+    "arpg - action rpg",
+    "hack and slash",
+    "magic"
+  ]
 };
 
 module.exports = { subMotivationKeywords };
