@@ -646,6 +646,56 @@ const games = [
     cloudImage:
       "https://res.cloudinary.com/hjihgo1pd/image/upload/v1554518492/5ca811db9cd89ef9c62583b6.jpg",
     id: "5ca811db9cd89ef9c62583b6"
+  },
+  {
+    igdb: {
+      id: 128,
+      slug: "assassin-s-creed"
+    },
+    similar_games: [113, 127, 537, 1266, 1970, 5606, 7570, 8263, 9243, 19249],
+    motivations: ["achievement"],
+    subMotivations: ["completion"],
+    core: true,
+    name: "Assassin's Creed",
+    coverUrl:
+      "https://images.igdb.com/igdb/image/upload/t_720p/p73nqxuc20nf8upc22lx.jpg",
+    summary:
+      "Assassin’s Creed is the next-gen game developed by Ubisoft Montreal that will redefine the action genre. While other games claim to be next-gen with impressive graphics and physics, Assassin’s Creed merges technology, game design, theme, and emotions into a world where you instigate chaos and become a vulnerable, yet powerful, agent of change.",
+    genres: [
+      {
+        _id: "5ca67b311a96641ab77ed627",
+        id: 8,
+        name: "Platform"
+      },
+      {
+        _id: "5ca67b311a96641ab77ed626",
+        id: 31,
+        name: "Adventure"
+      }
+    ],
+    platforms: [
+      {
+        _id: "5ca67b311a96641ab77ed62a",
+        id: 6,
+        name: "PC (Microsoft Windows)"
+      },
+      {
+        _id: "5ca67b311a96641ab77ed629",
+        id: 9,
+        name: "PlayStation 3"
+      },
+      {
+        _id: "5ca67b311a96641ab77ed628",
+        id: 12,
+        name: "Xbox 360"
+      }
+    ],
+    createdAt: "2019-04-02T21:02:11.015Z",
+    updatedAt: "2019-04-06T02:47:35.191Z",
+    cloudImage:
+      "https://res.cloudinary.com/hjihgo1pd/image/upload/v1554239031/5ca3cdd309691b1d2a883189.jpg",
+    firstReleaseDate: 1194912000,
+    id: "5ca3cdd309691b1d2a883189"
   }
 ];
 
