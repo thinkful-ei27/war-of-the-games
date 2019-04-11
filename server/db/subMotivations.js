@@ -23,7 +23,7 @@ const subMotivationKeywords = {
   excitement: [
     "excitement",
     "exciting",
-    "fast-paced",
+    "fast paced",
     "adrenaline",
     "energetic"
   ],
