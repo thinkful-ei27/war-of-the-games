@@ -22,34 +22,40 @@ export class InfiniteGames extends Component {
       value: ""
     };
 
-    // Binds our scroll event handler
-    window.onscroll = () => {
-      const {
-        loadGames,
-        state: { error, isLoading, hasMore }
-      } = this;
-
-      // Bails early if:
-      // * there's an error
-      // * it's already loading
-      // * there's nothing left to load
-      if (error || isLoading || !hasMore) return;
-
-      // Checks that the page has scrolled to the bottom
-      const { scrollHeight } = document.documentElement;
-      const { pageYOffset } = window;
-      const { clientHeight } = document.documentElement;
-      if (pageYOffset + clientHeight >= scrollHeight) {
-        loadGames();
-      }
-    };
+    this.onScroll = this.onScroll.bind(this);
   }
 
   async componentDidMount() {
     // Loads some games on initial load
     const { dispatch } = this.props;
+    window.addEventListener("scroll", this.onScroll);
     await dispatch(fetchAllGames());
     this.loadGames();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.onScroll);
+  }
+
+  onScroll() {
+    const {
+      loadGames,
+      state: { error, isLoading, hasMore }
+    } = this;
+
+    // Bails early if:
+    // * there's an error
+    // * it's already loading
+    // * there's nothing left to load
+    if (error || isLoading || !hasMore) return;
+
+    // Checks that the page has scrolled to the bottom
+    const { scrollHeight } = document.documentElement;
+    const { pageYOffset } = window;
+    const { clientHeight } = document.documentElement;
+    if (pageYOffset + clientHeight >= scrollHeight) {
+      loadGames();
+    }
   }
 
   loadGames = () => {
