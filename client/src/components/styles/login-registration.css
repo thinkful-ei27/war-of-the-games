@@ -67,17 +67,24 @@
 .pipe-div{
   display: flex;
   margin-bottom: -50px;
-  margin-left: 40px;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 .warp-pipe{
   width: 70px;
   height: 70px;
-  margin-left: 500px;
 }
 
 .pirhana-pipe{
   width: 70px;
   height: 70px;
-  margin-right: 500px;
+}
+
+@media(max-width: 400px){
+  #username{
+    width: 100%
+  }
+
+  #password{
+    width: 100%;
+  }
 }
