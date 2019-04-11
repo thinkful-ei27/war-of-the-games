@@ -7,11 +7,14 @@ import { updateUserProfilePic } from "../actions/users";
 
 class AvatarCard extends React.Component {
   showModal = () => {
-    document.getElementById("dialog-default").showModal();
+    const modal = document.getElementById("dialog-default");
+    window.dialogPolyfill.registerDialog(modal);
+    modal.showModal();
   };
 
   hideModal = () => {
-    document.getElementById("dialog-default").close();
+    const dialog = document.getElementById("dialog-default");
+    dialog.close();
   };
 
   updateProfilePic(e) {
@@ -30,7 +33,12 @@ class AvatarCard extends React.Component {
       "nes-bulbasaur",
       "nes-charmander",
       "nes-squirtle",
-      "nes-kirby"
+      "nes-kirby",
+      "lich-king",
+      "gen-sonic",
+      "excitebike",
+      "cloud-strife",
+      "master-chief"
     ];
     const classMap = classIconNames.map(icon => (
       <li

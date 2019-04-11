@@ -66,3 +66,53 @@
 .angel{
    background-image: url(https://i.pinimg.com/originals/2f/56/20/2f5620472cc9033a970e3b0bd4fa66d7.png)
 }
+
+.lich-king {
+    position: relative;
+    display: inline-block;
+    width: 96px;
+    height: 96px;
+    background-image: url("../../assets/lich-king.gif");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+.gen-sonic {
+    position: relative;
+    display: inline-block;
+    width: 96px;
+    height: 96px;
+    background-image: url("../../assets/gen-sonic.gif");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.excitebike {
+    position: relative;
+    display: inline-block;
+    width: 96px;
+    height: 96px;
+    background-image: url("../../assets/excitebike.gif");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.cloud-strife {
+    position: relative;
+    display: inline-block;
+    width: 96px;
+    height: 96px;
+    background-image: url("../../assets/cloud-strife.gif");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.master-chief {
+    position: relative;
+    display: inline-block;
+    width: 96px;
+    height: 96px;
+    background-image: url("../../assets/master-chief.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
