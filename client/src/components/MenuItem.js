@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { clearAuth } from "../actions/auth";
 import { clearAuthToken } from "../local-storage";
-
+import { nextTest } from '../actions/onboarding'
 export function MenuItem(props) {
   const { name, link } = props;
   const logout = () => {
     props.dispatch(clearAuth());
     clearAuthToken();
+    this.props.dispatch(nextTest('test2'))
   };
   return (
     <li className="nes-text is-primary p-4">

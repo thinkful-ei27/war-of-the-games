@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_BASE_URL } from "../config";
 import { fetchCurrentGameSuccess } from "./allGames";
+import { normalizeResponseErrors } from "./utils";
 
 export const FETCH_GAMES = "FETCH_GAMES";
 
@@ -33,13 +34,45 @@ export const fetchGamesSuccess = games => ({
   games
 });
 
-export const fetchGames = () => dispatch => {
-  axios({
-    url: `${API_BASE_URL}/games/battle`,
-    method: "GET"
-  })
-    .then(response => {
-      dispatch(fetchGamesSuccess(response.data));
+export const fetchImages = (gameOneId, gameTwoId, authToken) => {
+  const getFirstGame = () =>
+    axios.put(
+      `${API_BASE_URL}/games/${gameOneId}/images`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${authToken}` }
+      }
+    );
+  const getSecondGame = () =>
+    axios.put(
+      `${API_BASE_URL}/games/${gameTwoId}/images`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${authToken}` }
+      }
+    );
+  return axios.all([getFirstGame(), getSecondGame()]);
+};
+
+export const fetchGames = () => (dispatch, getState) => {
+  const { authToken } = getState().auth;
+  const options = {};
+  if (authToken) {
+    options.headers = { Authorization: `Bearer ${authToken}` };
+  }
+  fetch(`${API_BASE_URL}/games/battle`, options)
+    .then(res => normalizeResponseErrors(res))
+    .then(res => res.json())
+    .then(data => {
+      dispatch(fetchGamesSuccess(data));
+      const gameOneId = data[0].id;
+      const gameTwoId = data[1].id;
+      return !data[0].cloudImage || !data[1].cloudImage
+        ? fetchImages(gameOneId, gameTwoId, authToken)
+        : "No images fetched";
+    })
+    .then(result => {
+      return result;
     })
     .catch(err => {
       console.error(err);
@@ -48,19 +81,24 @@ export const fetchGames = () => dispatch => {
 
 export const HANDLE_VOTE = "HANDLE_VOTE";
 
-export const handleVote = (gameOne, gameTwo, choice) => () => {
+export const handleVote = (gameOne, gameTwo, choice, userId) => (
+  dispatch,
+  getState
+) => {
+  const { authToken } = getState().auth;
   axios
-    .post(`${API_BASE_URL}/history`, {
-      gameOne,
-      gameTwo,
-      choice
-    })
-    .then(function(response) {
-      console.log(response);
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
+    .post(
+      `${API_BASE_URL}/history`,
+      {
+        gameOne,
+        gameTwo,
+        choice,
+        userId
+      },
+      { headers: { Authorization: `Bearer ${authToken}` } }
+    )
+    .then(response => response)
+    .catch(error => console.log(error));
 };
 
 export const fetchFeedback = game => dispatch => {
@@ -73,6 +111,18 @@ export const fetchFeedback = game => dispatch => {
     });
 };
 
+export const SET_NON_USER_VOTES = "SET_NON_USER_VOTES";
+
+export const CLEAR_NON_USER_VOTES = "CLEAR_NON_USER_VOTES";
+
+export const clearNonUserVotes = () => ({
+  type: CLEAR_NON_USER_VOTES
+});
+
+export const setNonUserVotes = (gameOne, gameTwo, choice) => ({
+  type: SET_NON_USER_VOTES,
+  vote: { gameOne, gameTwo, choice }
+});
 export const updateGame = game => (dispatch, getState) => {
   const { authToken } = getState().auth;
   dispatch(fetchGameRequest());

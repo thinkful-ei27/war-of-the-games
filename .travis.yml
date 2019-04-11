@@ -1,5 +1,7 @@
 language: node_js
 node_js: node
+services:
+  - mongodb
 notifications:
   email: false
 branches:
@@ -13,4 +15,4 @@ deploy:
     secure: kFjBSGT0ghFSL+1baJYTjCngaK4w5EfpIyqrVUmWsTRF7PtaJZUIBfjcinhKbHco837JTZlnhEexqHtFHH80f47mp44LmIMXymqlIQ+/XX8LEWqt8CdaDwGS7jWM+AFaICF3fH7Dih4C+KpEdyCft5kY+f/Wnh5oDRmXgkgKxPxlUShQrpRVeL9IOlGtVRMZPor7mPkz3NDjGZ7yZ4YaKNnexqgat/z+w/BzrN3JR3V++N91sUYQlo4XTqG7I3tckMZ08xL4bJW6UKKYkqTmleIUfWtlr72JL093oMpp4QJ1qG34Ga5Qkn0qrBAGyLO4PkuDjwPZvYBjJcaVPoiGpFC5Qs4g5K4uYK57FHwC/RQSPBj3KuydZkQMxlgtnmjCAXWiVBzewQ36Xz75FMxYLaBZJ5VqyXNZ2kHE14XbQfvBN+aiE8erNohke4SfWpLMkv2nYtLW3EQai0Yya0XoJ6rajbfMRRIBaEJFDrUVoaTZEpgpSZBGzsb722YaqfaIGmhMQ4RtXOA3VoOu+muYyMMqLrgtiq5VUB1Rb7TVkftAqLn6MHre2Mj9yoFpWq2OKqrLTReEExtPGSvk5cCq5Zts6v3G8BYwxczsO2ROSKQ3ywS0FmzUeUgP+dUQ6ZvQjxK4Un2niLgwQqKtSkz2aLEIoS39QhSzw6WWFoS6tPs=
   app: async-capstone
   on:
-    repo: thinkful-ei27/async-final-capstone
+    repo: thinkful-ei27/war-of-the-games

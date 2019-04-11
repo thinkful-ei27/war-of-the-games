@@ -21,7 +21,6 @@ export default class Loading extends Component {
   fillBar() {
     const { progress } = this.state;
     const { incrementBy } = this.props;
-    console.log(incrementBy);
     if (progress >= 100) {
       this.setState({ progress: 0 });
     } else {
@@ -51,4 +50,4 @@ Loading.defaultProps = {
   intervalSpeed: 25,
   incrementBy: 3,
   size: "md"
-}
+};

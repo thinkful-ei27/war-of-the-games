@@ -1,9 +1,7 @@
-"use strict";
-
 const express = require("express");
 const passport = require("passport");
-const { JWT_SECRET, JWT_EXPIRY } = require("../config");
 const jwt = require("jsonwebtoken");
+const { JWT_SECRET, JWT_EXPIRY } = require("../config");
 
 const router = express.Router();
 
@@ -11,13 +9,15 @@ const options = { session: false, failWithError: true };
 const localAuth = passport.authenticate("local", options);
 
 function createAuthToken(user) {
-  return jwt.sign({ user }, JWT_SECRET, {
+  const { id, username, admin } = user;
+  const userInfo = { id, username, admin };
+  return jwt.sign({ user: userInfo }, JWT_SECRET, {
     subject: user.username,
     expiresIn: JWT_EXPIRY
   });
 }
 
-router.post("/login", localAuth, function(req, res) {
+router.post("/login", localAuth, (req, res) => {
   const authToken = createAuthToken(req.user);
   res.json({ authToken });
 });
@@ -27,7 +27,7 @@ const jwtAuth = passport.authenticate("jwt", {
   failWithError: true
 });
 
-router.post("/refresh", jwtAuth, function(req, res) {
+router.post("/refresh", jwtAuth, (req, res) => {
   const authToken = createAuthToken(req.user);
   res.json({ authToken });
 });

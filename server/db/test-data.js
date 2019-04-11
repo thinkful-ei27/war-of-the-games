@@ -6,6 +6,9 @@ const getGameRes = {
   },
   name: "Earthworm Jim",
   slug: "earthworm-jim",
+  motivations: [],
+  subMotivations: [],
+  first_release_date: 378691200,
   summary:
     "A crow is chasing a worm named Jim while in outer space Psy-Crow is chasing a renegade ship. The ship's captain has stolen an ultra-high-tech-indestructible-super-space-cyber-suit and Queen Slug-for-a-Butt has ordered Psy-Crow to get it, since it can make her more beautiful than Princess-What's-Her-Name. Psy-Crow blasts the captain and the suit falls to Planet Earth. \n \nBack on earth Jim wonders if he is finally safe when an ultra-high-tech-indestructible-super-space-cyber-suit lands on him. Luckily Jim rests in the neck ring of the suit. Then the space particles begin interacting with Jim, causing a light-speed evolution. Jim soon realizes he is in control of the suit. \n \nJim overhears the Queen's plans for the suit and decides to meet this Princess...",
   genres: [
@@ -75,4 +78,26 @@ const getGameRes = {
   similar_games: [1074, 1185, 1331, 3166, 3192, 3481, 4598, 7342, 11065, 13677]
 };
 
-module.exports = { getGameRes };
+const saveImgByIdRes = {
+  public_id: "5c9a959ba5d0dd09e07f45a8",
+  version: 1554223732,
+  signature: "562863a19fdbc6ff9959619f74502690e5745d74",
+  width: 515,
+  height: 720,
+  format: "jpg",
+  resource_type: "image",
+  created_at: "2019-04-02T01:34:48Z",
+  tags: [],
+  bytes: 61538,
+  type: "upload",
+  etag: "d772adddad88bfd9e4fcddfddbe1b2e7",
+  placeholder: false,
+  url:
+    "http://res.cloudinary.com/hjihgo1pd/image/upload/v1554223732/5c9a959ba5d0dd09e07f45a8.jpg",
+  secure_url:
+    "https://res.cloudinary.com/hjihgo1pd/image/upload/v1554223732/5c9a959ba5d0dd09e07f45a8.jpg",
+  overwritten: true,
+  original_filename: "sgpdlhpeaohxwr6ectsy"
+};
+
+module.exports = { getGameRes, saveImgByIdRes };

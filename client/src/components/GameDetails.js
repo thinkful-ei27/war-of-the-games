@@ -1,16 +1,29 @@
 import React from "react";
 import { connect } from "react-redux";
 import { updateGame } from "../actions/gameActions";
+import LongText from "./LongText";
+import Logo from "../assets/favicon3.ico";
 
 export function GameDetails(props) {
-  const { dispatch, game, feedback, error, loggedIn } = props;
-  const { name, coverUrl, slug, platforms, genres, summary } = game;
+  const {
+    currentUser,
+    dispatch,
+    game,
+    feedback,
+    error,
+    loggedIn,
+    width
+  } = props;
+  const { name, coverUrl, slug, platforms, genres, summary, cloudImage } = game;
+  let platformDisplay;
   const genreDisplay = genres.map(gen => (
     <span key={gen.id}>{gen.name}, </span>
   ));
-  const platformDisplay = platforms.map(plat => (
-    <span key={plat.id}>{plat.name}, </span>
-  ));
+  if (platforms) {
+    platformDisplay = platforms.map(plat => (
+      <span key={plat.id}>{plat.name}, </span>
+    ));
+  }
 
   const renderWinPercentage = () => {
     if (feedback) {
@@ -32,31 +45,56 @@ export function GameDetails(props) {
     return <p>No ratings yet</p>;
   };
 
+  // Mobile Config
+  let imgWidth;
+  let flexState;
+  let title;
+  let imgDivMargin;
+  let fontSize;
+  let contentWidth;
+  if (width > 768) {
+    // width for img and rating div: w-1/3
+    imgWidth = "w-1/3";
+    flexState = "flex-row";
+    title = <h2>{name}</h2>;
+    contentWidth = "w-2/3";
+  }
+  if (width < 768) {
+    // width for img and rating div : w-1
+    imgWidth = "w-3/4";
+    flexState = "flex-col";
+    imgDivMargin = "mx-auto mt-4";
+    title = undefined;
+    contentWidth = "w-1";
+    fontSize = "text-sm";
+  }
+
   return (
-    <section className="flex flex-row">
-      <div className="w-1/3 m-4">
+    <section className={`flex ${flexState}`}>
+      <div className={`${imgWidth} ${imgDivMargin}`}>
         <img
           className="game-info-img p-4 rounded shadow"
-          src={coverUrl}
+          src={cloudImage || coverUrl || Logo}
           alt={slug}
         />
         {renderWinPercentage()}
       </div>
-      <div className="flex flex-col p-4 w-2/3">
-        <h2>{name}</h2>
-
-        <h3 className="mt-4">
+      <div className={`flex flex-col p-4 ${contentWidth} ${fontSize}`}>
+        {title}
+        <h3 className="mt-8">
           <i className="nes-icon star" />
           Genres
         </h3>
-        <p className="">{genreDisplay}</p>
-        <h3 className="mt-4">
+        <p className="">{genreDisplay || "No genres...yet."}</p>
+        <h3 className="mt-8">
           <i className="nes-icon star" />
           Platforms
         </h3>
-        <p className="">{platformDisplay}</p>
-        <p className="mt-4">{summary}</p>
-        {loggedIn ? (
+        <p className="">{platformDisplay || "No platforms in database."}</p>
+        <div className="my-4">
+          <LongText content={summary || "No description...yet."} limit={250} />
+        </div>
+        {loggedIn && currentUser.admin ? (
           <small>
             Is this game missing some info? Try{" "}
             <button type="button" onClick={() => dispatch(updateGame(game))}>
@@ -72,8 +110,20 @@ export function GameDetails(props) {
   );
 }
 
+GameDetails.defaultProps = {
+  game: {
+    name: "A game has no name",
+    coverUrl: "",
+    platforms: "No platforms",
+    genres: "No genres",
+    summary: "Game currently has no summary",
+    cloudImage: ""
+  }
+};
+
 const mapStateToProps = state => ({
-  loggedIn: state.auth.currentUser !== null
+  loggedIn: state.auth.currentUser !== null,
+  currentUser: state.auth.currentUser
 });
 
 export default connect(mapStateToProps)(GameDetails);

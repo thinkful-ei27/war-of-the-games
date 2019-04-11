@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const sinon = require("sinon");
@@ -9,18 +10,21 @@ const User = require("../models/user");
 const { games, users } = require("../db/data");
 const { app } = require("../index");
 const igdbApi = require("../utils/gameApi");
-const { getGameRes } = require("../db/test-data");
+const imagesApi = require("../utils/imagesApi");
+const { getGameRes, saveImgByIdRes } = require("../db/test-data");
 
 chai.use(chaiHttp);
-const expect = chai.expect;
+const { expect } = chai;
 const sandbox = sinon.createSandbox();
 
-describe("ASYNC Capstone API - Games", function() {
-  let user = {};
+describe("ASYNC Capstone API - Games", () => {
+  let user;
   let token;
+  let adminToken;
 
   before(() => {
     sinon.stub(igdbApi, "getGame").resolves(getGameRes);
+    sinon.stub(imagesApi, "saveImgById").resolves(saveImgByIdRes);
     return dbConnect(TEST_DATABASE_URL);
   });
 
@@ -30,10 +34,19 @@ describe("ASYNC Capstone API - Games", function() {
       Game.insertMany(games),
       User.createIndexes(),
       Game.createIndexes()
-    ]).then(([users]) => {
-      user = users[0];
-      token = jwt.sign({ user }, JWT_SECRET, { subject: user.username });
-    });
+    ])
+      .then(([dbUsers]) => {
+        [user] = dbUsers;
+        token = jwt.sign({ user }, JWT_SECRET, { subject: user.username });
+        // get adminToken
+        return chai
+          .request(app)
+          .post("/api/login")
+          .send({ username: "adamadmin", password: "baseball" });
+      })
+      .then(res => {
+        adminToken = res.body.authToken;
+      });
   });
 
   afterEach(() => {
@@ -43,8 +56,8 @@ describe("ASYNC Capstone API - Games", function() {
 
   after(() => dbDisconnect());
 
-  describe("IGDB Sinon Stubs", function() {
-    it("should replace the getGame method", function() {
+  describe("IGDB Sinon Stubs", () => {
+    it("should replace the getGame method", () => {
       return igdbApi.getGame(3480).then(res => {
         expect(res).to.be.an("object");
         expect(res).to.have.keys(
@@ -55,7 +68,10 @@ describe("ASYNC Capstone API - Games", function() {
           "summary",
           "genres",
           "platforms",
-          "similar_games"
+          "similar_games",
+          "first_release_date",
+          "motivations",
+          "subMotivations"
         );
         expect(res.id).to.equal(getGameRes.id);
         expect(res.name).to.equal(getGameRes.name);
@@ -65,29 +81,27 @@ describe("ASYNC Capstone API - Games", function() {
     });
   });
 
-  describe("GET /api/games", function() {
-    it("should return the correct number of games", function() {
+  describe("GET /api/games", () => {
+    it("should return the correct number of games", () => {
       return Promise.all([
         Game.find(),
         chai.request(app).get("/api/games")
       ]).then(([data, res]) => {
         expect(res).to.have.status(200);
-        expect(res).to.be.json;
         expect(res.body).to.be.a("array");
         expect(res.body).to.have.length(data.length);
       });
     });
 
-    it("should return those games in the correct order and with the correct fields", function() {
+    it("should return those games in the correct order and with the correct fields", () => {
       return Promise.all([
         Game.find().sort({ name: "asc" }),
         chai.request(app).get("/api/games")
       ]).then(([data, res]) => {
         expect(res).to.have.status(200);
-        expect(res).to.be.json;
         expect(res.body).to.be.a("array");
         expect(res.body).to.have.length(data.length);
-        res.body.forEach(function(item, i) {
+        res.body.forEach((item, i) => {
           expect(item).to.be.a("object");
           expect(item).to.include.all.keys(
             "id",
@@ -109,7 +123,7 @@ describe("ASYNC Capstone API - Games", function() {
       });
     });
 
-    it("should return correct search results for a slug query", function() {
+    it("should return correct search results for a slug query", () => {
       const slug = "super-mario-64";
 
       const dbPromise = Game.find({ "igdb.slug": slug }).sort({ name: "asc" });
@@ -117,7 +131,6 @@ describe("ASYNC Capstone API - Games", function() {
 
       return Promise.all([dbPromise, apiPromise]).then(([data, res]) => {
         expect(res).to.have.status(200);
-        expect(res).to.be.json;
         expect(res.body).to.be.an("array");
         expect(res.body.length).to.equal(data.length);
         res.body.forEach((game, i) => {
@@ -138,7 +151,7 @@ describe("ASYNC Capstone API - Games", function() {
       });
     });
 
-    it("should catch errors and respond properly", function() {
+    it("should catch errors and respond properly", () => {
       sandbox.stub(Game.schema.options.toJSON, "transform").throws("FakeError");
 
       return chai
@@ -146,15 +159,14 @@ describe("ASYNC Capstone API - Games", function() {
         .get("/api/games")
         .then(res => {
           expect(res).to.have.status(500);
-          expect(res).to.be.json;
           expect(res.body).to.be.a("object");
           expect(res.body.message).to.equal("Internal Server Error");
         });
     });
   });
 
-  describe("GET /api/games/:id", function() {
-    it("should return the correct game", function() {
+  describe("GET /api/games/:id", () => {
+    it("should return the correct game", () => {
       let data;
       return Game.findOne()
         .then(_data => {
@@ -163,7 +175,6 @@ describe("ASYNC Capstone API - Games", function() {
         })
         .then(res => {
           expect(res).to.have.status(200);
-          expect(res).to.be.json;
           expect(res.body).to.be.an("object");
           expect(res.body).to.include.all.keys(
             "id",
@@ -193,7 +204,7 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
-    it("should expand the similar games list with additional information", function() {
+    it("should expand the similar games list with additional information", () => {
       return Game.findOne()
         .then(data => chai.request(app).get(`/api/games/${data.id}`))
         .then(res => {
@@ -210,14 +221,18 @@ describe("ASYNC Capstone API - Games", function() {
               "igdb",
               "platforms",
               "summary",
-              "similar_games"
+              "similar_games",
+              "firstReleaseDate",
+              "motivations",
+              "subMotivations",
+              "core"
             );
             expect(game.igdb).to.have.keys("id", "slug");
           });
         });
     });
 
-    it("should respond with status 400 and an error message when id is not valid", function() {
+    it("should respond with status 400 and an error message when id is not valid", () => {
       return chai
         .request(app)
         .get("/api/games/NOT-A-VALID-ID")
@@ -228,7 +243,7 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
-    it("should respond with status 404 for an id that does not exist", function() {
+    it("should respond with status 404 for an id that does not exist", () => {
       // The string "DOESNOTEXIST" is 12 bytes which is a valid Mongo ObjectId
       return chai
         .request(app)
@@ -239,7 +254,7 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
-    it("should catch errors and respond properly", function() {
+    it("should catch errors and respond properly", () => {
       sandbox.stub(Game.schema.options.toJSON, "transform").throws("FakeError");
       return Game.findOne()
         .then(data => {
@@ -250,47 +265,47 @@ describe("ASYNC Capstone API - Games", function() {
         })
         .then(res => {
           expect(res).to.have.status(500);
-          expect(res).to.be.json;
           expect(res.body).to.be.a("object");
           expect(res.body.message).to.equal("Internal Server Error");
         });
     });
   });
 
-  describe("GET /api/games/battle", function() {
-    it("should return two games", function() {
+  describe("GET /api/games/battle", () => {
+    it("should return two games", () => {
       return chai
         .request(app)
         .get("/api/games/battle")
         .then(res => {
           expect(res).to.have.status(200);
-          expect(res).to.be.json;
           expect(res.body).to.be.a("array");
           expect(res.body).to.have.length(2);
         });
     });
 
-    it("should return different games with the correct fields", function() {
+    it("should return different games with the correct fields", () => {
       return chai
         .request(app)
         .get("/api/games/battle")
         .then(res => {
           expect(res.body).to.be.a("array");
-          res.body.forEach(function(item) {
+          res.body.forEach(item => {
             expect(item).to.be.a("object");
             expect(item).to.include.all.keys(
               "id",
               "name",
               "createdAt",
-              "updatedAt"
+              "updatedAt",
+              "core"
             );
+            expect(item.core).to.equal(true);
           });
           expect(res.body[0].id).to.not.equal(res.body[1].id);
           expect(res.body[0].name).to.not.equal(res.body[1].name);
         });
     });
 
-    it("should return different games each time it is called", function() {
+    it("should return different games each time it is called", () => {
       return Promise.all([
         chai.request(app).get("/api/games/battle"),
         chai.request(app).get("/api/games/battle"),
@@ -310,7 +325,7 @@ describe("ASYNC Capstone API - Games", function() {
       });
     });
 
-    it("shold catch errors and respond properly", function() {
+    it("shold catch errors and respond properly", () => {
       sandbox.stub(Game.schema.options.toJSON, "transform").throws("FakeError");
 
       return chai
@@ -318,15 +333,14 @@ describe("ASYNC Capstone API - Games", function() {
         .get("/api/games/battle")
         .then(res => {
           expect(res).to.have.status(500);
-          expect(res).to.be.json;
           expect(res.body).to.be.a("object");
           expect(res.body.message).to.equal("Internal Server Error");
         });
     });
   });
 
-  describe("POST /api/games", function() {
-    it("should create and return a new game when provided valid data", function() {
+  describe("POST /api/games", () => {
+    it("should create and return a new game when provided valid data", () => {
       const newGame = {
         igdbId: 3480
       };
@@ -336,11 +350,10 @@ describe("ASYNC Capstone API - Games", function() {
         .post("/api/games")
         .set("Authorization", `Bearer ${token}`)
         .send(newGame)
-        .then(function(_res) {
+        .then(_res => {
           res = _res;
           expect(res).to.have.status(201);
           expect(res).to.have.header("location");
-          expect(res).to.be.json;
           expect(res.body).to.be.a("object");
           expect(res.body).to.have.all.keys(
             "id",
@@ -352,7 +365,12 @@ describe("ASYNC Capstone API - Games", function() {
             "summary",
             "genres",
             "platforms",
-            "similar_games"
+            "similar_games",
+            "cloudImage",
+            "firstReleaseDate",
+            "motivations",
+            "subMotivations",
+            "core"
           );
           return Game.findOne({ _id: res.body.id });
         })
@@ -374,7 +392,7 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
-    it('should return an error when missing "igdbId" field', function() {
+    it('should return an error when missing "igdbId" field', () => {
       const newGame = {};
       return chai
         .request(app)
@@ -383,13 +401,12 @@ describe("ASYNC Capstone API - Games", function() {
         .send(newGame)
         .then(res => {
           expect(res).to.have.status(400);
-          expect(res).to.be.json;
           expect(res.body).to.be.a("object");
           expect(res.body.message).to.equal("Missing `igdbId` in request body");
         });
     });
 
-    it('should return an error when "igdbId" is not a number', function() {
+    it('should return an error when "igdbId" is not a number', () => {
       const newGame = {
         igdbId: "not a number"
       };
@@ -400,13 +417,12 @@ describe("ASYNC Capstone API - Games", function() {
         .send(newGame)
         .then(res => {
           expect(res).to.have.status(400);
-          expect(res).to.be.json;
           expect(res.body).to.be.a("object");
           expect(res.body.message).to.equal("`igdbId` should be a number");
         });
     });
 
-    it("should reject duplicate games", function() {
+    it("should reject duplicate games", () => {
       return Game.create({
         name: getGameRes.name,
         igdb: {
@@ -435,7 +451,7 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
-    it("should catch errors and respond properly", function() {
+    it("should catch errors and respond properly", () => {
       sandbox.stub(Game.schema.options.toJSON, "transform").throws("FakeError");
 
       const newGame = {
@@ -449,15 +465,14 @@ describe("ASYNC Capstone API - Games", function() {
         .send(newGame)
         .then(res => {
           expect(res).to.have.status(500);
-          expect(res).to.be.json;
           expect(res.body).to.be.a("object");
           expect(res.body.message).to.equal("Internal Server Error");
         });
     });
   });
 
-  describe("PUT /api/games/:id", function() {
-    it("should update the game when provided a valid igdbId", function() {
+  describe("PUT /api/games/:id", () => {
+    it("should update the game when provided a valid igdbId", () => {
       let game;
       return Game.findById("5c9a959ba5d0dd09e07f45a8")
         .then(_game => {
@@ -466,7 +481,8 @@ describe("ASYNC Capstone API - Games", function() {
             "summary",
             "genres",
             "platforms",
-            "similar_games"
+            "similar_games",
+            "firstReleaseDate"
           );
           const updateItem = {
             igdbId: game.igdb.id
@@ -474,12 +490,11 @@ describe("ASYNC Capstone API - Games", function() {
           return chai
             .request(app)
             .put(`/api/games/${game.id}`)
-            .set("Authorization", `Bearer ${token}`)
+            .set("Authorization", `Bearer ${adminToken}`)
             .send(updateItem);
         })
-        .then(function(res) {
+        .then(res => {
           expect(res).to.have.status(200);
-          expect(res).to.be.json;
           expect(res.body).to.be.an("object");
           expect(res.body).to.have.all.keys(
             "id",
@@ -491,7 +506,9 @@ describe("ASYNC Capstone API - Games", function() {
             "summary",
             "genres",
             "platforms",
-            "similar_games"
+            "similar_games",
+            "cloudImage",
+            "firstReleaseDate"
           );
           expect(res.body.id).to.equal(game.id);
           expect(new Date(res.body.createdAt)).to.eql(game.createdAt);
@@ -507,7 +524,26 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
-    it("should respond with status 400 and an error message when id is not valid", function() {
+    it("should respond with an error when the user is not an admin", () => {
+      return Game.findById("5c9a959ba5d0dd09e07f45a8")
+        .then(game => {
+          const updateItem = {
+            igdbId: game.igdb.id
+          };
+          return chai
+            .request(app)
+            .put(`/api/games/${game.id}`)
+            .set("Authorization", `Bearer ${token}`)
+            .send(updateItem);
+        })
+        .then(res => {
+          expect(res).to.have.status(401);
+          expect(res.body).to.be.an("object");
+          expect(res.body.message).to.equal("Unauthorized");
+        });
+    });
+
+    it("should respond with status 400 and an error message when id is not valid", () => {
       return Game.findById("5c9a959ba5d0dd09e07f45a8")
         .then(game => {
           const updateItem = {
@@ -516,7 +552,7 @@ describe("ASYNC Capstone API - Games", function() {
           return chai
             .request(app)
             .put("/api/games/NOT-A-VALID-ID")
-            .set("Authorization", `Bearer ${token}`)
+            .set("Authorization", `Bearer ${adminToken}`)
             .send(updateItem);
         })
         .then(res => {
@@ -525,7 +561,7 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
-    it("should respond with a 404 for an id that does not exist", function() {
+    it("should respond with a 404 for an id that does not exist", () => {
       return Game.findById("5c9a959ba5d0dd09e07f45a8")
         .then(game => {
           const updateItem = {
@@ -535,7 +571,7 @@ describe("ASYNC Capstone API - Games", function() {
           return chai
             .request(app)
             .put("/api/games/DOESNOTEXIST")
-            .set("Authorization", `Bearer ${token}`)
+            .set("Authorization", `Bearer ${adminToken}`)
             .send(updateItem);
         })
         .then(res => {
@@ -543,25 +579,24 @@ describe("ASYNC Capstone API - Games", function() {
         });
     });
 
-    it("should return an error when missing igdbId field", function() {
+    it("should return an error when missing igdbId field", () => {
       const newGame = {};
       return Game.findById("5c9a959ba5d0dd09e07f45a8")
         .then(game => {
           return chai
             .request(app)
             .put(`/api/games/${game.id}`)
-            .set("Authorization", `Bearer ${token}`)
+            .set("Authorization", `Bearer ${adminToken}`)
             .send(newGame);
         })
         .then(res => {
           expect(res).to.have.status(400);
-          expect(res).to.be.json;
           expect(res.body).to.be.a("object");
           expect(res.body.message).to.equal("Missing `igdbId` in request body");
         });
     });
 
-    it("should return an error when igdbId is not a number", function() {
+    it("should return an error when igdbId is not a number", () => {
       const newGame = {
         igdbId: "not a number"
       };
@@ -570,18 +605,17 @@ describe("ASYNC Capstone API - Games", function() {
           return chai
             .request(app)
             .put(`/api/games/${game.id}`)
-            .set("Authorization", `Bearer ${token}`)
+            .set("Authorization", `Bearer ${adminToken}`)
             .send(newGame);
         })
         .then(res => {
           expect(res).to.have.status(400);
-          expect(res).to.be.json;
           expect(res.body).to.be.a("object");
           expect(res.body.message).to.equal("`igdbId` should be a number");
         });
     });
 
-    it("should catch errors and respond properly", function() {
+    it("should catch errors and respond properly", () => {
       sandbox.stub(Game.schema.options.toJSON, "transform").throws("FakeError");
 
       return Game.findById("5c9a959ba5d0dd09e07f45a8")
@@ -592,12 +626,11 @@ describe("ASYNC Capstone API - Games", function() {
           return chai
             .request(app)
             .put(`/api/games/${game.id}`)
-            .set("Authorization", `Bearer ${token}`)
+            .set("Authorization", `Bearer ${adminToken}`)
             .send(updateItem);
         })
         .then(res => {
           expect(res).to.have.status(500);
-          expect(res).to.be.json;
           expect(res.body).to.be.a("object");
           expect(res.body.message).to.equal("Internal Server Error");
         });

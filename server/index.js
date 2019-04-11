@@ -8,7 +8,6 @@ const jwtStrategy = require("./passport/jwt");
 
 const { PORT, CLIENT_ORIGIN } = require("./config");
 const { dbConnect } = require("./db-mongoose");
-// const {dbConnect} = require('./db-knex');
 
 // Routers
 const usersRouter = require("./routes/users");
@@ -20,7 +19,7 @@ const app = express();
 
 app.use(
   morgan(process.env.NODE_ENV === "production" ? "common" : "dev", {
-    skip: (req, res) => process.env.NODE_ENV === "test"
+    skip: () => process.env.NODE_ENV === "test"
   })
 );
 
@@ -57,6 +56,7 @@ app.use(function(req, res, next) {
 });
 
 // Custom Error Handler
+// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   if (err.status) {
     const errBody = Object.assign({}, err, { message: err.message });

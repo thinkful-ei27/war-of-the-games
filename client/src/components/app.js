@@ -1,20 +1,40 @@
+/* eslint-disable no-undef */
 import React from "react";
 import { connect } from "react-redux";
 import { Route, withRouter, Switch } from "react-router-dom";
 import LoginForm from "./login-form";
 import ConnectedHeaderBar from "./header-bar";
 import ConnectedLandingPage from "./landing-page";
-import ConnectedDashboard from "./dashboard";
 import Page404 from "./404";
-import AboutPage from "./about";
+import ConnectedAboutPage from "./about";
 import ConnectedRegistrationPage from "./registration-page";
 import { refreshAuthToken } from "../actions/auth";
+import { windowSize } from "../actions/window";
+import ProfilePage from "./ProfilePage";
 import ConnectedGameInfo from "./GameInfo";
 import ConnectedGames from "./Games";
-import Footer from "./footer";
-
+import ConnectedFooter from "./footer";
+import ConnectedRecommendationsPage from "./RecommendationsPage";
+import ConnectedWishListPage from "./WishListPage";
+import ErrorBoundary from "./errorBoundary";
+import Leaderboard from "./Leaderboard";
 
 export class App extends React.Component {
+  componentDidMount() {
+    const { dispatch } = this.props;
+
+    // get dimensions on page load
+    let width = window.document.documentElement.clientWidth;
+    let height = window.document.documentElement.clientHeight;
+    dispatch(windowSize(width, height));
+
+    window.addEventListener("resize", e => {
+      width = e.currentTarget.document.body.clientWidth;
+      height = e.currentTarget.document.body.clientHeight;
+      dispatch(windowSize(width, height));
+    });
+  }
+
   componentDidUpdate(prevProps) {
     const { loggedIn } = this.props;
     if (!prevProps.loggedIn && loggedIn) {
@@ -28,6 +48,7 @@ export class App extends React.Component {
 
   componentWillUnmount() {
     this.stopPeriodicRefresh();
+    window.removeEventListener("resize");
   }
 
   startPeriodicRefresh() {
@@ -50,17 +71,28 @@ export class App extends React.Component {
     return (
       <div className="app">
         <ConnectedHeaderBar />
-        <Switch>
-          <Route exact path="/" component={ConnectedLandingPage} />
-          <Route path="/dashboard" component={ConnectedDashboard} />
-          <Route path="/about" component={AboutPage} />
-          <Route path="/login" component={LoginForm} />
-          <Route path="/register" component={ConnectedRegistrationPage} />
-          <Route exact path="/games" component={ConnectedGames} />
-          <Route path="/games/:gameSlug" component={ConnectedGameInfo} />
-          <Route component={Page404} />
-        </Switch>
-        <Footer />
+        <ErrorBoundary>
+          <Switch>
+            <Route exact path="/" component={ConnectedLandingPage} />
+            <Route exact path="/profile" component={ProfilePage} />
+            <Route
+              path="/profile/recommendations"
+              component={ConnectedRecommendationsPage}
+            />
+            <Route path="/about" component={ConnectedAboutPage} />
+            <Route path="/login" component={LoginForm} />
+            <Route path="/register" component={ConnectedRegistrationPage} />
+            <Route path="/leaderboard" component={Leaderboard} />
+            <Route exact path="/games" component={ConnectedGames} />
+            <Route path="/games/:gameSlug" component={ConnectedGameInfo} />
+            <Route
+              path="/users/:username/wishlist"
+              component={ConnectedWishListPage}
+            />
+            <Route component={Page404} />
+          </Switch>
+        </ErrorBoundary>
+        <ConnectedFooter />
       </div>
     );
   }

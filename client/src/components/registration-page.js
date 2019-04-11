@@ -12,7 +12,7 @@ export function RegistrationPage(props) {
   const { loggedIn, loading } = props;
   let loadingView;
   if (loggedIn) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to="/" />;
   }
 
   if (loading) {

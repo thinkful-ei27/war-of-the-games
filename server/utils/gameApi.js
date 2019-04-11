@@ -1,12 +1,8 @@
 const apicalypseDefault = require("apicalypse");
-// const apicalypse = require("../apicalypse/index");
 
 const apicalypse = apicalypseDefault.default;
 
-const keys = [
-  "22499d0daab9ad25a7e4c9cc140fe2f2",
-  "515a661fa441d2e94e33056910808b10"
-];
+const keys = process.env.IGDB_KEYS.split(",");
 
 const randomKey = arr => arr[Math.floor(Math.random() * arr.length)];
 
@@ -20,8 +16,35 @@ const requestOptions = {
   responseType: "json"
 };
 
+const getGenres = async () =>
+  apicalypse(requestOptions)
+    .fields(["name", "url"])
+    .limit(50)
+    // .sort('name', 'desc') // sorts by name, descending
+    // .where(['age > 50', 'movies != n'])
+    .request("/genres")
+    .then(res => res.data);
+
+const getIdFromSlug = async slug => {
+  const newSlug = `\"${slug}\"`;
+  return apicalypse(requestOptions)
+    .fields(["id", "name"])
+    .where(`slug = ${newSlug}`)
+    .request("/games")
+    .then(res => res.data);
+};
+
+const getThemes = async () =>
+  apicalypse(requestOptions)
+    .fields(["name", "url"])
+    .limit(50)
+    // .sort('name', 'desc') // sorts by name, descending
+    // .where(['age > 50', 'movies != n'])
+    .request("/themes")
+    .then(res => res.data);
+
 const getGames = async () =>
-  await apicalypse(requestOptions)
+  apicalypse(requestOptions)
     .fields(["name", "url"])
     .limit(2)
     // .sort('name', 'desc') // sorts by name, descending
@@ -30,7 +53,7 @@ const getGames = async () =>
     .then(res => res.data);
 
 const getGame = async id =>
-  await apicalypse(requestOptions)
+  apicalypse(requestOptions)
     .fields([
       "name",
       "cover.image_id",
@@ -39,17 +62,30 @@ const getGame = async id =>
       "genres.name",
       "platforms.name",
       // "similar_games" is an array of IGDB ID numbers
-      "similar_games"
+      "similar_games",
+      "first_release_date"
     ])
     .where(`id = ${id}`)
     .request("/games")
     .then(res => res.data[0]);
 
-// const getCover = async id =>
-//   await apicalypse(requestOptions)
-//     .fields(["image_id"])
-//     .where(`id = ${id}`)
-//     .request("/covers")
-//     .then(res => res.data[0]);
+// getIdFromSlug("shadows-awakening")
+//   .then(result => console.log(result))
+//   .catch(e => console.error(e.response.statusText));
 
-module.exports = { getGames, getGame };
+const getGamesByIds = async arr => {
+  if (arr.length < 1) {
+    return [];
+  }
+  return apicalypse(requestOptions)
+    .fields(["name", "cover.image_id", "slug"])
+    .where(`id = (${arr})`)
+    .request("/games")
+    .then(res => res.data);
+};
+
+// getGamesByIds([3231])
+//   .then(result => console.log(result))
+//   .catch(e => console.error(e.response.statusText));
+
+module.exports = { getGames, getGame, getIdFromSlug, getGamesByIds };

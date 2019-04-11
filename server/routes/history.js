@@ -1,18 +1,20 @@
-// "use strict";
 const express = require("express");
 const mongoose = require("mongoose");
-const {
-  totalGamesPlayed,
-  gamesWon,
-  gameName,
-  gamePic
-} = require("../utils/queries");
+const passport = require("passport");
+const { totalGamesPlayed, gamesWon } = require("../utils/queries");
 
 const History = require("../models/history");
+const User = require("../models/user");
 
 const Game = require("../models/game");
 
 const { isValidId } = require("./validators");
+
+const router = express.Router();
+const jwtAuth = passport.authenticate("jwt", {
+  session: false,
+  failWithError: true
+});
 
 const missingChoice = (req, res, next) => {
   const { choice } = req.body;
@@ -22,13 +24,8 @@ const missingChoice = (req, res, next) => {
     err.status = 400;
     return next(err);
   }
-  next();
+  return next();
 };
-
-const router = express.Router();
-
-// const passport = require('passport');
-// router.use('/', passport.authenticate('jwt', {session: false, failWithError: true}));
 
 /* ========== GET/READ ALL ITEMS ========== */
 
@@ -46,7 +43,6 @@ router.get("/", (req, res, next) => {
 });
 
 router.get("/all", (req, res, next) => {
-  let games;
   let history;
   History.find()
     .then(results => {
@@ -54,16 +50,9 @@ router.get("/all", (req, res, next) => {
       return Game.find();
     })
     .then(results => {
-      games = results;
       const all = [];
-      const gamesIds = results.map(game => {
-        return game.id;
-      });
-      gamesIds.forEach(id => {
-        all.push({ id });
-      });
-      all.forEach(game => {
-        const totalGamesPlayed = history.filter(battle => {
+      results.forEach(game => {
+        const totalGames = history.filter(battle => {
           return (
             battle.gameOne.toString() === game.id ||
             battle.gameTwo.toString() === game.id
@@ -72,15 +61,17 @@ router.get("/all", (req, res, next) => {
         const totalGamesWon = history.filter(battle => {
           return battle.choice.toString() === game.id;
         });
-        console.log("totalGamesWon===", totalGamesWon);
 
-        game.totalGamesPlayed = totalGamesPlayed.length;
-        game.totalGamesWon = totalGamesWon.length;
-        game.percentage = (game.totalGamesWon / game.totalGamesPlayed).toFixed(
-          2
-        );
+        all.push({
+          id: game.id,
+          totalGamesPlayed: totalGames.length,
+          totalGamesWon: totalGamesWon.length,
+          percentage: (totalGamesWon.length / totalGamesPlayed.length).toFixed(
+            2
+          )
+        });
       });
-      res.json(all);
+      return res.json(all);
     })
     .catch(err => next(err));
 });
@@ -100,23 +91,19 @@ router.get("/:id", isValidId, (req, res, next) => {
 router.get("/:id/results", async (req, res, next) => {
   const { id } = req.params;
   try {
+    const { name, cloudImage, coverUrl } = await Game.findOne({ _id: id });
     const wonGames = await gamesWon(id);
     const totalGames = await totalGamesPlayed(id);
     const percentage = wonGames / totalGames;
-    const [name] = await gameName(id);
-    const coverUrl = await gamePic(id);
-
-    console.log("cover url is ", coverUrl);
 
     res.json({
       percentage: Number(percentage.toFixed(2)),
       wonGames,
       totalGames,
       name,
-      coverUrl
+      cloudImage: cloudImage || coverUrl
     });
   } catch (e) {
-    console.log(e);
     const err = new Error("No history available yet for that game");
     err.status = 404;
     return next(err);
@@ -124,11 +111,11 @@ router.get("/:id/results", async (req, res, next) => {
 });
 
 /* ========== POST/CREATE AN ITEM ========== */
-router.post("/", (req, res, next) => {
+router.post("/", jwtAuth, (req, res, next) => {
   const { gameOne, gameTwo, choice } = req.body;
-  // const userId = req.user.id;
+  const userId = req.user.id;
 
-  const newHist = { gameOne, gameTwo, choice };
+  const newHist = { gameOne, gameTwo, choice, userId };
 
   /** *** Never trust users - validate input **** */
   if (!gameOne || !gameTwo || !choice) {
@@ -141,26 +128,38 @@ router.post("/", (req, res, next) => {
   const validate =
     mongoose.Types.ObjectId.isValid(gameOne) &&
     mongoose.Types.ObjectId.isValid(gameTwo) &&
-    mongoose.Types.ObjectId.isValid(choice);
+    mongoose.Types.ObjectId.isValid(choice) &&
+    mongoose.Types.ObjectId.isValid(userId);
   if (!validate) {
     const err = new Error("The `id` is not valid");
     err.status = 400;
     return next(err);
   }
 
-  History.create(newHist)
+  let user;
+  let responseHistory;
+  return User.findOne({ _id: userId })
     .then(result => {
-      res
-        .location(`${req.originalUrl}/${result.id}`)
-        .status(201)
-        .json(result);
+      user = result;
     })
-    .catch(err => {
-      // if (err.code === 11000) {
-      //   err = new Error('Choice already exists');
-      //   err.status = 400;
-      // }
-      next(err);
+    .then(() => {
+      History.create(newHist)
+        .then(User.findOne({ _id: userId }))
+        .then(history => {
+          responseHistory = history;
+          user.history.push(history._id);
+          user.battles ? (user.battles += 1) : (user.battles = 1);
+          return user.save();
+        })
+        .then(result => {
+          res
+            .location(`${req.originalUrl}/${result.id}`)
+            .status(201)
+            .json(responseHistory);
+        })
+        .catch(err => {
+          next(err);
+        });
     });
 });
 

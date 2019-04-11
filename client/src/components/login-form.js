@@ -24,7 +24,7 @@ class LoginForm extends React.Component {
     } = this.props;
 
     if (loggedIn) {
-      return <Redirect to="/" />;
+      return <Redirect to="/profile" />;
     }
 
     let err;
@@ -79,6 +79,7 @@ const connectMapStateToProps = state => ({
   loading: state.auth.loading
 });
 
+// eslint-disable-next-line no-class-assign
 LoginForm = connect(connectMapStateToProps)(LoginForm);
 export default reduxForm({
   form: "login",
