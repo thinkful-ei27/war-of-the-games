@@ -1,6 +1,12 @@
 const subMotivationKeywords = {
   discovery: ["discovery", "exploration", "tinker", "experiment"],
-  design: ["expression", "customization", "individuality", "design", "art"],
+  design: [
+    "world building",
+    "customization",
+    "character creation",
+    "design",
+    "art"
+  ],
   challenge: ["challenge", "challenging", "difficult", "tough"],
   competition: [
     "competition",

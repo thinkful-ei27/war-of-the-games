@@ -21,7 +21,8 @@ const {
   challenge,
   competition,
   completion,
-  destruction
+  destruction,
+  excitement
 } = subMotivationKeywords;
 
 const keys = process.env.IGDB_KEYS.split(",");
