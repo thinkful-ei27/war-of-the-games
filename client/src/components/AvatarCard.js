@@ -7,11 +7,14 @@ import { updateUserProfilePic } from "../actions/users";
 
 class AvatarCard extends React.Component {
   showModal = () => {
-    document.getElementById("dialog-default").showModal();
+    const modal = document.getElementById("dialog-default");
+    window.dialogPolyfill.registerDialog(modal);
+    modal.showModal();
   };
 
   hideModal = () => {
-    document.getElementById("dialog-default").close();
+    const dialog = document.getElementById("dialog-default");
+    dialog.close();
   };
 
   updateProfilePic(e) {
