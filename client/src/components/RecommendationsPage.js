@@ -252,8 +252,7 @@ export class RecommendationsPage extends Component {
       platforms,
       timeFrame
     } = this.state;
-    console.log(recs);
-    const { screenWidth } = this.props;
+    const { screenWidth, wishList } = this.props;
     const topFiveRecs = recs.slice(0, 5);
     const iconSize = screenWidth <= 576 ? "is-small" : undefined;
     const moreRecs = recs.length ? (
@@ -396,7 +395,8 @@ const mapStateToProps = state => ({
   loggedIn: state.auth.currentUser !== null,
   loading: state.auth.loading,
   token: state.auth.authToken,
-  screenWidth: state.window.width
+  screenWidth: state.window.width,
+  wishList: state.user.wishList
 });
 
 export default connect(mapStateToProps)(RecommendationsPage);

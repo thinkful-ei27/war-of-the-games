@@ -7,13 +7,15 @@ import {
   USER_FETCH_REQUEST,
   USER_FETCH_SUCCESS,
   USER_FETCH_ERROR,
-  GET_USER_MOTIVATIONS_SUCCESS
+  GET_USER_MOTIVATIONS_SUCCESS,
+  USER_WISH_LIST_SUCCESS
 } from "../actions/users";
 
 const initialState = {
   history: [],
   topHistory: [],
   motivations: [],
+  wishList: [],
   subMotivations: "",
   aboutMe: "",
   profilePic: "",
@@ -70,6 +72,12 @@ export default function reducer(state = initialState, action) {
         ...state,
         loading: false,
         error: action.error
+      };
+    case USER_WISH_LIST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        wishList: [...action.wishList]
       };
     default:
       return state;

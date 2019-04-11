@@ -275,14 +275,7 @@ export const loadWishList = username => dispatch => {
     method: "GET"
   })
     .then(res => {
-      if (!res.ok) {
-        return Promise.reject(res.statusText);
-      }
-      return res.json();
-    })
-    .then(data => {
-      console.log(data);
-      // dispatch(userWishListSuccess())
+      dispatch(userWishListSuccess(res.data));
     })
     .catch(err => dispatch(userFetchError(err)));
 };

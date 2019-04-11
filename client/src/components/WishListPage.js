@@ -23,7 +23,7 @@ export class WishListPage extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     const { username } = this.props.match.params;
-    dispatch(loadWishList(username));
+    return dispatch(loadWishList(username));
   }
 
   handleRemoveFromWishList(id) {
@@ -73,8 +73,8 @@ export class WishListPage extends Component {
   }
 
   render() {
-    const { screenWidth } = this.props;
-    const { wishList, isLoading, error, showModal, igdbId } = this.state;
+    const { screenWidth, wishList } = this.props;
+    const { isLoading, error, showModal, igdbId } = this.state;
     const isMobile = screenWidth <= 768;
     let iconSize = "is-small";
     if (!isMobile) {
@@ -82,6 +82,7 @@ export class WishListPage extends Component {
     }
     let wishListGames;
     if (wishList.length) {
+      console.log(wishList);
       wishListGames = wishList.map(game => {
         const { id, name, cloudImage, igdb, slug, cover } = game;
         let coverUrl;
@@ -148,7 +149,8 @@ export class WishListPage extends Component {
 
 const mapStateToProps = state => ({
   token: state.auth.authToken,
-  screenWidth: state.window.width
+  screenWidth: state.window.width,
+  wishList: state.user.wishList
 });
 
 export default connect(mapStateToProps)(WishListPage);
