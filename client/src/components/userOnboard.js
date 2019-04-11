@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { setNonUserVotes } from "../actions/gameActions";
-import { nextTest } from "../actions/onboarding";
+import { nextTest, nextTestRequest, nextTestSuccess } from "../actions/onboarding";
 import OnboardPropmt from "./onboardPrompt";
+import Loading from "./loading";
 import {
   setVoteLocalStorageVariable,
   incrementVoteCount,
@@ -17,7 +18,7 @@ export class UserOnboard extends React.Component {
     setVoteLocalStorageVariable();
     let myKey;
     myKey = `test${this.count}`;
-    dispatch(nextTest(myKey));
+    dispatch(nextTestSuccess(myKey));
   }
 
   handleVote = () => {
@@ -26,13 +27,20 @@ export class UserOnboard extends React.Component {
     this.count++;
     incrementVoteCount();
     myKey = `test${this.count}`;
-    dispatch(nextTest(myKey));
+    dispatch(nextTestRequest(myKey));
+    dispatch(nextTestSuccess(myKey))
   };
 
   render() {
-    const { dispatch, tests } = this.props;
+    const { dispatch, tests, loading } = this.props;
     let content;
-
+    if (loading) {
+      content = (
+        <div className="loading-screen">
+          <Loading />
+        </div>
+      );
+    }
     if (this.count < 13) {
       content = (
         <>
@@ -114,7 +122,8 @@ export class UserOnboard extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  tests: state.onboard
+  tests: state.onboard,
+  loading: state.onboard
 });
 
 export default connect(mapStateToProps)(UserOnboard);

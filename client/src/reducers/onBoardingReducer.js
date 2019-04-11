@@ -1,5 +1,5 @@
 import {
-  NEXT_TEST
+  NEXT_TEST_SUCCESS, NEXT_TEST_REQUEST
 } from '../actions/onboarding';
 
 const initialState = {
@@ -136,15 +136,21 @@ const initialState = {
       coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/ytpegencacspsudxpgyx.jpg",
       id: "5c9bfef9054d8f2e1010f139"
     }
-  ]
-
+  ],
+  loading: false
 }
 export default function reducer(state = initialState, action) {
-  if (action.type === NEXT_TEST) {
+  if (action.type === NEXT_TEST_SUCCESS) {
     let next;
     next = action.payload
     return Object.assign({}, state, {
+      loading: false,
       showing: state[next]
+    })
+  }
+  else if (action.type === NEXT_TEST_REQUEST) {
+    return Object.assign({}, state, {
+      loading: true
     })
   }
   return state;
