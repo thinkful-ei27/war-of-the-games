@@ -144,19 +144,6 @@ export class ProfilePage extends React.Component {
       <Loading />
     ) : (
       <div className="game-container mx-auto mt-16">
-        {/* <div className="nes-container with-title profile-info-container">
-          <p className="title user shadow">Hello {name}!</p>
-          <section className="personal-info">
-            <p>
-              <img
-                className="profile-pic"
-                src={this.evaluateProfilePic(profilePic)}
-                alt="profile-pic"
-              />
-            </p>
-            <AboutMe aboutMe={aboutMe} /> 
-          </section>
-        </div> */}
         <div className="">
           <div
             className="nes-container with-title is-centered is-dark profile-details"
