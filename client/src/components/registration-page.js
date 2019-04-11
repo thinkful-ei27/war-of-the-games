@@ -22,7 +22,7 @@ export function RegistrationPage(props) {
   return (
     <div className="signup-form-container">
       <h2 className="signup-header">-It's Dangerous to Go Alone, Register Now!-</h2>
-      <div className="form-holder">
+      <div className="form-holder1">
         <RegistrationForm />
       </div>
       {loadingView}

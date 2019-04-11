@@ -12,7 +12,7 @@
   margin-top: 25px;
 }
 
-.form-holder{
+.form-holder1{
   border: 4px solid blue;
   margin: 15px;
   margin-bottom: 40px;
@@ -30,4 +30,54 @@
   padding-left: 15px;
   padding-right: 15px;
   margin-bottom: 15px;
+}
+
+/* 
+.form-field{
+  width: 50%;
+} */
+
+.bricks-onboarding-holder-4{
+   height: 60px;
+  background: url('../../assets/blue-bricks-2.png');
+  background-size: 300px;
+}
+
+.form-holder2{
+  margin: 15px;
+  margin-bottom: 40px;
+}
+
+.login-form-container{
+ display: flex;
+ flex-direction: column;
+ background-color: black;
+ color: lightgrey;
+ text-align: center;
+ height: 600px;
+ justify-content: space-between
+}
+
+.bricks-onboarding-holder-3{
+   height: 60px;
+  background: url('../../assets/blue-bricks.png');
+  background-size: 40px;
+}
+
+.pipe-div{
+  display: flex;
+  margin-bottom: -50px;
+  margin-left: 40px;
+  justify-content: space-between;
+}
+.warp-pipe{
+  width: 70px;
+  height: 70px;
+  margin-left: 500px;
+}
+
+.pirhana-pipe{
+  width: 70px;
+  height: 70px;
+  margin-right: 500px;
 }
