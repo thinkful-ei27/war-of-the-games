@@ -260,7 +260,7 @@ export const updateUserProfilePic = (userId, profilePic) => (
 ) => {
   const { authToken } = getState().auth;
   const updateObj = { profilePic };
-  dispatch(userFetchRequest());
+
   return fetch(`${API_BASE_URL}/users/${userId}`, {
     method: "PUT",
     headers: {
