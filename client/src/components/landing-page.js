@@ -9,6 +9,7 @@ import ErrorBoundary from "./errorBoundary";
 import "./styles/card.css";
 import { fetchGames, fetchFeedback, handleVote } from "../actions/gameActions";
 import { loadVoteCount, setVoteLocalStorageVariable } from "../local-storage";
+import Loading from "./loading";
 
 export class LandingPage extends React.Component {
   componentDidMount() {
@@ -35,7 +36,11 @@ export class LandingPage extends React.Component {
     const { loading } = this.props;
     let content;
     if (loading) {
-      content = <div className="landing-page-loader">loading...</div>;
+      content = (
+        <div className="loading-screen">
+          <Loading />
+        </div>
+      );
     } else {
       const { games, loggedIn, feedback } = this.props;
       const count = parseInt(loadVoteCount(), 10);

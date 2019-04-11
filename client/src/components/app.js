@@ -10,7 +10,7 @@ import ConnectedAboutPage from "./about";
 import ConnectedRegistrationPage from "./registration-page";
 import { refreshAuthToken } from "../actions/auth";
 import { windowSize } from "../actions/window";
-import ProfilePage from "./ProfilePage";
+import ConnectedProfilePage from "./ProfilePage";
 import ConnectedGameInfo from "./GameInfo";
 import ConnectedGames from "./Games";
 import ConnectedFooter from "./footer";
@@ -18,6 +18,7 @@ import ConnectedRecommendationsPage from "./RecommendationsPage";
 import ConnectedWishListPage from "./WishListPage";
 import ErrorBoundary from "./errorBoundary";
 import Leaderboard from "./Leaderboard";
+import "./styles/app.css";
 
 export class App extends React.Component {
   componentDidMount() {
@@ -74,7 +75,7 @@ export class App extends React.Component {
         <ErrorBoundary>
           <Switch>
             <Route exact path="/" component={ConnectedLandingPage} />
-            <Route exact path="/profile" component={ProfilePage} />
+            <Route exact path="/profile" component={ConnectedProfilePage} />
             <Route
               path="/profile/recommendations"
               component={ConnectedRecommendationsPage}
