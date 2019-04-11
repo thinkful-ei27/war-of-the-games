@@ -250,10 +250,8 @@ export const fetchUser = (userId, userInfo) => (dispatch, getState) => {
   })
     .then(res => normalizeResponseErrors(res))
     .then(res => res.json())
-    .then(res => {
-      console.log("GET", res);
-      dispatch(userFetchSuccess(res));
-    });
+    .then(res => dispatch(userFetchSuccess(res)))
+    .catch(err => dispatch(userFetchError(err)));
 };
 
 export const updateUserProfilePic = (userId, profilePic) => (
@@ -272,15 +270,7 @@ export const updateUserProfilePic = (userId, profilePic) => (
     body: JSON.stringify(updateObj)
   })
     .then(res => normalizeResponseErrors(res))
-    .then(res => {
-      return res.json();
-    })
-    .then(res => {
-      console.log("PUT", res);
-      dispatch(updatePicSuccess(res.profilePic));
-    })
-    .catch(err => {
-      console.log(err);
-      dispatch(userFetchError(err));
-    });
+    .then(res => res.json())
+    .then(res => dispatch(updatePicSuccess(res.profilePic)))
+    .catch(err => dispatch(userFetchError(err)));
 };

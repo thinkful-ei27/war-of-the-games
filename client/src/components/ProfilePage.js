@@ -191,7 +191,6 @@ export class ProfilePage extends React.Component {
 const mapStateToProps = state => {
   const { currentUser } = state.auth;
   const { user } = state;
-  console.log(user);
   return {
     aboutMe: user.aboutMe,
     topHistory: user.topHistory,

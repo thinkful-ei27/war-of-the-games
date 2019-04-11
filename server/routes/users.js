@@ -608,7 +608,6 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
       }
       const { createdAt, updatedAt, games, profilePic } = user;
       const returnObj = { id, createdAt, updatedAt, games, profilePic };
-      console.log(returnObj);
       return res.json(returnObj);
     })
     .catch(err => next(err));
