@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
+import ReactTooltip from "react-tooltip";
 import { API_BASE_URL } from "../config";
 import Game from "./Game";
 import Logo from "../assets/favicon3.ico";
@@ -99,6 +100,7 @@ export class Recommendations extends Component {
     const { error, isLoading, recs } = this.state;
     const { isMobile, profileWidth } = this.props;
     const topFiveRecs = recs.slice(0, 5);
+
     if (isLoading) {
       return <Loading />;
     }
@@ -122,14 +124,37 @@ export class Recommendations extends Component {
           className={`flex ${isMobile ? "flex-col text-xs w-3/4 mx-auto" : ""}`}
         >
           {topFiveRecs.map(rec => (
-            <Game
-              key={rec.id}
-              name={rec.name}
-              slug={rec.slug}
-              cloudImage={rec.cover ? rec.cover.url : rec.cloudImage || Logo}
-              profileFontSize="text-xs"
-              profileWidth={profileWidth}
-            />
+            <div>
+              <ReactTooltip
+                id={rec.name}
+                className="hover rec-tool-tip"
+                delayShow={110}
+              >
+                <p
+                  style={{
+                    fontSize: "10px",
+                    color: "white",
+                    fontWeight: "bold"
+                  }}
+                >
+                  {rec.name}
+                </p>
+                <p>{rec.summary}</p>
+              </ReactTooltip>
+              <Game
+                dataTip
+                dataFor={rec.name}
+                dataEvent="mousemove"
+                dataEventOff="mouseleave"
+                key={rec.id}
+                name={rec.name}
+                slug={rec.slug}
+                summary={rec.summary}
+                cloudImage={rec.cover ? rec.cover.url : rec.cloudImage || Logo}
+                profileFontSize="text-xs"
+                profileWidth={profileWidth}
+              />
+            </div>
           ))}
         </div>
         <hr />
