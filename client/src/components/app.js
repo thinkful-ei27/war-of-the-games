@@ -17,7 +17,6 @@ import ConnectedFooter from "./footer";
 import ConnectedRecommendationsPage from "./RecommendationsPage";
 import ConnectedWishListPage from "./WishListPage";
 import ErrorBoundary from "./errorBoundary";
-import ConnectedAvatarCard from "./AvatarCard";
 import Leaderboard from "./Leaderboard";
 
 export class App extends React.Component {

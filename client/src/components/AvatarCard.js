@@ -37,6 +37,7 @@ class AvatarCard extends React.Component {
         className="w-1/3 p-2 avatar-sprite"
         onClick={e => this.updateProfilePic(e)}
         id={icon}
+        key={`h_${icon}`}
       >
         <i className={`${icon}`} value={icon} />
       </li>

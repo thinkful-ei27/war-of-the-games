@@ -1,6 +1,5 @@
 import React from "react";
 import Avatar from "./Avatar";
-import LongText from "./LongText";
 
 export default function AvatarLeaderboard(props) {
   const { username, level, xpToNextLevel, profilePic } = props;
