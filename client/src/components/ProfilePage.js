@@ -1,6 +1,8 @@
 /* eslint-disable no-nested-ternary */
 import React from "react";
+import ReactTooltip from "react-tooltip";
 import { connect } from "react-redux";
+import moment from "moment";
 import requiresLogin from "./requires-login";
 import "./styles/profile.css";
 import {
@@ -12,9 +14,11 @@ import {
 import Loading from "./loading";
 import ConnectedGame from "./Game";
 import ConnectedRecommendations from "./Recommendations";
+import ConnectedAvatarCard from "./AvatarCard";
 import ConnectedWishList from "./WishList";
 // profile pic imports
 
+// profile pic imports
 import Demon from "../assets/demon.png";
 import Knight from "../assets/knight.png";
 import BigZombie from "../assets/bigZombie.png";
@@ -65,44 +69,62 @@ export class ProfilePage extends React.Component {
 
   render() {
     const {
+      username,
+      level,
+      xpToNextLevel,
+      initialPic,
+      name,
       userHistory,
       loading,
       topHistory,
       screenWidth,
-      subMotivations,
       firstName,
-      username
+      subMotivations
     } = this.props;
     const isMobile = screenWidth <= 768;
-
     const topSix = topHistory.map(history => {
       const { name, cloudImage, igdb, count, id } = history;
       return (
         <div key={id} className="mt-4 text-center">
+          <ReactTooltip id={id} multiline className="hover">
+            {count > 1 ? (
+              <span>{`selected ${count} times`}</span>
+            ) : (
+              <span>{`selected ${count} time`}</span>
+            )}
+          </ReactTooltip>
           <ConnectedGame
+            className="top-6"
+            dataFor={id}
+            dataTip
             slug={igdb.slug}
             name={name}
+            dataOff="mouseleave"
             cloudImage={cloudImage}
             key={id}
             screenWidth={screenWidth}
             profileWidth="w-1"
             profileFontSize="text-xs"
           />
-          <p className="nes-text is-primary mx-auto choice-count">
-            {isMobile
-              ? `selected ${count} times`
-              : `You've selected ${name} ${count} times`}
-          </p>
         </div>
       );
     });
 
     const recentHistory = userHistory.map(histInstance => {
-      const { choice, id } = histInstance;
+      const { choice, id, createdAt } = histInstance;
+
+      const timeFromVote = moment(createdAt).fromNow();
+
       return (
         <div key={id} className="flex justify-start content-start flex-wrap">
+          <ReactTooltip id={id} className="hover">
+            <span>{`voted for ${timeFromVote}`}</span>
+          </ReactTooltip>
           <ConnectedGame
             screenWidth={screenWidth}
+            dataFor={id}
+            dataTip
+            dataOff="mouseleave"
             slug={choice.igdb.slug}
             name={choice.name}
             cloudImage={choice.cloudImage}
@@ -121,22 +143,22 @@ export class ProfilePage extends React.Component {
     return loading ? (
       <Loading />
     ) : (
-      <div className="game-container mx-auto">
-        {/* <div className="nes-container with-title profile-info-container">
-          <p className="title user shadow">Hello {name}!</p>
-          <section className="personal-info">
-            <p>
-              <img
-                className="profile-pic"
-                src={this.evaluateProfilePic(profilePic)}
-                alt="profile-pic"
-              />
-            </p>
-            <AboutMe aboutMe={aboutMe} /> 
-          </section>
-        </div> */}
-        <div className="game-container mx-auto text-xs img-responsive">
-          <Radar name={firstName} />
+      <div className="game-container mx-auto mt-16">
+        <div className="">
+          <div
+            className="nes-container with-title is-centered is-dark profile-details"
+            id="profile-details"
+          >
+            <p className="title">{username}</p>
+            <section className="profile-header">
+              <div>
+                <ConnectedAvatarCard initialPic={initialPic} />
+              </div>
+              <div className="text-xxs">
+                <Radar name={firstName} />
+              </div>
+            </section>
+          </div>
         </div>
         <ConnectedRecommendations
           profileWidth="w-1"
@@ -148,17 +170,19 @@ export class ProfilePage extends React.Component {
           profileWidth="w-1"
           isMobile={isMobile}
         />
-        <section className="nes-container top-six m-4">
-          <h4>
-            <i className={`nes-icon ${iconSize} heart`} />
-            Your Top 6 choices!
-          </h4>
-          {topSix}
-        </section>
-        <aside className="nes-container with-title recent-choices">
-          <h4>Your Most Recent Choices!</h4>
-          {recentHistory}
-        </aside>
+        <div className="flex flex-row">
+          <section className="nes-container m-4">
+            <h4>
+              <i className={`nes-icon ${iconSize} heart`} />
+              Your Top 6 choices!
+            </h4>
+            {topSix}
+          </section>
+          <section className="nes-container with-title m-4">
+            <h4>Your Most Recent Choices!</h4>
+            {recentHistory}
+          </section>
+        </div>
       </div>
     );
   }
@@ -170,6 +194,9 @@ const mapStateToProps = state => {
   return {
     aboutMe: state.user.aboutMe,
     topHistory: state.user.topHistory,
+    level: currentUser.level,
+    xpToNextLevel: currentUser.xpToNextLevel,
+    initialPic: currentUser.profilePic,
     userId: currentUser.id,
     username: state.auth.currentUser.username,
     fullName: `${currentUser.firstName} ${currentUser.lastName}`,

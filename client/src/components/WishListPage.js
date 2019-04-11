@@ -149,7 +149,7 @@ export class WishListPage extends Component {
         </div>
         <div className="flex justify-start content-start flex-wrap mt-16">
           <Modal
-            item="Wish List"
+            item="Wish List?"
             showModal={showModal}
             igdbId={igdbId}
             handleModal={() => this.handleModal()}

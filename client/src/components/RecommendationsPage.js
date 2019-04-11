@@ -241,6 +241,7 @@ export class RecommendationsPage extends Component {
 
   render() {
     const {
+      dateNumber,
       error,
       isLoading,
       recs,
@@ -248,9 +249,10 @@ export class RecommendationsPage extends Component {
       igdbId,
       showMoreRecs,
       excludedGames,
-      platforms
+      platforms,
+      timeFrame
     } = this.state;
-    const { screenWidth, username } = this.props;
+    const { screenWidth } = this.props;
     const topFiveRecs = recs.slice(0, 5);
     const iconSize = screenWidth <= 576 ? "is-small" : undefined;
     const moreRecs = recs.length ? (
@@ -271,7 +273,7 @@ export class RecommendationsPage extends Component {
     return (
       <div>
         <Modal
-          item="recommendations"
+          item="recommendations?"
           showModal={showModal}
           igdbId={igdbId}
           handleModal={() => this.handleModal()}
@@ -290,7 +292,7 @@ export class RecommendationsPage extends Component {
               <button
                 type="button"
                 className={`nes-btn ${
-                  this.state.timeFrame === "Months" ? "is-primary" : ""
+                  timeFrame === "Months" ? "is-primary" : ""
                 } mx-4`}
                 id="1 month"
                 onClick={e => this.handleTimeFrame(e)}
@@ -300,10 +302,7 @@ export class RecommendationsPage extends Component {
               <button
                 type="button"
                 className={`nes-btn ${
-                  this.state.dateNumber === 1 &&
-                  this.state.timeFrame === "Years"
-                    ? "is-primary"
-                    : ""
+                  dateNumber === 1 && timeFrame === "Years" ? "is-primary" : ""
                 } mx-4`}
                 id="1 year"
                 onClick={e => this.handleTimeFrame(e)}
@@ -313,7 +312,7 @@ export class RecommendationsPage extends Component {
               <button
                 type="button"
                 className={`nes-btn ${
-                  this.state.dateNumber === 10 ? "is-primary" : ""
+                  dateNumber === 10 ? "is-primary" : ""
                 } mx-4`}
                 id="10 years"
                 onClick={e => this.handleTimeFrame(e)}
@@ -323,7 +322,7 @@ export class RecommendationsPage extends Component {
               <button
                 type="button"
                 className={`nes-btn ${
-                  this.state.dateNumber > 10 ? "is-primary" : ""
+                  dateNumber > 10 ? "is-primary" : ""
                 } mx-4`}
                 id="All time"
                 onClick={e => this.handleTimeFrame(e)}

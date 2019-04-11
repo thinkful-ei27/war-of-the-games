@@ -50,4 +50,22 @@ userSchema.virtual("historyCount").get(function() {
   return this.history.length;
 });
 
+userSchema.virtual("level").get(function() {
+  const xp = this.history.length;
+  let level = 1 * Math.floor(Math.sqrt(xp));
+  level = level.toString().padStart(3, 0);
+  return level;
+});
+
+// XP = level^2 / constant
+userSchema.virtual("xpToNextLevel").get(function() {
+  let xp = this.history.length;
+  let level = 1 * Math.floor(Math.sqrt(xp));
+  let nextLevelXp = (level + 1) ** 2 / 1;
+  xp = xp.toString().padStart(3, 0);
+  level = level.toString().padStart(3, 0);
+  nextLevelXp = nextLevelXp.toString().padStart(3, 0);
+  return `${xp} / ${nextLevelXp}`;
+});
+
 module.exports = mongoose.model("User", userSchema);

@@ -295,8 +295,10 @@ describe("ASYNC Capstone API - Games", () => {
               "id",
               "name",
               "createdAt",
-              "updatedAt"
+              "updatedAt",
+              "core"
             );
+            expect(item.core).to.equal(true);
           });
           expect(res.body[0].id).to.not.equal(res.body[1].id);
           expect(res.body[0].name).to.not.equal(res.body[1].name);

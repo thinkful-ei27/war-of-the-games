@@ -21,6 +21,16 @@ const countBy = (arr, fn) =>
     return acc;
   }, {});
 
+router.get("/:id/data", (req, res, next) => {
+  const { id } = req.params;
+
+  User.find({ _id: id })
+    .then(results => {
+      res.json(results);
+    })
+    .catch(err => next(err));
+});
+
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
 
@@ -122,14 +132,13 @@ router.get("/:userId/topHistory", (req, res, next) => {
 
   History.find({ userId })
     .sort({ createdAt: -1 })
-    .populate("gameOne", "name")
-    .populate("gameTwo", "name")
     .populate("choice")
     .then(userHistory => {
       const names = [];
       const winCounts = userHistory
         .reduce((arr, game) => {
           const { name, id, igdb, cloudImage } = game.choice;
+          const { createdAt } = game;
           // check if inside accumulator
           if (!names.includes(name)) {
             names.push(name);
@@ -138,7 +147,8 @@ router.get("/:userId/topHistory", (req, res, next) => {
               name,
               id,
               igdb,
-              cloudImage
+              cloudImage,
+              createdAt
             });
           } else {
             const found = arr.find(game => game.name === name);
@@ -279,6 +289,40 @@ router.get("/recommendations", jwtAuth, (req, res, next) => {
       res.json(sortedRecs);
     })
     .catch(err => next(err));
+});
+
+router.get("/leaderboard", (req, res, next) => {
+  User.find({})
+    .then(results => {
+      const sortedByLevel = results
+        .reduce((a, b) => {
+          const {
+            username,
+            level,
+            xpToNextLevel,
+            profilePic,
+            historyCount
+          } = b;
+          const obj = {
+            username,
+            level,
+            xpToNextLevel,
+            profilePic,
+            historyCount
+          };
+          a.push(obj);
+          return a;
+        }, [])
+        .sort((a, b) => {
+          if (a.historyCount < b.historyCount) return 1;
+          if (a.historyCount > b.historyCount) return -1;
+          return 0;
+        });
+      res.json(sortedByLevel);
+    })
+    .catch(e => {
+      next(e);
+    });
 });
 
 router.get("/:id", (req, res, next) => {
@@ -536,22 +580,42 @@ router.put("/removewishlist", jwtAuth, (req, res, next) => {
 
 router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
   const { id } = req.params;
-  const { neverPlayed } = req.body;
+  const { neverPlayed, profilePic } = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(neverPlayed)) {
-    const err = new Error("The game ID is not valid");
-    err.status = 400;
-    return next(err);
+  const toUpdate = {};
+  const updateableFields = ["neverPlayed", "profilePic"];
+
+  updateableFields.forEach(field => {
+    if (field in req.body) {
+      if (field === "neverPlayed") {
+        Object.assign(toUpdate, {
+          $push: { "games.neverPlayed": req.body[field] }
+        });
+      } else {
+        Object.assign(toUpdate, {
+          $set: { [field]: req.body[field] }
+        });
+      }
+    }
+  });
+
+  if (neverPlayed) {
+    if (!mongoose.Types.ObjectId.isValid(neverPlayed)) {
+      const err = new Error("The game ID is not valid");
+      err.status = 400;
+      return next(err);
+    }
   }
 
-  const toUpdate = { $push: { "games.neverPlayed": neverPlayed } };
+  console.log("to update is ", toUpdate);
+
   return User.findOneAndUpdate({ _id: id }, toUpdate, { new: true })
     .then(user => {
       if (!user) {
         return next();
       }
-      const { createdAt, updatedAt, games } = user;
-      const returnObj = { id, createdAt, updatedAt, games };
+      const { createdAt, updatedAt, games, profilePic } = user;
+      const returnObj = { id, createdAt, updatedAt, games, profilePic };
       return res.json(returnObj);
     })
     .catch(err => next(err));

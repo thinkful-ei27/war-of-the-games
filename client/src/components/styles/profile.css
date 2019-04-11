@@ -2,6 +2,9 @@
   background-color: #f8f8f8;
 }
 
+.similar {
+}
+
 .nes-container.with-title > .title.profile-pic {
   background-color: #f8f8f8;
 }
@@ -103,6 +106,6 @@
   .rec-container {
     margin: 30px;
     width: 90%;
-    text-align: left
+    text-align: left;
   }
 }

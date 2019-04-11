@@ -78,6 +78,7 @@ const mapStateToProps = state => ({
   feedback: state.games.feedback,
   count: state.games.sessionVoteCount,
   nonUserVotes: state.games.nonUserVotes,
+  motivations: state.user.motivations,
   userId: checkIfUser(state)
 });
 

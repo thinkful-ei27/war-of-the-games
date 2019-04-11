@@ -5,7 +5,6 @@ import { Route, withRouter, Switch } from "react-router-dom";
 import LoginForm from "./login-form";
 import ConnectedHeaderBar from "./header-bar";
 import ConnectedLandingPage from "./landing-page";
-import ConnectedDashboard from "./dashboard";
 import Page404 from "./404";
 import ConnectedAboutPage from "./about";
 import ConnectedRegistrationPage from "./registration-page";
@@ -18,6 +17,7 @@ import ConnectedFooter from "./footer";
 import ConnectedRecommendationsPage from "./RecommendationsPage";
 import ConnectedWishListPage from "./WishListPage";
 import ErrorBoundary from "./errorBoundary";
+import Leaderboard from "./Leaderboard";
 
 export class App extends React.Component {
   componentDidMount() {
@@ -74,7 +74,6 @@ export class App extends React.Component {
         <ErrorBoundary>
           <Switch>
             <Route exact path="/" component={ConnectedLandingPage} />
-            <Route path="/dashboard" component={ConnectedDashboard} />
             <Route exact path="/profile" component={ProfilePage} />
             <Route
               path="/profile/recommendations"
@@ -83,6 +82,7 @@ export class App extends React.Component {
             <Route path="/about" component={ConnectedAboutPage} />
             <Route path="/login" component={LoginForm} />
             <Route path="/register" component={ConnectedRegistrationPage} />
+            <Route path="/leaderboard" component={Leaderboard} />
             <Route exact path="/games" component={ConnectedGames} />
             <Route path="/games/:gameSlug" component={ConnectedGameInfo} />
             <Route

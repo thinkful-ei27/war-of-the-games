@@ -1,8 +1,48 @@
-
 .game-info-img {
   display: block;
   max-width: 100%;
   height: auto;
+}
+
+#container {
+  width: 320px;
+  height: 320px;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.profile-xp-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.profile-choices {
+  display: flex;
+  flex-direction: column;
+}
+
+#profile-details {
+  background-color: #0a00a8;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
+}
+
+.avatar-leaderboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.avatar-leaderboard-pic {
+  flex: 0 1 126px;
+}
+
+.avatar-leaderboard-name {
+  flex: 0 1 15em;
 }
 
 .img-responsive {
@@ -23,11 +63,28 @@
 
 .rec-delete {
   order: 1;
-  background-color:#212529;
+  background-color: #212529;
   color: #f8f8f8;
   border: none;
   height: 20px;
   padding: 0;
+}
+
+.avatar-sprite{
+  cursor:pointer;
+  -webkit-transition: all 100ms ease-in;
+  -moz-transition: all 100ms ease-in;
+  transition: all 100ms ease-in;
+  -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
+  -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
+  filter: brightness(1.8) grayscale(1) opacity(.7);
+}
+
+.avatar-sprite:hover {
+  opacity: .9;
+  -webkit-filter: none;
+  -moz-filter: none;
+  filter: none;
 }
 
 .game-recommendation {
@@ -85,7 +142,19 @@
   }
 
   .game-recommendation {
-    flex-direction: row
+    flex-direction: row;
+  }
+
+  .profile-header {
+    flex-direction: row;
+  }
+
+  .profile-choices {
+    flex-direction: row;
+  }
+
+  .avatar-leaderboard {
+    flex-direction: row;
   }
 }
 
@@ -116,15 +185,19 @@
   }
 }
 
-@media (min-width: 1600px) {
+/* @media (min-width: 1600px) {
   .game-container {
     max-width: 1600px;
   }
-}
+} */
 
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
+}
+
+.list-reset {
+  list-style: none; padding: 0;
 }
 
 /* Flex Helpers */
@@ -246,7 +319,7 @@
 
 /* Width */
 .w-1 {
-  width: 100%
+  width: 100%;
 }
 
 .w-1\/2 {
@@ -271,7 +344,7 @@
 
 /* Height */
 .h-1 {
-  height: 100%
+  height: 100%;
 }
 
 /* Margin */
@@ -312,11 +385,11 @@
 
 /* Shadows */
 .shadow {
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 }
 
 .rounded {
-  border-radius: .25rem;
+  border-radius: 0.25rem;
 }
 
 /* Text */
@@ -324,12 +397,16 @@
   text-align: center;
 }
 
+.text-left {
+  text-align: left;
+}
+
 .text-xs {
-  font-size: .75rem;
+  font-size: 0.75rem;
 }
 
 .text-sm {
-  font-size: .875rem;
+  font-size: 0.875rem;
 }
 
 .text-base {
