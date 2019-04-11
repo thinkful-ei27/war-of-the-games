@@ -154,7 +154,7 @@ export class ProfilePage extends React.Component {
               <div>
                 <ConnectedAvatarCard initialPic={initialPic} />
               </div>
-              <div className="text-xxs">
+              <div className="text-xxs radar">
                 <Radar name={firstName} />
               </div>
             </section>
@@ -170,15 +170,15 @@ export class ProfilePage extends React.Component {
           profileWidth="w-1"
           isMobile={isMobile}
         />
-        <div className="flex flex-row">
-          <section className="nes-container m-4">
+        <div className="flex flex-row top-recent-container">
+          <section className="nes-container m-4 top-six">
             <h4>
               <i className={`nes-icon ${iconSize} heart`} />
               Your Top 6 choices!
             </h4>
             {topSix}
           </section>
-          <section className="nes-container with-title m-4">
+          <section className="nes-container m-4 recent-choices">
             <h4>Your Most Recent Choices!</h4>
             {recentHistory}
           </section>

@@ -106,3 +106,18 @@
     text-align: left;
   }
 }
+
+@media (max-width: 400px) {
+  .top-recent-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .top-six {
+    width: 80%;
+  }
+  .recent-choices {
+    width: 80%;
+  }
+}

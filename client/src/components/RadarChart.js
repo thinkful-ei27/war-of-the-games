@@ -53,13 +53,21 @@ class MotivationsChart extends Component {
                 tick={{ fontSize: 6.5, fill: "white" }}
               />
               <PolarRadiusAxis angle={30} domain={[0, 100]} />
-              <Legend wrapperStyle={{ position: "absolute", top: 0 }} />
+              <Legend
+                wrapperStyle={{
+                  position: "absolute",
+                  top: 0,
+                  fontSize: "10px",
+                  margin: "0 auto"
+                }}
+              />
               <Radar
                 name={`${name}'s motivations`}
                 dataKey="percentage"
                 stroke="#8884d8"
                 fill="white"
                 fillOpacity={0.6}
+                legendType="line"
               />
               <Tooltip
                 wrapperStyle={{
