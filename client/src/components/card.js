@@ -63,6 +63,13 @@ export class Card extends Component {
 
     return (
       <div className="card">
+        <Modal
+          item="battles? This can not be undone."
+          showModal={showModal}
+          onRemove={gameId => this.handleNeverPlayedClick(gameId)}
+          handleModal={() => this.handleModal()}
+          id={id}
+        />
         <div className="title-container">
           <Link to={gamesUrl + slug} target="_blank">
             <h1 className="game-title">{name}</h1>
