@@ -72,10 +72,7 @@ export class ProfilePage extends React.Component {
   render() {
     const {
       username,
-      level,
-      xpToNextLevel,
       initialPic,
-      name,
       userHistory,
       loading,
       topHistory,
