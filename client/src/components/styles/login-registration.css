@@ -1,106 +1,103 @@
-
-
-.signup-form-container{
- display: flex;
- flex-direction: column;
- background-color: black;
- color: lightgrey;
- text-align: center;
+.is-dark.nes-container.profile-selector {
+  margin: 1rem auto;
+  padding-left: 0;
+  padding-right: 0;
 }
 
-.avatar-header{
+.profile-selector__avatars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-selector__avatars label {
+  max-width: 100%;
+}
+
+.signup-header {
+  color: white;
+  margin: 1rem;
+}
+
+.signup-form-container {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  color: lightgrey;
+  text-align: center;
+}
+
+.avatar-header {
   margin-top: 25px;
 }
 
-.form-holder1{
+.form-holder1 {
   border: 4px solid blue;
   margin: 15px;
   margin-bottom: 40px;
 }
 
-.login-link{
+.login-link {
   display: block;
 }
 
-.login-form{
+.login-form {
   padding: 15px;
 }
 
-.form-input{
+.form-input {
   padding-left: 15px;
   padding-right: 15px;
   margin-bottom: 15px;
 }
 
-/* 
-.form-field{
-  width: 50%;
-} */
-
-.bricks-onboarding-holder-4{
-   height: 60px;
-  background: url('../../assets/blue-bricks-2.png');
+.bricks-onboarding-holder-4 {
+  height: 60px;
+  background: url("../../assets/blue-bricks-2.png");
   background-size: 300px;
 }
 
-.form-holder2{
+.form-holder2 {
   margin: 15px;
   margin-bottom: 40px;
 }
 
-.login-form-container{
- display: flex;
- flex-direction: column;
- background-color: black;
- color: lightgrey;
- text-align: center;
- height: 600px;
- justify-content: space-between
+.login-form-container {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  color: lightgrey;
+  text-align: center;
+  height: 600px;
+  justify-content: space-between;
 }
 
-.bricks-onboarding-holder-3{
-   height: 60px;
-  background: url('../../assets/blue-bricks.png');
+.bricks-onboarding-holder-3 {
+  height: 60px;
+  background: url("../../assets/blue-bricks.png");
   background-size: 40px;
 }
 
-.pipe-div{
+.pipe-div {
   display: flex;
   margin-bottom: -50px;
   justify-content: space-evenly;
 }
-.warp-pipe{
+.warp-pipe {
   width: 70px;
   height: 70px;
 }
 
-.pirhana-pipe{
+.pirhana-pipe {
   width: 70px;
   height: 70px;
 }
 
-@media(max-width: 400px){
-  #username{
-    width: 100%
-  }
-
-  #password{
-    width: 100%;
-  }
-
-  #name{
-    width: 100%
-  }
-
-  #passwordConfirm{
-    width: 100%
-  }
-
-  #firstName{
-    width: 100%;
-  }
-
-  #lastName{
-    width: 100%;
+@media only screen and (min-device-width: 768px) {
+  .profile-selector__avatars {
+    grid-template-columns: 1fr 1fr 1fr;
   }
 }

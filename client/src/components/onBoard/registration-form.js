@@ -36,25 +36,27 @@ export class RegistrationForm extends React.Component {
       >
         <Field
           placeholder="first name"
-          className="form-field"
+          className="form-field nes-input"
           component={Input}
           aria-label="first name"
           type="text"
           name="firstName"
+          validate={[required]}
         />
 
         <Field
           placeholder="last name"
-          className="form-field"
+          className="form-field nes-input"
           component={Input}
           aria-label="last name"
           type="text"
           name="lastName"
+          validate={[required]}
         />
 
         <Field
           placeholder="username"
-          className="form-field"
+          className="form-field nes-input"
           component={Input}
           type="text"
           name="username"
@@ -63,7 +65,7 @@ export class RegistrationForm extends React.Component {
         />
 
         <Field
-          className="form-field"
+          className="form-field nes-input"
           component={Input}
           value="password"
           type="password"
@@ -74,8 +76,8 @@ export class RegistrationForm extends React.Component {
         />
 
         <Field
+          className="form-field nes-input"
           placeholder="confirm password"
-          className="form-field"
           component={Input}
           type="password"
           name="passwordConfirm"
@@ -83,130 +85,148 @@ export class RegistrationForm extends React.Component {
           validate={[required, nonEmpty, matchesPassword]}
         />
 
-        <div className="profile-selector form-input">
-          <h3 className="avatar-header">Select an Avatar</h3>
-
-          <Field
-            id="nes-ash"
-            name="profilePic"
-            className="avatar nes-ash"
-            htmlFor="nes-ash"
-            type="radio"
-            value="nes-ash"
-            component={Input2}
-          />
-
-          <Field
-            id="nes-mario"
-            name="profilePic"
-            className="avatar nes-mario"
-            htmlFor="nes-mario"
-            component={Input2}
-            type="radio"
-            value="nes-mario"
-          />
-
-          <Field
-            id="nes-pokeball"
-            name="profilePic"
-            className="avatar nes-pokeball"
-            htmlFor="nes-pokeball"
-            component={Input2}
-            type="radio"
-            value="nes-pokeball"
-          />
-
-          <Field
-            id="nes-bulbasaur"
-            name="profilePic"
-            className="avatar nes-bulbasaur"
-            htmlFor="nes-bulbasaur"
-            component={Input2}
-            type="radio"
-            value="nes-bulbasaur"
-          />
-
-          <Field
-            id="nes-charmander"
-            name="profilePic"
-            className="avatar nes-charmander"
-            htmlFor="nes-charmander"
-            component={Input2}
-            type="radio"
-            value="nes-charmander"
-          />
-
-          <Field
-            id="nes-squirtle"
-            name="profilePic"
-            className="avatar nes-squirtle"
-            htmlFor="nes-squirtle"
-            component={Input2}
-            type="radio"
-            value="nes-squirtle"
-          />
-
-          <Field
-            id="nes-kirby"
-            name="profilePic"
-            className="avatar nes-kirby"
-            htmlFor="nes-kirby"
-            component={Input2}
-            type="radio"
-            value="nes-kirby"
-          />
-
-          <Field
-            id="lich-king"
-            name="profilePic"
-            className="avatar lich-king"
-            htmlFor="lich-king"
-            component={Input2}
-            type="radio"
-            value="lich-king"
-          />
-
-          <Field
-            id="gen-sonic"
-            name="profilePic"
-            className="avatar gen-sonic"
-            htmlFor="gen-sonic"
-            component={Input2}
-            type="radio"
-            value="gen-sonic"
-          />
-
-          <Field
-            id="excitebike"
-            name="profilePic"
-            className="avatar excitebike"
-            htmlFor="excitebike"
-            component={Input2}
-            type="radio"
-            value="excitebike"
-          />
-
-          <Field
-            id="cloud-strife"
-            name="profilePic"
-            className="avatar cloud-strife"
-            htmlFor="cloud-strife"
-            component={Input2}
-            type="radio"
-            value="cloud-strife"
-          />
-
-          <Field
-            id="master-chief"
-            name="profilePic"
-            className="avatar master-chief"
-            htmlFor="master-chief"
-            component={Input2}
-            type="radio"
-            value="master-chief"
-          />
+        <div className="profile-selector form-input nes-container is-dark with-title is-centered">
+          <h3 className="avatar-header title">Select Avatar</h3>
+          <ul className="profile-selector__avatars">
+            <li>
+              <Field
+                id="nes-ash"
+                name="profilePic"
+                className="avatar-sprite nes-ash"
+                htmlFor="nes-ash"
+                type="radio"
+                value="nes-ash"
+                component={Input2}
+              />
+            </li>
+            <li>
+              <Field
+                id="nes-mario"
+                name="profilePic"
+                className="avatar-sprite nes-mario"
+                htmlFor="nes-mario"
+                component={Input2}
+                type="radio"
+                value="nes-mario"
+              />
+            </li>
+            <li>
+              <Field
+                id="nes-pokeball"
+                name="profilePic"
+                className="avatar-sprite nes-pokeball"
+                htmlFor="nes-pokeball"
+                component={Input2}
+                type="radio"
+                value="nes-pokeball"
+              />
+            </li>
+            <li>
+              <Field
+                id="nes-bulbasaur"
+                name="profilePic"
+                className="avatar-sprite nes-bulbasaur"
+                htmlFor="nes-bulbasaur"
+                component={Input2}
+                type="radio"
+                value="nes-bulbasaur"
+              />
+            </li>
+            <li>
+              <Field
+                id="nes-charmander"
+                name="profilePic"
+                className="avatar-sprite nes-charmander"
+                htmlFor="nes-charmander"
+                component={Input2}
+                type="radio"
+                value="nes-charmander"
+              />
+            </li>
+            <li>
+              <Field
+                id="nes-squirtle"
+                name="profilePic"
+                className="avatar-sprite nes-squirtle"
+                htmlFor="nes-squirtle"
+                component={Input2}
+                type="radio"
+                value="nes-squirtle"
+              />
+            </li>
+            <li>
+              <Field
+                id="nes-kirby"
+                name="profilePic"
+                className="avatar-sprite nes-kirby"
+                htmlFor="nes-kirby"
+                component={Input2}
+                type="radio"
+                value="nes-kirby"
+              />
+            </li>
+            <li>
+              <Field
+                id="lich-king"
+                name="profilePic"
+                className="avatar-sprite lich-king"
+                htmlFor="lich-king"
+                component={Input2}
+                type="radio"
+                value="lich-king"
+              />
+            </li>
+            <li>
+              <Field
+                id="gen-sonic"
+                name="profilePic"
+                className="avatar-sprite gen-sonic"
+                htmlFor="gen-sonic"
+                component={Input2}
+                type="radio"
+                value="gen-sonic"
+              />
+            </li>
+            <li>
+              <Field
+                id="excitebike"
+                name="profilePic"
+                className="avatar-sprite excitebike"
+                htmlFor="excitebike"
+                component={Input2}
+                type="radio"
+                value="excitebike"
+              />
+            </li>
+            <li>
+              <Field
+                id="cloud-strife"
+                name="profilePic"
+                className="avatar-sprite cloud-strife"
+                htmlFor="cloud-strife"
+                component={Input2}
+                type="radio"
+                value="cloud-strife"
+              />
+            </li>
+            <li>
+              <Field
+                id="master-chief"
+                name="profilePic"
+                className="avatar-sprite master-chief"
+                htmlFor="master-chief"
+                component={Input2}
+                type="radio"
+                value="master-chief"
+              />
+            </li>
+          </ul>
         </div>
-        <button type="submit" disabled={pristine || submitting}>
+        <button
+          className={`nes-btn is-primary ${pristine ? "is-disabled" : ""}`}
+          type="submit"
+          disabled={pristine || submitting}
+        >
           Register
         </button>
         <Link to="/login" className="login-link">

@@ -696,6 +696,76 @@ const games = [
       "https://res.cloudinary.com/hjihgo1pd/image/upload/v1554239031/5ca3cdd309691b1d2a883189.jpg",
     firstReleaseDate: 1194912000,
     id: "5ca3cdd309691b1d2a883189"
+  },
+  {
+    igdb: {
+      id: 421,
+      slug: "final-fantasy-ix"
+    },
+    similar_games: [398, 411, 413, 425, 426, 427, 1219, 8456, 11292, 16474],
+    motivations: ["achievement", "immersion"],
+    subMotivations: ["completion", "story", "fantasy"],
+    core: true,
+    name: "Final Fantasy IX",
+    coverUrl:
+      "https://images.igdb.com/igdb/image/upload/t_720p/xk2z8col2eam01gaytkh.jpg",
+    createdAt: "2019-03-27T22:39:52.625Z",
+    updatedAt: "2019-04-06T02:47:35.193Z",
+    cloudImage:
+      "https://res.cloudinary.com/hjihgo1pd/image/upload/v1554168879/5c9bfbb8054d8f2e1010f11c.jpg",
+    firstReleaseDate: 962928000,
+    genres: [
+      {
+        _id: "5ca664e12d78e018f095d314",
+        id: 12,
+        name: "Role-playing (RPG)"
+      },
+      {
+        _id: "5ca664e12d78e018f095d313",
+        id: 16,
+        name: "Turn-based strategy (TBS)"
+      },
+      {
+        _id: "5ca664e12d78e018f095d312",
+        id: 31,
+        name: "Adventure"
+      }
+    ],
+    platforms: [
+      {
+        _id: "5ca664e12d78e018f095d31a",
+        id: 6,
+        name: "PC (Microsoft Windows)"
+      },
+      {
+        _id: "5ca664e12d78e018f095d319",
+        id: 7,
+        name: "PlayStation"
+      },
+      {
+        _id: "5ca664e12d78e018f095d318",
+        id: 45,
+        name: "PlayStation Network"
+      },
+      {
+        _id: "5ca664e12d78e018f095d317",
+        id: 48,
+        name: "PlayStation 4"
+      },
+      {
+        _id: "5ca664e12d78e018f095d316",
+        id: 49,
+        name: "Xbox One"
+      },
+      {
+        _id: "5ca664e12d78e018f095d315",
+        id: 130,
+        name: "Nintendo Switch"
+      }
+    ],
+    summary:
+      "The ninth installment in the long-running RPG series and the final for the original PlayStation, Final Fantasy IX gives fans of the franchise the nostalgic thrill of re-experiencing the visual style, gameplay elements and overall spirit of the 16-bit Final Fantasy games of the 8/16 bit eras. The main story centers on Zidane Tribal, a young thief who quickly becomes engaged in a quest to save the world, along with Vivi Ornitier, a young black mage, and Princess Garnet, heir to the throne of Alexandria. The game features detailed polygonal character models and lush pre-rendered backgrounds. They all combine for an unforgettable adventure!",
+    id: "5c9bfbb8054d8f2e1010f11c"
   }
 ];
 

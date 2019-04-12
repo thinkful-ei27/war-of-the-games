@@ -1,0 +1,8 @@
+.form-input {
+  margin: 0 auto;
+  max-width: 30em;
+}
+
+.form-input__label {
+  display: block;
+}

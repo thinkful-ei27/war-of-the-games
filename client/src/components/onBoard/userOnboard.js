@@ -13,7 +13,11 @@ import {
 export class UserOnboard extends React.Component {
   count = Number(loadVoteCount());
 
-  componentWillMount() {
+  state = {
+    imgLoaded: false
+  };
+
+  componentDidMount() {
     const { dispatch } = this.props;
     setVoteLocalStorageVariable();
     let myKey;

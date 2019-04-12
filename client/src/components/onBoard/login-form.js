@@ -55,6 +55,7 @@ class LoginForm extends React.Component {
             {err}
 
             <Field
+              className="nes-input"
               placeholder="username"
               component={Input}
               type="text"
@@ -64,6 +65,7 @@ class LoginForm extends React.Component {
               validate={[required, nonEmpty]}
             />
             <Field
+              className="nes-input"
               placeholder="password"
               component={Input}
               type="password"
@@ -72,7 +74,11 @@ class LoginForm extends React.Component {
               id="password"
               validate={[required, nonEmpty]}
             />
-            <button type="submit" disabled={pristine || submitting}>
+            <button
+              className={`nes-btn is-primary ${pristine ? "is-disabled" : ""}`}
+              type="submit"
+              disabled={pristine || submitting}
+            >
               Log in
             </button>
           </form>
