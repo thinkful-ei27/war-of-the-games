@@ -1,7 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import { setNonUserVotes } from "../../actions/gameActions";
-import { nextTestRequest, nextTestSuccess } from "../../actions/onboarding";
+import {
+  nextTestRequest,
+  nextTestSuccess,
+  setLoading
+} from "../../actions/onboarding";
 import OnboardPropmt from "./onboardPrompt";
 import Loading from "../loading";
 import {
@@ -11,6 +15,10 @@ import {
 } from "../../local-storage";
 
 export class UserOnboard extends React.Component {
+  state = {
+    loading: false
+  };
+
   count = Number(loadVoteCount());
 
   state = {
@@ -31,12 +39,14 @@ export class UserOnboard extends React.Component {
     this.count++;
     incrementVoteCount();
     myKey = `test${this.count}`;
-    dispatch(nextTestRequest(myKey));
+    dispatch(nextTestRequest());
+    dispatch(setLoading());
     dispatch(nextTestSuccess(myKey));
   };
 
   render() {
-    const { dispatch, tests, loading } = this.props;
+    const { dispatch, tests } = this.props;
+    const { loading } = this.state;
     let content;
     if (loading) {
       content = (

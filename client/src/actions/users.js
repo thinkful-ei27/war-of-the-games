@@ -1,5 +1,6 @@
 import { SubmissionError } from "redux-form";
 
+import axios from "axios";
 import { API_BASE_URL } from "../config";
 import { normalizeResponseErrors } from "./utils";
 import { fetchGames } from "./gameActions";
@@ -73,6 +74,15 @@ export const userFetchError = error => ({
   type: USER_FETCH_ERROR,
   error
 });
+
+export const USER_WISH_LIST_SUCCESS = "USER_WISH_LIST_SUCCESS";
+export const userWishListSuccess = wishList => ({
+  type: USER_WISH_LIST_SUCCESS,
+  wishList
+});
+
+export const USER_ADD_WISHLIST_SUCCESS = "USER_ADD_WISHLIST_SUCCESS";
+export const userAddWishListSuccess = id => {};
 
 export const getUserMotivationData = () => (dispatch, getState) => {
   const { authToken } = getState().auth;
@@ -272,5 +282,56 @@ export const updateUserProfilePic = (userId, profilePic) => (
     .then(res => normalizeResponseErrors(res))
     .then(res => res.json())
     .then(res => dispatch(updatePicSuccess(res.profilePic)))
+    .catch(err => dispatch(userFetchError(err)));
+};
+
+export const loadWishList = username => (dispatch, getState) => {
+  if (!username) {
+    ({ username } = getState().auth.currentUser);
+  }
+  dispatch(userFetchRequest());
+  return axios({
+    url: `${API_BASE_URL}/users/wishlist/${username}`,
+    method: "GET"
+  })
+    .then(res => {
+      dispatch(userWishListSuccess(res.data));
+    })
+    .catch(err => dispatch(userFetchError(err)));
+};
+
+export const handleAddToWishList = id => (dispatch, getState) => {
+  const { authToken, currentUser } = getState().auth;
+  dispatch(userFetchRequest());
+  return axios
+    .put(
+      `${API_BASE_URL}/users/wishlist`,
+      {
+        wishListId: id
+      },
+      { headers: { Authorization: `Bearer ${authToken}` } }
+    )
+    .then(res => {
+      return dispatch(loadWishList(currentUser.username)).then(() => {
+        dispatch(userAddWishListSuccess());
+      });
+    })
+    .catch(err => dispatch(userFetchError(err)));
+};
+
+export const removeFromWishList = id => (dispatch, getState) => {
+  const { authToken, currentUser } = getState().auth;
+  const { username } = currentUser;
+  dispatch(userFetchRequest());
+  return axios
+    .put(
+      `${API_BASE_URL}/users/removewishlist`,
+      {
+        wishListId: id
+      },
+      { headers: { Authorization: `Bearer ${authToken}` } }
+    )
+    .then(() => dispatch(loadWishList(username)))
+    .then(() => dispatch(userAddWishListSuccess()))
     .catch(err => dispatch(userFetchError(err)));
 };
