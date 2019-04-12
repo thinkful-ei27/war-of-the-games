@@ -1,11 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { setNonUserVotes } from "../../actions/gameActions";
-import {
-  nextTest,
-  nextTestRequest,
-  nextTestSuccess
-} from "../../actions/onboarding";
+import { nextTestRequest, nextTestSuccess } from "../../actions/onboarding";
 import OnboardPropmt from "./onboardPrompt";
 import Loading from "../loading";
 import {
