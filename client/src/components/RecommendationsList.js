@@ -71,7 +71,11 @@ export class RecommendationsList extends Component {
     );
 
     if (isLoading) {
-      return <Loading />;
+      return (
+        <div className="loading-screen">
+          <Loading />
+        </div>
+      );
     }
     return (
       <div>
