@@ -30,9 +30,6 @@ import kh2 from '../assets/onboard-pics/kh2.jpg';
 import kotor2 from '../assets/onboard-pics/kotor2.jpg';
 import dao from '../assets/onboard-pics/dao.jpg';
 
-
-
-
 const initialState = {
   showing: [{ name: 'test', coverUrl: 'test', id: 'test' }, { name: 'test', coverUrl: 'test', id: 'test' }],
   test1: [
@@ -120,7 +117,7 @@ const initialState = {
     },
     {
       name: "Dota 2",
-      coverUrl: d2,
+      coverUrl: dota2,
       id: "5ca657431989fe0017440ee9"
     }],
   test9: [
