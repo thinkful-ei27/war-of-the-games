@@ -1,8 +1,10 @@
 import React from "react";
+import "./styles/input.css";
 
 export default class Input extends React.Component {
   componentDidUpdate(prevProps) {
-    if (!prevProps.meta.active && this.props.meta.active) {
+    const { meta } = this.props;
+    if (!prevProps.meta.active && meta.active) {
       this.input.focus();
     }
   }
@@ -20,8 +22,8 @@ export default class Input extends React.Component {
     }
 
     return (
-      <div className="form-input">
-        <label htmlFor={input.name}>
+      <div className="form-input nes-field">
+        <label className="form-input__label" htmlFor={input.name}>
           {label}
           {error}
           {warning}
@@ -30,7 +32,7 @@ export default class Input extends React.Component {
           {...input}
           id={input.name}
           type={type}
-          ref={input => (this.input = input)}
+          ref={inputEl => (this.input = inputEl)}
           className={className}
           name={input.name}
           placeholder={placeholder}

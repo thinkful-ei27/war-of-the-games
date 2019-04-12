@@ -6,9 +6,10 @@ import Input from "./input";
 import Loading from "./loading";
 import { login } from "../actions/auth";
 import { required, nonEmpty } from "../validators";
-import warpPipe from "../assets/short-warp-pipe.png"
-import pirhanaPipe from "../assets/pirhana-pipe.png"
-class LoginForm extends React.Component {
+import warpPipe from "../assets/short-warp-pipe.png";
+import pirhanaPipe from "../assets/pirhana-pipe.png";
+
+export class LoginForm extends React.Component {
   onSubmit(values) {
     const { dispatch } = this.props;
     return dispatch(login(values.username, values.password));
@@ -44,7 +45,7 @@ class LoginForm extends React.Component {
 
     return (
       <div className="login-form-container">
-        <div className="bricks-onboarding-holder-3"></div>
+        <div className="bricks-onboarding-holder-3" />
         <h2 className="signup-header">Welcome Back!</h2>
         <div className="form-holder2">
           <form
@@ -54,6 +55,7 @@ class LoginForm extends React.Component {
             {err}
 
             <Field
+              className="nes-input"
               placeholder="username"
               component={Input}
               type="text"
@@ -63,6 +65,7 @@ class LoginForm extends React.Component {
               validate={[required, nonEmpty]}
             />
             <Field
+              className="nes-input"
               placeholder="password"
               component={Input}
               type="password"
@@ -71,9 +74,13 @@ class LoginForm extends React.Component {
               id="password"
               validate={[required, nonEmpty]}
             />
-            <button type="submit" disabled={pristine || submitting}>
+            <button
+              className={`nes-btn is-primary ${pristine ? "is-disabled" : ""}`}
+              type="submit"
+              disabled={pristine || submitting}
+            >
               Log in
-          </button>
+            </button>
           </form>
 
           {loadingView}
@@ -82,7 +89,7 @@ class LoginForm extends React.Component {
           <img src={warpPipe} alt="warp-pipe" className="warp-pipe" />
           <img src={pirhanaPipe} alt="pirhana-pipe" className="pirhana-pipe" />
         </div>
-        <div className="bricks-onboarding-holder-4"></div>
+        <div className="bricks-onboarding-holder-4" />
       </div>
     );
   }
