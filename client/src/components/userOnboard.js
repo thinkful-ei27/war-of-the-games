@@ -11,8 +11,11 @@ import {
 } from "../local-storage";
 
 export class UserOnboard extends React.Component {
+  state = {
+    loading: false
+  }
+
   count = Number(loadVoteCount());
-  loading = this.props.loading
 
   componentWillMount() {
     const { dispatch } = this.props;
@@ -30,14 +33,14 @@ export class UserOnboard extends React.Component {
     myKey = `test${this.count}`;
     dispatch(nextTestRequest());
     dispatch(setLoading());
-    setTimeout(() => dispatch(nextTestSuccess(myKey)), 500);
+    dispatch(nextTestSuccess(myKey));
   };
 
   render() {
-    const { dispatch, tests, loading } = this.props;
+    const { dispatch, tests, } = this.props;
+    let { loading } = this.state;
     let content;
     if (loading) {
-      console.log('im here')
       content = (
         <div className="loading-screen">
           <Loading />
@@ -118,8 +121,7 @@ export class UserOnboard extends React.Component {
           </div>
         </>
       );
-    }
-    else if (this.count >= 11) {
+    } else if (this.count >= 11) {
       content = <OnboardPropmt />;
     }
     return content;
