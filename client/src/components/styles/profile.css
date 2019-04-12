@@ -72,6 +72,12 @@
   height: 180px;
 }
 
+.leader-board-link {
+  background-color: white;
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+
 .cancel {
   padding: 10px;
   text-align: center;
