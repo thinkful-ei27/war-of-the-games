@@ -3,12 +3,14 @@ import React from "react";
 import ReactTooltip from "react-tooltip";
 import { connect } from "react-redux";
 import moment from "moment";
+import { Link } from "react-router-dom";
 import requiresLogin from "./requires-login";
 import "./styles/profile.css";
 import {
   getUserHistory,
   getUserTopHistory,
   // getUserAboutMe,
+  getUserMotivationData,
   fetchUser,
   getUserSubmotivations
 } from "../actions/users";
@@ -17,6 +19,7 @@ import ConnectedGame from "./Game";
 import ConnectedRecommendations from "./Recommendations";
 import ConnectedAvatarCard from "./AvatarCard";
 import ConnectedWishList from "./WishList";
+
 // profile pic imports
 
 // profile pic imports
@@ -37,9 +40,10 @@ export class ProfilePage extends React.Component {
     return Promise.all([
       dispatch(getUserTopHistory(userId)),
       // dispatch(getUserAboutMe()),
-      dispatch(fetchUser(userId)).then(user => user),
+      dispatch(getUserMotivationData()),
+      dispatch(fetchUser(userId)),
       dispatch(getUserSubmotivations()),
-      dispatch(getUserHistory(userId)).then(userHistory => userHistory)
+      dispatch(getUserHistory(userId))
     ]);
   }
 
@@ -78,7 +82,8 @@ export class ProfilePage extends React.Component {
       topHistory,
       screenWidth,
       firstName,
-      subMotivations
+      subMotivations,
+      motivations
     } = this.props;
 
     const isMobile = screenWidth <= 768;
@@ -141,7 +146,9 @@ export class ProfilePage extends React.Component {
       iconSize = "is-medium";
     }
     return loading ? (
-      <Loading />
+      <div className="loading-screen">
+        <Loading />
+      </div>
     ) : (
       <div className="game-container mx-auto mt-16">
         <div className="">
@@ -153,9 +160,12 @@ export class ProfilePage extends React.Component {
             <section className="profile-header">
               <div>
                 <ConnectedAvatarCard initialPic={initialPic} />
+                <Link to="/leaderboard" className="leader-board-link">
+                  Leader board
+                </Link>
               </div>
               <div className="text-xxs radar">
-                <Radar name={firstName} />
+                <Radar name={firstName} data={motivations} />
               </div>
             </section>
           </div>
@@ -192,7 +202,7 @@ const mapStateToProps = state => {
   const { currentUser } = state.auth;
   const { user } = state;
   return {
-    aboutMe: user.aboutMe,
+    // aboutMe: user.aboutMe,
     topHistory: user.topHistory,
     level: currentUser.level,
     xpToNextLevel: currentUser.xpToNextLevel,
@@ -205,7 +215,8 @@ const mapStateToProps = state => {
     subMotivations: user.subMotivations,
     loading: user.loading,
     screenWidth: state.window.width,
-    profilePic: state.auth.currentUser.profilePic
+    profilePic: state.auth.currentUser.profilePic,
+    motivations: user.motivations
   };
 };
 

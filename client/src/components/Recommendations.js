@@ -102,7 +102,11 @@ export class Recommendations extends Component {
     const topFiveRecs = recs.slice(0, 5);
 
     if (isLoading) {
-      return <Loading />;
+      return (
+        <div className="loading-screen">
+          <Loading />
+        </div>
+      );
     }
     if (!recs.length && !isLoading) {
       return (
@@ -124,7 +128,7 @@ export class Recommendations extends Component {
           className={`flex ${isMobile ? "flex-col text-xs w-3/4 mx-auto" : ""}`}
         >
           {topFiveRecs.map(rec => (
-            <div>
+            <div key={rec.name}>
               <ReactTooltip
                 id={rec.name}
                 className="hover rec-tool-tip"

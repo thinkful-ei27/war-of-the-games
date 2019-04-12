@@ -46,25 +46,6 @@ export const getUserMotivationsError = error => ({
   error
 });
 
-export const getUserMotivationData = () => (dispatch, getState) => {
-  const { authToken } = getState().auth;
-  dispatch(getUserMotivationsRequest);
-  return fetch(`${API_BASE_URL}/users/history/motivations`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${authToken}`
-    }
-  })
-    .then(res => {
-      if (!res.ok) {
-        return Promise.reject(res.statusText);
-      }
-      return res.json();
-    })
-    .then(data => dispatch(getUserMotivationsSuccess(data)))
-    .catch(err => dispatch(getUserMotivationsError(err)));
-};
-
 export const GET_USER_SUBMOTIVATIONS_SUCCESS =
   "GET_USER_SUBMOTIVATIONS_SUCCESS";
 export const getUserSubmotivationsSuccess = content => ({
@@ -99,6 +80,24 @@ export const userWishListSuccess = wishList => ({
   type: USER_WISH_LIST_SUCCESS,
   wishList
 });
+export const getUserMotivationData = () => (dispatch, getState) => {
+  const { authToken } = getState().auth;
+  dispatch(userFetchRequest());
+  return fetch(`${API_BASE_URL}/users/history/motivations`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${authToken}`
+    }
+  })
+    .then(res => {
+      if (!res.ok) {
+        return Promise.reject(res.statusText);
+      }
+      return res.json();
+    })
+    .then(data => dispatch(getUserMotivationsSuccess(data)))
+    .catch(err => dispatch(getUserMotivationsError(err)));
+};
 
 export const getUserAboutMe = () => (dispatch, getState) => {
   const { authToken } = getState().auth;
