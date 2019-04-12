@@ -36,13 +36,13 @@
 ## Screenshots
 
 Homepage
-![A screenshot of the War of the Games homepage](./wotg-homepage.png)
+![A screenshot of the War of the Games homepage](./presentation/wotg-homes.jpg)
 
 Game info
-![A screenshot of the game info page](./wotg-game-info.png)
+![A screenshot of the game info page](./presentation/wotg-game-info.jpg)
 
 Games list
-![A screenshot of the games list page](./wotg-games-list.png)
+![A screenshot of the games list page](./presentation/wotg-games.jpg)
 
 ## History
 
