@@ -9,6 +9,15 @@ const users = [
     password: "$2a$10$0S5GdCkGJTDeaAH272/bmeZmmpC4rv6ItXIOZKwVQIfQOqSURhkhu"
   },
   {
+    _id: "333333333333333333333301",
+    firstName: "Adam",
+    lastName: "Admin",
+    username: "adamadmin",
+    // hash digest for the string 'baseball'
+    password: "$2a$10$LQz6cN6wv0umXxrAM.vXdu8H.Gt4k2iSAsMGSN/9DvlZa2VUjwg66",
+    admin: true
+  },
+  {
     _id: "222222222222222222222200",
     firstName: "Johnny",
     lastName: "Salt",
@@ -28,6 +37,10 @@ const games = [
   {
     name: "Super Mario 64",
     _id: "5c9a959ba5d0dd09e07f45a7",
+    motivations: [],
+    subMotivations: [],
+    firstReleaseDate: 835488000,
+    core: true,
     igdb: {
       id: 1074,
       slug: "super-mario-64"
@@ -81,6 +94,10 @@ const games = [
   {
     name: "The Legend of Zelda",
     _id: "5c9a959ba5d0dd09e07f45a8",
+    motivations: [],
+    subMotivations: [],
+    firstReleaseDate: 509328000,
+    core: false,
     igdb: {
       id: 1022,
       slug: "the-legend-of-zelda"
@@ -103,6 +120,10 @@ const games = [
   {
     name: "Mortal Kombat",
     _id: "5c9a959ba5d0dd09e07f45a9",
+    motivations: [],
+    subMotivations: [],
+    firstReleaseDate: 712713600,
+    core: true,
     igdb: {
       id: 1618,
       slug: "mortal-kombat--2"
@@ -113,6 +134,10 @@ const games = [
   {
     name: "Street Fighter II",
     _id: "5c9a959ba5d0dd09e07f45a0",
+    motivations: [],
+    subMotivations: [],
+    firstReleaseDate: 665798400,
+    core: false,
     igdb: {
       id: 3186,
       slug: "street-fighter-ii"
@@ -134,6 +159,10 @@ const games = [
   {
     name: "Halo: Combat Evolved",
     _id: "5c9a959ba5d0dd09e07f45a1",
+    firstReleaseDate: 1005782400,
+    motivations: [],
+    subMotivations: [],
+    core: true,
     igdb: {
       id: 740,
       slug: "halo-combat-evolved"
@@ -145,6 +174,10 @@ const games = [
   {
     name: "Superman",
     _id: "5c9a959ba5d0dd09e07f45a2",
+    firstReleaseDate: 928108800,
+    motivations: [],
+    subMotivations: [],
+    core: false,
     igdb: {
       id: 3005,
       slug: "superman"
@@ -156,6 +189,10 @@ const games = [
   {
     name: "Final Fantasy VII",
     _id: "5c9a959ba5d0dd09e07f45a3",
+    motivations: [],
+    subMotivations: [],
+    firstReleaseDate: 854668800,
+    core: true,
     igdb: {
       id: 427,
       slug: "final-fantasy-vii"
@@ -167,6 +204,10 @@ const games = [
   {
     name: "WWF No Mercy",
     _id: "5c9a959ba5d0dd09e07f45a4",
+    firstReleaseDate: 974419200,
+    motivations: [],
+    subMotivations: [],
+    core: false,
     igdb: {
       id: 3644,
       slug: "wwf-no-mercy"
@@ -180,6 +221,10 @@ const games = [
   {
     name: "Super Smash Bros.",
     _id: "5c9a959ba5d0dd09e07f45a5",
+    motivations: [],
+    subMotivations: [],
+    firstReleaseDate: 916876800,
+    core: true,
     igdb: {
       id: 1626,
       slug: "super-smash-bros"
@@ -203,6 +248,10 @@ const games = [
   {
     name: "Candy Crush Saga",
     _id: "5c9a959ba5d0dd09e07f45a6",
+    motivations: [],
+    subMotivations: [],
+    firstReleaseDate: 1334188800,
+    core: false,
     igdb: {
       id: 5636,
       slug: "candy-crush-saga"
@@ -223,12 +272,16 @@ const games = [
       "https://images.igdb.com/igdb/image/upload/t_720p/u9s7ap9gi5kestfxhxdf.jpg"
   },
   {
+    name: "God of War II",
     igdb: {
       id: 551,
       slug: "god-of-war-ii"
     },
     similar_games: [112, 127, 136, 499, 549, 550, 552, 1029, 1128, 3644],
-    name: "God of War II",
+    firstReleaseDate: 1173744000,
+    motivations: [],
+    subMotivations: [],
+    core: true,
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/f3mwxy3opbrbmcyguhly.jpg",
     createdAt: "2019-03-27T22:42:41.704Z",
@@ -268,6 +321,10 @@ const games = [
   },
   {
     name: "Super Mario Bros. 3",
+    firstReleaseDate: 591840000,
+    motivations: [],
+    subMotivations: [],
+    core: false,
     coverUrl:
       "https://images.igdb.com/igdb/image/upload/t_720p/u9s7ap9gi5kestfxhxdf.jpg",
     igdb: {
@@ -317,6 +374,328 @@ const games = [
         name: "Virtual Console (Nintendo)"
       }
     ]
+  },
+  {
+    igdb: {
+      id: 1352,
+      slug: "journey"
+    },
+    similar_games: [
+      17548,
+      19150,
+      22387,
+      24426,
+      26226,
+      28309,
+      36198,
+      55190,
+      56033,
+      80916
+    ],
+    motivations: ["immersion"],
+    subMotivations: ["fantasy"],
+    core: true,
+    name: "Journey",
+    coverUrl: "https://images.igdb.com/igdb/image/upload/t_720p/co1hwe.jpg",
+    summary:
+      "In Journey the player controls a robed figure in a vast desert, traveling towards a mountain in the distance. Other players on the same journey can be discovered, and two players can meet and assist each other, but they cannot communicate via speech or text and cannot see each other's names. The only form of communication between the two is a musical chime. This chime also transforms dull, stiff pieces of cloth found throughout the levels into vibrant red, affecting the game world and allowing the player to progress through the levels. The robed figure wears a trailing scarf, which when charged by approaching floating pieces of cloth, briefly allows the player to float through the air.\n\nThe developers sought to evoke in the player a sense of smallness and wonder, and to forge an emotional connection between them and the anonymous players they meet along the way. The music, composed by Austin Wintory, dynamically responds to the player's actions, building a single theme to represent the game's emotional arc throughout the story. Reviewers of the game praised the visual and auditory art as well as the sense of companionship created by playing with a stranger, calling it a moving and emotional experience. Journey won several \"game of the year\" awards and received several other awards and nominations, including a Best Score Soundtrack for Visual Media nomination for the 2013 Grammy Awards.",
+    genres: [
+      {
+        _id: "5ca811db9cd89ef9c6258440",
+        id: 7,
+        name: "Music"
+      },
+      {
+        _id: "5ca811db9cd89ef9c625843f",
+        id: 8,
+        name: "Platform"
+      },
+      {
+        _id: "5ca811db9cd89ef9c625843e",
+        id: 12,
+        name: "Role-playing (RPG)"
+      },
+      {
+        _id: "5ca811db9cd89ef9c625843d",
+        id: 31,
+        name: "Adventure"
+      },
+      {
+        _id: "5ca811db9cd89ef9c625843c",
+        id: 32,
+        name: "Indie"
+      }
+    ],
+    platforms: [
+      {
+        _id: "5ca811db9cd89ef9c6258444",
+        id: 6,
+        name: "PC (Microsoft Windows)"
+      },
+      {
+        _id: "5ca811db9cd89ef9c6258443",
+        id: 9,
+        name: "PlayStation 3"
+      },
+      {
+        _id: "5ca811db9cd89ef9c6258442",
+        id: 45,
+        name: "PlayStation Network"
+      },
+      {
+        _id: "5ca811db9cd89ef9c6258441",
+        id: 48,
+        name: "PlayStation 4"
+      }
+    ],
+    firstReleaseDate: 1331596800,
+    createdAt: "2019-04-06T02:41:31.566Z",
+    updatedAt: "2019-04-06T02:47:35.191Z",
+    cloudImage:
+      "https://res.cloudinary.com/hjihgo1pd/image/upload/v1554518494/5ca811db9cd89ef9c625843b.jpg",
+    id: "5ca811db9cd89ef9c625843b"
+  },
+  {
+    igdb: {
+      id: 1318,
+      slug: "xcom-enemy-unknown"
+    },
+    similar_games: [20, 533, 538, 1020, 1254, 1377, 2031, 9498, 9727, 10919],
+    motivations: ["mastery"],
+    subMotivations: ["strategy"],
+    core: true,
+    name: "XCOM: Enemy Unknown",
+    coverUrl:
+      "https://images.igdb.com/igdb/image/upload/t_720p/hazhjs0yzk80vmifcmrg.jpg",
+    summary:
+      "XCOM: Enemy Unknown will place you in control of a secret paramilitary organization called XCOM. As the XCOM commander, you will defend against a terrifying global alien invasion by managing resources, advancing technologies, and overseeing combat strategies and individual unit tactics. \nThe original XCOM is widely regarded as one of the best games ever made and has now been re-imagined by the strategy experts at Firaxis Games. XCOM: Enemy Unknown will expand on that legacy with an entirely new invasion story, enemies and technologies to fight aliens and defend Earth. \nYou will control the fate of the human race through researching alien technologies, creating and managing a fully operational base, planning combat missions and controlling soldier movement in battle.",
+    genres: [
+      {
+        _id: "5ca811df9cd89ef9c6259043",
+        id: 11,
+        name: "Real Time Strategy (RTS)"
+      },
+      {
+        _id: "5ca811df9cd89ef9c6259042",
+        id: 12,
+        name: "Role-playing (RPG)"
+      },
+      {
+        _id: "5ca811df9cd89ef9c6259041",
+        id: 15,
+        name: "Strategy"
+      },
+      {
+        _id: "5ca811df9cd89ef9c6259040",
+        id: 16,
+        name: "Turn-based strategy (TBS)"
+      },
+      {
+        _id: "5ca811df9cd89ef9c625903f",
+        id: 24,
+        name: "Tactical"
+      }
+    ],
+    platforms: [
+      {
+        _id: "5ca811df9cd89ef9c6259048",
+        id: 3,
+        name: "Linux"
+      },
+      {
+        _id: "5ca811df9cd89ef9c6259047",
+        id: 6,
+        name: "PC (Microsoft Windows)"
+      },
+      {
+        _id: "5ca811df9cd89ef9c6259046",
+        id: 9,
+        name: "PlayStation 3"
+      },
+      {
+        _id: "5ca811df9cd89ef9c6259045",
+        id: 12,
+        name: "Xbox 360"
+      },
+      {
+        _id: "5ca811df9cd89ef9c6259044",
+        id: 14,
+        name: "Mac"
+      }
+    ],
+    firstReleaseDate: 1349740800,
+    createdAt: "2019-04-06T02:41:35.214Z",
+    updatedAt: "2019-04-06T02:47:35.191Z",
+    cloudImage:
+      "https://res.cloudinary.com/hjihgo1pd/image/upload/v1554518495/5ca811df9cd89ef9c625903e.jpg",
+    id: "5ca811df9cd89ef9c625903e"
+  },
+  {
+    igdb: {
+      id: 239,
+      slug: "starcraft-ii-wings-of-liberty"
+    },
+    similar_games: [
+      457,
+      8773,
+      9789,
+      11205,
+      13200,
+      30229,
+      34269,
+      34823,
+      55029,
+      78550
+    ],
+    motivations: ["social", "mastery"],
+    subMotivations: ["competition", "strategy"],
+    core: true,
+    name: "StarCraft II: Wings of Liberty",
+    coverUrl:
+      "https://images.igdb.com/igdb/image/upload/t_720p/bgn7cqukcnskka73rwse.jpg",
+    createdAt: "2019-03-27T22:38:21.905Z",
+    updatedAt: "2019-04-06T02:47:35.195Z",
+    genres: [
+      {
+        _id: "5ca6718f1a96641ab77ed417",
+        id: 11,
+        name: "Real Time Strategy (RTS)"
+      },
+      {
+        _id: "5ca6718f1a96641ab77ed416",
+        id: 15,
+        name: "Strategy"
+      }
+    ],
+    platforms: [
+      {
+        _id: "5ca6718f1a96641ab77ed419",
+        id: 6,
+        name: "PC (Microsoft Windows)"
+      },
+      {
+        _id: "5ca6718f1a96641ab77ed418",
+        id: 14,
+        name: "Mac"
+      }
+    ],
+    summary:
+      "In the distant future, in the darkest reaches of space, the ghosts of the past whisper your name. You are Jim Raynor, a marshal-turned-rebel on a vigilante crusade to bring down the Dominion and its nefarious leader, Arcturus Mengsk. Haunted by betrayal and remorse, some believe you may have given up the fight. But you have promises to keep… and a need for vengeance that’s long overdue.",
+    cloudImage:
+      "https://res.cloudinary.com/hjihgo1pd/image/upload/v1554169070/5c9bfb5d054d8f2e1010f118.jpg",
+    firstReleaseDate: 1280188800,
+    id: "5c9bfb5d054d8f2e1010f118"
+  },
+  {
+    igdb: {
+      id: 1511,
+      slug: "pokemon-blue"
+    },
+    similar_games: [
+      427,
+      1512,
+      1514,
+      1517,
+      1558,
+      2286,
+      2287,
+      3222,
+      22387,
+      55092
+    ],
+    motivations: ["achievement"],
+    subMotivations: ["completion"],
+    core: true,
+    name: "Pokémon Blue",
+    coverUrl:
+      "https://images.igdb.com/igdb/image/upload/t_720p/dhsdbh50wrvoe6xmzx3i.jpg",
+    summary:
+      "You've finally been granted your Pokémon Trainer's license. Now, it's time to head out to become the world's greatest Pokémon Trainer. It's going to take all you've got to collect 150 Pokémon in this enormous world. Catch and train monsters like the shockingly-cute Pikachu. Face off against Blastoise's torrential water cannons. Stand strong when facing Pidgeot's stormy Gust. Trade with friends and watch your Pokémon evolve. Important—no single Pokémon can win at all. Can you develop the ultimate Pokémon strategy to defeat the eight Gym Leaders and become the greatest Pokémon Master of all time?",
+    genres: [
+      {
+        _id: "5ca811db9cd89ef9c62583b8",
+        id: 12,
+        name: "Role-playing (RPG)"
+      },
+      {
+        _id: "5ca811db9cd89ef9c62583b7",
+        id: 31,
+        name: "Adventure"
+      }
+    ],
+    platforms: [
+      {
+        _id: "5ca811db9cd89ef9c62583bb",
+        id: 33,
+        name: "Game Boy"
+      },
+      {
+        _id: "5ca811db9cd89ef9c62583ba",
+        id: 37,
+        name: "Nintendo 3DS"
+      },
+      {
+        _id: "5ca811db9cd89ef9c62583b9",
+        id: 47,
+        name: "Virtual Console (Nintendo)"
+      }
+    ],
+    firstReleaseDate: 831686400,
+    createdAt: "2019-04-06T02:41:31.484Z",
+    updatedAt: "2019-04-06T02:47:35.191Z",
+    cloudImage:
+      "https://res.cloudinary.com/hjihgo1pd/image/upload/v1554518492/5ca811db9cd89ef9c62583b6.jpg",
+    id: "5ca811db9cd89ef9c62583b6"
+  },
+  {
+    igdb: {
+      id: 128,
+      slug: "assassin-s-creed"
+    },
+    similar_games: [113, 127, 537, 1266, 1970, 5606, 7570, 8263, 9243, 19249],
+    motivations: ["achievement"],
+    subMotivations: ["completion"],
+    core: true,
+    name: "Assassin's Creed",
+    coverUrl:
+      "https://images.igdb.com/igdb/image/upload/t_720p/p73nqxuc20nf8upc22lx.jpg",
+    summary:
+      "Assassin’s Creed is the next-gen game developed by Ubisoft Montreal that will redefine the action genre. While other games claim to be next-gen with impressive graphics and physics, Assassin’s Creed merges technology, game design, theme, and emotions into a world where you instigate chaos and become a vulnerable, yet powerful, agent of change.",
+    genres: [
+      {
+        _id: "5ca67b311a96641ab77ed627",
+        id: 8,
+        name: "Platform"
+      },
+      {
+        _id: "5ca67b311a96641ab77ed626",
+        id: 31,
+        name: "Adventure"
+      }
+    ],
+    platforms: [
+      {
+        _id: "5ca67b311a96641ab77ed62a",
+        id: 6,
+        name: "PC (Microsoft Windows)"
+      },
+      {
+        _id: "5ca67b311a96641ab77ed629",
+        id: 9,
+        name: "PlayStation 3"
+      },
+      {
+        _id: "5ca67b311a96641ab77ed628",
+        id: 12,
+        name: "Xbox 360"
+      }
+    ],
+    createdAt: "2019-04-02T21:02:11.015Z",
+    updatedAt: "2019-04-06T02:47:35.191Z",
+    cloudImage:
+      "https://res.cloudinary.com/hjihgo1pd/image/upload/v1554239031/5ca3cdd309691b1d2a883189.jpg",
+    firstReleaseDate: 1194912000,
+    id: "5ca3cdd309691b1d2a883189"
   }
 ];
 
@@ -439,6 +818,13 @@ const histories = [
     gameOne: "5c9a959ba5d0dd09e07f45a3",
     gameTwo: "5c9a959ba5d0dd09e07f45a1",
     choice: "5c9a959ba5d0dd09e07f45a3"
+  },
+  {
+    _id: "222222222222222222222217",
+    userId: "333333333333333333333300",
+    gameOne: "5c9a959ba5d0dd09e07f45a2",
+    gameTwo: "5c9a959ba5d0dd09e07f45a1",
+    choice: "5c9a959ba5d0dd09e07f45a2"
   }
 ];
 

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_BASE_URL } from "../config";
 import { fetchCurrentGameSuccess } from "./allGames";
+import { normalizeResponseErrors } from "./utils";
 
 export const FETCH_GAMES = "FETCH_GAMES";
 
@@ -54,16 +55,17 @@ export const fetchImages = (gameOneId, gameTwoId, authToken) => {
 };
 
 export const fetchGames = () => (dispatch, getState) => {
-  axios({
-    url: `${API_BASE_URL}/games/battle`,
-    method: "GET"
-  })
-    .then(response => {
-      dispatch(fetchGamesSuccess(response.data));
-      return response.data;
-    })
+  const { authToken } = getState().auth;
+  const options = {};
+  dispatch(fetchGameRequest());
+  if (authToken) {
+    options.headers = { Authorization: `Bearer ${authToken}` };
+  }
+  fetch(`${API_BASE_URL}/games/battle`, options)
+    .then(res => normalizeResponseErrors(res))
+    .then(res => res.json())
     .then(data => {
-      const { authToken } = getState().auth;
+      dispatch(fetchGamesSuccess(data));
       const gameOneId = data[0].id;
       const gameTwoId = data[1].id;
       return !data[0].cloudImage || !data[1].cloudImage
@@ -73,9 +75,7 @@ export const fetchGames = () => (dispatch, getState) => {
     .then(result => {
       return result;
     })
-    .catch(err => {
-      console.error(err);
-    });
+    .catch(err => fetchFeedbackError(err));
 };
 
 export const HANDLE_VOTE = "HANDLE_VOTE";
@@ -84,26 +84,23 @@ export const handleVote = (gameOne, gameTwo, choice, userId) => (
   dispatch,
   getState
 ) => {
-  const authToken = getState().auth.authToken;
+  const { authToken } = getState().auth;
   axios
-    .post(`${API_BASE_URL}/history`, {
-      gameOne,
-      gameTwo,
-      choice,
-      userId,
-      headers: {
-        Authorization: `Bearer ${authToken}`
-      }
-    })
-    .then(function(response) {
-      return response;
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
+    .post(
+      `${API_BASE_URL}/history`,
+      {
+        gameOne,
+        gameTwo,
+        choice,
+        userId
+      },
+      { headers: { Authorization: `Bearer ${authToken}` } }
+    )
+    .then(response => response)
+    .catch(error => console.log(error));
 };
 
-export const fetchFeedback = game => (dispatch, getState) => {
+export const fetchFeedback = game => dispatch => {
   axios
     .get(`${API_BASE_URL}/history/${game}/results`)
     .then(response => dispatch(fetchFeedbackSuccess(response.data)))

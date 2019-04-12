@@ -1,13 +1,15 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from "react";
 import { connect } from "react-redux";
-import Battle from "./battle";
+import ConnectedBattle from "./battle";
 import VoteStats from "./vote-stats";
+import ConnectedUserOnboard from "./userOnboard";
 import "./styles/landing-page.css";
-import { SignupPrompt } from "./signupPrompt";
+import ErrorBoundary from "./errorBoundary";
 import "./styles/card.css";
 import { fetchGames, fetchFeedback, handleVote } from "../actions/gameActions";
 import { loadVoteCount, setVoteLocalStorageVariable } from "../local-storage";
+import Loading from "./loading";
 
 export class LandingPage extends React.Component {
   componentDidMount() {
@@ -17,7 +19,7 @@ export class LandingPage extends React.Component {
       nonUserVotes.forEach(obj => {
         const values = Object.values(obj);
         if (userId) {
-          dispatch(handleVote(values[0], values[1], values[2]));
+          dispatch(handleVote(values[0], values[1], values[2], userId));
         }
       });
     }
@@ -31,32 +33,43 @@ export class LandingPage extends React.Component {
   }
 
   render() {
-    const { games, loggedIn, feedback } = this.props;
+    const { loading } = this.props;
     let content;
-    const count = parseInt(loadVoteCount(), 10);
-    if (count >= 5 && !loggedIn) {
-      content = <SignupPrompt />;
-    } else if (games.length && feedback) {
+    if (loading) {
       content = (
-        <div className="battle-vote">
-          <Battle
-            fetchFeedback={game => this.handleFetchFeedback(game)}
-            {...games}
-          />
-          <div className="vote-stats-container">
-            <VoteStats feedback={feedback} {...games} />
-          </div>
+        <div className="loading-screen">
+          <Loading />
         </div>
       );
-    } else if (games.length) {
-      content = (
-        <Battle
-          fetchFeedback={game => this.handleFetchFeedback(game)}
-          {...games}
-        />
-      );
     } else {
-      content = <div className="landing-page-loader">loading...</div>;
+      const { games, loggedIn, feedback } = this.props;
+      const count = parseInt(loadVoteCount(), 10);
+      if (count <= 13 && !loggedIn) {
+        content = <ConnectedUserOnboard />;
+      } else if (count > 13 && !loggedIn) {
+        content = <ErrorBoundary />;
+      } else if (games.length === 0) {
+        content = <div className="landing-page-loader">Just a moment...</div>;
+      } else if (games.length && feedback) {
+        content = (
+          <div className="battle-vote">
+            <ConnectedBattle
+              fetchFeedback={game => this.handleFetchFeedback(game)}
+              games={games}
+            />
+            <div className="vote-stats-container">
+              <VoteStats feedback={feedback} {...games} />
+            </div>
+          </div>
+        );
+      } else {
+        content = (
+          <ConnectedBattle
+            fetchFeedback={game => this.handleFetchFeedback(game)}
+            games={games}
+          />
+        );
+      }
     }
 
     return content;
@@ -75,7 +88,9 @@ const mapStateToProps = state => ({
   feedback: state.games.feedback,
   count: state.games.sessionVoteCount,
   nonUserVotes: state.games.nonUserVotes,
-  userId: checkIfUser(state)
+  motivations: state.user.motivations,
+  userId: checkIfUser(state),
+  loading: state.games.loading
 });
 
 export default connect(mapStateToProps)(LandingPage);

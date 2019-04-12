@@ -12,8 +12,8 @@ function dbConnect(url = DATABASE_URL) {
       useFindAndModify: false
     })
     .catch(err => {
-      console.error("Mongoose failed to connect");
-      console.error(err);
+      err.message = "Mongoose failed to connect";
+      return err;
     });
 }
 

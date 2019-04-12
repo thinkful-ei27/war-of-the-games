@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Highcharts Export Server</title>
+</head>
+
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,700,400italic" type="text/css">
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.20.2/codemirror.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.20.2/codemirror.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.20.2/mode/javascript/javascript.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.20.2/mode/css/css.min.js"></script>
+
+<script type="text/javascript" src="js/main.js"></script>
+
+<body>
+
+    <div class="page box-size">
+        <div class="panel-container main-panel box-size">
+            <div class="panel"> 
+                <h1>Highcharts Export Server</h1>
+                This page allows you to experiment with different options for the export server.
+
+                <label>Options</label>
+                <div class="info">Your Highcharts configuration object.</div>
+                <div class="error" id="error"></div>
+                <textarea id="options" class="codeinput box-size">
+{
+    "xAxis": {
+        "categories": [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
+        ]
+    },
+    "series": [
+        {
+            "data": [1,3,2,4],
+            "type": "line"
+        },
+        {
+            "data": [5,3,4,2],
+            "type":"line"
+        }
+    ]
+}
+</textarea>
+
+                <label>Image file format</label>
+                <select id="format" class="box-size">
+                    <option>image/png</option>
+                    <option>image/jpeg</option>
+                    <option>image/svg+xml</option>
+                    <option>application/pdf</option>
+                </select>
+
+                <label>Width</label>
+                <div class="info box-size">The exact pixel width of the exported image. Defaults to chart.width or 600px. Maximum width is 2000px.</div>
+                <input type="number" class="box-size" id="width"/>
+
+                <label>Scale</label>
+                <div class="info box-size">A scaling factor for a higher image resolution. Maximum scaling is set to 4x. Remember that the width parameter has a higher precedence over scaling.</div>
+                <input type="number" id="scale" class="box-size"/>
+
+                <label>Constructor</label>
+                <div class="info box-size">Either Chart or StockChart depending on what product you use.</div>
+                <select id="constr">
+                    <option>Chart</option>
+                    <option>StockChart</option>
+                    <option>Map</option>
+                </select>
+
+                <label>Callback</label>
+                <div class="info box-size">The callback will be fired after the chart is created.</div>
+                <textarea id="callback" class="codeinput box-size">function(chart) {
+    chart.renderer.label('This label is added in the callback', 100, 100)
+    .attr({
+        fill : '#90ed7d',
+        padding: 10,
+        r: 10,
+        zIndex: 10
+    })
+    .css({
+        color: 'black',
+        width: '100px'
+    })
+    .add();
+}
+        </textarea>
+
+            <label>Use styled mode?</label>
+            <div class="info box-size">Enabling styled mode requires manually importing a CSS theme below.</div>
+            <select id="styledMode">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+
+            <label>CSS</label>
+            <div class="info box-size">This CSS will be embedded in a style tag appended to the document head, regardless of wether or not styled mode is enabled.</div>
+            <textarea id="css"></textarea>
+
+            <label>Async Rendering</label>
+            <div class="info box-size">If enabled, the page rendering will wait for any of the included JavaScript resources to call <code>highexp.done();</code> before rendering the chart. If the function isn't called within 6 seconds, the rendering will timeout.</div>
+            <select id="asyncRendering">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+
+            <label>JavaScript</label>
+            <div class="info box-size">This JavaScript will be appended to the document head prior to rendering the chart.</div>
+            <textarea id="rawJS"></textarea>
+           
+            </div>
+        </div>
+
+
+        <div class="panel-container chart-panel box-size">
+            <div class="panel" style="pointer-events:auto;">
+                <h1>Result Preview</h1>
+                <div id="preview-container" class="preview-container"><div class="info">Click the Preview button to see a preview.</div></div>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button id="preview" class="button">PREVIEW</button>
+            <button id="download" class="button">DOWNLOAD</button>
+        </div>  
+
+    </div>
+  
+    <div class="header"></div>
+</body>
+<script>
+highexp.init();
+</script>
+</html>

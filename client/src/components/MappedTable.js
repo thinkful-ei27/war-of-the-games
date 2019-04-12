@@ -7,7 +7,7 @@ export default function MappedTable({ data, propertyNames }) {
       .reduce((acc, key) => ((acc[key] = v[key]), acc), {})
   );
   return (
-    <table className="nes-table is-bordered is-centered">
+    <table>
       <thead>
         <tr>
           {propertyNames.map(val => (

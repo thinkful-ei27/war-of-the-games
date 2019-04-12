@@ -5,7 +5,8 @@
   align-items: center;
   justify-content: space-around;
   height: 300px;
-  width: 800px;
+  max-width: 800px;
+  margin: 0 auto;
   padding: 15px;
   text-align: center;
 
@@ -31,4 +32,8 @@
 
 .voting-feedback {
   font-size: 15px;
+}
+
+.shadow {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
 }
