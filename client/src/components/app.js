@@ -2,22 +2,22 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Route, withRouter, Switch } from "react-router-dom";
-import LoginForm from "./login-form";
-import ConnectedHeaderBar from "./header-bar";
-import ConnectedLandingPage from "./landing-page";
+import LoginForm from "./onBoard/login-form";
+import ConnectedHeaderBar from "./header/header-bar";
+import ConnectedLandingPage from "./onBoard/landing-page";
 import Page404 from "./404";
 import ConnectedAboutPage from "./about";
-import ConnectedRegistrationPage from "./registration-page";
+import ConnectedRegistrationPage from "./onBoard/registration-page";
 import { refreshAuthToken } from "../actions/auth";
 import { windowSize } from "../actions/window";
-import ConnectedProfilePage from "./ProfilePage";
-import ConnectedGameInfo from "./GameInfo";
-import ConnectedGames from "./Games";
+import ConnectedProfilePage from "./profile/ProfilePage";
+import ConnectedGameInfo from "./gamePage/GameInfo";
+import ConnectedGames from "./gamePage/Games";
 import ConnectedFooter from "./footer";
-import ConnectedRecommendationsPage from "./RecommendationsPage";
-import ConnectedWishListPage from "./WishListPage";
+import ConnectedRecommendationsPage from "./recommendations/RecommendationsPage";
+import ConnectedWishListPage from "./recommendations/WishListPage";
 import ErrorBoundary from "./errorBoundary";
-import Leaderboard from "./Leaderboard";
+import Leaderboard from "./profile/Leaderboard";
 import "./styles/app.css";
 
 export class App extends React.Component {
