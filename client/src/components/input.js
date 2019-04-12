@@ -2,7 +2,8 @@ import React from "react";
 
 export default class Input extends React.Component {
   componentDidUpdate(prevProps) {
-    if (!prevProps.meta.active && this.props.meta.active) {
+    const { meta } = this.props;
+    if (!prevProps.meta.active && meta.active) {
       this.input.focus();
     }
   }
@@ -30,7 +31,7 @@ export default class Input extends React.Component {
           {...input}
           id={input.name}
           type={type}
-          ref={input => (this.input = input)}
+          ref={inputEl => (this.input = inputEl)}
           className={className}
           name={input.name}
           placeholder={placeholder}
