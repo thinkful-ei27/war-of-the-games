@@ -226,7 +226,7 @@ router.post("/recs", jwtAuth, async (req, res, next) => {
     .map(p => p.id)
     .join(",");
 
-  const cp = !checkedPlatforms ? "6" : checkedPlatforms;
+  const cp = !checkedPlatforms ? "" : checkedPlatforms;
 
   recs
     .getGamesBySubmotivations(
