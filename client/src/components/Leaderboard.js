@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { API_BASE_URL } from "../config";
 import AvatarLeaderboard from "./AvatarLeaderboard";
 
@@ -56,6 +57,7 @@ export default class Leaderboard extends Component {
             <i className="nes-icon trophy mx-4" />
           </h1>
         </div>
+
         <div className="flex flex-col flex-wrap mt-16">
           {users.map(rec => (
             <AvatarLeaderboard
@@ -69,7 +71,7 @@ export default class Leaderboard extends Component {
         </div>
         <hr />
         {error && <div style={{ color: "#900" }}>{error}</div>}
-        {isLoading && <div>Loading...</div>}
+        {isLoading && <div className="loading-screen">Loading...</div>}
       </section>
     );
   }
