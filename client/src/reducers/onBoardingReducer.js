@@ -1,5 +1,8 @@
 import {
-  NEXT_TEST_SUCCESS, NEXT_TEST_REQUEST
+  NEXT_TEST_SUCCESS,
+  NEXT_TEST_REQUEST,
+  SET_LOADING,
+  CLEAR_LOADING
 } from '../actions/onboarding';
 
 const initialState = {
@@ -149,6 +152,18 @@ export default function reducer(state = initialState, action) {
     })
   }
   else if (action.type === NEXT_TEST_REQUEST) {
+    return Object.assign({}, state, {
+      loading: true
+    })
+  }
+
+  else if (action.type === CLEAR_LOADING) {
+    return Object.assign({}, state, {
+      loading: false
+    })
+  }
+
+  else if (action.type === SET_LOADING) {
     return Object.assign({}, state, {
       loading: true
     })

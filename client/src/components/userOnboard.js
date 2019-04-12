@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { setNonUserVotes } from "../actions/gameActions";
-import { nextTest, nextTestRequest, nextTestSuccess } from "../actions/onboarding";
+import { nextTestRequest, nextTestSuccess, setLoading, clearLoading } from "../actions/onboarding";
 import OnboardPropmt from "./onboardPrompt";
 import Loading from "./loading";
 import {
@@ -12,6 +12,7 @@ import {
 
 export class UserOnboard extends React.Component {
   count = Number(loadVoteCount());
+  loading = this.props.loading
 
   componentWillMount() {
     const { dispatch } = this.props;
@@ -27,15 +28,16 @@ export class UserOnboard extends React.Component {
     this.count++;
     incrementVoteCount();
     myKey = `test${this.count}`;
-    dispatch(nextTestRequest(myKey));
-    dispatch(nextTestSuccess(myKey));
-
+    dispatch(nextTestRequest());
+    dispatch(setLoading());
+    setTimeout(() => dispatch(nextTestSuccess(myKey)), 500);
   };
 
   render() {
     const { dispatch, tests, loading } = this.props;
     let content;
     if (loading) {
+      console.log('im here')
       content = (
         <div className="loading-screen">
           <Loading />
@@ -116,7 +118,8 @@ export class UserOnboard extends React.Component {
           </div>
         </>
       );
-    } else if (this.count >= 11) {
+    }
+    else if (this.count >= 11) {
       content = <OnboardPropmt />;
     }
     return content;
