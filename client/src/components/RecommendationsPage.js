@@ -3,6 +3,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
+import { isNull } from "util";
 import Modal from "./Modal";
 import { API_BASE_URL } from "../config";
 // import Game from "./Game";
@@ -10,6 +11,7 @@ import Rec from "./Rec";
 import Loading from "./loading";
 import ExcludedGames from "./ExcludedGames";
 import MultiselectCheckbox from "./MultiSelectCheckbox";
+import RecommendationsList from "./RecommendationsList";
 
 const orderBy = (arr, props, orders) =>
   [...arr].sort((a, b) =>
@@ -252,23 +254,12 @@ export class RecommendationsPage extends Component {
       platforms,
       timeFrame
     } = this.state;
-    const { screenWidth, wishList } = this.props;
-    const topFiveRecs = recs.slice(0, 5);
+    const { screenWidth, loading } = this.props;
     const iconSize = screenWidth <= 576 ? "is-small" : undefined;
-    const moreRecs = recs.length ? (
-      recs
-        .slice(5)
-        .map(rec => (
-          <Rec
-            key={rec.id}
-            game={rec}
-            openModal={id => this.handleModal(id)}
-            onAddToWishList={id => this.handleAddToWishList(id)}
-          />
-        ))
-    ) : (
-      <div>No more recommendations</div>
-    );
+
+    if (loading || isLoading) {
+      return <Loading />;
+    }
 
     return (
       <div>
@@ -345,21 +336,13 @@ export class RecommendationsPage extends Component {
           </div>
         </div>
         <div className="game-container mx-auto mt-16">
-          {topFiveRecs.length
-            ? topFiveRecs.map(rec => (
-                <Rec
-                  key={rec.id}
-                  game={rec}
-                  openModal={id => this.handleModal(id)}
-                  onAddToWishList={id => this.handleAddToWishList(id)}
-                />
-              ))
-            : !isLoading && (
-                <div className="text-center">
-                  No recommendations for you ¯\_(ツ)_/¯
-                </div>
-              )}
-          {showMoreRecs ? moreRecs : undefined}
+          <RecommendationsList
+            recs={recs}
+            showMoreRecs={showMoreRecs}
+            isLoading={isLoading}
+            openModal={id => this.handleModal(id)}
+            onAddToWishList={id => this.handleAddToWishList(id)}
+          />
           {!isLoading && (
             <div className="game-container text-center mt-8">
               <button
@@ -396,7 +379,8 @@ const mapStateToProps = state => ({
   loading: state.auth.loading,
   token: state.auth.authToken,
   screenWidth: state.window.width,
-  wishList: state.user.wishList
+  wishList: state.user.wishList,
+  user: state.auth.currentUser
 });
 
 export default connect(mapStateToProps)(RecommendationsPage);

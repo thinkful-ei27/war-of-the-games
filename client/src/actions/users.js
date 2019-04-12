@@ -282,7 +282,10 @@ export const updateUserProfilePic = (userId, profilePic) => (
     .catch(err => dispatch(userFetchError(err)));
 };
 
-export const loadWishList = username => dispatch => {
+export const loadWishList = username => (dispatch, getState) => {
+  if (!username) {
+    ({ username } = getState().auth.currentUser);
+  }
   dispatch(userFetchRequest());
   return axios({
     url: `${API_BASE_URL}/users/wishlist/${username}`,
