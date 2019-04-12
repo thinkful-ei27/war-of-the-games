@@ -1,4 +1,4 @@
-![War of the Games on an old PC monitor](./wotg-mock.jpg)
+![War of the Games on an old PC monitor](./presentation/wotg-mock.jpg)
 
 # War of the Games
 
