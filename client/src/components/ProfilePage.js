@@ -3,6 +3,7 @@ import React from "react";
 import ReactTooltip from "react-tooltip";
 import { connect } from "react-redux";
 import moment from "moment";
+import { Link } from "react-router-dom";
 import requiresLogin from "./requires-login";
 import "./styles/profile.css";
 import {
@@ -18,6 +19,7 @@ import ConnectedGame from "./Game";
 import ConnectedRecommendations from "./Recommendations";
 import ConnectedAvatarCard from "./AvatarCard";
 import ConnectedWishList from "./WishList";
+
 // profile pic imports
 
 // profile pic imports
@@ -158,6 +160,9 @@ export class ProfilePage extends React.Component {
             <section className="profile-header">
               <div>
                 <ConnectedAvatarCard initialPic={initialPic} />
+                <Link to="/leaderboard" className="leader-board-link">
+                  Leader board
+                </Link>
               </div>
               <div className="text-xxs radar">
                 <Radar name={firstName} data={motivations} />
