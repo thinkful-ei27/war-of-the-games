@@ -4,6 +4,7 @@ import axios from "axios";
 import { API_BASE_URL } from "../config";
 import ConnectedGame from "./Game";
 import Loading from "./loading";
+import { loadWishList } from "../actions/users";
 import Modal from "./Modal";
 import "./styles/wishList.css";
 
@@ -20,30 +21,13 @@ export class WishListPage extends Component {
   }
 
   componentDidMount() {
+    const { dispatch } = this.props;
     const { username } = this.props.match.params;
-    this.loadWishList(username);
-  }
-
-  loadWishList(username) {
-    const { token } = this.props;
-    this.setState({ isLoading: true }, () => {
-      axios({
-        url: `${API_BASE_URL}/users/wishlist/${username}`,
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` }
-      })
-        .then(res => {
-          const wishList = res.data;
-          this.setState({ wishList, isLoading: false });
-        })
-        .catch(err => {
-          this.setState({ error: err.message, isLoading: false });
-        });
-    });
+    return dispatch(loadWishList(username));
   }
 
   handleRemoveFromWishList(id) {
-    const { token } = this.props;
+    const { token, dispatch } = this.props;
     const { username } = this.props.match.params;
     this.setState({ isLoading: true }, () => {
       axios
@@ -61,7 +45,7 @@ export class WishListPage extends Component {
           }));
           this.handleModal();
         })
-        .then(() => this.loadWishList(username))
+        .then(() => dispatch(loadWishList(username)))
         .catch(err => {
           this.setState({ isLoading: false, error: err.message });
         });
@@ -89,8 +73,8 @@ export class WishListPage extends Component {
   }
 
   render() {
-    const { screenWidth } = this.props;
-    const { wishList, isLoading, error, showModal, igdbId } = this.state;
+    const { screenWidth, wishList } = this.props;
+    const { isLoading, error, showModal, igdbId } = this.state;
     const isMobile = screenWidth <= 768;
     let iconSize = "is-small";
     if (!isMobile) {
@@ -98,6 +82,7 @@ export class WishListPage extends Component {
     }
     let wishListGames;
     if (wishList.length) {
+      console.log(wishList);
       wishListGames = wishList.map(game => {
         const { id, name, cloudImage, igdb, slug, cover } = game;
         let coverUrl;
@@ -164,7 +149,8 @@ export class WishListPage extends Component {
 
 const mapStateToProps = state => ({
   token: state.auth.authToken,
-  screenWidth: state.window.width
+  screenWidth: state.window.width,
+  wishList: state.user.wishList
 });
 
 export default connect(mapStateToProps)(WishListPage);

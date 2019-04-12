@@ -4,7 +4,7 @@ import LongText from "./LongText";
 import Logo from "../assets/pixel-controller.png";
 
 export default function Rec(props) {
-  const { game, openModal, onAddToWishList } = props;
+  const { game, openModal, wishListBtn } = props;
   const { igdb, name, summary, slug, cover, id } = game;
   const url = `/games/${slug || igdb.slug}`;
 
@@ -29,18 +29,7 @@ export default function Rec(props) {
           <h3>{name}</h3>
         </Link>
         <LongText content={summary} limit={250} />
-        <div className="mt-4">
-          {/* <i className="nes-icon like p-4" />
-          <i className="nes-icon youtube p-4" /> */}
-          <button
-            onClick={() => onAddToWishList(id || igdb.id)}
-            type="button"
-            className="nes-btn is-success wishlist-btn"
-          >
-            <i className="nes-icon heart is-small" />
-            Add to Wishlist
-          </button>
-        </div>
+        <div className="mt-4">{wishListBtn}</div>
       </div>
     </section>
   );

@@ -8,8 +8,10 @@ import {
   USER_FETCH_SUCCESS,
   USER_FETCH_ERROR,
   GET_USER_MOTIVATIONS_SUCCESS,
+  USER_WISH_LIST_SUCCESS,
   UPDATE_PIC_SUCCESS,
-  GET_USER_MOTIVATIONS_REQUEST
+  GET_USER_MOTIVATIONS_REQUEST,
+  USER_ADD_WISHLIST_SUCCESS
 } from "../actions/users";
 
 const initialState = {
@@ -17,6 +19,7 @@ const initialState = {
   history: [],
   topHistory: [],
   motivations: [],
+  wishList: [],
   subMotivations: "",
   aboutMe: "",
   loading: false,
@@ -81,6 +84,18 @@ export default function reducer(state = initialState, action) {
         ...state,
         loading: false,
         error: action.error
+      };
+    case USER_WISH_LIST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        wishList: [...action.wishList]
+      };
+    case USER_ADD_WISHLIST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null
       };
     default:
       return state;
