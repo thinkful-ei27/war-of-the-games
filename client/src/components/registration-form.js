@@ -85,7 +85,7 @@ export class RegistrationForm extends React.Component {
               <Field
                 id="nes-ash"
                 name="profilePic"
-                className="avatar nes-ash"
+                className="avatar-sprite nes-ash"
                 htmlFor="nes-ash"
                 type="radio"
                 value="nes-ash"
@@ -96,7 +96,7 @@ export class RegistrationForm extends React.Component {
               <Field
                 id="nes-mario"
                 name="profilePic"
-                className="avatar nes-mario"
+                className="avatar-sprite nes-mario"
                 htmlFor="nes-mario"
                 component={Input2}
                 type="radio"
@@ -107,7 +107,7 @@ export class RegistrationForm extends React.Component {
               <Field
                 id="nes-pokeball"
                 name="profilePic"
-                className="avatar nes-pokeball"
+                className="avatar-sprite nes-pokeball"
                 htmlFor="nes-pokeball"
                 component={Input2}
                 type="radio"
@@ -118,7 +118,7 @@ export class RegistrationForm extends React.Component {
               <Field
                 id="nes-bulbasaur"
                 name="profilePic"
-                className="avatar nes-bulbasaur"
+                className="avatar-sprite nes-bulbasaur"
                 htmlFor="nes-bulbasaur"
                 component={Input2}
                 type="radio"
@@ -129,7 +129,7 @@ export class RegistrationForm extends React.Component {
               <Field
                 id="nes-charmander"
                 name="profilePic"
-                className="avatar nes-charmander"
+                className="avatar-sprite nes-charmander"
                 htmlFor="nes-charmander"
                 component={Input2}
                 type="radio"
@@ -140,7 +140,7 @@ export class RegistrationForm extends React.Component {
               <Field
                 id="nes-squirtle"
                 name="profilePic"
-                className="avatar nes-squirtle"
+                className="avatar-sprite nes-squirtle"
                 htmlFor="nes-squirtle"
                 component={Input2}
                 type="radio"
@@ -151,7 +151,7 @@ export class RegistrationForm extends React.Component {
               <Field
                 id="nes-kirby"
                 name="profilePic"
-                className="avatar nes-kirby"
+                className="avatar-sprite nes-kirby"
                 htmlFor="nes-kirby"
                 component={Input2}
                 type="radio"
@@ -162,7 +162,7 @@ export class RegistrationForm extends React.Component {
               <Field
                 id="lich-king"
                 name="profilePic"
-                className="avatar lich-king"
+                className="avatar-sprite lich-king"
                 htmlFor="lich-king"
                 component={Input2}
                 type="radio"
@@ -173,7 +173,7 @@ export class RegistrationForm extends React.Component {
               <Field
                 id="gen-sonic"
                 name="profilePic"
-                className="avatar gen-sonic"
+                className="avatar-sprite gen-sonic"
                 htmlFor="gen-sonic"
                 component={Input2}
                 type="radio"
@@ -184,7 +184,7 @@ export class RegistrationForm extends React.Component {
               <Field
                 id="excitebike"
                 name="profilePic"
-                className="avatar excitebike"
+                className="avatar-sprite excitebike"
                 htmlFor="excitebike"
                 component={Input2}
                 type="radio"
@@ -195,7 +195,7 @@ export class RegistrationForm extends React.Component {
               <Field
                 id="cloud-strife"
                 name="profilePic"
-                className="avatar cloud-strife"
+                className="avatar-sprite cloud-strife"
                 htmlFor="cloud-strife"
                 component={Input2}
                 type="radio"
@@ -206,7 +206,7 @@ export class RegistrationForm extends React.Component {
               <Field
                 id="master-chief"
                 name="profilePic"
-                className="avatar master-chief"
+                className="avatar-sprite master-chief"
                 htmlFor="master-chief"
                 component={Input2}
                 type="radio"
