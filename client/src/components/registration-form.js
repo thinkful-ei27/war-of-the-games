@@ -205,9 +205,6 @@ export class RegistrationForm extends React.Component {
         <button type="submit" disabled={pristine || submitting}>
           Register
         </button>
-        <Link to="/login" className="login-link">
-          Login
-        </Link>
       </form>
     );
   }

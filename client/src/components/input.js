@@ -22,7 +22,7 @@ export default class Input extends React.Component {
     }
 
     return (
-      <div className="form-input">
+      <div className="form-input nes-field">
         <label className="form-input__label" htmlFor={input.name}>
           {label}
           {error}
