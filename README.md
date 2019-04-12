@@ -16,15 +16,15 @@
 - Learn more about each game with individual info pages.
 - User accounts to save ranking history.
 - See all games in the database through the games list.
-- Game recommendations coming soon!
+- Game recommendations.
 
 ## The Stack
 
 ### Client
 
 - [React](https://reactjs.org/)
-- [Redux](https://redux.js.org/) for state management
-- [React Router](https://reacttraining.com/react-router/) for routing
+- [Redux](https://redux.js.org/) for state management.
+- [React Router](https://reacttraining.com/react-router/) for routing.
 - [Redux Form](https://redux-form.com/)
 
 ### Server
@@ -32,6 +32,7 @@
 - [Node.js](https://nodejs.org/en/) with the [Express](https://expressjs.com/) framework.
 - [MongoDB](https://www.mongodb.com/) with [Mongoose](https://mongoosejs.com/) for the database.
 - [Passport](http://www.passportjs.org/) authentication using [node.bcrypt.js](https://github.com/kelektiv/node.bcrypt.js/) and [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken).
+- [Cloudinary](https://cloudinary.com/) for images.
 
 ## Screenshots
 
