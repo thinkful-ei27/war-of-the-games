@@ -8,13 +8,9 @@ import {
   USER_FETCH_SUCCESS,
   USER_FETCH_ERROR,
   GET_USER_MOTIVATIONS_SUCCESS,
-<<<<<<< HEAD
   USER_WISH_LIST_SUCCESS,
-  UPDATE_PIC_SUCCESS
-=======
   UPDATE_PIC_SUCCESS,
   GET_USER_MOTIVATIONS_REQUEST
->>>>>>> dev
 } from "../actions/users";
 
 const initialState = {
