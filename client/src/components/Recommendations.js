@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import ReactTooltip from "react-tooltip";
 import { API_BASE_URL } from "../config";
 import Game from "./Game";
-import Logo from "../assets/favicon3.ico";
+import Logo from "../assets/pixel-controller.png";
 import Loading from "./loading";
 
 const orderBy = (arr, props, orders) =>
