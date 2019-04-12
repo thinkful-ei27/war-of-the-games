@@ -21,8 +21,8 @@ export class RecommendationsList extends Component {
   }
 
   wishListCheck(rec) {
-    const { wishList, onAddToWishList, dispatch } = this.props;
-    if (wishList.length && rec) {
+    const { wishList, onAddToWishList } = this.props;
+    if (rec) {
       const newWishList = reducedFilter(
         wishList,
         ["id"],
@@ -32,7 +32,7 @@ export class RecommendationsList extends Component {
         console.log("ITS NOT IN WISHLIST", wishList);
         return (
           <button
-            onClick={() => dispatch(handleAddToWishList(rec.id || rec.igdb.id))}
+            onClick={() => onAddToWishList(rec.id || rec.igdb.id)}
             type="button"
             className="nes-btn is-success wishlist-btn"
           >
@@ -64,7 +64,7 @@ export class RecommendationsList extends Component {
       onAddToWishList,
       wishList
     } = this.props;
-    console.log(wishList);
+    console.log("wishList is", wishList);
     const topFiveRecs = recs.slice(0, 5);
     const moreRecs = recs.length ? (
       recs.slice(5).map(rec => {
