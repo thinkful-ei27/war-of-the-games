@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { updateGame } from "../actions/gameActions";
 import LongText from "./LongText";
-import Logo from "../assets/favicon3.ico";
+import Logo from "../assets/pixel-controller.png";
 
 export function GameDetails(props) {
   const {

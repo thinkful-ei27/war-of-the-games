@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Logo from "../assets/favicon3.ico";
+import Logo from "../assets/pixel-controller.png";
 
 export default function Game(props) {
   const {
