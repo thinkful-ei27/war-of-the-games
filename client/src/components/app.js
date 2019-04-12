@@ -86,6 +86,7 @@ export class App extends React.Component {
             <Route path="/login" component={LoginForm} />
             <Route path="/register" component={ConnectedRegistrationPage} />
             <Route path="/leaderboard" component={Leaderboard} />
+            <Route path="/stats" component={Stats} />
             <Route exact path="/games" component={ConnectedGames} />
             <Route path="/games/:gameSlug" component={ConnectedGameInfo} />
             <Route
