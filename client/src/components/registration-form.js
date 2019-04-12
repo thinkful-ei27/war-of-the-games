@@ -1,7 +1,7 @@
 import React from "react";
 import { Field, reduxForm, focus } from "redux-form";
-import { registerUser } from "../actions/users";
 import { Link } from "react-router-dom";
+import { registerUser } from "../actions/users";
 import { login } from "../actions/auth";
 import Input from "./input";
 import Input2 from "./input2";
@@ -203,7 +203,9 @@ export class RegistrationForm extends React.Component {
         <button type="submit" disabled={pristine || submitting}>
           Register
         </button>
-        <Link to="/login" className="login-link">Login</Link>
+        <Link to="/login" className="login-link">
+          Login
+        </Link>
       </form>
     );
   }
