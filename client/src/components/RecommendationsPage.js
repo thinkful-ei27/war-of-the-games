@@ -3,15 +3,12 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import { isNull } from "util";
 import Modal from "./Modal";
 import { API_BASE_URL } from "../config";
-// import Game from "./Game";
-import Rec from "./Rec";
 import Loading from "./loading";
 import ExcludedGames from "./ExcludedGames";
 import MultiselectCheckbox from "./MultiSelectCheckbox";
-import RecommendationsList from "./RecommendationsList";
+import ConnectedRecommendationsList from "./RecommendationsList";
 
 const orderBy = (arr, props, orders) =>
   [...arr].sort((a, b) =>
@@ -60,22 +57,21 @@ export class RecommendationsPage extends Component {
     this.loadExcludedRecs();
   }
 
+  // make sure something is updating loading to true before you call this func
   loadExcludedRecs() {
-    this.setState({ isLoading: true }, () => {
-      const { token } = this.props;
-      axios({
-        url: `${API_BASE_URL}/users/excludedgames`,
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` }
+    const { token } = this.props;
+    axios({
+      url: `${API_BASE_URL}/users/excludedgames`,
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(res => {
+        const excludedGames = res.data;
+        this.setState({ excludedGames });
       })
-        .then(res => {
-          const excludedGames = res.data;
-          this.setState({ excludedGames, isLoading: false });
-        })
-        .catch(err => {
-          this.setState({ error: err.message, isLoading: false });
-        });
-    });
+      .catch(err => {
+        this.setState({ error: err.message, isLoading: false });
+      });
   }
 
   loadRecs() {
@@ -178,8 +174,7 @@ export class RecommendationsPage extends Component {
         )
         .then(() => {
           this.setState(prevState => ({
-            excludedGames: prevState.excludedGames.filter(rec => rec.id !== id),
-            isLoading: false
+            excludedGames: prevState.excludedGames.filter(rec => rec.id !== id)
           }));
         })
         .then(() => {
@@ -254,12 +249,23 @@ export class RecommendationsPage extends Component {
       platforms,
       timeFrame
     } = this.state;
-    const { screenWidth, loading } = this.props;
+    const { screenWidth, loading, user } = this.props;
     const iconSize = screenWidth <= 576 ? "is-small" : undefined;
 
-    if (loading || isLoading) {
-      return <Loading />;
-    }
+    const showMoreBtn =
+      recs.length > 5 ? (
+        <div className="game-container text-center mt-8">
+          <button
+            onClick={() => this.handleMoreRecs()}
+            className="nes-btn"
+            type="button"
+          >
+            {!showMoreRecs
+              ? "Show More Recommendations"
+              : "Show Less Recommendations"}
+          </button>
+        </div>
+      ) : null;
 
     return (
       <div>
@@ -336,26 +342,17 @@ export class RecommendationsPage extends Component {
           </div>
         </div>
         <div className="game-container mx-auto mt-16">
-          <RecommendationsList
-            recs={recs}
-            showMoreRecs={showMoreRecs}
-            isLoading={isLoading}
-            openModal={id => this.handleModal(id)}
-            onAddToWishList={id => this.handleAddToWishList(id)}
-          />
-          {!isLoading && (
-            <div className="game-container text-center mt-8">
-              <button
-                onClick={() => this.handleMoreRecs()}
-                className="nes-btn"
-                type="button"
-              >
-                {!showMoreRecs
-                  ? "Show More Recommendations"
-                  : "Show Less Recommendations"}
-              </button>
-            </div>
+          {!loading && !isLoading && (
+            <ConnectedRecommendationsList
+              user={user}
+              recs={recs}
+              showMoreRecs={showMoreRecs}
+              isLoading={isLoading}
+              openModal={id => this.handleModal(id)}
+              onAddToWishList={id => this.handleAddToWishList(id)}
+            />
           )}
+          {!isLoading && showMoreBtn}
           <ExcludedGames
             onRemoveExcluded={id => this.handleRemoveExcluded(id)}
             screenWidth={screenWidth}
@@ -365,7 +362,7 @@ export class RecommendationsPage extends Component {
         <hr />
         {error && <div style={{ color: "#900" }}>{error}</div>}
         {isLoading && (
-          <div className="w-1/3 mx-auto">
+          <div className="game-container w-1 text-center">
             <Loading size="lg" incrementBy={5} />
           </div>
         )}
