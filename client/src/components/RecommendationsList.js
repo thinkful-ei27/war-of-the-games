@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import Rec from "./Rec";
 import { loadWishList, handleAddToWishList } from "../actions/users";
 import Loading from "./loading";
@@ -21,28 +22,28 @@ export class RecommendationsList extends Component {
   }
 
   wishListCheck(rec) {
-    const { wishList, onAddToWishList } = this.props;
-    if (rec) {
-      const newWishList = reducedFilter(
-        wishList,
-        ["id"],
-        item => item.id === rec.id
-      );
-      if (newWishList.length < 1) {
-        console.log("ITS NOT IN WISHLIST", wishList);
-        return (
-          <button
-            onClick={() => onAddToWishList(rec.id || rec.igdb.id)}
-            type="button"
-            className="nes-btn is-success wishlist-btn"
-          >
-            <i className="nes-icon heart is-small" />
-            Add to Wishlist
-          </button>
-        );
-      }
-      console.log("ITS IN WISHLIST");
+    const { wishList, onAddToWishList, user } = this.props;
+    const newWishList = reducedFilter(
+      wishList,
+      ["id"],
+      item => item.id === rec.id
+    );
+    if (newWishList.length < 1) {
+      console.log("ITS NOT IN WISHLIST", wishList);
       return (
+        <button
+          onClick={() => onAddToWishList(rec.id || rec.igdb.id)}
+          type="button"
+          className="nes-btn is-success wishlist-btn"
+        >
+          <i className="nes-icon heart is-small" />
+          Add to Wishlist
+        </button>
+      );
+    }
+    console.log("ITS IN WISHLIST");
+    return (
+      <div>
         <button
           onClick={() => onAddToWishList(rec.id || rec.igdb.id)}
           type="button"
@@ -51,8 +52,9 @@ export class RecommendationsList extends Component {
           <i className="nes-icon heart is-empty is-small" />
           Remove from Wishlist
         </button>
-      );
-    }
+        <Link to={`/users/${user.username}/wishlist`}>View Wishlist</Link>
+      </div>
+    );
   }
 
   render() {
