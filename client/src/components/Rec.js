@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import LongText from "./LongText";
-import Logo from "../assets/favicon3.ico";
+import Logo from "../assets/pixel-controller.png";
 
 export default function Rec(props) {
   const { game, openModal, onAddToWishList } = props;
