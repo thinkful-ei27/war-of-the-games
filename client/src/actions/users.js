@@ -301,7 +301,7 @@ export const loadWishList = username => (dispatch, getState) => {
 };
 
 export const handleAddToWishList = id => (dispatch, getState) => {
-  const { authToken } = getState().auth;
+  const { authToken, currentUser } = getState().auth;
   dispatch(userFetchRequest());
   return axios
     .put(
@@ -311,8 +311,10 @@ export const handleAddToWishList = id => (dispatch, getState) => {
       },
       { headers: { Authorization: `Bearer ${authToken}` } }
     )
-    .then(() => {
-      dispatch(userAddWishListSuccess());
+    .then(res => {
+      return dispatch(loadWishList(currentUser.username)).then(() => {
+        dispatch(userAddWishListSuccess());
+      });
     })
     .catch(err => dispatch(userFetchError(err)));
 };

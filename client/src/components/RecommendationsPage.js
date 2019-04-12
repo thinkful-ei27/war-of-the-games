@@ -9,6 +9,7 @@ import Loading from "./loading";
 import ExcludedGames from "./ExcludedGames";
 import MultiselectCheckbox from "./MultiSelectCheckbox";
 import ConnectedRecommendationsList from "./RecommendationsList";
+import { handleAddToWishList } from "../actions/users";
 
 const orderBy = (arr, props, orders) =>
   [...arr].sort((a, b) =>
@@ -226,14 +227,8 @@ export class RecommendationsPage extends Component {
   }
 
   handleAddToWishList(id) {
-    const { token } = this.props;
-    axios.put(
-      `${API_BASE_URL}/users/wishlist`,
-      {
-        wishListId: id
-      },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    const { dispatch } = this.props;
+    dispatch(handleAddToWishList(id));
   }
 
   render() {

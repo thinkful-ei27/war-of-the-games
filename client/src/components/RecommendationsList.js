@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Rec from "./Rec";
-import { loadWishList, handleAddToWishList } from "../actions/users";
+import { loadWishList } from "../actions/users";
 import Loading from "./loading";
 
 const reducedFilter = (data, keys, fn) =>
@@ -29,7 +29,6 @@ export class RecommendationsList extends Component {
       item => item.id === rec.id
     );
     if (newWishList.length < 1) {
-      console.log("ITS NOT IN WISHLIST", wishList);
       return (
         <button
           onClick={() => onAddToWishList(rec.id || rec.igdb.id)}
@@ -41,7 +40,6 @@ export class RecommendationsList extends Component {
         </button>
       );
     }
-    console.log("ITS IN WISHLIST");
     return (
       <div>
         <button
@@ -59,14 +57,13 @@ export class RecommendationsList extends Component {
 
   render() {
     const {
+      loading,
       recs,
       showMoreRecs,
       isLoading,
       openModal,
-      onAddToWishList,
-      wishList
+      onAddToWishList
     } = this.props;
-    console.log("wishList is", wishList);
     const topFiveRecs = recs.slice(0, 5);
     const moreRecs = recs.length ? (
       recs.slice(5).map(rec => {
@@ -85,7 +82,7 @@ export class RecommendationsList extends Component {
       <div>No more recommendations</div>
     );
 
-    if (isLoading) {
+    if (isLoading || loading) {
       return (
         <div className="loading-screen">
           <Loading />
@@ -119,6 +116,7 @@ export class RecommendationsList extends Component {
 }
 
 const mapStateToProps = state => ({
+  loading: state.user.loading,
   wishList: state.user.wishList
 });
 

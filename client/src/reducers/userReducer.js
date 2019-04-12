@@ -94,7 +94,8 @@ export default function reducer(state = initialState, action) {
     case USER_ADD_WISHLIST_SUCCESS:
       return {
         ...state,
-        loading: false
+        loading: false,
+        error: null
       };
     default:
       return state;
