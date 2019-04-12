@@ -5,6 +5,14 @@
   flex-direction: column;
   align-items: center;
 }
+
+.rec-tool-tip-text {
+  font-size: 8px;
+}
+
+.rec-tool-tip {
+  width: 50%;
+}
 .battle-container {
   display: grid;
   grid-template-areas:

@@ -3,12 +3,15 @@ import React from "react";
 import ReactTooltip from "react-tooltip";
 import { connect } from "react-redux";
 import moment from "moment";
+import { Link } from "react-router-dom";
 import requiresLogin from "./requires-login";
 import "./styles/profile.css";
 import {
-  getUser,
+  getUserHistory,
   getUserTopHistory,
   // getUserAboutMe,
+  getUserMotivationData,
+  fetchUser,
   getUserSubmotivations
 } from "../actions/users";
 import Loading from "./loading";
@@ -16,6 +19,7 @@ import ConnectedGame from "./Game";
 import ConnectedRecommendations from "./Recommendations";
 import ConnectedAvatarCard from "./AvatarCard";
 import ConnectedWishList from "./WishList";
+
 // profile pic imports
 
 // profile pic imports
@@ -36,8 +40,10 @@ export class ProfilePage extends React.Component {
     return Promise.all([
       dispatch(getUserTopHistory(userId)),
       // dispatch(getUserAboutMe()),
+      dispatch(getUserMotivationData()),
+      dispatch(fetchUser(userId)),
       dispatch(getUserSubmotivations()),
-      dispatch(getUser(userId)).then(user => user)
+      dispatch(getUserHistory(userId))
     ]);
   }
 
@@ -70,17 +76,16 @@ export class ProfilePage extends React.Component {
   render() {
     const {
       username,
-      level,
-      xpToNextLevel,
       initialPic,
-      name,
       userHistory,
       loading,
       topHistory,
       screenWidth,
       firstName,
-      subMotivations
+      subMotivations,
+      motivations
     } = this.props;
+
     const isMobile = screenWidth <= 768;
     const topSix = topHistory.map(history => {
       const { name, cloudImage, igdb, count, id } = history;
@@ -141,7 +146,9 @@ export class ProfilePage extends React.Component {
       iconSize = "is-medium";
     }
     return loading ? (
-      <Loading />
+      <div className="loading-screen">
+        <Loading />
+      </div>
     ) : (
       <div className="game-container mx-auto mt-16">
         <div className="">
@@ -153,9 +160,12 @@ export class ProfilePage extends React.Component {
             <section className="profile-header">
               <div>
                 <ConnectedAvatarCard initialPic={initialPic} />
+                <Link to="/leaderboard" className="leader-board-link">
+                  Leader board
+                </Link>
               </div>
-              <div className="text-xxs">
-                <Radar name={firstName} />
+              <div className="text-xxs radar">
+                <Radar name={firstName} data={motivations} />
               </div>
             </section>
           </div>
@@ -170,15 +180,15 @@ export class ProfilePage extends React.Component {
           profileWidth="w-1"
           isMobile={isMobile}
         />
-        <div className="flex flex-row">
-          <section className="nes-container m-4">
+        <div className="flex flex-row top-recent-container">
+          <section className="nes-container m-4 top-six">
             <h4>
               <i className={`nes-icon ${iconSize} heart`} />
               Your Top 6 choices!
             </h4>
             {topSix}
           </section>
-          <section className="nes-container with-title m-4">
+          <section className="nes-container m-4 recent-choices">
             <h4>Your Most Recent Choices!</h4>
             {recentHistory}
           </section>
@@ -190,22 +200,23 @@ export class ProfilePage extends React.Component {
 
 const mapStateToProps = state => {
   const { currentUser } = state.auth;
-
+  const { user } = state;
   return {
-    aboutMe: state.user.aboutMe,
-    topHistory: state.user.topHistory,
+    // aboutMe: user.aboutMe,
+    topHistory: user.topHistory,
     level: currentUser.level,
     xpToNextLevel: currentUser.xpToNextLevel,
-    initialPic: currentUser.profilePic,
+    initialPic: user.userInfo.profilePic,
     userId: currentUser.id,
     username: state.auth.currentUser.username,
     fullName: `${currentUser.firstName} ${currentUser.lastName}`,
-    firstName: currentUser.firstName,
-    userHistory: state.user.history,
-    subMotivations: state.user.subMotivations,
-    loading: state.user.loading,
+    firstName: user.userInfo.firstName,
+    userHistory: user.history,
+    subMotivations: user.subMotivations,
+    loading: user.loading,
     screenWidth: state.window.width,
-    profilePic: state.auth.currentUser.profilePic
+    profilePic: state.auth.currentUser.profilePic,
+    motivations: user.motivations
   };
 };
 

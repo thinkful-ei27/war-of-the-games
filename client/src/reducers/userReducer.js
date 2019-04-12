@@ -7,16 +7,18 @@ import {
   USER_FETCH_REQUEST,
   USER_FETCH_SUCCESS,
   USER_FETCH_ERROR,
-  GET_USER_MOTIVATIONS_SUCCESS
+  GET_USER_MOTIVATIONS_SUCCESS,
+  UPDATE_PIC_SUCCESS,
+  GET_USER_MOTIVATIONS_REQUEST
 } from "../actions/users";
 
 const initialState = {
+  userInfo: {},
   history: [],
   topHistory: [],
   motivations: [],
   subMotivations: "",
   aboutMe: "",
-  profilePic: "",
   loading: false,
   error: null
 };
@@ -42,6 +44,8 @@ export default function reducer(state = initialState, action) {
       };
     case GET_USER_ABOUT_ME_SUCCESS:
       return { ...state, aboutMe: action.content };
+    case GET_USER_MOTIVATIONS_REQUEST:
+      return { ...state, loading: true };
     case GET_USER_MOTIVATIONS_SUCCESS:
       return {
         ...state,
@@ -62,9 +66,16 @@ export default function reducer(state = initialState, action) {
     case USER_FETCH_SUCCESS:
       return {
         ...state,
-        profilePic: action.profilePic,
+        userInfo: { ...action.userInfo },
         loading: false
       };
+    case UPDATE_PIC_SUCCESS:
+      return {
+        ...state,
+        userInfo: { ...state.userInfo, profilePic: action.pic },
+        loading: false
+      };
+
     case USER_FETCH_ERROR:
       return {
         ...state,

@@ -45,9 +45,38 @@ export const getUserMotivationsError = error => ({
   error
 });
 
+export const GET_USER_SUBMOTIVATIONS_SUCCESS =
+  "GET_USER_SUBMOTIVATIONS_SUCCESS";
+export const getUserSubmotivationsSuccess = content => ({
+  type: GET_USER_SUBMOTIVATIONS_SUCCESS,
+  content
+});
+
+export const USER_FETCH_REQUEST = "USER_FETCH_REQUEST";
+export const userFetchRequest = () => ({
+  type: USER_FETCH_REQUEST
+});
+
+export const USER_FETCH_SUCCESS = "USER_FETCH_SUCCESS";
+export const userFetchSuccess = userInfo => ({
+  type: USER_FETCH_SUCCESS,
+  userInfo
+});
+export const UPDATE_PIC_SUCCESS = "UPDATE_PIC_SUCCESS";
+export const updatePicSuccess = pic => ({
+  type: UPDATE_PIC_SUCCESS,
+  pic
+});
+
+export const USER_FETCH_ERROR = "USER_FETCH_ERROR";
+export const userFetchError = error => ({
+  type: USER_FETCH_ERROR,
+  error
+});
+
 export const getUserMotivationData = () => (dispatch, getState) => {
   const { authToken } = getState().auth;
-  dispatch(getUserMotivationsRequest);
+  dispatch(userFetchRequest());
   return fetch(`${API_BASE_URL}/users/history/motivations`, {
     method: "GET",
     headers: {
@@ -63,30 +92,6 @@ export const getUserMotivationData = () => (dispatch, getState) => {
     .then(data => dispatch(getUserMotivationsSuccess(data)))
     .catch(err => dispatch(getUserMotivationsError(err)));
 };
-
-export const GET_USER_SUBMOTIVATIONS_SUCCESS =
-  "GET_USER_SUBMOTIVATIONS_SUCCESS";
-export const getUserSubmotivationsSuccess = content => ({
-  type: GET_USER_SUBMOTIVATIONS_SUCCESS,
-  content
-});
-
-export const USER_FETCH_REQUEST = "USER_FETCH_REQUEST";
-export const userFetchRequest = () => ({
-  type: USER_FETCH_REQUEST
-});
-
-export const USER_FETCH_SUCCESS = "USER_FETCH_SUCCESS";
-export const userFetchSuccess = profilePic => ({
-  type: USER_FETCH_SUCCESS,
-  profilePic
-});
-
-export const USER_FETCH_ERROR = "USER_FETCH_ERROR";
-export const userFetchError = error => ({
-  type: USER_FETCH_ERROR,
-  error
-});
 
 export const getUserAboutMe = () => (dispatch, getState) => {
   const { authToken } = getState().auth;
@@ -151,7 +156,7 @@ export const getUserTopHistory = userId => (dispatch, getState) => {
     .then(data => dispatch(getUserTopHistorySuccess(data)))
     .catch(err => dispatch(userFetchError(err)));
 };
-export const getUser = userId => (dispatch, getState) => {
+export const getUserHistory = userId => (dispatch, getState) => {
   dispatch(userFetchRequest());
 
   const { authToken } = getState().auth;
@@ -235,13 +240,27 @@ export const updateUser = (userId, gameId) => (dispatch, getState) => {
     .catch(err => dispatch(userFetchError(err)));
 };
 
+export const fetchUser = (userId, userInfo) => (dispatch, getState) => {
+  const { authToken } = getState().auth;
+  dispatch(userFetchRequest());
+
+  return fetch(`${API_BASE_URL}/users/${userId}`, {
+    method: "GET",
+    headers: { Authorization: `Bearer ${authToken}` }
+  })
+    .then(res => normalizeResponseErrors(res))
+    .then(res => res.json())
+    .then(res => dispatch(userFetchSuccess(res)))
+    .catch(err => dispatch(userFetchError(err)));
+};
+
 export const updateUserProfilePic = (userId, profilePic) => (
   dispatch,
   getState
 ) => {
   const { authToken } = getState().auth;
   const updateObj = { profilePic };
-  dispatch(userFetchRequest());
+
   return fetch(`${API_BASE_URL}/users/${userId}`, {
     method: "PUT",
     headers: {
@@ -251,12 +270,7 @@ export const updateUserProfilePic = (userId, profilePic) => (
     body: JSON.stringify(updateObj)
   })
     .then(res => normalizeResponseErrors(res))
-    .then(res => {
-      return res.json();
-    })
-    .then(res => {
-      const { profilePic } = res;
-      dispatch(userFetchSuccess(profilePic));
-    })
+    .then(res => res.json())
+    .then(res => dispatch(updatePicSuccess(res.profilePic)))
     .catch(err => dispatch(userFetchError(err)));
 };

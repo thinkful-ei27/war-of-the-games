@@ -33,13 +33,17 @@ router.get("/:id/data", (req, res, next) => {
 
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
-
-  History.find({ userId: id })
-    .populate("gameOne", "name")
-    .populate("gameTwo", "name")
-    .populate("choice")
-    .sort({ createdAt: -1 })
-    .limit(6)
+  let user;
+  User.findOne({ _id: id })
+    .then(_user => {
+      user = _user;
+      return History.find({ userId: id })
+        .populate("gameOne", "name")
+        .populate("gameTwo", "name")
+        .populate("choice")
+        .sort({ createdAt: -1 })
+        .limit(6);
+    })
     .then(results => {
       res.json(results);
     })
@@ -222,7 +226,7 @@ router.post("/recs", jwtAuth, async (req, res, next) => {
     .map(p => p.id)
     .join(",");
 
-  const cp = !checkedPlatforms ? "6" : checkedPlatforms;
+  const cp = !checkedPlatforms ? "" : checkedPlatforms;
 
   recs
     .getGamesBySubmotivations(
@@ -323,16 +327,6 @@ router.get("/leaderboard", (req, res, next) => {
     .catch(e => {
       next(e);
     });
-});
-
-router.get("/:id", (req, res, next) => {
-  const { id } = req.params;
-
-  User.find({ _id: id })
-    .then(results => {
-      res.json(results);
-    })
-    .catch(err => next(err));
 });
 
 router.post("/aboutMe", jwtAuth, (req, res, next) => {
@@ -623,7 +617,7 @@ router.get("/:id", (req, res, next) => {
   const { id } = req.params;
 
   User.find({ _id: id })
-    .then(results => {
+    .then(([results]) => {
       res.json(results);
     })
     .catch(err => next(err));
