@@ -42,16 +42,13 @@ const requestOptions = {
 };
 
 // can't test due to API call
-const getGamesBySubmotivations = async (
-  motivationsArray,
-  from,
-  platforms = 6
-) => {
+const getGamesBySubmotivations = async (motivationsArray, from, platforms) => {
   // 1 subMotivation <---> 3 subMotivations
   // 1 month <---> 5 years
   // 1 platform <---> All platforms
   // niche <---> popular
   const motivations = motivationsArray.map(word => `\"${word}\"`).join(",");
+  const plats = platforms ? ` & release_dates.platform = (${platforms})` : "";
   const fromDate = moment()
     .subtract(from[0], from[1])
     .unix();
@@ -70,7 +67,7 @@ const getGamesBySubmotivations = async (
       // .sort("first_release_date", "desc")
       .sort("popularity", "desc")
       .where(
-        `keywords.name = (${motivations}) & first_release_date > ${fromDate} & first_release_date < ${today} & release_dates.platform = (${platforms}) & themes != (42)`
+        `keywords.name = (${motivations}) & first_release_date > ${fromDate} & first_release_date < ${today} & themes != (42)${plats}`
       )
       .request("/games")
       .then(res => {
