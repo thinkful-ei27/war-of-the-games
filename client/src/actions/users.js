@@ -318,3 +318,20 @@ export const handleAddToWishList = id => (dispatch, getState) => {
     })
     .catch(err => dispatch(userFetchError(err)));
 };
+
+export const removeFromWishList = id => (dispatch, getState) => {
+  const { authToken, currentUser } = getState().auth;
+  const { username } = currentUser;
+  dispatch(userFetchRequest());
+  return axios
+    .put(
+      `${API_BASE_URL}/users/removewishlist`,
+      {
+        wishListId: id
+      },
+      { headers: { Authorization: `Bearer ${authToken}` } }
+    )
+    .then(() => dispatch(loadWishList(username)))
+    .then(() => dispatch(userAddWishListSuccess()))
+    .catch(err => dispatch(userFetchError(err)));
+};

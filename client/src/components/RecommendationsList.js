@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Rec from "./Rec";
-import { loadWishList } from "../actions/users";
+import { loadWishList, removeFromWishList } from "../actions/users";
 import Loading from "./loading";
 
 const reducedFilter = (data, keys, fn) =>
@@ -22,7 +22,7 @@ export class RecommendationsList extends Component {
   }
 
   wishListCheck(rec) {
-    const { wishList, onAddToWishList, user } = this.props;
+    const { dispatch, wishList, onAddToWishList, user } = this.props;
     const newWishList = reducedFilter(
       wishList,
       ["id"],
@@ -43,7 +43,7 @@ export class RecommendationsList extends Component {
     return (
       <div>
         <button
-          onClick={() => onAddToWishList(rec.id || rec.igdb.id)}
+          onClick={() => dispatch(removeFromWishList(rec.id || rec.igdb.id))}
           type="button"
           className="nes-btn is-error wishlist-btn"
         >
