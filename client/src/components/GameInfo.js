@@ -34,7 +34,7 @@ export class GameInfo extends Component {
       content = <Page404 />;
       // content = <div>Loading...</div>;
     } else if (!currentGame) {
-      content = <div>Loading...</div>;
+      content = <div className="loading-screen">Loading...</div>;
     } else {
       content = (
         <>

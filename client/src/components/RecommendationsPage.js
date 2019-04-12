@@ -383,7 +383,7 @@ export class RecommendationsPage extends Component {
         {error && <div style={{ color: "#900" }}>{error}</div>}
         {isLoading && (
           <div className="w-1/3 mx-auto">
-            <Loading size="lg" incrementBy={5} />
+            <Loading incrementBy={5} />
           </div>
         )}
       </div>
