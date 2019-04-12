@@ -28,7 +28,8 @@ export class UserOnboard extends React.Component {
     incrementVoteCount();
     myKey = `test${this.count}`;
     dispatch(nextTestRequest(myKey));
-    dispatch(nextTestSuccess(myKey))
+    dispatch(nextTestSuccess(myKey));
+
   };
 
   render() {
