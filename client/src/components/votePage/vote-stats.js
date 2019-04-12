@@ -1,6 +1,6 @@
 import React from "react";
 import VoteCard from "./vote-card";
-import "./styles/vote-stats.css";
+import "../styles/vote-stats.css";
 
 export default function VoteStats(props) {
   const { feedback } = props;

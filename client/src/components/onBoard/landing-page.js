@@ -2,7 +2,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import ConnectedBattle from "../votePage/battle";
-import VoteStats from "../vote-stats";
+import VoteStats from "../votePage/vote-stats";
 import ConnectedUserOnboard from "./userOnboard";
 import "../styles/landing-page.css";
 import ErrorBoundary from "../errorBoundary";
