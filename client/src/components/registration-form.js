@@ -35,6 +35,7 @@ export class RegistrationForm extends React.Component {
           aria-label="first name"
           type="text"
           name="firstName"
+          validate={[required]}
         />
 
         <Field
@@ -44,6 +45,7 @@ export class RegistrationForm extends React.Component {
           aria-label="last name"
           type="text"
           name="lastName"
+          validate={[required]}
         />
 
         <Field
