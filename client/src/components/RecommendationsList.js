@@ -14,28 +14,32 @@ export class RecommendationsList extends Component {
 
   wishListCheck(rec) {
     const { wishList, onAddToWishList } = this.props;
-    if (wishList.indexOf(rec !== -1)) {
+    if (wishList.length && rec) {
+      if (wishList.indexOf(rec.id === -1)) {
+        console.log("ITS NOT IN WISHLIST");
+        return (
+          <button
+            onClick={() => onAddToWishList(rec.id || rec.igdb.id)}
+            type="button"
+            className="nes-btn is-success wishlist-btn"
+          >
+            <i className="nes-icon heart is-small" />
+            Add to Wishlist
+          </button>
+        );
+      }
+      console.log("ITS IN WISHLIST");
       return (
         <button
           onClick={() => onAddToWishList(rec.id || rec.igdb.id)}
           type="button"
-          className="nes-btn is-success wishlist-btn"
+          className="nes-btn is-error wishlist-btn"
         >
-          <i className="nes-icon heart is-small" />
-          Add to Wishlist
+          <i className="nes-icon heart is-empty is-small" />
+          Remove from Wishlist
         </button>
       );
     }
-    return (
-      <button
-        onClick={() => onAddToWishList(rec.id || rec.igdb.id)}
-        type="button"
-        className="nes-btn is-error wishlist-btn"
-      >
-        <i className="nes-icon heart is-empty is-small" />
-        Remove from Wishlist
-      </button>
-    );
   }
 
   render() {
@@ -44,8 +48,10 @@ export class RecommendationsList extends Component {
       showMoreRecs,
       isLoading,
       openModal,
-      onAddToWishList
+      onAddToWishList,
+      wishList
     } = this.props;
+    console.log(wishList);
     const topFiveRecs = recs.slice(0, 5);
     const moreRecs = recs.length ? (
       recs.slice(5).map(rec => {

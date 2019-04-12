@@ -362,7 +362,7 @@ export class RecommendationsPage extends Component {
         <hr />
         {error && <div style={{ color: "#900" }}>{error}</div>}
         {isLoading && (
-          <div className="game-container w-1 text-center">
+          <div className="loading-screen">
             <Loading size="lg" incrementBy={5} />
           </div>
         )}

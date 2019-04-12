@@ -4,7 +4,7 @@ import LongText from "./LongText";
 import Logo from "../assets/favicon3.ico";
 
 export default function Rec(props) {
-  const { game, openModal, onAddToWishList, wishListBtn } = props;
+  const { game, openModal, wishListBtn } = props;
   const { igdb, name, summary, slug, cover, id } = game;
   const url = `/games/${slug || igdb.slug}`;
 
