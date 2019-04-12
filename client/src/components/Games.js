@@ -122,7 +122,7 @@ export class InfiniteGames extends Component {
 
     const renderGamesList =
       isLoading || loading ? (
-        <div>Loading...</div>
+        <div className="loading-screen">Loading...</div>
       ) : (
         <div className="flex justify-start content-start flex-wrap mt-16">
           {value ? filterGames : renderGames}

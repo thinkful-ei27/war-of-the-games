@@ -8,7 +8,8 @@ import {
   USER_FETCH_SUCCESS,
   USER_FETCH_ERROR,
   GET_USER_MOTIVATIONS_SUCCESS,
-  UPDATE_PIC_SUCCESS
+  UPDATE_PIC_SUCCESS,
+  GET_USER_MOTIVATIONS_REQUEST
 } from "../actions/users";
 
 const initialState = {
@@ -43,6 +44,8 @@ export default function reducer(state = initialState, action) {
       };
     case GET_USER_ABOUT_ME_SUCCESS:
       return { ...state, aboutMe: action.content };
+    case GET_USER_MOTIVATIONS_REQUEST:
+      return { ...state, loading: true };
     case GET_USER_MOTIVATIONS_SUCCESS:
       return {
         ...state,
