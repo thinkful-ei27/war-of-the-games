@@ -1,8 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Rec from "./Rec";
-import { loadWishList } from "../actions/users";
+import { loadWishList, handleAddToWishList } from "../actions/users";
 import Loading from "./loading";
+
+const reducedFilter = (data, keys, fn) =>
+  data.filter(fn).map(el =>
+    keys.reduce((acc, key) => {
+      acc[key] = el[key];
+      return acc;
+    }, {})
+  );
 
 export class RecommendationsList extends Component {
   componentDidMount() {
@@ -13,13 +21,18 @@ export class RecommendationsList extends Component {
   }
 
   wishListCheck(rec) {
-    const { wishList, onAddToWishList } = this.props;
+    const { wishList, onAddToWishList, dispatch } = this.props;
     if (wishList.length && rec) {
-      if (wishList.indexOf(rec.id === -1)) {
-        console.log("ITS NOT IN WISHLIST");
+      const newWishList = reducedFilter(
+        wishList,
+        ["id"],
+        item => item.id === rec.id
+      );
+      if (newWishList.length < 1) {
+        console.log("ITS NOT IN WISHLIST", wishList);
         return (
           <button
-            onClick={() => onAddToWishList(rec.id || rec.igdb.id)}
+            onClick={() => dispatch(handleAddToWishList(rec.id || rec.igdb.id))}
             type="button"
             className="nes-btn is-success wishlist-btn"
           >

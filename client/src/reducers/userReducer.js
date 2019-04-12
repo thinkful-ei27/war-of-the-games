@@ -10,7 +10,8 @@ import {
   GET_USER_MOTIVATIONS_SUCCESS,
   USER_WISH_LIST_SUCCESS,
   UPDATE_PIC_SUCCESS,
-  GET_USER_MOTIVATIONS_REQUEST
+  GET_USER_MOTIVATIONS_REQUEST,
+  USER_ADD_WISHLIST_SUCCESS
 } from "../actions/users";
 
 const initialState = {
@@ -89,6 +90,11 @@ export default function reducer(state = initialState, action) {
         ...state,
         loading: false,
         wishList: [...action.wishList]
+      };
+    case USER_ADD_WISHLIST_SUCCESS:
+      return {
+        ...state,
+        loading: false
       };
     default:
       return state;

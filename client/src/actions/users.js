@@ -80,6 +80,10 @@ export const userWishListSuccess = wishList => ({
   type: USER_WISH_LIST_SUCCESS,
   wishList
 });
+
+export const USER_ADD_WISHLIST_SUCCESS = "USER_ADD_WISHLIST_SUCCESS";
+export const userAddWishListSuccess = id => {};
+
 export const getUserMotivationData = () => (dispatch, getState) => {
   const { authToken } = getState().auth;
   dispatch(userFetchRequest());
@@ -292,6 +296,23 @@ export const loadWishList = username => (dispatch, getState) => {
   })
     .then(res => {
       dispatch(userWishListSuccess(res.data));
+    })
+    .catch(err => dispatch(userFetchError(err)));
+};
+
+export const handleAddToWishList = id => (dispatch, getState) => {
+  const { authToken } = getState().auth;
+  dispatch(userFetchRequest());
+  return axios
+    .put(
+      `${API_BASE_URL}/users/wishlist`,
+      {
+        wishListId: id
+      },
+      { headers: { Authorization: `Bearer ${authToken}` } }
+    )
+    .then(() => {
+      dispatch(userAddWishListSuccess());
     })
     .catch(err => dispatch(userFetchError(err)));
 };
