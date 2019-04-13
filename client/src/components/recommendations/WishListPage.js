@@ -73,8 +73,9 @@ export class WishListPage extends Component {
   }
 
   render() {
-    const { loggedIn, screenWidth, wishList } = this.props;
+    const { currentUser, loggedIn, match, screenWidth, wishList } = this.props;
     const { isLoading, error, showModal, igdbId } = this.state;
+    const { username } = match.params;
     const isMobile = screenWidth <= 768;
     let iconSize = "is-small";
     if (!isMobile) {
@@ -103,7 +104,7 @@ export class WishListPage extends Component {
         };
         return (
           <ConnectedGame
-            editable={loggedIn}
+            editable={loggedIn && currentUser.username === username}
             onRemoveGame={gameId => this.handleModal(gameId)}
             key={id}
             {...props}
@@ -148,6 +149,7 @@ export class WishListPage extends Component {
 }
 
 const mapStateToProps = state => ({
+  currentUser: state.auth.currentUser,
   loggedIn: state.auth.currentUser !== null,
   token: state.auth.authToken,
   screenWidth: state.window.width,
