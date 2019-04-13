@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { LandingPage } from "../landing-page";
+import { LandingPage } from "../onBoard/landing-page";
 
 describe("<LandingPage />", () => {
   it("renders without crashing", () => {

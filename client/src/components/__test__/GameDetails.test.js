@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { GameDetails } from "../GameDetails";
+import { GameDetails } from "../gamePage/GameDetails";
 
 describe("<GameDetails />", () => {
   it("renders without crashing", () => {

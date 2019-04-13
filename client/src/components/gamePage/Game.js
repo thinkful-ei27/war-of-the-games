@@ -4,6 +4,8 @@ import Logo from "../../assets/favicon3.ico";
 
 export default function Game(props) {
   const {
+    coverUrl,
+    editable,
     slug,
     name,
     cloudImage,
@@ -13,7 +15,9 @@ export default function Game(props) {
     dataTip,
     dataFor,
     dataEvent,
-    dataEventOff
+    dataEventOff,
+    excluded,
+    wishList
   } = props;
   let width = "w-1/2";
   let fontSize = "text-sm";
@@ -27,7 +31,7 @@ export default function Game(props) {
   }
 
   // Only show add button if we are on excluded games
-  if (props.excluded) {
+  if (excluded) {
     addButton = (
       <button
         onClick={() => props.onRemoveExcluded(props.id)}
@@ -40,7 +44,7 @@ export default function Game(props) {
   }
 
   // Only show remove button if we are on wishlist page
-  if (props.wishList) {
+  if (wishList) {
     removeButton = (
       <div className="remove-wishlist-btn-container">
         <button
@@ -58,7 +62,7 @@ export default function Game(props) {
   return (
     <div className={`similar-game ${profileWidth || width} ${padding}`}>
       {addButton}
-      {removeButton}
+      {editable ? removeButton : ""}
       <Link to={url} className="flex flex-col items-center text-center">
         <img
           className="similar m-4"
@@ -66,7 +70,7 @@ export default function Game(props) {
           data-tip={dataTip}
           data-event-off={dataEventOff}
           data-for={dataFor}
-          src={cloudImage || props.coverUrl || Logo}
+          src={cloudImage || coverUrl || Logo}
           alt={slug}
         />
         {/* <i className="nes-mario" /> */}

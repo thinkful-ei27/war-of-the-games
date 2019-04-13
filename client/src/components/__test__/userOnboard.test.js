@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { UserOnboard } from "../userOnboard";
+import { UserOnboard } from "../onBoard/userOnboard";
 
 describe("<UserOnboard />", () => {
   it("renders without crashing", () => {

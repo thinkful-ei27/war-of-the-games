@@ -9,7 +9,7 @@ import { required, nonEmpty } from "../../validators";
 import warpPipe from "../../assets/short-warp-pipe.png";
 import pirhanaPipe from "../../assets/pirhana-pipe.png";
 
-class LoginForm extends React.Component {
+export class LoginForm extends React.Component {
   onSubmit(values) {
     const { dispatch } = this.props;
     return dispatch(login(values.username, values.password));
