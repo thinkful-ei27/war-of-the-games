@@ -21,14 +21,14 @@ export class WishListPage extends Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    const { username } = this.props.match.params;
+    const { dispatch, match } = this.props;
+    const { username } = match.params;
     return dispatch(loadWishList(username));
   }
 
   handleRemoveFromWishList(id) {
-    const { token, dispatch } = this.props;
-    const { username } = this.props.match.params;
+    const { match, token, dispatch } = this.props;
+    const { username } = match.params;
     this.setState({ isLoading: true }, () => {
       axios
         .put(
@@ -73,7 +73,7 @@ export class WishListPage extends Component {
   }
 
   render() {
-    const { screenWidth, wishList } = this.props;
+    const { loggedIn, screenWidth, wishList } = this.props;
     const { isLoading, error, showModal, igdbId } = this.state;
     const isMobile = screenWidth <= 768;
     let iconSize = "is-small";
@@ -82,7 +82,6 @@ export class WishListPage extends Component {
     }
     let wishListGames;
     if (wishList.length) {
-      console.log(wishList);
       wishListGames = wishList.map(game => {
         const { id, name, cloudImage, igdb, slug, cover } = game;
         let coverUrl;
@@ -104,7 +103,8 @@ export class WishListPage extends Component {
         };
         return (
           <ConnectedGame
-            onRemoveGame={id => this.handleModal(id)}
+            editable={loggedIn}
+            onRemoveGame={gameId => this.handleModal(gameId)}
             key={id}
             {...props}
           />
@@ -148,6 +148,7 @@ export class WishListPage extends Component {
 }
 
 const mapStateToProps = state => ({
+  loggedIn: state.auth.currentUser !== null,
   token: state.auth.authToken,
   screenWidth: state.window.width,
   wishList: state.user.wishList
