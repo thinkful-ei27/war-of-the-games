@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { Card } from "../card";
+import { Card } from "../votePage/card";
 
 describe("<Card />", () => {
   it("renders without crashing", () => {

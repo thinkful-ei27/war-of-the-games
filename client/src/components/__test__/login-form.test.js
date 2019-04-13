@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { LoginForm } from "./login-form";
+import { LoginForm } from "../onBoard/login-form";
 
 describe("<LoginForm />", () => {
   it("renders without crashing", () => {
