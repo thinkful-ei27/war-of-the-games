@@ -91,6 +91,14 @@ describe("ASYNC Capstone API - Users", () => {
     });
   });
 
+  describe("GET /api/users", () => {
+    it("should return the correct user for a username query");
+
+    it("should reject requests without a username query");
+
+    it("should catch errors and respond properly");
+  });
+
   describe("GET /api/users/:id/history", () => {
     it("should return the correct number of histories", () => {
       return Promise.all([
