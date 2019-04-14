@@ -624,9 +624,9 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
 router.get("/:id", isValidId, (req, res, next) => {
   const { id } = req.params;
 
-  User.find({ _id: id })
-    .then(([results]) => {
-      res.json(results);
+  User.findOne({ _id: id })
+    .then(user => {
+      user ? res.json(user) : next();
     })
     .catch(err => next(err));
 });
