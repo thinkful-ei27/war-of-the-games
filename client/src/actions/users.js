@@ -53,6 +53,11 @@ export const getUserSubmotivationsSuccess = content => ({
   content
 });
 
+export const USER_ADD_WISHLIST_SUCCESS = "USER_ADD_WISHLIST_SUCCESS";
+export const userAddWishListSuccess = () => ({
+  type: USER_ADD_WISHLIST_SUCCESS
+});
+
 export const USER_FETCH_REQUEST = "USER_FETCH_REQUEST";
 export const userFetchRequest = () => ({
   type: USER_FETCH_REQUEST

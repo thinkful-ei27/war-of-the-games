@@ -4,6 +4,7 @@ import {
   POST_USER_ABOUT_ME_SUCCESS,
   GET_USER_ABOUT_ME_SUCCESS,
   GET_USER_SUBMOTIVATIONS_SUCCESS,
+  USER_ADD_WISHLIST_SUCCESS,
   USER_FETCH_REQUEST,
   USER_FETCH_SUCCESS,
   USER_FETCH_ERROR,
@@ -77,7 +78,12 @@ export default function reducer(state = initialState, action) {
         userInfo: { ...state.userInfo, profilePic: action.pic },
         loading: false
       };
-
+    case USER_ADD_WISHLIST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null
+      };
     case USER_FETCH_ERROR:
       return {
         ...state,
