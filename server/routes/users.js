@@ -578,9 +578,11 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
 
   const toUpdate = {};
   const updateableFields = ["neverPlayed", "profilePic"];
+  const updatedFields = [];
 
   updateableFields.forEach(field => {
     if (field in req.body) {
+      updatedFields.push(field);
       if (field === "neverPlayed") {
         Object.assign(toUpdate, {
           $push: { "games.neverPlayed": req.body[field] }
@@ -606,13 +608,19 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
       if (!user) {
         return next();
       }
-      const { createdAt, updatedAt, games, profilePic } = user;
-      const returnObj = { id, createdAt, updatedAt, games, profilePic };
+      const { createdAt, updatedAt } = user;
+      const returnObj = { id, createdAt, updatedAt };
+      updatedFields.forEach(field => {
+        field === "neverPlayed"
+          ? (returnObj.games = user.games)
+          : (returnObj[field] = user[field]);
+      });
       return res.json(returnObj);
     })
     .catch(err => next(err));
 });
 
+// GET /api/users/:id
 router.get("/:id", (req, res, next) => {
   const { id } = req.params;
 

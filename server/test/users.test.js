@@ -63,15 +63,16 @@ describe("ASYNC Capstone API - Users", () => {
           expect(res.body).to.be.an("object");
           expect(res.body).to.have.keys(
             "id",
+            "admin",
             "username",
             "firstName",
             "lastName",
-            "admin",
             "historyCount",
             "createdAt",
             "updatedAt",
             "xpToNextLevel",
-            "level"
+            "level",
+            "wishList"
           );
           expect(res.body.username).to.equal(username.toLowerCase());
           expect(res.body.firstName).to.equal(firstName);
@@ -336,5 +337,55 @@ describe("ASYNC Capstone API - Users", () => {
           expect(res.body.message).to.equal("Internal Server Error");
         });
     });
+  });
+
+  describe("GET /api/users/:id", () => {
+    it("should return the correct user", () => {
+      let data;
+      return User.findOne()
+        .then(_data => {
+          data = _data;
+          return chai.request(app).get(`/api/users/${data.id}`);
+        })
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.be.an("object");
+          expect(res.body).to.include.all.keys(
+            "id",
+            "createdAt",
+            "updatedAt",
+            "firstName",
+            "lastName",
+            "username",
+            "aboutMe",
+            "admin",
+            "profilePic",
+            "wishList",
+            "historyCount",
+            "level",
+            "xpToNextLevel"
+          );
+          expect(res.body.id).to.equal(data.id);
+          expect(res.body.firstName).to.equal(data.firstName);
+          expect(res.body.lastName).to.equal(data.lastName);
+          expect(res.body.username).to.equal(data.username);
+          expect(new Date(res.body.createdAt)).to.eql(data.createdAt);
+          expect(new Date(res.body.updatedAt)).to.eql(data.updatedAt);
+          expect(res.body.aboutMe).to.equal(data.aboutMe);
+          expect(res.body.admin).to.equal(data.admin);
+          expect(res.body.profilePic).to.equal(data.profilePic);
+          expect(res.body.wishList).to.be.an("array");
+          expect(res.body.wishList.length).to.equal(data.wishList.length);
+          expect(res.body.wishList[0]).to.equal(data.wishList[0]);
+        });
+    });
+
+    it(
+      "should respond with status 400 and an error message when id is not valid"
+    );
+
+    it("should respond with status 404 for an id that does not exist");
+
+    it("should catch errors and respond properly");
   });
 });
