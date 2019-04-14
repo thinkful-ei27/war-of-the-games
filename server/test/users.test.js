@@ -146,7 +146,18 @@ describe("ASYNC Capstone API - Users", () => {
         });
     });
 
-    it("should catch errors and respond properly");
+    it("should catch errors and respond properly", () => {
+      sandbox.stub(User.schema.options.toJSON, "transform").throws("FakeError");
+      return User.findOne()
+        .then(data => {
+          return chai.request(app).get(`/api/users?username=${data.username}`);
+        })
+        .then(res => {
+          expect(res).to.have.status(500);
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Internal Server Error");
+        });
+    });
   });
 
   describe("GET /api/users/:id/history", () => {
