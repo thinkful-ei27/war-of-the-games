@@ -26,7 +26,9 @@ router.get("/", (req, res, next) => {
     if ("username" in req.query) {
       return User.findOne({ username: req.query.username });
     }
-    return User.find();
+    const err = new Error("Unauthorized");
+    err.status = 401;
+    return next(err);
   };
   return handleQueries()
     .then(results => res.json(results))

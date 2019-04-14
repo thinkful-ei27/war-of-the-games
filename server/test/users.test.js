@@ -126,7 +126,16 @@ describe("ASYNC Capstone API - Users", () => {
       });
     });
 
-    it("should reject requests without a username query");
+    it("should reject requests without a username query", () => {
+      return chai
+        .request(app)
+        .get("/api/users")
+        .then(res => {
+          expect(res).to.have.status(401);
+          expect(res.body).to.be.an("object");
+          expect(res.body.message).to.equal("Unauthorized");
+        });
+    });
 
     it("should catch errors and respond properly");
   });
