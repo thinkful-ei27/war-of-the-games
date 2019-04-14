@@ -380,9 +380,16 @@ describe("ASYNC Capstone API - Users", () => {
         });
     });
 
-    it(
-      "should respond with status 400 and an error message when id is not valid"
-    );
+    it("should respond with status 400 and an error message when id is not valid", () => {
+      return chai
+        .request(app)
+        .get("/api/users/NOT-A-VALID-ID")
+        .set("Authorization", `Bearer ${token}`)
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).to.equal("The `id` is not valid");
+        });
+    });
 
     it("should respond with status 404 for an id that does not exist");
 

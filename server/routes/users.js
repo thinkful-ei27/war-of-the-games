@@ -621,7 +621,7 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
 });
 
 // GET /api/users/:id
-router.get("/:id", (req, res, next) => {
+router.get("/:id", isValidId, (req, res, next) => {
   const { id } = req.params;
 
   User.find({ _id: id })
