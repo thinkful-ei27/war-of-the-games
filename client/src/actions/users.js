@@ -81,9 +81,6 @@ export const userWishListSuccess = wishList => ({
   wishList
 });
 
-export const USER_ADD_WISHLIST_SUCCESS = "USER_ADD_WISHLIST_SUCCESS";
-export const userAddWishListSuccess = id => {};
-
 export const getUserMotivationData = () => (dispatch, getState) => {
   const { authToken } = getState().auth;
   dispatch(userFetchRequest());
@@ -208,6 +205,7 @@ export const registerUser = user => () => {
           })
         );
       }
+      return err;
     });
 };
 
@@ -250,7 +248,7 @@ export const updateUser = (userId, gameId) => (dispatch, getState) => {
     .catch(err => dispatch(userFetchError(err)));
 };
 
-export const fetchUser = (userId, userInfo) => (dispatch, getState) => {
+export const fetchUser = userId => (dispatch, getState) => {
   const { authToken } = getState().auth;
   dispatch(userFetchRequest());
 
