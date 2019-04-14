@@ -137,6 +137,15 @@ describe("ASYNC Capstone API - Users", () => {
         });
     });
 
+    it("should respond with status 404 for a username that does not exist", () => {
+      return chai
+        .request(app)
+        .get("/api/users?username=DOESNOTEXIST")
+        .then(res => {
+          expect(res).to.have.status(404);
+        });
+    });
+
     it("should catch errors and respond properly");
   });
 
@@ -456,7 +465,6 @@ describe("ASYNC Capstone API - Users", () => {
     });
 
     it("should respond with status 404 for an id that does not exist", () => {
-      // The string "DOESNOTEXIST" is 12 bytes which is a valid Mongo ObjectId
       return chai
         .request(app)
         .get("/api/users/DOESNOTEXIST")

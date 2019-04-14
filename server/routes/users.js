@@ -31,7 +31,7 @@ router.get("/", (req, res, next) => {
     return next(err);
   };
   return handleQueries()
-    .then(results => res.json(results))
+    .then(results => (results ? res.json(results) : next()))
     .catch(err => next(err));
 });
 
