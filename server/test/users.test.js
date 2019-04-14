@@ -8,8 +8,9 @@ const User = require("../models/user");
 const Game = require("../models/game");
 const History = require("../models/history");
 const { games, histories, users } = require("../db/data");
-const apiRecsRes = require("../db/test-apiRecsRes.js");
 const recommendations = require("../utils/recommendations");
+const { recsRes, wishListRes } = require("../db/test-data");
+const igdbApi = require("../utils/gameApi");
 
 const { expect } = chai;
 const sandbox = sinon.createSandbox();
@@ -23,9 +24,8 @@ describe("ASYNC Capstone API - Users", () => {
   const lastName = "User";
 
   before(() => {
-    sinon
-      .stub(recommendations, "getGamesBySubmotivations")
-      .resolves(apiRecsRes);
+    sinon.stub(recommendations, "getGamesBySubmotivations").resolves(recsRes);
+    sinon.stub(igdbApi, "getGamesByIds").resolves(wishListRes);
     return dbConnect(TEST_DATABASE_URL);
   });
 
@@ -377,6 +377,21 @@ describe("ASYNC Capstone API - Users", () => {
           expect(res.body.wishList).to.be.an("array");
           expect(res.body.wishList.length).to.equal(data.wishList.length);
           expect(res.body.wishList[0]).to.equal(data.wishList[0]);
+        });
+    });
+
+    it("should return an array of wishList games when the wishList field query is provided", () => {
+      const field = "wishList";
+      let data;
+      return User.findOne()
+        .then(_data => {
+          data = _data;
+          return chai.request(app).get(`/api/users/${data.id}?field=${field}`);
+        })
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.be.an("array");
+          expect(res.body.length).to.equal(data.wishList.length);
         });
     });
 

@@ -623,10 +623,22 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
 // GET /api/users/:id
 router.get("/:id", isValidId, (req, res, next) => {
   const { id } = req.params;
-
-  User.findOne({ _id: id })
+  return User.findOne({ _id: id })
     .then(user => {
-      user ? res.json(user) : next();
+      const queries = new Promise(resolve => {
+        if ("field" in req.query) {
+          if (req.query.field === "wishList") {
+            return resolve(igdbApi.getGamesByIds(user.wishList));
+          }
+          return resolve(user);
+        }
+        return resolve(user);
+      });
+
+      return queries;
+    })
+    .then(result => {
+      result ? res.json(result) : next();
     })
     .catch(err => next(err));
 });
