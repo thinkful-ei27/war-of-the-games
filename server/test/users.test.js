@@ -92,7 +92,39 @@ describe("ASYNC Capstone API - Users", () => {
   });
 
   describe("GET /api/users", () => {
-    it("should return the correct user for a username query");
+    it("should return the correct user for a username query", () => {
+      const usernameQuery = "bobuser";
+
+      const dbPromise = User.findOne({ username: usernameQuery });
+      const apiPromise = chai
+        .request(app)
+        .get(`/api/users?username=${usernameQuery}`);
+
+      return Promise.all([dbPromise, apiPromise]).then(([data, res]) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an("object");
+        expect(res.body).to.include.all.keys(
+          "id",
+          "createdAt",
+          "updatedAt",
+          "firstName",
+          "lastName",
+          "username",
+          "aboutMe",
+          "admin",
+          "profilePic",
+          "wishList",
+          "historyCount",
+          "level",
+          "xpToNextLevel"
+        );
+        expect(res.body.id).to.equal(data.id);
+        expect(res.body.username).to.equal(usernameQuery);
+        expect(new Date(res.body.createdAt)).to.eql(data.createdAt);
+        expect(new Date(res.body.updatedAt)).to.eql(data.updatedAt);
+        expect(res.body.wishList.length).to.equal(data.wishList.length);
+      });
+    });
 
     it("should reject requests without a username query");
 

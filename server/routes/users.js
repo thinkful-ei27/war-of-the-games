@@ -21,6 +21,18 @@ const countBy = (arr, fn) =>
     return acc;
   }, {});
 
+router.get("/", (req, res, next) => {
+  const handleQueries = () => {
+    if ("username" in req.query) {
+      return User.findOne({ username: req.query.username });
+    }
+    return User.find();
+  };
+  return handleQueries()
+    .then(results => res.json(results))
+    .catch(err => next(err));
+});
+
 router.get("/:id/data", (req, res, next) => {
   const { id } = req.params;
 
@@ -33,17 +45,12 @@ router.get("/:id/data", (req, res, next) => {
 
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
-  let user;
-  User.findOne({ _id: id })
-    .then(_user => {
-      user = _user;
-      return History.find({ userId: id })
-        .populate("gameOne", "name")
-        .populate("gameTwo", "name")
-        .populate("choice")
-        .sort({ createdAt: -1 })
-        .limit(6);
-    })
+  return History.find({ userId: id })
+    .populate("gameOne", "name")
+    .populate("gameTwo", "name")
+    .populate("choice")
+    .sort({ createdAt: -1 })
+    .limit(6)
     .then(results => {
       res.json(results);
     })
