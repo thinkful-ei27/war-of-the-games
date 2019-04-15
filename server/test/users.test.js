@@ -449,18 +449,71 @@ describe("ASYNC Capstone API - Users", () => {
         });
     });
 
-    it("should return an array of wishList games when the wishList field query is provided", () => {
+    it("should respond with status 400 and an error message when id is not valid", () => {
+      return chai
+        .request(app)
+        .get("/api/users/NOT-A-VALID-ID")
+        .set("Authorization", `Bearer ${token}`)
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).to.equal("The `id` is not valid");
+        });
+    });
+
+    it("should respond with status 404 for an id that does not exist", () => {
+      return chai
+        .request(app)
+        .get("/api/users/DOESNOTEXIST")
+        .set("Authorization", `Bearer ${token}`)
+        .then(res => {
+          expect(res).to.have.status(404);
+        });
+    });
+
+    it("should catch errors and respond properly", () => {
+      sandbox.stub(User.schema.options.toJSON, "transform").throws("FakeError");
+      return User.findOne()
+        .then(data => {
+          return chai
+            .request(app)
+            .get(`/api/users/${data.id}`)
+            .set("Authorization", `Bearer ${token}`);
+        })
+        .then(res => {
+          expect(res).to.have.status(500);
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Internal Server Error");
+        });
+    });
+  });
+
+  describe("GET /api/users/:id/:field", () => {
+    it("should return an array of wishList games when the wishList field param is provided", () => {
       const field = "wishList";
       let data;
       return User.findOne()
         .then(_data => {
           data = _data;
-          return chai.request(app).get(`/api/users/${data.id}?field=${field}`);
+          return chai.request(app).get(`/api/users/${data.id}/${field}`);
         })
         .then(res => {
           expect(res).to.have.status(200);
           expect(res.body).to.be.an("array");
           expect(res.body.length).to.equal(data.wishList.length);
+        });
+    });
+
+    it("should respond with status 400 and an error message when field is invalid", () => {
+      const field = "notAValidField";
+      let data;
+      return User.findOne()
+        .then(_data => {
+          data = _data;
+          return chai.request(app).get(`/api/users/${data.id}/${field}`);
+        })
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).to.equal("The field is not valid");
         });
     });
 

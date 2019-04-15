@@ -629,23 +629,34 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
     .catch(err => next(err));
 });
 
-// GET /api/users/:id
+// GET /api/users/:id/
 router.get("/:id", isValidId, (req, res, next) => {
   const { id } = req.params;
   return User.findOne({ _id: id })
-    .then(user => {
-      const queries = new Promise(resolve => {
-        if ("field" in req.query) {
-          if (req.query.field === "wishList") {
-            return resolve(igdbApi.getGamesByIds(user.wishList));
-          }
-          return resolve(user);
-        }
-        return resolve(user);
-      });
-
-      return queries;
+    .then(result => {
+      result ? res.json(result) : next();
     })
+    .catch(err => next(err));
+});
+
+// GET /api/users/:id/:field
+router.get("/:id/:field", isValidId, (req, res, next) => {
+  const { id, field } = req.params;
+  const validFields = ["wishList"];
+  if (validFields.indexOf(field) < 0) {
+    const err = new Error("The field is not valid");
+    err.status = 400;
+    return next(err);
+  }
+  return User.findOne({ _id: id })
+    .then(
+      user =>
+        new Promise(resolve =>
+          field === "wishList"
+            ? resolve(igdbApi.getGamesByIds(user.wishList))
+            : resolve(user[field])
+        )
+    )
     .then(result => {
       result ? res.json(result) : next();
     })
