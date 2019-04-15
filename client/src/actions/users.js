@@ -86,6 +86,29 @@ export const userWishListSuccess = wishList => ({
   wishList
 });
 
+export const fetchByUsername = username => dispatch => {
+  dispatch(userFetchRequest());
+  return fetch(`${API_BASE_URL}/users?username=${username}`)
+    .then(res => normalizeResponseErrors(res))
+    .then(res => res.json())
+    .then(res => dispatch(userFetchSuccess(res)))
+    .catch(err => dispatch(userFetchError(err)));
+};
+
+export const fetchUser = userId => (dispatch, getState) => {
+  const { authToken } = getState().auth;
+  dispatch(userFetchRequest());
+
+  return fetch(`${API_BASE_URL}/users/${userId}`, {
+    method: "GET",
+    headers: { Authorization: `Bearer ${authToken}` }
+  })
+    .then(res => normalizeResponseErrors(res))
+    .then(res => res.json())
+    .then(res => dispatch(userFetchSuccess(res)))
+    .catch(err => dispatch(userFetchError(err)));
+};
+
 export const getUserMotivationData = () => (dispatch, getState) => {
   const { authToken } = getState().auth;
   dispatch(userFetchRequest());
@@ -124,6 +147,25 @@ export const getUserAboutMe = () => (dispatch, getState) => {
     .catch(err => dispatch(userFetchError(err)));
 };
 
+export const getUserTopHistory = userId => (dispatch, getState) => {
+  dispatch(userFetchRequest());
+  const { authToken } = getState().auth;
+  return fetch(`${API_BASE_URL}/users/${userId}/topHistory`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${authToken}`
+    }
+  })
+    .then(res => {
+      if (!res.ok) {
+        return Promise.reject(res.statusText);
+      }
+      return res.json();
+    })
+    .then(data => dispatch(getUserTopHistorySuccess(data)))
+    .catch(err => dispatch(userFetchError(err)));
+};
+
 export const postUserAboutMe = content => (dispatch, getState) => {
   dispatch(userFetchRequest());
 
@@ -150,24 +192,6 @@ export const postUserAboutMe = content => (dispatch, getState) => {
     .catch(err => dispatch(userFetchError(err)));
 };
 
-export const getUserTopHistory = userId => (dispatch, getState) => {
-  dispatch(userFetchRequest());
-  const { authToken } = getState().auth;
-  return fetch(`${API_BASE_URL}/users/${userId}/topHistory`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${authToken}`
-    }
-  })
-    .then(res => {
-      if (!res.ok) {
-        return Promise.reject(res.statusText);
-      }
-      return res.json();
-    })
-    .then(data => dispatch(getUserTopHistorySuccess(data)))
-    .catch(err => dispatch(userFetchError(err)));
-};
 export const getUserHistory = userId => (dispatch, getState) => {
   dispatch(userFetchRequest());
 
@@ -250,20 +274,6 @@ export const updateUser = (userId, gameId) => (dispatch, getState) => {
     .then(res => normalizeResponseErrors(res))
     .then(res => res.json())
     .then(() => dispatch(fetchGames()))
-    .catch(err => dispatch(userFetchError(err)));
-};
-
-export const fetchUser = userId => (dispatch, getState) => {
-  const { authToken } = getState().auth;
-  dispatch(userFetchRequest());
-
-  return fetch(`${API_BASE_URL}/users/${userId}`, {
-    method: "GET",
-    headers: { Authorization: `Bearer ${authToken}` }
-  })
-    .then(res => normalizeResponseErrors(res))
-    .then(res => res.json())
-    .then(res => dispatch(userFetchSuccess(res)))
     .catch(err => dispatch(userFetchError(err)));
 };
 

@@ -5,7 +5,7 @@ import { API_BASE_URL } from "../../config";
 import ConnectedGame from "../gamePage/Game";
 import Loading from "../loading";
 import Modal from "../Modal";
-import { loadWishList } from "../../actions/users";
+import { loadWishList, fetchByUsername } from "../../actions/users";
 import "../styles/wishList.css";
 
 export class WishListPage extends Component {
@@ -23,7 +23,9 @@ export class WishListPage extends Component {
   componentDidMount() {
     const { dispatch, match } = this.props;
     const { username } = match.params;
-    return dispatch(loadWishList(username));
+    return dispatch(fetchByUsername(username)).then(() =>
+      dispatch(loadWishList(username))
+    );
   }
 
   handleRemoveFromWishList(id) {
@@ -73,7 +75,14 @@ export class WishListPage extends Component {
   }
 
   render() {
-    const { currentUser, loggedIn, match, screenWidth, wishList } = this.props;
+    const {
+      currentUser,
+      loading,
+      loggedIn,
+      match,
+      screenWidth,
+      wishList
+    } = this.props;
     const { isLoading, error, showModal, igdbId } = this.state;
     const { username } = match.params;
     const isMobile = screenWidth <= 768;
@@ -112,7 +121,7 @@ export class WishListPage extends Component {
         );
       });
     } else {
-      return isLoading ? (
+      return isLoading || loading ? (
         <div className="game-container mx-auto mt-8 text-center">
           <Loading />
         </div>
@@ -150,9 +159,10 @@ export class WishListPage extends Component {
 
 const mapStateToProps = state => ({
   currentUser: state.auth.currentUser,
+  loading: state.user.loading,
   loggedIn: state.auth.currentUser !== null,
-  token: state.auth.authToken,
   screenWidth: state.window.width,
+  token: state.auth.authToken,
   wishList: state.user.wishList
 });
 
