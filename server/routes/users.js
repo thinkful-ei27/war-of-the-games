@@ -197,23 +197,6 @@ router.get("/excludedgames", jwtAuth, (req, res, next) => {
     });
 });
 
-/* ========= GET WISHLIST GAMES ============= */
-
-router.get("/wishlist/:username", (req, res, next) => {
-  const { username } = req.params;
-  User.findOne({ username }, { wishList: 1 })
-    .then(user => {
-      const igdbIds = user.wishList;
-      return igdbApi.getGamesByIds(igdbIds);
-    })
-    .then(games => {
-      res.json(games);
-    })
-    .catch(err => {
-      next(err);
-    });
-});
-
 router.post("/recs", jwtAuth, async (req, res, next) => {
   const userId = req.user.id;
   const { excludedGames } = await User.findOne(
