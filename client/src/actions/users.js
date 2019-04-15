@@ -166,6 +166,17 @@ export const getUserTopHistory = userId => (dispatch, getState) => {
     .catch(err => dispatch(userFetchError(err)));
 };
 
+export const loadWishList = userId => dispatch => {
+  dispatch(userFetchRequest());
+  return fetch(`${API_BASE_URL}/users/${userId}/wishList`)
+    .then(res => normalizeResponseErrors(res))
+    .then(res => res.json())
+    .then(res => {
+      dispatch(userWishListSuccess(res));
+    })
+    .catch(err => dispatch(userFetchError(err)));
+};
+
 export const postUserAboutMe = content => (dispatch, getState) => {
   dispatch(userFetchRequest());
 
@@ -259,6 +270,23 @@ export const getUserSubmotivations = () => (dispatch, getState) => {
     .catch(err => dispatch(userFetchError(err)));
 };
 
+export const removeFromWishList = id => (dispatch, getState) => {
+  const { authToken, currentUser } = getState().auth;
+  const { id: userId } = currentUser;
+  dispatch(userFetchRequest());
+  return axios
+    .put(
+      `${API_BASE_URL}/users/removewishlist`,
+      {
+        wishListId: id
+      },
+      { headers: { Authorization: `Bearer ${authToken}` } }
+    )
+    .then(() => dispatch(loadWishList(userId)))
+    .then(() => dispatch(userAddWishListSuccess()))
+    .catch(err => dispatch(userFetchError(err)));
+};
+
 export const updateUser = (userId, gameId) => (dispatch, getState) => {
   const { authToken } = getState().auth;
   const updateObj = { neverPlayed: gameId };
@@ -298,21 +326,6 @@ export const updateUserProfilePic = (userId, profilePic) => (
     .catch(err => dispatch(userFetchError(err)));
 };
 
-export const loadWishList = username => (dispatch, getState) => {
-  if (!username) {
-    ({ username } = getState().auth.currentUser);
-  }
-  dispatch(userFetchRequest());
-  return axios({
-    url: `${API_BASE_URL}/users/wishlist/${username}`,
-    method: "GET"
-  })
-    .then(res => {
-      dispatch(userWishListSuccess(res.data));
-    })
-    .catch(err => dispatch(userFetchError(err)));
-};
-
 export const handleAddToWishList = id => (dispatch, getState) => {
   const { authToken, currentUser } = getState().auth;
   dispatch(userFetchRequest());
@@ -325,26 +338,9 @@ export const handleAddToWishList = id => (dispatch, getState) => {
       { headers: { Authorization: `Bearer ${authToken}` } }
     )
     .then(res => {
-      return dispatch(loadWishList(currentUser.username)).then(() => {
+      return dispatch(loadWishList(currentUser.id)).then(() => {
         dispatch(userAddWishListSuccess());
       });
     })
-    .catch(err => dispatch(userFetchError(err)));
-};
-
-export const removeFromWishList = id => (dispatch, getState) => {
-  const { authToken, currentUser } = getState().auth;
-  const { username } = currentUser;
-  dispatch(userFetchRequest());
-  return axios
-    .put(
-      `${API_BASE_URL}/users/removewishlist`,
-      {
-        wishListId: id
-      },
-      { headers: { Authorization: `Bearer ${authToken}` } }
-    )
-    .then(() => dispatch(loadWishList(username)))
-    .then(() => dispatch(userAddWishListSuccess()))
     .catch(err => dispatch(userFetchError(err)));
 };

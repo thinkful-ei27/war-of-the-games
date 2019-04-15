@@ -1,20 +1,19 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import axios from "axios";
-import { API_BASE_URL } from "../../config";
 import ConnectedGame from "../gamePage/Game";
 import Loading from "../loading";
 import Modal from "../Modal";
-import { loadWishList, fetchByUsername } from "../../actions/users";
+import {
+  loadWishList,
+  fetchByUsername,
+  removeFromWishList
+} from "../../actions/users";
 import "../styles/wishList.css";
 
 export class WishListPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
-      error: false,
-      wishList: [],
       showModal: false,
       igdbId: null
     };
@@ -23,34 +22,9 @@ export class WishListPage extends Component {
   componentDidMount() {
     const { dispatch, match } = this.props;
     const { username } = match.params;
-    return dispatch(fetchByUsername(username)).then(() =>
-      dispatch(loadWishList(username))
-    );
-  }
-
-  handleRemoveFromWishList(id) {
-    const { match, token, dispatch } = this.props;
-    const { username } = match.params;
-    this.setState({ isLoading: true }, () => {
-      axios
-        .put(
-          `${API_BASE_URL}/users/removewishlist`,
-          {
-            wishListId: id
-          },
-          { headers: { Authorization: `Bearer ${token}` } }
-        )
-        .then(() => {
-          this.setState(prevState => ({
-            wishList: prevState.wishList.filter(game => game.id !== id),
-            isLoading: false
-          }));
-          this.handleModal();
-        })
-        .then(() => dispatch(loadWishList(username)))
-        .catch(err => {
-          this.setState({ isLoading: false, error: err.message });
-        });
+    return dispatch(fetchByUsername(username)).then(() => {
+      const { user } = this.props;
+      return dispatch(loadWishList(user.id));
     });
   }
 
@@ -77,13 +51,15 @@ export class WishListPage extends Component {
   render() {
     const {
       currentUser,
+      dispatch,
+      error,
       loading,
       loggedIn,
       match,
       screenWidth,
       wishList
     } = this.props;
-    const { isLoading, error, showModal, igdbId } = this.state;
+    const { showModal, igdbId } = this.state;
     const { username } = match.params;
     const isMobile = screenWidth <= 768;
     let iconSize = "is-small";
@@ -91,6 +67,13 @@ export class WishListPage extends Component {
       iconSize = undefined;
     }
     let wishListGames;
+    if (loading) {
+      return (
+        <div className="game-container mx-auto mt-8 text-center">
+          <Loading />
+        </div>
+      );
+    }
     if (wishList.length) {
       wishListGames = wishList.map(game => {
         const { id, name, cloudImage, igdb, slug, cover } = game;
@@ -121,11 +104,7 @@ export class WishListPage extends Component {
         );
       });
     } else {
-      return isLoading || loading ? (
-        <div className="game-container mx-auto mt-8 text-center">
-          <Loading />
-        </div>
-      ) : (
+      return (
         <div className="game-container mx-auto mt-8">
           You don&apos;t have any games in your wishlist. View your
           recommendations to add games to your list.
@@ -148,7 +127,10 @@ export class WishListPage extends Component {
             showModal={showModal}
             igdbId={igdbId}
             handleModal={() => this.handleModal()}
-            onRemove={id => this.handleRemoveFromWishList(id)}
+            onRemove={id => {
+              this.handleModal();
+              return dispatch(removeFromWishList(id));
+            }}
           />
           {wishListGames}
         </div>
@@ -159,10 +141,11 @@ export class WishListPage extends Component {
 
 const mapStateToProps = state => ({
   currentUser: state.auth.currentUser,
+  error: state.user.error,
   loading: state.user.loading,
   loggedIn: state.auth.currentUser !== null,
   screenWidth: state.window.width,
-  token: state.auth.authToken,
+  user: state.user.userInfo,
   wishList: state.user.wishList
 });
 

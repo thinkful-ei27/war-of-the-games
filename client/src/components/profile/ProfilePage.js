@@ -12,15 +12,14 @@ import {
   // getUserAboutMe,
   getUserMotivationData,
   fetchUser,
-  getUserSubmotivations
+  getUserSubmotivations,
+  loadWishList
 } from "../../actions/users";
 import Loading from "../loading";
 import ConnectedGame from "../gamePage/Game";
 import ConnectedRecommendations from "../recommendations/Recommendations";
 import ConnectedAvatarCard from "./AvatarCard";
-import ConnectedWishList from "../recommendations/WishList";
-
-// profile pic imports
+import WishList from "../recommendations/WishList";
 
 // profile pic imports
 import Demon from "../../assets/demon.png";
@@ -43,7 +42,8 @@ export class ProfilePage extends React.Component {
       dispatch(getUserMotivationData()),
       dispatch(fetchUser(userId)),
       dispatch(getUserSubmotivations()),
-      dispatch(getUserHistory(userId))
+      dispatch(getUserHistory(userId)),
+      dispatch(loadWishList(userId))
     ]);
   }
 
@@ -83,7 +83,8 @@ export class ProfilePage extends React.Component {
       screenWidth,
       firstName,
       subMotivations,
-      motivations
+      motivations,
+      wishList
     } = this.props;
 
     const isMobile = screenWidth <= 768;
@@ -175,10 +176,11 @@ export class ProfilePage extends React.Component {
           isMobile={isMobile}
           subMotivations={subMotivations}
         />
-        <ConnectedWishList
+        <WishList
           username={username}
           profileWidth="w-1"
           isMobile={isMobile}
+          wishList={wishList}
         />
         <div className="flex flex-row top-recent-container">
           <section className="nes-container m-4 top-six">
@@ -203,8 +205,8 @@ const mapStateToProps = state => {
   const { user } = state;
   return {
     // aboutMe: user.aboutMe,
-    topHistory: user.topHistory,
     level: currentUser.level,
+    topHistory: user.topHistory,
     xpToNextLevel: currentUser.xpToNextLevel,
     initialPic: user.userInfo.profilePic,
     userId: currentUser.id,
@@ -216,7 +218,8 @@ const mapStateToProps = state => {
     loading: user.loading,
     screenWidth: state.window.width,
     profilePic: state.auth.currentUser.profilePic,
-    motivations: user.motivations
+    motivations: user.motivations,
+    wishList: user.wishList
   };
 };
 
