@@ -2,7 +2,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Route, withRouter, Switch } from "react-router-dom";
-import LoginForm from "./onBoard/login-form";
+import reduxFormLoginForm from "./onBoard/login-form";
 import ConnectedHeaderBar from "./header/header-bar";
 import ConnectedLandingPage from "./onBoard/landing-page";
 import Page404 from "./404";
@@ -81,7 +81,7 @@ export class App extends React.Component {
               component={ConnectedRecommendationsPage}
             />
             <Route path="/about" component={ConnectedAboutPage} />
-            <Route path="/login" component={LoginForm} />
+            <Route path="/login" component={reduxFormLoginForm} />
             <Route path="/register" component={ConnectedRegistrationPage} />
             <Route path="/leaderboard" component={Leaderboard} />
             <Route exact path="/games" component={ConnectedGames} />

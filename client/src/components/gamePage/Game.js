@@ -6,8 +6,9 @@ export default function Game(props) {
   const {
     coverUrl,
     editable,
-    slug,
+    igdb,
     name,
+    slug,
     cloudImage,
     screenWidth,
     profileWidth,
@@ -45,10 +46,11 @@ export default function Game(props) {
 
   // Only show remove button if we are on wishlist page
   if (wishList) {
+    const igdbId = igdb ? igdb.id : props.id;
     removeButton = (
       <div className="remove-wishlist-btn-container">
         <button
-          onClick={() => props.onRemoveGame(props.id)}
+          onClick={() => props.onRemoveGame(igdbId)}
           className="remove-wishlist"
           type="button"
         >

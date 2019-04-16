@@ -3,10 +3,11 @@
   "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": ["error"],
+    "no-param-reassign": "off",
+    "no-return-assign": ["error", "except-parens"],
     "no-underscore-dangle": 0,
     "no-unused-expressions": 0,
     "func-names": "off",
-    "prefer-promise-reject-errors": "off",
-    "no-param-reassign": "off"
+    "prefer-promise-reject-errors": "off"
   }
 }

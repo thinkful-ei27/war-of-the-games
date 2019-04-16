@@ -4,14 +4,14 @@ import {
   POST_USER_ABOUT_ME_SUCCESS,
   GET_USER_ABOUT_ME_SUCCESS,
   GET_USER_SUBMOTIVATIONS_SUCCESS,
+  USER_ADD_WISHLIST_SUCCESS,
   USER_FETCH_REQUEST,
   USER_FETCH_SUCCESS,
   USER_FETCH_ERROR,
   GET_USER_MOTIVATIONS_SUCCESS,
   USER_WISH_LIST_SUCCESS,
   UPDATE_PIC_SUCCESS,
-  GET_USER_MOTIVATIONS_REQUEST,
-  USER_ADD_WISHLIST_SUCCESS
+  GET_USER_MOTIVATIONS_REQUEST
 } from "../actions/users";
 
 const initialState = {
@@ -78,7 +78,12 @@ export default function reducer(state = initialState, action) {
         userInfo: { ...state.userInfo, profilePic: action.pic },
         loading: false
       };
-
+    case USER_ADD_WISHLIST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null
+      };
     case USER_FETCH_ERROR:
       return {
         ...state,
@@ -90,12 +95,6 @@ export default function reducer(state = initialState, action) {
         ...state,
         loading: false,
         wishList: [...action.wishList]
-      };
-    case USER_ADD_WISHLIST_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        error: null
       };
     default:
       return state;

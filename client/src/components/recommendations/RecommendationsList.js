@@ -16,18 +16,17 @@ const reducedFilter = (data, keys, fn) =>
 export class RecommendationsList extends Component {
   componentDidMount() {
     const { dispatch, user } = this.props;
-    const { username } = user;
+    const { id } = user;
 
-    dispatch(loadWishList(username));
+    dispatch(loadWishList(id));
   }
 
   wishListCheck(rec) {
     const { dispatch, wishList, onAddToWishList, user } = this.props;
-    const newWishList = reducedFilter(
-      wishList,
-      ["id"],
-      item => item.id === rec.id
-    );
+    const newWishList = reducedFilter(wishList, ["id"], item => {
+      const igdbId = item.igdb ? item.igdb.id : item.id;
+      return igdbId === rec.id;
+    });
     if (newWishList.length < 1) {
       return (
         <button
