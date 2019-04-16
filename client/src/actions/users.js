@@ -271,6 +271,7 @@ export const getUserSubmotivations = () => (dispatch, getState) => {
 };
 
 export const removeFromWishList = id => (dispatch, getState) => {
+  console.log(id);
   const { authToken, currentUser } = getState().auth;
   const { id: userId } = currentUser;
   dispatch(userFetchRequest());

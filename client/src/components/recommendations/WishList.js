@@ -33,7 +33,7 @@ const WishList = props => {
             name,
             cloudImage,
             igdb,
-            slug,
+            slug: slug || igdb.slug,
             isMobile,
             profileWidth,
             coverUrl,

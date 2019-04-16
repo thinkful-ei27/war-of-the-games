@@ -88,7 +88,7 @@ export class WishListPage extends Component {
           name,
           cloudImage,
           igdb,
-          slug,
+          slug: slug || igdb.slug,
           screenWidth,
           coverUrl,
           id,
