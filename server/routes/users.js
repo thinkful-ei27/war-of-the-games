@@ -21,6 +21,27 @@ const countBy = (arr, fn) =>
     return acc;
   }, {});
 
+const populateWishlist = igdbIds => {
+  let games;
+  return Game.find({ "igdb.id": { $in: igdbIds } })
+    .then(dbGames => {
+      if (dbGames.length === igdbIds.length) {
+        return dbGames;
+      }
+      games = [...dbGames];
+      const gameIgdbIds = games.map(game => game.igdb.id);
+      const remainingIds = igdbIds.filter(
+        igdbId => gameIgdbIds.indexOf(igdbId) < 0
+      );
+      return igdbApi.getGamesByIds(remainingIds);
+    })
+    .then(apiGames => {
+      games = [...games, ...apiGames];
+      return games;
+    })
+    .catch(err => err);
+};
+
 router.get("/", (req, res, next) => {
   const handleQueries = () => {
     if ("username" in req.query) {
@@ -632,13 +653,10 @@ router.get("/:id/:field", isValidId, (req, res, next) => {
     return next(err);
   }
   return User.findOne({ _id: id })
-    .then(
-      user =>
-        new Promise(resolve =>
-          field === "wishList"
-            ? resolve(igdbApi.getGamesByIds(user.wishList))
-            : resolve(user[field])
-        )
+    .then(user =>
+      field === "wishList"
+        ? populateWishlist(user.wishList)
+        : new Promise(resolve => resolve(user[field]))
     )
     .then(result => {
       result ? res.json(result) : next();

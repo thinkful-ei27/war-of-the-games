@@ -1,11 +1,5 @@
 const res = [
   {
-    id: 1020,
-    cover: { id: 58397, image_id: "t0zqmqhdcxppyol3mtlg" },
-    name: "Grand Theft Auto V",
-    slug: "grand-theft-auto-v"
-  },
-  {
     id: 3025,
     cover: { id: 43354, image_id: "twqs2xpchnurza2wqtwi" },
     name: "Middle-earth: Shadow of Mordor",

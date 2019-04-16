@@ -10,7 +10,7 @@ const users = [
     aboutMe:
       "Bacon ipsum dolor amet pork loin pork tenderloin doner ham tongue sausage short loin brisket boudin meatloaf venison flank chuck. Fatback chicken alcatra corned beef kevin picanha ham cow. Turkey doner pig turducken swine venison bacon short loin tenderloin. Chuck tongue swine chicken, spare ribs venison ham tail pork chop.",
     profilePic: "nes-kirby",
-    wishList: [24426, 14362, 62151, 1020, 9061, 10148, 9630, 9730, 3025]
+    wishList: [1074, 14362, 62151, 1020, 9061, 10148, 9630, 9730, 3025]
   },
   {
     _id: "333333333333333333333301",
