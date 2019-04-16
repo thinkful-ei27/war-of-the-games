@@ -22,7 +22,7 @@ const countBy = (arr, fn) =>
   }, {});
 
 const populateWishlist = igdbIds => {
-  let games;
+  let games = [];
   return Game.find({ "igdb.id": { $in: igdbIds } })
     .then(dbGames => {
       if (dbGames.length === igdbIds.length) {
