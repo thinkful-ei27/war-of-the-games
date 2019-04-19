@@ -23,13 +23,90 @@ const { JWT_SECRET } = require("../config");
  *        - coverUrl
  *      properties:
  *        id:
- *          type: object
+ *          type: string
+ *          example: 5c9a959ba5d0dd09e07f45a7
  *        name:
  *          type: string
+ *          example: Super Mario 64
  *        igdb:
  *          type: object
+ *          properties:
+ *            id:
+ *              type: integer
+ *              format: int32
+ *              example: 1074
+ *            slug:
+ *              type: string
+ *              example: super-mario-64
+ *        createdAt:
+ *          type: string
+ *          format: date-time
+ *        updatedAt:
+ *          type: string
+ *          format: date-time
  *        coverUrl:
  *          type: string
+ *          example: https://images.igdb.com/igdb/image/upload/t_720p/scutr4p9gytl4txb2soy.jpg
+ *        cloudImage:
+ *          type: string
+ *          example: https://res.cloudinary.com/hjihgo1pd/image/upload/v1554169097/5c9a959ba5d0dd09e07f45a7.jpg
+ *        core:
+ *          type: boolean
+ *          default: false
+ *          example: true
+ *        firstReleaseDate:
+ *          type: integer
+ *          format: int32
+ *          example: 835488000
+ *        summary:
+ *          type: string
+ *          example: Mario is invited by Princess Peach to her castle, but once he arrives he finds out that Bowser has kidnapped her. Mario has to overcome many challenges and collect Power Stars hidden in the castle's paintings and walls to defeat Bowser and rescue Peach in this seminal 3D platformer.
+ *        similar_games:
+ *          type: array
+ *          items:
+ *            type: integer
+ *            format: int32
+ *            example: 1068
+ *        motivations:
+ *          type: array
+ *          items:
+ *            type: string
+ *            example: action
+ *        subMotivations:
+ *          type: array
+ *          items:
+ *            type: string
+ *            example: destruction
+ *        genres:
+ *          type: array
+ *          items:
+ *            type: object
+ *            properties:
+ *              _id:
+ *                type: string
+ *                example: 5ca6594c66e3f116a70c7aa8
+ *              id:
+ *                type: integer
+ *                format: int32
+ *                example: 8
+ *              name:
+ *                type: string
+ *                example: Platform
+ *        platforms:
+ *          type: array
+ *          items:
+ *            type: object
+ *            properties:
+ *              _id:
+ *                type: string
+ *                example: 5ca6594c66e3f116a70c7aac
+ *              id:
+ *                type: integer
+ *                format: int32
+ *                example: 4
+ *              name:
+ *                type: string
+ *                example: Nintendo 64
  */
 
 const router = express.Router();
