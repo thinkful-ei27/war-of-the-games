@@ -1,118 +1,105 @@
-.profile-selector input{
-    margin:0;padding:0;
-    -webkit-appearance:none;
-       -moz-appearance:none;
-            appearance:none;
+.profile-selector input {
+  margin: 0;
+  padding: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
-.profile-selector input:active +.avatar {
-   opacity: .9;
+.profile-selector input:active + .avatar-sprite {
+  opacity: 0.9;
 }
 
-.profile-selector input:checked +.avatar {
-   -webkit-filter: none;
-   -moz-filter: none;
-   filter: none;
-}
-
-.avatar{
-   cursor:pointer;
-   background-size:contain;
-   background-repeat:no-repeat;
-   display:inline-block;
-   width:100px;height:70px;
-   -webkit-transition: all 100ms ease-in;
-   -moz-transition: all 100ms ease-in;
-   transition: all 100ms ease-in;
-   -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
-   -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
-   filter: brightness(1.8) grayscale(1) opacity(.7);
+.profile-selector input:checked + .avatar-sprite {
+  -webkit-filter: none;
+  -moz-filter: none;
+  filter: none;
 }
 
 .demon {
-   background-image:url('../../assets/demon.png');
+  background-image: url("../../assets/demon.png");
 }
-.knight{
-   background-image:url(../../assets/knight.png);
+.knight {
+  background-image: url(../../assets/knight.png);
 }
-.bigZombie{
-   background-image: url(../../assets/bigZombie.png)
-}
-
-.femaleElf{
-   background-image: url(../../assets/femaleElf.png)
+.bigZombie {
+  background-image: url(../../assets/bigZombie.png);
 }
 
-.femaleWizard{
-   background-image: url(../../assets/femaleWizard.png)
+.femaleElf {
+  background-image: url(../../assets/femaleElf.png);
 }
 
-.maleElf{
-   background-image: url(../../assets/maleElf.png)
+.femaleWizard {
+  background-image: url(../../assets/femaleWizard.png);
 }
 
-.maleWizard{
-   background-image:url(../../assets/maleWizard.png)
+.maleElf {
+  background-image: url(../../assets/maleElf.png);
 }
 
-.ogre{
-   background-image: url(../../assets/ogre.png)
+.maleWizard {
+  background-image: url(../../assets/maleWizard.png);
 }
 
-.shaman{
-   background-image: url(../../assets/shaman.png)
+.ogre {
+  background-image: url(../../assets/ogre.png);
 }
 
-.angel{
-   background-image: url(https://i.pinimg.com/originals/2f/56/20/2f5620472cc9033a970e3b0bd4fa66d7.png)
+.shaman {
+  background-image: url(../../assets/shaman.png);
+}
+
+.angel {
+  background-image: url(https://i.pinimg.com/originals/2f/56/20/2f5620472cc9033a970e3b0bd4fa66d7.png);
 }
 
 .lich-king {
-    position: relative;
-    display: inline-block;
-    width: 96px;
-    height: 96px;
-    background-image: url("../../assets/lich-king.gif");
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
+  position: relative;
+  display: inline-block;
+  width: 96px;
+  height: 96px;
+  background-image: url("../../assets/lich-king.gif");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 
 .gen-sonic {
-    position: relative;
-    display: inline-block;
-    width: 96px;
-    height: 96px;
-    background-image: url("../../assets/gen-sonic.gif");
-    background-size: cover;
-    background-repeat: no-repeat;
+  position: relative;
+  display: inline-block;
+  width: 96px;
+  height: 96px;
+  background-image: url("../../assets/gen-sonic.gif");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .excitebike {
-    position: relative;
-    display: inline-block;
-    width: 96px;
-    height: 96px;
-    background-image: url("../../assets/excitebike.gif");
-    background-size: cover;
-    background-repeat: no-repeat;
+  position: relative;
+  display: inline-block;
+  width: 96px;
+  height: 96px;
+  background-image: url("../../assets/excitebike.gif");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .cloud-strife {
-    position: relative;
-    display: inline-block;
-    width: 96px;
-    height: 96px;
-    background-image: url("../../assets/cloud-strife.gif");
-    background-size: cover;
-    background-repeat: no-repeat;
+  position: relative;
+  display: inline-block;
+  width: 96px;
+  height: 96px;
+  background-image: url("../../assets/cloud-strife.gif");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .master-chief {
-    position: relative;
-    display: inline-block;
-    width: 96px;
-    height: 96px;
-    background-image: url("../../assets/master-chief.png");
-    background-size: cover;
-    background-repeat: no-repeat;
+  position: relative;
+  display: inline-block;
+  width: 96px;
+  height: 96px;
+  background-image: url("../../assets/master-chief.png");
+  background-size: cover;
+  background-repeat: no-repeat;
 }

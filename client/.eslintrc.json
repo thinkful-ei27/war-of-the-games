@@ -3,6 +3,8 @@
   "extends": ["airbnb", "prettier", "prettier/react"],
   "plugins": ["prettier"],
   "rules": {
+    "jsx-a11y/label-has-for": [0],
+    "no-return-assign": ["error", "except-parens"],
     "prettier/prettier": ["error"],
     "react/jsx-filename-extension": [
       0,

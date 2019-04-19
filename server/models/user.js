@@ -31,7 +31,6 @@ userSchema.set("toJSON", {
     delete result.excludedGames;
     delete result.battles;
     delete result.games;
-    delete result.wishList;
   }
 });
 

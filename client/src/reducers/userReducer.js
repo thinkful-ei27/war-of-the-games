@@ -4,19 +4,24 @@ import {
   POST_USER_ABOUT_ME_SUCCESS,
   GET_USER_ABOUT_ME_SUCCESS,
   GET_USER_SUBMOTIVATIONS_SUCCESS,
+  USER_ADD_WISHLIST_SUCCESS,
   USER_FETCH_REQUEST,
   USER_FETCH_SUCCESS,
   USER_FETCH_ERROR,
-  GET_USER_MOTIVATIONS_SUCCESS
+  GET_USER_MOTIVATIONS_SUCCESS,
+  USER_WISH_LIST_SUCCESS,
+  UPDATE_PIC_SUCCESS,
+  GET_USER_MOTIVATIONS_REQUEST
 } from "../actions/users";
 
 const initialState = {
+  userInfo: {},
   history: [],
   topHistory: [],
   motivations: [],
+  wishList: [],
   subMotivations: "",
   aboutMe: "",
-  profilePic: "",
   loading: false,
   error: null
 };
@@ -42,6 +47,8 @@ export default function reducer(state = initialState, action) {
       };
     case GET_USER_ABOUT_ME_SUCCESS:
       return { ...state, aboutMe: action.content };
+    case GET_USER_MOTIVATIONS_REQUEST:
+      return { ...state, loading: true };
     case GET_USER_MOTIVATIONS_SUCCESS:
       return {
         ...state,
@@ -62,14 +69,32 @@ export default function reducer(state = initialState, action) {
     case USER_FETCH_SUCCESS:
       return {
         ...state,
-        profilePic: action.profilePic,
+        userInfo: { ...action.userInfo },
         loading: false
+      };
+    case UPDATE_PIC_SUCCESS:
+      return {
+        ...state,
+        userInfo: { ...state.userInfo, profilePic: action.pic },
+        loading: false
+      };
+    case USER_ADD_WISHLIST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null
       };
     case USER_FETCH_ERROR:
       return {
         ...state,
         loading: false,
         error: action.error
+      };
+    case USER_WISH_LIST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        wishList: [...action.wishList]
       };
     default:
       return state;

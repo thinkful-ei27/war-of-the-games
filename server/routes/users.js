@@ -59,6 +59,41 @@ const countBy = (arr, fn) =>
     return acc;
   }, {});
 
+const populateWishlist = igdbIds => {
+  let games = [];
+  return Game.find({ "igdb.id": { $in: igdbIds } })
+    .then(dbGames => {
+      if (dbGames.length === igdbIds.length) {
+        return dbGames;
+      }
+      games = [...dbGames];
+      const gameIgdbIds = games.map(game => game.igdb.id);
+      const remainingIds = igdbIds.filter(
+        igdbId => gameIgdbIds.indexOf(igdbId) < 0
+      );
+      return igdbApi.getGamesByIds(remainingIds);
+    })
+    .then(apiGames => {
+      games = [...games, ...apiGames];
+      return games;
+    })
+    .catch(err => err);
+};
+
+router.get("/", (req, res, next) => {
+  const handleQueries = () => {
+    if ("username" in req.query) {
+      return User.findOne({ username: req.query.username });
+    }
+    const err = new Error("Unauthorized");
+    err.status = 401;
+    return next(err);
+  };
+  return handleQueries()
+    .then(results => (results ? res.json(results) : next()))
+    .catch(err => next(err));
+});
+
 router.get("/:id/data", (req, res, next) => {
   const { id } = req.params;
 
@@ -71,8 +106,7 @@ router.get("/:id/data", (req, res, next) => {
 
 router.get("/:id/history", (req, res, next) => {
   const { id } = req.params;
-
-  History.find({ userId: id })
+  return History.find({ userId: id })
     .populate("gameOne", "name")
     .populate("gameTwo", "name")
     .populate("choice")
@@ -222,23 +256,6 @@ router.get("/excludedgames", jwtAuth, (req, res, next) => {
     });
 });
 
-/* ========= GET WISHLIST GAMES ============= */
-
-router.get("/wishlist/:username", (req, res, next) => {
-  const { username } = req.params;
-  User.findOne({ username }, { wishList: 1 })
-    .then(user => {
-      const igdbIds = user.wishList;
-      return igdbApi.getGamesByIds(igdbIds);
-    })
-    .then(games => {
-      res.json(games);
-    })
-    .catch(err => {
-      next(err);
-    });
-});
-
 router.post("/recs", jwtAuth, async (req, res, next) => {
   const userId = req.user.id;
   const { excludedGames } = await User.findOne(
@@ -260,7 +277,7 @@ router.post("/recs", jwtAuth, async (req, res, next) => {
     .map(p => p.id)
     .join(",");
 
-  const cp = !checkedPlatforms ? "6" : checkedPlatforms;
+  const cp = !checkedPlatforms ? "" : checkedPlatforms;
 
   recs
     .getGamesBySubmotivations(
@@ -361,16 +378,6 @@ router.get("/leaderboard", (req, res, next) => {
     .catch(e => {
       next(e);
     });
-});
-
-router.get("/:id", (req, res, next) => {
-  const { id } = req.params;
-
-  User.find({ _id: id })
-    .then(results => {
-      res.json(results);
-    })
-    .catch(err => next(err));
 });
 
 router.post("/aboutMe", jwtAuth, (req, res, next) => {
@@ -645,9 +652,11 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
 
   const toUpdate = {};
   const updateableFields = ["neverPlayed", "profilePic"];
+  const updatedFields = [];
 
   updateableFields.forEach(field => {
     if (field in req.body) {
+      updatedFields.push(field);
       if (field === "neverPlayed") {
         Object.assign(toUpdate, {
           $push: { "games.neverPlayed": req.body[field] }
@@ -673,19 +682,45 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
       if (!user) {
         return next();
       }
-      const { createdAt, updatedAt, games, profilePic } = user;
-      const returnObj = { id, createdAt, updatedAt, games, profilePic };
+      const { createdAt, updatedAt } = user;
+      const returnObj = { id, createdAt, updatedAt };
+      updatedFields.forEach(field => {
+        field === "neverPlayed"
+          ? (returnObj.games = user.games)
+          : (returnObj[field] = user[field]);
+      });
       return res.json(returnObj);
     })
     .catch(err => next(err));
 });
 
-router.get("/:id", (req, res, next) => {
+// GET /api/users/:id/
+router.get("/:id", isValidId, (req, res, next) => {
   const { id } = req.params;
+  return User.findOne({ _id: id })
+    .then(result => {
+      result ? res.json(result) : next();
+    })
+    .catch(err => next(err));
+});
 
-  User.find({ _id: id })
-    .then(results => {
-      res.json(results);
+// GET /api/users/:id/:field
+router.get("/:id/:field", isValidId, (req, res, next) => {
+  const { id, field } = req.params;
+  const validFields = ["wishList"];
+  if (validFields.indexOf(field) < 0) {
+    const err = new Error("The field is not valid");
+    err.status = 400;
+    return next(err);
+  }
+  return User.findOne({ _id: id })
+    .then(user =>
+      field === "wishList"
+        ? populateWishlist(user.wishList)
+        : new Promise(resolve => resolve(user[field]))
+    )
+    .then(result => {
+      result ? res.json(result) : next();
     })
     .catch(err => next(err));
 });

@@ -1,5 +1,5 @@
 import React from "react";
-import ConnectedGame from "./Game";
+import ConnectedGame from "./gamePage/Game";
 
 export default function ExcludedGames(props) {
   const { excludedGames, screenWidth, onRemoveExcluded } = props;

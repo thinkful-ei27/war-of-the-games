@@ -110,8 +110,6 @@ router.get("/", (req, res, next) => {
 router.get("/igdb/:slug", (req, res, next) => {
   const { slug } = req.params;
 
-  console.log(slug);
-
   return igdbApi
     .getIdFromSlug(slug)
     .then(result => {

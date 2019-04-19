@@ -1,4 +1,4 @@
-![War of the Games on an old PC monitor](./wotg-mock.jpg)
+![War of the Games on an old PC monitor](./presentation/wotg-mock.jpg)
 
 # War of the Games
 
@@ -16,15 +16,15 @@
 - Learn more about each game with individual info pages.
 - User accounts to save ranking history.
 - See all games in the database through the games list.
-- Game recommendations coming soon!
+- Game recommendations.
 
 ## The Stack
 
 ### Client
 
 - [React](https://reactjs.org/)
-- [Redux](https://redux.js.org/) for state management
-- [React Router](https://reacttraining.com/react-router/) for routing
+- [Redux](https://redux.js.org/) for state management.
+- [React Router](https://reacttraining.com/react-router/) for routing.
 - [Redux Form](https://redux-form.com/)
 
 ### Server
@@ -32,17 +32,24 @@
 - [Node.js](https://nodejs.org/en/) with the [Express](https://expressjs.com/) framework.
 - [MongoDB](https://www.mongodb.com/) with [Mongoose](https://mongoosejs.com/) for the database.
 - [Passport](http://www.passportjs.org/) authentication using [node.bcrypt.js](https://github.com/kelektiv/node.bcrypt.js/) and [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken).
+- [Cloudinary](https://cloudinary.com/) for images.
 
 ## Screenshots
 
 Homepage
-![A screenshot of the War of the Games homepage](./wotg-homepage.png)
+![A screenshot of the War of the Games homepage](./presentation/wotg-home.jpg)
 
 Game info
-![A screenshot of the game info page](./wotg-game-info.png)
+![A screenshot of the game info page](./presentation/wotg-game-info.jpg)
 
 Games list
-![A screenshot of the games list page](./wotg-games-list.png)
+![A screenshot of the games list page](./presentation/wotg-games.jpg)
+
+Leaderboard
+![A screenshot of the leaderboard page](./presentation/wotg-leaderboard.jpg)
+
+Recommendations
+![A screenshot of the recommendations page](./presentation/wotg-recommendations.jpg)
 
 ## History
 

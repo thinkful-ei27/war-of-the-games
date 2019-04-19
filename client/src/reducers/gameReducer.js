@@ -26,6 +26,7 @@ export default function reducer(state = initialState, action) {
     case FETCH_GAMES_SUCCESS:
       return Object.assign({}, state, {
         battleGames: action.games,
+        loading: false,
         error: null
       });
     case FETCH_FEEDBACK_SUCCESS:

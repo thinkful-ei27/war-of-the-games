@@ -1,5 +1,6 @@
 import { SubmissionError } from "redux-form";
 
+import axios from "axios";
 import { API_BASE_URL } from "../config";
 import { normalizeResponseErrors } from "./utils";
 import { fetchGames } from "./gameActions";
@@ -45,9 +46,72 @@ export const getUserMotivationsError = error => ({
   error
 });
 
+export const GET_USER_SUBMOTIVATIONS_SUCCESS =
+  "GET_USER_SUBMOTIVATIONS_SUCCESS";
+export const getUserSubmotivationsSuccess = content => ({
+  type: GET_USER_SUBMOTIVATIONS_SUCCESS,
+  content
+});
+
+export const USER_ADD_WISHLIST_SUCCESS = "USER_ADD_WISHLIST_SUCCESS";
+export const userAddWishListSuccess = () => ({
+  type: USER_ADD_WISHLIST_SUCCESS
+});
+
+export const USER_FETCH_REQUEST = "USER_FETCH_REQUEST";
+export const userFetchRequest = () => ({
+  type: USER_FETCH_REQUEST
+});
+
+export const USER_FETCH_SUCCESS = "USER_FETCH_SUCCESS";
+export const userFetchSuccess = userInfo => ({
+  type: USER_FETCH_SUCCESS,
+  userInfo
+});
+export const UPDATE_PIC_SUCCESS = "UPDATE_PIC_SUCCESS";
+export const updatePicSuccess = pic => ({
+  type: UPDATE_PIC_SUCCESS,
+  pic
+});
+
+export const USER_FETCH_ERROR = "USER_FETCH_ERROR";
+export const userFetchError = error => ({
+  type: USER_FETCH_ERROR,
+  error
+});
+
+export const USER_WISH_LIST_SUCCESS = "USER_WISH_LIST_SUCCESS";
+export const userWishListSuccess = wishList => ({
+  type: USER_WISH_LIST_SUCCESS,
+  wishList
+});
+
+export const fetchByUsername = username => dispatch => {
+  dispatch(userFetchRequest());
+  return fetch(`${API_BASE_URL}/users?username=${username}`)
+    .then(res => normalizeResponseErrors(res))
+    .then(res => res.json())
+    .then(res => dispatch(userFetchSuccess(res)))
+    .catch(err => dispatch(userFetchError(err)));
+};
+
+export const fetchUser = userId => (dispatch, getState) => {
+  const { authToken } = getState().auth;
+  dispatch(userFetchRequest());
+
+  return fetch(`${API_BASE_URL}/users/${userId}`, {
+    method: "GET",
+    headers: { Authorization: `Bearer ${authToken}` }
+  })
+    .then(res => normalizeResponseErrors(res))
+    .then(res => res.json())
+    .then(res => dispatch(userFetchSuccess(res)))
+    .catch(err => dispatch(userFetchError(err)));
+};
+
 export const getUserMotivationData = () => (dispatch, getState) => {
   const { authToken } = getState().auth;
-  dispatch(getUserMotivationsRequest);
+  dispatch(userFetchRequest());
   return fetch(`${API_BASE_URL}/users/history/motivations`, {
     method: "GET",
     headers: {
@@ -63,30 +127,6 @@ export const getUserMotivationData = () => (dispatch, getState) => {
     .then(data => dispatch(getUserMotivationsSuccess(data)))
     .catch(err => dispatch(getUserMotivationsError(err)));
 };
-
-export const GET_USER_SUBMOTIVATIONS_SUCCESS =
-  "GET_USER_SUBMOTIVATIONS_SUCCESS";
-export const getUserSubmotivationsSuccess = content => ({
-  type: GET_USER_SUBMOTIVATIONS_SUCCESS,
-  content
-});
-
-export const USER_FETCH_REQUEST = "USER_FETCH_REQUEST";
-export const userFetchRequest = () => ({
-  type: USER_FETCH_REQUEST
-});
-
-export const USER_FETCH_SUCCESS = "USER_FETCH_SUCCESS";
-export const userFetchSuccess = profilePic => ({
-  type: USER_FETCH_SUCCESS,
-  profilePic
-});
-
-export const USER_FETCH_ERROR = "USER_FETCH_ERROR";
-export const userFetchError = error => ({
-  type: USER_FETCH_ERROR,
-  error
-});
 
 export const getUserAboutMe = () => (dispatch, getState) => {
   const { authToken } = getState().auth;
@@ -104,6 +144,36 @@ export const getUserAboutMe = () => (dispatch, getState) => {
       return res.json();
     })
     .then(data => dispatch(getUserAboutMeSuccess(data)))
+    .catch(err => dispatch(userFetchError(err)));
+};
+
+export const getUserTopHistory = userId => (dispatch, getState) => {
+  dispatch(userFetchRequest());
+  const { authToken } = getState().auth;
+  return fetch(`${API_BASE_URL}/users/${userId}/topHistory`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${authToken}`
+    }
+  })
+    .then(res => {
+      if (!res.ok) {
+        return Promise.reject(res.statusText);
+      }
+      return res.json();
+    })
+    .then(data => dispatch(getUserTopHistorySuccess(data)))
+    .catch(err => dispatch(userFetchError(err)));
+};
+
+export const loadWishList = userId => dispatch => {
+  dispatch(userFetchRequest());
+  return fetch(`${API_BASE_URL}/users/${userId}/wishList`)
+    .then(res => normalizeResponseErrors(res))
+    .then(res => res.json())
+    .then(res => {
+      dispatch(userWishListSuccess(res));
+    })
     .catch(err => dispatch(userFetchError(err)));
 };
 
@@ -133,25 +203,7 @@ export const postUserAboutMe = content => (dispatch, getState) => {
     .catch(err => dispatch(userFetchError(err)));
 };
 
-export const getUserTopHistory = userId => (dispatch, getState) => {
-  dispatch(userFetchRequest());
-  const { authToken } = getState().auth;
-  return fetch(`${API_BASE_URL}/users/${userId}/topHistory`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${authToken}`
-    }
-  })
-    .then(res => {
-      if (!res.ok) {
-        return Promise.reject(res.statusText);
-      }
-      return res.json();
-    })
-    .then(data => dispatch(getUserTopHistorySuccess(data)))
-    .catch(err => dispatch(userFetchError(err)));
-};
-export const getUser = userId => (dispatch, getState) => {
+export const getUserHistory = userId => (dispatch, getState) => {
   dispatch(userFetchRequest());
 
   const { authToken } = getState().auth;
@@ -193,6 +245,7 @@ export const registerUser = user => () => {
           })
         );
       }
+      return err;
     });
 };
 
@@ -214,6 +267,23 @@ export const getUserSubmotivations = () => (dispatch, getState) => {
     .then(data => {
       dispatch(getUserSubmotivationsSuccess(data));
     })
+    .catch(err => dispatch(userFetchError(err)));
+};
+
+export const removeFromWishList = id => (dispatch, getState) => {
+  const { authToken, currentUser } = getState().auth;
+  const { id: userId } = currentUser;
+  dispatch(userFetchRequest());
+  return axios
+    .put(
+      `${API_BASE_URL}/users/removewishlist`,
+      {
+        wishListId: id
+      },
+      { headers: { Authorization: `Bearer ${authToken}` } }
+    )
+    .then(() => dispatch(loadWishList(userId)))
+    .then(() => dispatch(userAddWishListSuccess()))
     .catch(err => dispatch(userFetchError(err)));
 };
 
@@ -241,7 +311,7 @@ export const updateUserProfilePic = (userId, profilePic) => (
 ) => {
   const { authToken } = getState().auth;
   const updateObj = { profilePic };
-  dispatch(userFetchRequest());
+
   return fetch(`${API_BASE_URL}/users/${userId}`, {
     method: "PUT",
     headers: {
@@ -251,12 +321,26 @@ export const updateUserProfilePic = (userId, profilePic) => (
     body: JSON.stringify(updateObj)
   })
     .then(res => normalizeResponseErrors(res))
+    .then(res => res.json())
+    .then(res => dispatch(updatePicSuccess(res.profilePic)))
+    .catch(err => dispatch(userFetchError(err)));
+};
+
+export const handleAddToWishList = id => (dispatch, getState) => {
+  const { authToken, currentUser } = getState().auth;
+  dispatch(userFetchRequest());
+  return axios
+    .put(
+      `${API_BASE_URL}/users/wishlist`,
+      {
+        wishListId: id
+      },
+      { headers: { Authorization: `Bearer ${authToken}` } }
+    )
     .then(res => {
-      return res.json();
-    })
-    .then(res => {
-      const { profilePic } = res;
-      dispatch(userFetchSuccess(profilePic));
+      return dispatch(loadWishList(currentUser.id)).then(() => {
+        dispatch(userAddWishListSuccess());
+      });
     })
     .catch(err => dispatch(userFetchError(err)));
 };

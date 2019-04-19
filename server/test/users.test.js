@@ -8,8 +8,9 @@ const User = require("../models/user");
 const Game = require("../models/game");
 const History = require("../models/history");
 const { games, histories, users } = require("../db/data");
-const apiRecsRes = require("../db/test-apiRecsRes.js");
 const recommendations = require("../utils/recommendations");
+const { recsRes, wishListRes } = require("../db/test-data");
+const igdbApi = require("../utils/gameApi");
 
 const { expect } = chai;
 const sandbox = sinon.createSandbox();
@@ -23,9 +24,8 @@ describe("ASYNC Capstone API - Users", () => {
   const lastName = "User";
 
   before(() => {
-    sinon
-      .stub(recommendations, "getGamesBySubmotivations")
-      .resolves(apiRecsRes);
+    sinon.stub(recommendations, "getGamesBySubmotivations").resolves(recsRes);
+    sinon.stub(igdbApi, "getGamesByIds").resolves(wishListRes);
     return dbConnect(TEST_DATABASE_URL);
   });
 
@@ -63,15 +63,16 @@ describe("ASYNC Capstone API - Users", () => {
           expect(res.body).to.be.an("object");
           expect(res.body).to.have.keys(
             "id",
+            "admin",
             "username",
             "firstName",
             "lastName",
-            "admin",
             "historyCount",
             "createdAt",
             "updatedAt",
             "xpToNextLevel",
-            "level"
+            "level",
+            "wishList"
           );
           expect(res.body.username).to.equal(username.toLowerCase());
           expect(res.body.firstName).to.equal(firstName);
@@ -86,6 +87,75 @@ describe("ASYNC Capstone API - Users", () => {
         })
         .then(isValid => {
           expect(isValid).to.equal(true);
+        });
+    });
+  });
+
+  describe("GET /api/users", () => {
+    it("should return the correct user for a username query", () => {
+      const usernameQuery = "bobuser";
+
+      const dbPromise = User.findOne({ username: usernameQuery });
+      const apiPromise = chai
+        .request(app)
+        .get(`/api/users?username=${usernameQuery}`);
+
+      return Promise.all([dbPromise, apiPromise]).then(([data, res]) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an("object");
+        expect(res.body).to.include.all.keys(
+          "id",
+          "createdAt",
+          "updatedAt",
+          "firstName",
+          "lastName",
+          "username",
+          "aboutMe",
+          "admin",
+          "profilePic",
+          "wishList",
+          "historyCount",
+          "level",
+          "xpToNextLevel"
+        );
+        expect(res.body.id).to.equal(data.id);
+        expect(res.body.username).to.equal(usernameQuery);
+        expect(new Date(res.body.createdAt)).to.eql(data.createdAt);
+        expect(new Date(res.body.updatedAt)).to.eql(data.updatedAt);
+        expect(res.body.wishList.length).to.equal(data.wishList.length);
+      });
+    });
+
+    it("should reject requests without a username query", () => {
+      return chai
+        .request(app)
+        .get("/api/users")
+        .then(res => {
+          expect(res).to.have.status(401);
+          expect(res.body).to.be.an("object");
+          expect(res.body.message).to.equal("Unauthorized");
+        });
+    });
+
+    it("should respond with status 404 for a username that does not exist", () => {
+      return chai
+        .request(app)
+        .get("/api/users?username=DOESNOTEXIST")
+        .then(res => {
+          expect(res).to.have.status(404);
+        });
+    });
+
+    it("should catch errors and respond properly", () => {
+      sandbox.stub(User.schema.options.toJSON, "transform").throws("FakeError");
+      return User.findOne()
+        .then(data => {
+          return chai.request(app).get(`/api/users?username=${data.username}`);
+        })
+        .then(res => {
+          expect(res).to.have.status(500);
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Internal Server Error");
         });
     });
   });
@@ -329,6 +399,153 @@ describe("ASYNC Capstone API - Users", () => {
             .put(`/api/users/${user.id}`)
             .set("Authorization", `Bearer ${token}`)
             .send(updateObj);
+        })
+        .then(res => {
+          expect(res).to.have.status(500);
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Internal Server Error");
+        });
+    });
+  });
+
+  describe("GET /api/users/:id", () => {
+    it("should return the correct user", () => {
+      let data;
+      return User.findOne()
+        .then(_data => {
+          data = _data;
+          return chai.request(app).get(`/api/users/${data.id}`);
+        })
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.be.an("object");
+          expect(res.body).to.include.all.keys(
+            "id",
+            "createdAt",
+            "updatedAt",
+            "firstName",
+            "lastName",
+            "username",
+            "aboutMe",
+            "admin",
+            "profilePic",
+            "wishList",
+            "historyCount",
+            "level",
+            "xpToNextLevel"
+          );
+          expect(res.body.id).to.equal(data.id);
+          expect(res.body.firstName).to.equal(data.firstName);
+          expect(res.body.lastName).to.equal(data.lastName);
+          expect(res.body.username).to.equal(data.username);
+          expect(new Date(res.body.createdAt)).to.eql(data.createdAt);
+          expect(new Date(res.body.updatedAt)).to.eql(data.updatedAt);
+          expect(res.body.aboutMe).to.equal(data.aboutMe);
+          expect(res.body.admin).to.equal(data.admin);
+          expect(res.body.profilePic).to.equal(data.profilePic);
+          expect(res.body.wishList).to.be.an("array");
+          expect(res.body.wishList.length).to.equal(data.wishList.length);
+          expect(res.body.wishList[0]).to.equal(data.wishList[0]);
+        });
+    });
+
+    it("should respond with status 400 and an error message when id is not valid", () => {
+      return chai
+        .request(app)
+        .get("/api/users/NOT-A-VALID-ID")
+        .set("Authorization", `Bearer ${token}`)
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).to.equal("The `id` is not valid");
+        });
+    });
+
+    it("should respond with status 404 for an id that does not exist", () => {
+      return chai
+        .request(app)
+        .get("/api/users/DOESNOTEXIST")
+        .set("Authorization", `Bearer ${token}`)
+        .then(res => {
+          expect(res).to.have.status(404);
+        });
+    });
+
+    it("should catch errors and respond properly", () => {
+      sandbox.stub(User.schema.options.toJSON, "transform").throws("FakeError");
+      return User.findOne()
+        .then(data => {
+          return chai
+            .request(app)
+            .get(`/api/users/${data.id}`)
+            .set("Authorization", `Bearer ${token}`);
+        })
+        .then(res => {
+          expect(res).to.have.status(500);
+          expect(res.body).to.be.a("object");
+          expect(res.body.message).to.equal("Internal Server Error");
+        });
+    });
+  });
+
+  describe("GET /api/users/:id/:field", () => {
+    it("should return an array of wishList games when the wishList field param is provided", () => {
+      const field = "wishList";
+      let data;
+      return User.findOne()
+        .then(_data => {
+          data = _data;
+          return chai.request(app).get(`/api/users/${data.id}/${field}`);
+        })
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.be.an("array");
+          expect(res.body.length).to.equal(data.wishList.length);
+        });
+    });
+
+    it("should respond with status 400 and an error message when field is invalid", () => {
+      const field = "notAValidField";
+      let data;
+      return User.findOne()
+        .then(_data => {
+          data = _data;
+          return chai.request(app).get(`/api/users/${data.id}/${field}`);
+        })
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).to.equal("The field is not valid");
+        });
+    });
+
+    it("should respond with status 400 and an error message when id is not valid", () => {
+      return chai
+        .request(app)
+        .get("/api/users/NOT-A-VALID-ID")
+        .set("Authorization", `Bearer ${token}`)
+        .then(res => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).to.equal("The `id` is not valid");
+        });
+    });
+
+    it("should respond with status 404 for an id that does not exist", () => {
+      return chai
+        .request(app)
+        .get("/api/users/DOESNOTEXIST")
+        .set("Authorization", `Bearer ${token}`)
+        .then(res => {
+          expect(res).to.have.status(404);
+        });
+    });
+
+    it("should catch errors and respond properly", () => {
+      sandbox.stub(User.schema.options.toJSON, "transform").throws("FakeError");
+      return User.findOne()
+        .then(data => {
+          return chai
+            .request(app)
+            .get(`/api/users/${data.id}`)
+            .set("Authorization", `Bearer ${token}`);
         })
         .then(res => {
           expect(res).to.have.status(500);

@@ -32,7 +32,7 @@ export default class LongText extends Component {
     // In the final case, we show a text with ellipsis and a `Read more` button
     const toShow = `${content.substring(0, limit)}...`;
     return (
-      <div className="text-sm">
+      <div className={`text-sm ${this.props.className}`}>
         {toShow}
         <button
           type="button"

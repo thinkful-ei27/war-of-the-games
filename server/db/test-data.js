@@ -1,3 +1,6 @@
+const wishListRes = require("./test-wishListRes");
+const recsRes = require("./test-apiRecsRes");
+
 const getGameRes = {
   id: 3480,
   cover: {
@@ -100,4 +103,4 @@ const saveImgByIdRes = {
   original_filename: "sgpdlhpeaohxwr6ectsy"
 };
 
-module.exports = { getGameRes, saveImgByIdRes };
+module.exports = { getGameRes, recsRes, saveImgByIdRes, wishListRes };
