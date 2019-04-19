@@ -78,6 +78,13 @@ const igdbIdRequired = (req, res, next) => {
  *    tags:
  *      - Games
  *    summary: Returns games
+ *    parameters:
+ *      - name: slug
+ *        in: query
+ *        description: IGDB slug
+ *        schema:
+ *          type: string
+ *        example: super-mario-64
  *    responses:
  *      200:
  *        description: A JSON array of games
