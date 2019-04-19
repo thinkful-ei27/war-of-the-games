@@ -406,6 +406,8 @@ router.get("/aboutMe", jwtAuth, (req, res, next) => {
  *
  * /users:
  *  post:
+ *    tags:
+ *      - Users
  *    summary: Creates a user
  *    requestBody:
  *      description: User object

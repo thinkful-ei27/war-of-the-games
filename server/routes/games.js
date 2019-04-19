@@ -75,6 +75,8 @@ const igdbIdRequired = (req, res, next) => {
  *
  * /games:
  *  get:
+ *    tags:
+ *      - Games
  *    summary: Returns games
  *    responses:
  *      200:
@@ -119,6 +121,8 @@ router.get("/igdb/:slug", (req, res, next) => {
  *
  * /games/battle:
  *  get:
+ *    tags:
+ *      - Games
  *    summary: Returns two games
  *    responses:
  *      200:
@@ -172,6 +176,8 @@ router.get("/battle", (req, res, next) => {
  *
  * /games/{gameId}:
  *  get:
+ *    tags:
+ *      - Games
  *    summary: Returns a game by ID.
  *    parameters:
  *      - name: gameId
@@ -236,6 +242,8 @@ router.get("/:id", isValidId, (req, res, next) => {
  *
  * /games:
  *  post:
+ *    tags:
+ *      - Games
  *    summary: Creates a game
  *    requestBody:
  *      description: IGDB ID
@@ -322,6 +330,8 @@ router.post("/", jwtAuth, igdbIdRequired, (req, res, next) => {
  *
  * /games:
  *  put:
+ *    tags:
+ *      - Games
  *    summary: Updates a game
  *    requestBody:
  *      description: IGDB ID
