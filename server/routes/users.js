@@ -23,16 +23,42 @@ const { isValidId } = require("./validators");
  *        - password
  *      properties:
  *        id:
- *          type: object
+ *          type: string
+ *          example: 5c9bcf48b11f8f14c6e17730
  *        firstName:
  *          type: string
+ *          example: Bob
  *        lastName:
  *          type: string
+ *          example: User
  *        username:
  *          type: string
+ *          example: bobuser
  *        password:
  *          type: string
  *          format: password
+ *        createdAt:
+ *          type: string
+ *          format: date-time
+ *        updatedAt:
+ *          type: string
+ *          format: date-time
+ *        aboutMe:
+ *          type: string
+ *          example: I am definitely a person and not an example of a person.
+ *        historyCount:
+ *          type: integer
+ *          format: int32
+ *          example: 433
+ *        level:
+ *          type: string
+ *          example: 020
+ *        xpToNextLevel:
+ *          type: string
+ *          example: 433 / 441
+ *        profilePic:
+ *          type: string
+ *          example: nes-kirby
  */
 
 const router = express.Router();
