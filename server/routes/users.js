@@ -12,39 +12,40 @@ const { isValidId } = require("./validators");
 /**
  * @swagger
  *
- * definitions:
- *  NewUser:
- *    type: object
- *    required:
- *      - firstName
- *      - lastName
- *      - username
- *      - password
- *    properties:
- *      firstName:
- *        type: string
- *      lastName:
- *        type: string
- *      username:
- *        type: string
- *      password:
- *        type: string
- *  User:
- *    type: object
- *    required:
- *      - id
- *      - firstName
- *      - lastName
- *      - username
- *    properties:
- *      id:
- *        type: object
- *      firstName:
- *        type: string
- *      lastName:
- *        type: string
- *      username:
- *        type: string
+ * components:
+ *  schemas:
+ *    NewUser:
+ *      type: object
+ *      required:
+ *        - firstName
+ *        - lastName
+ *        - username
+ *        - password
+ *      properties:
+ *        firstName:
+ *          type: string
+ *        lastName:
+ *          type: string
+ *        username:
+ *          type: string
+ *        password:
+ *          type: string
+ *    User:
+ *      type: object
+ *      required:
+ *        - id
+ *        - firstName
+ *        - lastName
+ *        - username
+ *      properties:
+ *        id:
+ *          type: object
+ *        firstName:
+ *          type: string
+ *        lastName/:
+ *          type: string
+ *        username:
+ *          type: string
  */
 
 const router = express.Router();
@@ -419,23 +420,20 @@ router.get("/aboutMe", jwtAuth, (req, res, next) => {
  * /users:
  *  post:
  *    summary: Creates a user
- *    produces:
- *      - application/json
- *    parameters:
- *      - name: user
- *        description: User object
- *        in: body
- *        required: true
- *        type: object
- *        schema:
- *          $ref: '#/definitions/NewUser'
+ *    requestBody:
+ *      description: User object
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/NewUser'
  *    responses:
  *      201:
  *        description: user
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/definitions/User'
+ *              $ref: '#/components/schemas/User'
  */
 router.post("/", (req, res, next) => {
   const { firstName, lastName, username, password, profilePic } = req.body;

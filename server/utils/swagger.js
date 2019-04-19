@@ -8,13 +8,17 @@ const options = {
       description: "Documentation for The War of the Games API",
       version: "1.0.0" // Version (required)
     },
-    servers: {
-      url: "https://async-capstone.herokuapp.com/api"
-    }
+    servers: [
+      {
+        url: "https://async-capstone.herokuapp.com/api"
+      }
+    ]
   },
   // Path to the API docs
   apis: ["./routes/games.js", "./routes/users.js"]
 };
 
 // Initialize swagger-jsdoc -> returns validated swagger spec in json format
-module.exports = swaggerJSDoc(options);
+const swaggerSpec = swaggerJSDoc(options);
+
+module.exports = swaggerSpec;

@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 const passport = require("passport");
+const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./utils/swagger");
 const localStrategy = require("./passport/local");
 const jwtStrategy = require("./passport/jwt");
@@ -34,6 +35,7 @@ app.get("/api-docs.json", (req, res) => {
   res.setHeader("Content-Type", "application/json");
   res.send(swaggerSpec);
 });
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Parse request body
 app.use(express.json());

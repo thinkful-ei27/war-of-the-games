@@ -13,28 +13,30 @@ const { JWT_SECRET } = require("../config");
 /**
  * @swagger
  *
- * definitions:
- *  NewGame:
- *    type: object
- *    required:
- *      - name
- *      - igdb
- *      - coverUrl
- *    properties:
- *      name:
- *        type: string
- *      igdb:
- *        type: object
- *      coverUrl:
- *        type: string
- *  Game:
- *    allOf:
- *      - $ref: '#/definitions/NewGame'
- *      - required:
- *        - id
- *      - properties:
- *        id:
+ * components:
+ *  schemas:
+ *    NewGame:
+ *      type: object
+ *      required:
+ *        - name
+ *        - igdb
+ *        - coverUrl
+ *      properties:
+ *        name:
+ *          type: string
+ *        igdb:
  *          type: object
+ *        coverUrl:
+ *          type: string
+ *    Game:
+ *      allOf:
+ *        - $ref: '#/components/schemas/NewGame'
+ *        - type: object
+ *          required:
+ *            - id
+ *          properties:
+ *            id:
+ *              type: object
  */
 
 const router = express.Router();
@@ -81,8 +83,6 @@ const igdbIdRequired = (req, res, next) => {
  * /games:
  *  get:
  *    summary: Returns games
- *    produces:
- *      - application/json
  *    responses:
  *      200:
  *        description: A JSON array of games
@@ -91,7 +91,7 @@ const igdbIdRequired = (req, res, next) => {
  *            schema:
  *              type: array
  *              items:
- *                $ref: '#/definitions/Game'
+ *                $ref: '#/components/schemas/Game'
  */
 router.get("/", (req, res, next) => {
   const { slug } = req.query;
@@ -127,8 +127,6 @@ router.get("/igdb/:slug", (req, res, next) => {
  * /games/battle:
  *  get:
  *    summary: Returns two games
- *    produces:
- *      - application/json
  *    responses:
  *      200:
  *        description: A JSON array of two games
@@ -137,7 +135,7 @@ router.get("/igdb/:slug", (req, res, next) => {
  *            schema:
  *              type: array
  *              items:
- *                $ref: '#/definitions/Game'
+ *                $ref: '#/components/schemas/Game'
  */
 router.get("/battle", (req, res, next) => {
   const filters = { firstReleaseDate: { $lt: sixMonthsAgo }, core: true };
@@ -189,15 +187,13 @@ router.get("/battle", (req, res, next) => {
  *        description: Game ID
  *        schema:
  *          type: object
- *    produces:
- *      - application/json
  *    responses:
  *      200:
  *        description: game
  *        content:
  *          application/json:
  *            schema:
- *               $ref: '#/definitions/Game'
+ *               $ref: '#/components/schemas/Game'
  */
 router.get("/:id", isValidId, (req, res, next) => {
   const { id } = req.params;
@@ -248,23 +244,20 @@ router.get("/:id", isValidId, (req, res, next) => {
  * /games:
  *  post:
  *    summary: Creates a game
- *    produces:
- *      - application/json
- *    parameters:
- *      - name: igdbId
- *        description: IGDB ID
- *        in: body
- *        required: true
- *        type: number
- *        schema:
- *          $ref: '#/definitions/NewGame'
+ *    requestBody:
+ *      description: IGDB ID
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: number
  *    responses:
  *      201:
  *        description: game
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/definitions/Game'
+ *              $ref: '#/components/schemas/Game'
  */
 router.post("/", jwtAuth, igdbIdRequired, (req, res, next) => {
   const { igdbId } = req.body;
@@ -337,23 +330,20 @@ router.post("/", jwtAuth, igdbIdRequired, (req, res, next) => {
  * /games:
  *  put:
  *    summary: Updates a game
- *    produces:
- *      - application/json
- *    parameters:
- *      - name: igdbId
- *        description: IGDB ID
- *        in: body
- *        required: true
- *        type: number
- *        schema:
- *          $ref: '#/definitions/NewGame'
+ *    requestBody:
+ *      description: IGDB ID
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: number
  *    responses:
  *      200:
  *        description: updated game
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/definitions/Game'
+ *              $ref: '#/components/schemas/Game'
  */
 router.put(
   "/:id",
