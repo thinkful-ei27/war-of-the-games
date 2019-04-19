@@ -14,7 +14,7 @@ const { isValidId } = require("./validators");
  *
  * components:
  *  schemas:
- *    NewUser:
+ *    User:
  *      type: object
  *      required:
  *        - firstName
@@ -22,6 +22,8 @@ const { isValidId } = require("./validators");
  *        - username
  *        - password
  *      properties:
+ *        id:
+ *          type: object
  *        firstName:
  *          type: string
  *        lastName:
@@ -30,22 +32,7 @@ const { isValidId } = require("./validators");
  *          type: string
  *        password:
  *          type: string
- *    User:
- *      type: object
- *      required:
- *        - id
- *        - firstName
- *        - lastName
- *        - username
- *      properties:
- *        id:
- *          type: object
- *        firstName:
- *          type: string
- *        lastName/:
- *          type: string
- *        username:
- *          type: string
+ *          format: password
  */
 
 const router = express.Router();
@@ -426,7 +413,7 @@ router.get("/aboutMe", jwtAuth, (req, res, next) => {
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/NewUser'
+ *            $ref: '#/components/schemas/User'
  *    responses:
  *      201:
  *        description: user

@@ -12,10 +12,18 @@ const options = {
       {
         url: "https://async-capstone.herokuapp.com/api"
       }
-    ]
+    ],
+    securityDefinitions: {
+      bearerAuth: {
+        type: "apiKey",
+        name: "Authorization",
+        scheme: "bearer",
+        in: "header"
+      }
+    }
   },
   // Path to the API docs
-  apis: ["./routes/games.js", "./routes/users.js"]
+  apis: ["./routes/*.js"]
 };
 
 // Initialize swagger-jsdoc -> returns validated swagger spec in json format

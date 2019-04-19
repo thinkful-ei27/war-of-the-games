@@ -15,28 +15,21 @@ const { JWT_SECRET } = require("../config");
  *
  * components:
  *  schemas:
- *    NewGame:
+ *    Game:
  *      type: object
  *      required:
  *        - name
  *        - igdb
  *        - coverUrl
  *      properties:
+ *        id:
+ *          type: object
  *        name:
  *          type: string
  *        igdb:
  *          type: object
  *        coverUrl:
  *          type: string
- *    Game:
- *      allOf:
- *        - $ref: '#/components/schemas/NewGame'
- *        - type: object
- *          required:
- *            - id
- *          properties:
- *            id:
- *              type: object
  */
 
 const router = express.Router();
