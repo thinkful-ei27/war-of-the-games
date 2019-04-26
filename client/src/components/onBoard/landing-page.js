@@ -12,9 +12,9 @@ import {
   fetchFeedback,
   handleVote
 } from "../../actions/gameActions";
-import { updateVotecount } from "../../actions/onboarding";
+import { updateVoteCount } from "../../actions/onboarding";
 import { updateProgressBar } from "../../actions/progressBar";
-import { loadVoteCount, checkVoteCount } from "../../local-storage";
+import { checkVoteCount } from "../../local-storage";
 import Loading from "../loading";
 
 export class LandingPage extends React.Component {
@@ -37,7 +37,7 @@ export class LandingPage extends React.Component {
       );
     }
     const voteCount = checkVoteCount();
-    return dispatch(updateVotecount(voteCount));
+    return dispatch(updateVoteCount(voteCount));
   }
 
   handleFetchFeedback(game) {
@@ -55,8 +55,7 @@ export class LandingPage extends React.Component {
         </div>
       );
     } else {
-      const { games, loggedIn, feedback } = this.props;
-      const count = parseInt(loadVoteCount(), 10);
+      const { count, games, loggedIn, feedback } = this.props;
       if (count <= 13 && !loggedIn) {
         content = <ConnectedUserOnboard />;
       } else if (count > 13 && !loggedIn) {
@@ -103,7 +102,7 @@ const mapStateToProps = state => ({
   nonUserVotes: state.games.nonUserVotes,
   motivations: state.user.motivations,
   userId: checkIfUser(state),
-  loading: state.progressBar.loading
+  loading: state.games.loading
 });
 
 export default connect(mapStateToProps)(LandingPage);

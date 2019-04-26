@@ -181,7 +181,7 @@ const initialState = {
       id: "5c9bfef9054d8f2e1010f139"
     }
   ],
-  voteCount: 0
+  voteCount: 1
 };
 export default function reducer(state = initialState, action) {
   switch (action.type) {

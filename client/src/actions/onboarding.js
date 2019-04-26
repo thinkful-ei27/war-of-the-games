@@ -21,7 +21,7 @@ export const clearLoading = () => ({
 });
 
 export const UDPATE_VOTE_COUNT = "UPDATE_VOTE_COUNT";
-export const updateVotecount = count => ({
+export const updateVoteCount = count => ({
   type: UDPATE_VOTE_COUNT,
   count
 });

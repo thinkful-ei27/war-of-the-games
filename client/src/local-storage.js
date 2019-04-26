@@ -40,16 +40,16 @@ export const saveVoteCount = count => {
   }
 };
 
-export const incrementVoteCount = () => {
-  let count = parseInt(loadVoteCount(), 10);
-  count += 1;
-  return saveVoteCount(count);
+export const incrementVoteCount = count => {
+  return saveVoteCount(count + 1);
 };
 
 export const setVoteLocalStorageVariable = () => {
-  if (!loadVoteCount()) {
+  const count = loadVoteCount();
+  if (!count) {
     return saveVoteCount(1);
   }
+  return count;
 };
 
 export const checkVoteCount = () => {

@@ -4,48 +4,42 @@ import { setNonUserVotes } from "../../actions/gameActions";
 import {
   nextTestRequest,
   nextTestSuccess,
-  setLoading
+  setLoading,
+  updateVoteCount
 } from "../../actions/onboarding";
 import OnboardPropmt from "./onboardPrompt";
 import Loading from "../loading";
-import {
-  setVoteLocalStorageVariable,
-  incrementVoteCount,
-  loadVoteCount
-} from "../../local-storage";
+import { incrementVoteCount } from "../../local-storage";
 
 export class UserOnboard extends React.Component {
   state = {
     loading: false
   };
 
-  count = Number(loadVoteCount());
-
-  state = {
-    imgLoaded: false
-  };
-
   componentDidMount() {
-    const { dispatch } = this.props;
-    setVoteLocalStorageVariable();
-    let myKey;
-    myKey = `test${this.count}`;
-    dispatch(nextTestSuccess(myKey));
+    const { count, dispatch } = this.props;
+    dispatch(nextTestSuccess(`test${count}`));
+  }
+
+  componentDidUpdate(prevProps) {
+    const { count, dispatch } = this.props;
+    if (count !== prevProps.count) {
+      dispatch(nextTestSuccess(`test${count}`));
+    }
   }
 
   handleVote = () => {
-    const { dispatch } = this.props;
-    let myKey;
-    this.count++;
-    incrementVoteCount();
-    myKey = `test${this.count}`;
+    const { count, dispatch } = this.props;
+    incrementVoteCount(count);
+    dispatch(updateVoteCount(count + 1));
+    const myKey = `test${count + 1}`;
     dispatch(nextTestRequest());
     dispatch(setLoading());
     dispatch(nextTestSuccess(myKey));
   };
 
   render() {
-    const { dispatch, tests } = this.props;
+    const { count, dispatch, tests } = this.props;
     const { loading } = this.state;
     let content;
     if (loading) {
@@ -55,7 +49,7 @@ export class UserOnboard extends React.Component {
         </div>
       );
     }
-    if (this.count < 13) {
+    if (count < 13) {
       content = (
         <>
           <div className="battle-container">
@@ -123,21 +117,22 @@ export class UserOnboard extends React.Component {
             <progress
               id="onboarding-progress"
               className="nes-progress is-primary"
-              value={this.count * 10}
+              value={count * 10}
               max="120"
             />
           </div>
         </>
       );
-    } else if (this.count >= 11) {
+    } else if (count >= 11) {
       content = <OnboardPropmt />;
     }
     return content;
   }
 }
 const mapStateToProps = state => ({
-  tests: state.onboard,
-  loading: state.onboard
+  count: state.onboard.voteCount,
+  loading: state.onboard.loading,
+  tests: state.onboard
 });
 
 export default connect(mapStateToProps)(UserOnboard);
