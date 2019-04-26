@@ -53,9 +53,12 @@ export const setVoteLocalStorageVariable = () => {
 };
 
 export const checkVoteCount = () => {
-  if (Number(loadVoteCount()) === 0 || Number.isNaN(loadVoteCount)) {
-    saveVoteCount(1);
-  } else if (Number(loadVoteCount()) > 13) {
-    saveVoteCount(13);
+  let count = Number(loadVoteCount());
+  if (count === 0 || Number.isNaN(count)) {
+    count = 1;
+  } else if (count > 13) {
+    count = 13;
   }
+  saveVoteCount(count);
+  return count;
 };
