@@ -1,24 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
 import { setNonUserVotes } from "../../actions/gameActions";
-import {
-  nextTestRequest,
-  nextTestSuccess,
-  setLoading,
-  updateVoteCount
-} from "../../actions/onboarding";
+import { nextTestSuccess, updateVoteCount } from "../../actions/onboarding";
+import { updateProgressBar } from "../../actions/progressBar";
 import OnboardPropmt from "./onboardPrompt";
 import Loading from "../loading";
 import { incrementVoteCount } from "../../local-storage";
 
 export class UserOnboard extends React.Component {
-  state = {
-    loading: false
-  };
-
   componentDidMount() {
     const { count, dispatch } = this.props;
+    dispatch(updateProgressBar(true));
     dispatch(nextTestSuccess(`test${count}`));
+    dispatch(updateProgressBar(false));
   }
 
   componentDidUpdate(prevProps) {
@@ -30,17 +24,16 @@ export class UserOnboard extends React.Component {
 
   handleVote = () => {
     const { count, dispatch } = this.props;
+    dispatch(updateProgressBar(true));
     incrementVoteCount(count);
     dispatch(updateVoteCount(count + 1));
     const myKey = `test${count + 1}`;
-    dispatch(nextTestRequest());
-    dispatch(setLoading());
     dispatch(nextTestSuccess(myKey));
+    dispatch(updateProgressBar(false));
   };
 
   render() {
-    const { count, dispatch, tests } = this.props;
-    const { loading } = this.state;
+    const { count, dispatch, loading, tests } = this.props;
     let content;
     if (loading) {
       content = (
@@ -48,8 +41,7 @@ export class UserOnboard extends React.Component {
           <Loading />
         </div>
       );
-    }
-    if (count < 13) {
+    } else if (count < 13) {
       content = (
         <>
           <div className="battle-container">
@@ -131,7 +123,7 @@ export class UserOnboard extends React.Component {
 }
 const mapStateToProps = state => ({
   count: state.onboard.voteCount,
-  loading: state.onboard.loading,
+  loading: state.progressBar.loading,
   tests: state.onboard
 });
 

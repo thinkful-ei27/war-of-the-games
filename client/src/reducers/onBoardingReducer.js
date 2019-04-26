@@ -1,8 +1,6 @@
 import {
   CLEAR_LOADING,
   NEXT_TEST_SUCCESS,
-  NEXT_TEST_REQUEST,
-  SET_LOADING,
   UDPATE_VOTE_COUNT
 } from "../actions/onboarding";
 
@@ -32,7 +30,6 @@ import kotor2 from "../assets/onboard-pics/kotor2.jpg";
 import dao from "../assets/onboard-pics/dao.jpg";
 
 const initialState = {
-  loading: false,
   showing: [
     { name: "test", coverUrl: "test", id: "test" },
     { name: "test", coverUrl: "test", id: "test" }
@@ -189,18 +186,10 @@ export default function reducer(state = initialState, action) {
       return Object.assign({}, state, {
         loading: false
       });
-    case NEXT_TEST_REQUEST:
-      return Object.assign({}, state, {
-        loading: true
-      });
     case NEXT_TEST_SUCCESS:
       return Object.assign({}, state, {
         loading: false,
         showing: state[action.payload]
-      });
-    case SET_LOADING:
-      return Object.assign({}, state, {
-        loading: true
       });
     case UDPATE_VOTE_COUNT:
       return Object.assign({}, state, {
