@@ -3,22 +3,25 @@ import { reducer as formReducer } from "redux-form";
 import thunk from "redux-thunk";
 import { loadAuthToken } from "./local-storage";
 import allGamesReducer from "./reducers/allGamesReducer";
-import onBoardingReducer from "./reducers/onBoardingReducer";
 import authReducer from "./reducers/auth";
+import onBoardingReducer from "./reducers/onBoardingReducer";
 import gamesReducer from "./reducers/gameReducer";
+import progressBarReducer from "./reducers/progressBar";
 import userReducer from "./reducers/userReducer";
 import windowReducer from "./reducers/window";
 
 import { setAuthToken, refreshAuthToken } from "./actions/auth";
 
+// eslint-disable-next-line no-underscore-dangle
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
   combineReducers({
-    form: formReducer,
     auth: authReducer,
+    form: formReducer,
     games: gamesReducer,
     allGames: allGamesReducer,
+    progressBar: progressBarReducer,
     user: userReducer,
     window: windowReducer,
     onboard: onBoardingReducer
