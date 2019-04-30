@@ -61,7 +61,7 @@ export const fetchGames = () => (dispatch, getState) => {
   if (authToken) {
     options.headers = { Authorization: `Bearer ${authToken}` };
   }
-  fetch(`${API_BASE_URL}/games/battle`, options)
+  return fetch(`${API_BASE_URL}/games/battle`, options)
     .then(res => normalizeResponseErrors(res))
     .then(res => res.json())
     .then(data => {
@@ -71,9 +71,6 @@ export const fetchGames = () => (dispatch, getState) => {
       return !data[0].cloudImage || !data[1].cloudImage
         ? fetchImages(gameOneId, gameTwoId, authToken)
         : "No images fetched";
-    })
-    .then(result => {
-      return result;
     })
     .catch(err => fetchFeedbackError(err));
 };
