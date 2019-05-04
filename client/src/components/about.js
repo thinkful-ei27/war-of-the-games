@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import demon from "../assets/demon.png";
 import knight from "../assets/knight.png";
 import "./styles/about.css";
+import "./styles/onboarding.css";
 
 export function AboutPage(props) {
   const { screenWidth } = props;
@@ -33,19 +34,17 @@ export function AboutPage(props) {
   }
 
   return (
-    <div className="about-container">
-      <section className="about-page-section">
-        <div className="about-page-div">
-          <i className="snes-logo" />
-          <h1>{title}</h1>
-          <i className="snes-logo" />
+    <div className="box-onboarding">
+      <section className="onboarding-box">
+        <div className="onboarding-display">
+          <h1 className="onboarding-text">{title}</h1>
         </div>
       </section>
       <section className="about-page-text-section">{content}</section>
       <section className="about-page-btns">
         <img className="about-img" src={demon} alt="demon" />
         <a
-          className="nes-btn is-success"
+          className="nes-btn is-warning"
           href="https://github.com/thinkful-ei27/war-of-the-games"
           target="_blank"
           rel="noopener noreferrer"
@@ -54,6 +53,7 @@ export function AboutPage(props) {
         </a>
         <img className="about-img" src={knight} alt="knight" />
       </section>
+      <div className="bricks-onboarding-holder-2" />
     </div>
   );
 }

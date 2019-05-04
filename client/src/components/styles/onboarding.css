@@ -1,0 +1,43 @@
+.box-onboarding {
+  background-color: #7084ff;
+  color: white;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.onboard-link {
+  color: white;
+}
+
+.onboard-signup-btn {
+  margin-bottom: 15px;
+}
+
+.onboarding-box {
+  color: #f1bfb4;
+  margin: 10px auto auto;
+  border-top: 2px solid #f9c8c1;
+  border-left: 2px solid #f9c8c1;
+  background-color: #d64d00;
+  font-size: 35px;
+  box-shadow: 2px 2px 0 black;
+  border-radius: 8px;
+}
+
+.onboarding-display {
+  padding: 15%;
+  text-shadow: 0 3px 0 black;
+}
+
+.onboarding-nav {
+  margin-bottom: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.onboarding-text {
+  font-size: 35px;
+  text-transform: uppercase;
+}
