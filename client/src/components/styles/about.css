@@ -1,20 +1,8 @@
-.about-page-text-section {
-  text-align: center;
-}
-
-.about-page-text.one {
-  text-align: left;
-  margin-bottom: 35px;
-}
-
-.about-page-text.two {
-  text-align: right;
-}
-
-.recomendations {
-  font-size: 0.6em;
-  color: rgb(155, 155, 155);
-  margin: 0 auto 20px auto;
+.about-img {
+  box-shadow: none;
+  padding-left: 25px;
+  padding-right: 25px;
+  height: 50px;
 }
 
 .about-page-btns {
@@ -22,9 +10,18 @@
   margin: 0 auto 20px auto;
 }
 
-.about-img {
-  box-shadow: none;
-  padding-left: 25px;
-  padding-right: 25px;
-  height: 50px;
+.about-page-btns .nes-btn {
+  margin: 1rem;
+}
+
+.about-page-text p {
+  margin: 1rem;
+  text-align: left;
+}
+
+@media (min-width: 992px) {
+  .about-page-text p {
+    margin: 1rem auto;
+    max-width: 50em;
+  }
 }

@@ -1,10 +1,15 @@
 .box-onboarding {
   background-color: #7084ff;
   color: white;
-  height: 600px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  min-height: 600px;
   text-align: center;
+}
+
+.box-onboarding p {
+  margin: 1rem;
 }
 
 .onboard-link {
@@ -17,7 +22,7 @@
 
 .onboarding-box {
   color: #f1bfb4;
-  margin: 10px auto auto;
+  margin: 1rem;
   border-top: 2px solid #f9c8c1;
   border-left: 2px solid #f9c8c1;
   background-color: #d64d00;
@@ -40,4 +45,10 @@
 .onboarding-text {
   font-size: 35px;
   text-transform: uppercase;
+}
+
+@media (min-width: 768px) {
+  .onboarding-box {
+    margin: 1rem auto;
+  }
 }
