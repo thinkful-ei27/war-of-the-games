@@ -30,6 +30,10 @@ app.use(
   })
 );
 
+app.get('/', (req, res) => {
+  res.redirect('/api-docs');
+});
+
 // API documentation
 app.get("/api-docs.json", (req, res) => {
   res.setHeader("Content-Type", "application/json");
