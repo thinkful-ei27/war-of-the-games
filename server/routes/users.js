@@ -94,6 +94,57 @@ const populateWishlist = igdbIds => {
     .catch(err => err);
 };
 
+/**
+ * @swagger
+ *
+ * /users:
+ *  get:
+ *    tags:
+ *      - Users
+ *    summary: Returns users
+ *    parameters:
+ *      - name: username
+ *        in: query
+ *        description: Username
+ *        schema:
+ *          type: string
+ *        example: bobuser
+ *    responses:
+ *      401:
+ *        description: Unauthorized error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  format: int32
+ *                  example: 401
+ *                message:
+ *                  type: string
+ *                  example: Unauthorized
+ *      200:
+ *        description: Queried user
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/User'
+ *      404:
+ *        description: Not Found error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  format: int32
+ *                  example: 404
+ *                message:
+ *                  type: string
+ *                  example: Not Found
+ */
 router.get("/", (req, res, next) => {
   const handleQueries = () => {
     if ("username" in req.query) {

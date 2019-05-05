@@ -30,8 +30,8 @@ app.use(
   })
 );
 
-app.get('/', (req, res) => {
-  res.redirect('/api-docs');
+app.get("/", (req, res) => {
+  res.redirect("/api-docs");
 });
 
 // API documentation
