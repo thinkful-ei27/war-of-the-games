@@ -4,34 +4,40 @@ import { connect } from "react-redux";
 import ConnectedBattle from "../votePage/battle";
 import VoteStats from "../votePage/vote-stats";
 import ConnectedUserOnboard from "./userOnboard";
-import "../styles/landing-page.css";
 import ErrorBoundary from "../errorBoundary";
+import "../styles/landing-page.css";
 import "../styles/card.css";
 import {
   fetchGames,
   fetchFeedback,
   handleVote
 } from "../../actions/gameActions";
-import {
-  loadVoteCount,
-  setVoteLocalStorageVariable
-} from "../../local-storage";
+import { updateVoteCount } from "../../actions/onboarding";
+import { updateProgressBar } from "../../actions/progressBar";
+import { checkVoteCount } from "../../local-storage";
 import Loading from "../loading";
 
 export class LandingPage extends React.Component {
   componentDidMount() {
     const { loggedIn, nonUserVotes, dispatch, userId } = this.props;
 
-    if (loggedIn && nonUserVotes.length) {
-      nonUserVotes.forEach(obj => {
-        const values = Object.values(obj);
-        if (userId) {
-          dispatch(handleVote(values[0], values[1], values[2], userId));
-        }
-      });
+    if (loggedIn) {
+      dispatch(updateProgressBar(true));
+
+      if (nonUserVotes.length) {
+        nonUserVotes.forEach(obj => {
+          const values = Object.values(obj);
+          if (userId) {
+            dispatch(handleVote(values[0], values[1], values[2], userId));
+          }
+        });
+      }
+      return dispatch(fetchGames()).then(() =>
+        dispatch(updateProgressBar(false))
+      );
     }
-    setVoteLocalStorageVariable();
-    dispatch(fetchGames());
+    const voteCount = checkVoteCount();
+    return dispatch(updateVoteCount(voteCount));
   }
 
   handleFetchFeedback(game) {
@@ -49,8 +55,7 @@ export class LandingPage extends React.Component {
         </div>
       );
     } else {
-      const { games, loggedIn, feedback } = this.props;
-      const count = parseInt(loadVoteCount(), 10);
+      const { count, games, loggedIn, feedback } = this.props;
       if (count <= 13 && !loggedIn) {
         content = <ConnectedUserOnboard />;
       } else if (count > 13 && !loggedIn) {
@@ -93,7 +98,7 @@ const mapStateToProps = state => ({
   loggedIn: state.auth.currentUser !== null,
   games: state.games.battleGames,
   feedback: state.games.feedback,
-  count: state.games.sessionVoteCount,
+  count: state.onboard.voteCount,
   nonUserVotes: state.games.nonUserVotes,
   motivations: state.user.motivations,
   userId: checkIfUser(state),
