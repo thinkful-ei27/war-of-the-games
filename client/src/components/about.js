@@ -3,10 +3,9 @@ import { connect } from "react-redux";
 import demon from "../assets/demon.png";
 import knight from "../assets/knight.png";
 import "./styles/about.css";
+import "./styles/onboarding.css";
 
-export function AboutPage(props) {
-  const { screenWidth } = props;
-  let title = "WotG";
+export function AboutPage() {
   const textOne = `War of the Games pits games from beloved classics to modern
   masterpieces against each other, and shows you how other people feel
   about that game.`;
@@ -15,37 +14,21 @@ export function AboutPage(props) {
   everything you've ever wanted to know about a title, including review
   scores!`;
 
-  let content = (
-    <div>
-      <p className="about-page-text one">{textOne}</p>
-      <p className="about-page-text two">{textTwo}</p>
-    </div>
-  );
-
-  if (screenWidth > 768) {
-    title = "War of the Games";
-    content = (
+  return (
+    <div className="box-onboarding">
+      <section className="onboarding-box">
+        <div className="onboarding-display">
+          <h1 className="onboarding-text">War of the Games</h1>
+        </div>
+      </section>
       <section className="about-page-text">
         <p>{textOne}</p>
         <p>{textTwo}</p>
       </section>
-    );
-  }
-
-  return (
-    <div className="about-container">
-      <section className="about-page-section">
-        <div className="about-page-div">
-          <i className="snes-logo" />
-          <h1>{title}</h1>
-          <i className="snes-logo" />
-        </div>
-      </section>
-      <section className="about-page-text-section">{content}</section>
       <section className="about-page-btns">
         <img className="about-img" src={demon} alt="demon" />
         <a
-          className="nes-btn is-success"
+          className="nes-btn is-warning"
           href="https://github.com/thinkful-ei27/war-of-the-games"
           target="_blank"
           rel="noopener noreferrer"
@@ -54,6 +37,7 @@ export function AboutPage(props) {
         </a>
         <img className="about-img" src={knight} alt="knight" />
       </section>
+      <div className="bricks-onboarding-holder-2" />
     </div>
   );
 }
