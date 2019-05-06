@@ -1,36 +1,3 @@
-.about-page-div {
-  display: flex;
-  justify-content: space-evenly;
-}
-
-.about-page-section {
-  margin: 0 15px 35px 15px;
-}
-
-.about-page-text-section {
-  text-align: center;
-}
-
-.about-page-text.one {
-  text-align: left;
-  margin-bottom: 35px;
-}
-
-.about-page-text.two {
-  text-align: right;
-}
-
-.recomendations {
-  font-size: 0.6em;
-  color: rgb(155, 155, 155);
-  margin: 0 auto 20px auto;
-}
-
-.about-page-btns {
-  text-align: center;
-  margin: 0 auto 20px auto;
-}
-
 .about-img {
   box-shadow: none;
   padding-left: 25px;
@@ -38,40 +5,23 @@
   height: 50px;
 }
 
-.about-container {
-  width: 100%;
-  margin: 0 auto;
-  padding: 25px;
-  display: flex;
-  flex-direction: column;
+.about-page-btns {
+  text-align: center;
+  margin: 0 auto 20px auto;
 }
 
-@media (min-width: 576px) {
-  .about-container {
-    max-width: 576px;
-  }
+.about-page-btns .nes-btn {
+  margin: 1rem;
 }
 
-@media (min-width: 768px) {
-  .about-container {
-    max-width: 768px;
-  }
+.about-page-text p {
+  margin: 1rem;
+  text-align: left;
 }
 
 @media (min-width: 992px) {
-  .about-container {
-    max-width: 992px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .about-container {
-    max-width: 1200px;
-  }
-}
-
-@media (min-width: 1600px) {
-  .about-container {
-    max-width: 1600px;
+  .about-page-text p {
+    margin: 1rem auto;
+    max-width: 50em;
   }
 }
