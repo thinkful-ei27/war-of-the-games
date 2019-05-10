@@ -2,13 +2,36 @@ const express = require("express");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const { totalGamesPlayed, gamesWon } = require("../utils/queries");
-
 const History = require("../models/history");
 const User = require("../models/user");
-
 const Game = require("../models/game");
-
 const { isValidId } = require("./validators");
+
+/**
+ * @swagger
+ *
+ * components:
+ *  schemas:
+ *    History:
+ *      type: object
+ *      required:
+ *        - gameOne
+ *        - gameTwo
+ *        - choice
+ *      properties:
+ *        gameOne:
+ *          type: string
+ *          example: 5c9a959ba5d0dd09e07f45a7
+ *        gameTwo:
+ *          type: string
+ *          example: 5c9a959ba5d0dd09e07f45a8
+ *        choice:
+ *          type: string
+ *          example: 5c9a959ba5d0dd09e07f45a7
+ *        userId:
+ *          type: string
+ *          example: 5c9bcf48b11f8f14c6e17730
+ */
 
 const router = express.Router();
 const jwtAuth = passport.authenticate("jwt", {
