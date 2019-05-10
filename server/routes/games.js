@@ -277,6 +277,20 @@ router.get("/battle", (req, res, next) => {
  *          application/json:
  *            schema:
  *               $ref: '#/components/schemas/Game'
+ *      404:
+ *        description: Not Found error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  format: int32
+ *                  example: 404
+ *                message:
+ *                  type: string
+ *                  example: Not Found
  */
 router.get("/:id", isValidId, (req, res, next) => {
   const { id } = req.params;
@@ -343,6 +357,20 @@ router.get("/:id", isValidId, (req, res, next) => {
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Game'
+ *      422:
+ *        description: Validation error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  format: int32
+ *                  example: 422
+ *                message:
+ *                  type: string
+ *                  example: Game already exists
  */
 router.post("/", jwtAuth, igdbIdRequired, (req, res, next) => {
   const { igdbId } = req.body;
