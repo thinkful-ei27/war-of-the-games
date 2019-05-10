@@ -495,11 +495,39 @@ router.get("/aboutMe", jwtAuth, (req, res, next) => {
  *            $ref: '#/components/schemas/User'
  *    responses:
  *      201:
- *        description: user
+ *        description: Created user
  *        content:
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/User'
+ *      422:
+ *        description: Validation error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  format: int32
+ *                  example: 422
+ *                message:
+ *                  type: string
+ *                  example: Missing field in body
+ *      400:
+ *        description: Duplicate record error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  format: int32
+ *                  example: 400
+ *                message:
+ *                  type: string
+ *                  example: The username already exists
  */
 router.post("/", (req, res, next) => {
   const { firstName, lastName, username, password, profilePic } = req.body;
@@ -710,6 +738,50 @@ router.put("/removewishlist", jwtAuth, (req, res, next) => {
     });
 });
 
+/**
+ * @swagger
+ *
+ * /users/{userId}:
+ *  put:
+ *    tags:
+ *      - Users
+ *    summary: Updates a user
+ *    parameters:
+ *      - name: userId
+ *        in: path
+ *        required: true
+ *        description: User ID
+ *        schema:
+ *          type: string
+ *    requestBody:
+ *      description: User object
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/User'
+ *    responses:
+ *      200:
+ *        description: Updated user
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/User'
+ *      400:
+ *        description: Record error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  format: int32
+ *                  example: 400
+ *                message:
+ *                  type: string
+ *                  example: The game ID is not valid
+ */
 router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
   const { id } = req.params;
   const { neverPlayed } = req.body;
@@ -758,7 +830,49 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
     .catch(err => next(err));
 });
 
-// GET /api/users/:id/
+/**
+ * @swagger
+ *
+ * /users/{userId}:
+ *  get:
+ *    tags:
+ *      - Users
+ *    summary: Retrieves a user
+ *    parameters:
+ *      - name: userId
+ *        in: path
+ *        required: true
+ *        description: User ID
+ *        schema:
+ *          type: string
+ *      - name: fieldId
+ *        in: path
+ *        required: false
+ *        description: Field ID
+ *        schema:
+ *          type: string
+ *    responses:
+ *      200:
+ *        description: Updated user
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/User'
+ *      404:
+ *        description: Not Found error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  format: int32
+ *                  example: 404
+ *                message:
+ *                  type: string
+ *                  example: Not Found
+ */
 router.get("/:id", isValidId, (req, res, next) => {
   const { id } = req.params;
   return User.findOne({ _id: id })

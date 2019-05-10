@@ -269,7 +269,7 @@ router.get("/battle", (req, res, next) => {
  *        required: true
  *        description: Game ID
  *        schema:
- *          type: object
+ *          type: string
  *    responses:
  *      200:
  *        description: game
@@ -412,11 +412,18 @@ router.post("/", jwtAuth, igdbIdRequired, (req, res, next) => {
 /**
  * @swagger
  *
- * /games:
+ * /games/{gameId}:
  *  put:
  *    tags:
  *      - Games
  *    summary: Updates a game
+ *    parameters:
+ *      - name: gameId
+ *        in: path
+ *        required: true
+ *        description: Game ID
+ *        schema:
+ *          type: string
  *    requestBody:
  *      description: IGDB ID
  *      required: true
