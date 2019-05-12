@@ -44,14 +44,6 @@ export const incrementVoteCount = count => {
   return saveVoteCount(count + 1);
 };
 
-export const setVoteLocalStorageVariable = () => {
-  const count = loadVoteCount();
-  if (!count) {
-    return saveVoteCount(1);
-  }
-  return count;
-};
-
 export const checkVoteCount = () => {
   let count = Number(loadVoteCount());
   if (count === 0 || Number.isNaN(count)) {
