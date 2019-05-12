@@ -9,6 +9,58 @@ const igdbApi = require("../utils/gameApi");
 const { subMotivationKeywords } = require("../db/subMotivations");
 const { isValidId } = require("./validators");
 
+/**
+ * @swagger
+ *
+ * components:
+ *  schemas:
+ *    User:
+ *      type: object
+ *      required:
+ *        - firstName
+ *        - lastName
+ *        - username
+ *        - password
+ *      properties:
+ *        id:
+ *          type: string
+ *          example: 5c9bcf48b11f8f14c6e17730
+ *        firstName:
+ *          type: string
+ *          example: Bob
+ *        lastName:
+ *          type: string
+ *          example: User
+ *        username:
+ *          type: string
+ *          example: bobuser
+ *        password:
+ *          type: string
+ *          format: password
+ *        createdAt:
+ *          type: string
+ *          format: date-time
+ *        updatedAt:
+ *          type: string
+ *          format: date-time
+ *        aboutMe:
+ *          type: string
+ *          example: I am definitely a person and not an example of a person.
+ *        historyCount:
+ *          type: integer
+ *          format: int32
+ *          example: 433
+ *        level:
+ *          type: string
+ *          example: 020
+ *        xpToNextLevel:
+ *          type: string
+ *          example: 433 / 441
+ *        profilePic:
+ *          type: string
+ *          example: nes-kirby
+ */
+
 const router = express.Router();
 const jwtAuth = passport.authenticate("jwt", {
   session: false,
@@ -42,6 +94,57 @@ const populateWishlist = igdbIds => {
     .catch(err => err);
 };
 
+/**
+ * @swagger
+ *
+ * /users:
+ *  get:
+ *    tags:
+ *      - Users
+ *    summary: Returns users
+ *    parameters:
+ *      - name: username
+ *        in: query
+ *        description: Username
+ *        schema:
+ *          type: string
+ *        example: bobuser
+ *    responses:
+ *      401:
+ *        description: Unauthorized error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  format: int32
+ *                  example: 401
+ *                message:
+ *                  type: string
+ *                  example: Unauthorized
+ *      200:
+ *        description: Queried user
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/User'
+ *      404:
+ *        description: Not Found error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  format: int32
+ *                  example: 404
+ *                message:
+ *                  type: string
+ *                  example: Not Found
+ */
 router.get("/", (req, res, next) => {
   const handleQueries = () => {
     if ("username" in req.query) {
@@ -374,8 +477,58 @@ router.get("/aboutMe", jwtAuth, (req, res, next) => {
     })
     .catch(err => next(err));
 });
-/* ========== POST USERS ========== */
 
+/**
+ * @swagger
+ *
+ * /users:
+ *  post:
+ *    tags:
+ *      - Users
+ *    summary: Creates a user
+ *    requestBody:
+ *      description: User object
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/User'
+ *    responses:
+ *      201:
+ *        description: Created user
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/User'
+ *      422:
+ *        description: Validation error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  format: int32
+ *                  example: 422
+ *                message:
+ *                  type: string
+ *                  example: Missing field in body
+ *      400:
+ *        description: Duplicate record error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  format: int32
+ *                  example: 400
+ *                message:
+ *                  type: string
+ *                  example: The username already exists
+ */
 router.post("/", (req, res, next) => {
   const { firstName, lastName, username, password, profilePic } = req.body;
 
@@ -585,6 +738,66 @@ router.put("/removewishlist", jwtAuth, (req, res, next) => {
     });
 });
 
+/**
+ * @swagger
+ *
+ * /users/{userId}:
+ *  put:
+ *    tags:
+ *      - Users
+ *    summary: Updates a user
+ *    security:
+ *      - BearerAuth: []
+ *    parameters:
+ *      - name: userId
+ *        in: path
+ *        required: true
+ *        description: User ID
+ *        schema:
+ *          type: string
+ *    requestBody:
+ *      description: User object
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/User'
+ *    responses:
+ *      200:
+ *        description: Updated user
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/User'
+ *      400:
+ *        description: Record error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  format: int32
+ *                  example: 400
+ *                message:
+ *                  type: string
+ *                  example: The game ID is not valid
+ *      401:
+ *        description: Unauthorized error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: int
+ *                  format: int32
+ *                  example: 401
+ *                message:
+ *                  type: string
+ *                  example: Unauthorized
+ */
 router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
   const { id } = req.params;
   const { neverPlayed } = req.body;
@@ -633,7 +846,65 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
     .catch(err => next(err));
 });
 
-// GET /api/users/:id/
+/**
+ * @swagger
+ *
+ * /users/{userId}:
+ *  get:
+ *    tags:
+ *      - Users
+ *    summary: Retrieves a user
+ *    security:
+ *      - BearerAuth: []
+ *    parameters:
+ *      - name: userId
+ *        in: path
+ *        required: true
+ *        description: User ID
+ *        schema:
+ *          type: string
+ *      - name: fieldId
+ *        in: path
+ *        required: false
+ *        description: Field ID
+ *        schema:
+ *          type: string
+ *    responses:
+ *      200:
+ *        description: Updated user
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/User'
+ *      401:
+ *        description: Unauthorized error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: int
+ *                  format: int32
+ *                  example: 401
+ *                message:
+ *                  type: string
+ *                  example: Unauthorized
+ *      404:
+ *        description: Not Found error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  format: int32
+ *                  example: 404
+ *                message:
+ *                  type: string
+ *                  example: Not Found
+ */
 router.get("/:id", isValidId, (req, res, next) => {
   const { id } = req.params;
   return User.findOne({ _id: id })

@@ -2,13 +2,36 @@ const express = require("express");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const { totalGamesPlayed, gamesWon } = require("../utils/queries");
-
 const History = require("../models/history");
 const User = require("../models/user");
-
 const Game = require("../models/game");
-
 const { isValidId } = require("./validators");
+
+/**
+ * @swagger
+ *
+ * components:
+ *  schemas:
+ *    History:
+ *      type: object
+ *      required:
+ *        - gameOne
+ *        - gameTwo
+ *        - choice
+ *      properties:
+ *        gameOne:
+ *          type: string
+ *          example: 5c9a959ba5d0dd09e07f45a7
+ *        gameTwo:
+ *          type: string
+ *          example: 5c9a959ba5d0dd09e07f45a8
+ *        choice:
+ *          type: string
+ *          example: 5c9a959ba5d0dd09e07f45a7
+ *        userId:
+ *          type: string
+ *          example: 5c9bcf48b11f8f14c6e17730
+ */
 
 const router = express.Router();
 const jwtAuth = passport.authenticate("jwt", {
@@ -27,13 +50,26 @@ const missingChoice = (req, res, next) => {
   return next();
 };
 
-/* ========== GET/READ ALL ITEMS ========== */
-
+/**
+ * @swagger
+ *
+ * /history:
+ *  get:
+ *    tags:
+ *      - History
+ *    summary: Returns all histories
+ *    responses:
+ *      200:
+ *        description: A JSON array of histories
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/History'
+ */
 router.get("/", (req, res, next) => {
   History.find()
-    // .populate('gameOne', 'name')
-    // .populate('gameTwo', 'name')
-    // .populate('choice', 'name')
     .then(results => {
       res.json(results);
     })
@@ -76,7 +112,43 @@ router.get("/all", (req, res, next) => {
     .catch(err => next(err));
 });
 
-/* ========== GET/READ ONE ITEM ========== */
+/**
+ * @swagger
+ *
+ * /history/{historyId}:
+ *  get:
+ *    tags:
+ *      - History
+ *    summary: Returns a history by ID
+ *    parameters:
+ *      - name: historyId
+ *        in: path
+ *        required: true
+ *        description: History ID
+ *        schema:
+ *          type: string
+ *    responses:
+ *      200:
+ *        description: History
+ *        content:
+ *          application/json:
+ *            schema:
+ *               $ref: '#/components/schemas/History'
+ *      404:
+ *        description: Not Found error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  format: int32
+ *                  example: 404
+ *                message:
+ *                  type: string
+ *                  example: Not Found
+ */
 router.get("/:id", isValidId, (req, res, next) => {
   const { id } = req.params;
 
@@ -110,7 +182,69 @@ router.get("/:id/results", async (req, res, next) => {
   }
 });
 
-/* ========== POST/CREATE AN ITEM ========== */
+/**
+ * @swagger
+ *
+ * /history:
+ *  post:
+ *    tags:
+ *      - History
+ *    summary: Creates a history
+ *    security:
+ *      - BearerAuth: []
+ *    requestBody:
+ *      description: History object
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              gameOne:
+ *                type: string
+ *                example: 5c9a959ba5d0dd09e07f45a7
+ *              gameTwo:
+ *                type: string
+ *                example: 5c9a959ba5d0dd09e07f45a8
+ *              choice:
+ *                type: string
+ *                example: 5c9a959ba5d0dd09e07f45a7
+ *    responses:
+ *      201:
+ *        description: New history
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/History'
+ *      400:
+ *        description: Validation error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  format: int32
+ *                  example: 400
+ *                message:
+ *                  type: string
+ *                  example: Missing field in request body
+ *      401:
+ *        description: Unauthorized error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: int
+ *                  format: int32
+ *                  example: 401
+ *                message:
+ *                  type: string
+ *                  example: Unauthorized
+ */
 router.post("/", jwtAuth, (req, res, next) => {
   const { gameOne, gameTwo, choice } = req.body;
   const userId = req.user.id;
@@ -163,7 +297,68 @@ router.post("/", jwtAuth, (req, res, next) => {
     });
 });
 
-/* ========== PUT/UPDATE AN ITEM ========== */
+/**
+ * @swagger
+ *
+ * /history/{historyId}:
+ *  put:
+ *    tags:
+ *      - History
+ *    summary: Updates a history
+ *    parameters:
+ *      - name: historyId
+ *        in: path
+ *        required: true
+ *        description: History ID
+ *        schema:
+ *          type: string
+ *    requestBody:
+ *      description: New choice
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              choice:
+ *                type: string
+ *                example: 5c9a959ba5d0dd09e07f45a7
+ *    responses:
+ *      200:
+ *        description: Updated history
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/History'
+ *      400:
+ *        description: Validation error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  format: int32
+ *                  example: 400
+ *                message:
+ *                  type: string
+ *                  example: Choice does not equal game one or game two
+ *      404:
+ *        description: Not Found error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  format: int32
+ *                  example: 404
+ *                message:
+ *                  type: string
+ *                  example: Not Found
+ */
 router.put("/:id", isValidId, missingChoice, (req, res, next) => {
   const { id } = req.params;
   const { choice } = req.body;
@@ -196,7 +391,25 @@ router.put("/:id", isValidId, missingChoice, (req, res, next) => {
     });
 });
 
-/* ========== DELETE AN ITEM ========== */
+/**
+ * @swagger
+ *
+ * /history/{historyId}:
+ *  delete:
+ *    tags:
+ *      - History
+ *    summary: Removes a history
+ *    parameters:
+ *      - name: historyId
+ *        in: path
+ *        required: true
+ *        description: History ID
+ *        schema:
+ *          type: string
+ *    responses:
+ *      204:
+ *        description: No content
+ */
 router.delete("/:id", isValidId, (req, res, next) => {
   const { id } = req.params;
 
