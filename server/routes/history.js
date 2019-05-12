@@ -190,6 +190,8 @@ router.get("/:id/results", async (req, res, next) => {
  *    tags:
  *      - History
  *    summary: Creates a history
+ *    security:
+ *      - BearerAuth
  *    requestBody:
  *      description: History object
  *      required: true
@@ -228,6 +230,20 @@ router.get("/:id/results", async (req, res, next) => {
  *                message:
  *                  type: string
  *                  example: Missing field in request body
+ *      401:
+ *        description: Unauthorized error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: int
+ *                  format: int32
+ *                  example: 401
+ *                message:
+ *                  type: string
+ *                  example: Unauthorized
  */
 router.post("/", jwtAuth, (req, res, next) => {
   const { gameOne, gameTwo, choice } = req.body;

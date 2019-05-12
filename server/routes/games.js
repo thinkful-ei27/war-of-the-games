@@ -343,6 +343,8 @@ router.get("/:id", isValidId, (req, res, next) => {
  *    tags:
  *      - Games
  *    summary: Creates a game
+ *    security:
+ *      - BearerAuth
  *    requestBody:
  *      description: IGDB ID
  *      required: true
@@ -357,6 +359,20 @@ router.get("/:id", isValidId, (req, res, next) => {
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Game'
+ *      401:
+ *        description: Unauthorized error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: int
+ *                  format: int32
+ *                  example: 401
+ *                message:
+ *                  type: string
+ *                  example: Unauthorized
  *      422:
  *        description: Validation error
  *        content:
@@ -445,6 +461,8 @@ router.post("/", jwtAuth, igdbIdRequired, (req, res, next) => {
  *    tags:
  *      - Games
  *    summary: Updates a game
+ *    security:
+ *      - BearerAuth
  *    parameters:
  *      - name: gameId
  *        in: path
@@ -466,6 +484,20 @@ router.post("/", jwtAuth, igdbIdRequired, (req, res, next) => {
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Game'
+ *      401:
+ *        description: Unauthorized error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: int
+ *                  format: int32
+ *                  example: 401
+ *                message:
+ *                  type: string
+ *                  example: Unauthorized
  */
 router.put(
   "/:id",

@@ -2,6 +2,14 @@ const swaggerJSDoc = require("swagger-jsdoc");
 
 const options = {
   definition: {
+    components: {
+      securitySchemes: {
+        BearerAuth: {
+          type: "http",
+          scheme: "bearer"
+        }
+      }
+    },
     openapi: "3.0.0", // Specification (optional, defaults to swagger: '2.0')
     info: {
       title: "The War of the Games API", // Title (required)
@@ -10,17 +18,14 @@ const options = {
     },
     servers: [
       {
-        url: "https://async-capstone.herokuapp.com/api"
+        url: "https://async-capstone.herokuapp.com/api",
+        description: "Production Heroku server"
+      },
+      {
+        url: "http://localhost:8080/api",
+        description: "Local server"
       }
-    ],
-    securityDefinitions: {
-      bearerAuth: {
-        type: "apiKey",
-        name: "Authorization",
-        scheme: "bearer",
-        in: "header"
-      }
-    }
+    ]
   },
   // Path to the API docs
   apis: ["./routes/*.js"]

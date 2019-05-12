@@ -87,6 +87,8 @@ const jwtAuth = passport.authenticate("jwt", {
  *    tags:
  *      - Auth
  *    summary: Refreshes the authentication token
+ *    security:
+ *      - BearerAuth
  *    responses:
  *      200:
  *        description: Authentication token
@@ -98,6 +100,20 @@ const jwtAuth = passport.authenticate("jwt", {
  *                authToken:
  *                  type: string
  *                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWM5YmNmNDhiMTFmOGYxNGM2ZTE3NzM5IiwidXNlcm5hbWUiOiJkZXJlayIsImFkbWluIjp0cnVlfSwiaWF0IjoxNTU3NTA4MTg4LCJleHAiOjE1NTgxMTI5ODgsInN1YiI6ImRlcmVrIn0.bfZqg7mIFjFjKaJl2jp-UorMneTWT6h-Bi81vfTwUQA
+ *      401:
+ *        description: Unauthorized error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: int
+ *                  format: int32
+ *                  example: 401
+ *                message:
+ *                  type: string
+ *                  example: Unauthorized
  */
 router.post("/refresh", jwtAuth, (req, res) => {
   const authToken = createAuthToken(req.user);

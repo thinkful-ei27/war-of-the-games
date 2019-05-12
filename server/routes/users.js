@@ -746,6 +746,8 @@ router.put("/removewishlist", jwtAuth, (req, res, next) => {
  *    tags:
  *      - Users
  *    summary: Updates a user
+ *    security:
+ *      - BearerAuth
  *    parameters:
  *      - name: userId
  *        in: path
@@ -781,6 +783,20 @@ router.put("/removewishlist", jwtAuth, (req, res, next) => {
  *                message:
  *                  type: string
  *                  example: The game ID is not valid
+ *      401:
+ *        description: Unauthorized error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: int
+ *                  format: int32
+ *                  example: 401
+ *                message:
+ *                  type: string
+ *                  example: Unauthorized
  */
 router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
   const { id } = req.params;
@@ -838,6 +854,8 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
  *    tags:
  *      - Users
  *    summary: Retrieves a user
+ *    security:
+ *      - BearerAuth
  *    parameters:
  *      - name: userId
  *        in: path
@@ -858,6 +876,20 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/User'
+ *      401:
+ *        description: Unauthorized error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: int
+ *                  format: int32
+ *                  example: 401
+ *                message:
+ *                  type: string
+ *                  example: Unauthorized
  *      404:
  *        description: Not Found error
  *        content:
