@@ -188,6 +188,24 @@ describe("ASYNC Capstone API - Users", () => {
     });
   });
 
+  describe("GET /api/users/history/motivations", () => {
+    it("should return the motivations for the current user", () => {
+      return chai
+        .request(app)
+        .get("/api/users/history/motivations")
+        .set("Authorization", `Bearer ${token}`)
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.be.an("object");
+          expect(res.body).to.have.keys(
+            "All Motivations",
+            "All Choices",
+            "percentages"
+          );
+        });
+    });
+  });
+
   describe("GET /api/users/:id/topHistory", () => {
     it("should return the correct number of games", function() {
       return chai
