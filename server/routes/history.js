@@ -191,7 +191,7 @@ router.get("/:id/results", async (req, res, next) => {
  *      - History
  *    summary: Creates a history
  *    security:
- *      - BearerAuth
+ *      - BearerAuth: []
  *    requestBody:
  *      description: History object
  *      required: true

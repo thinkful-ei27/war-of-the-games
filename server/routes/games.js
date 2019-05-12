@@ -344,7 +344,7 @@ router.get("/:id", isValidId, (req, res, next) => {
  *      - Games
  *    summary: Creates a game
  *    security:
- *      - BearerAuth
+ *      - BearerAuth: []
  *    requestBody:
  *      description: IGDB ID
  *      required: true
@@ -462,7 +462,7 @@ router.post("/", jwtAuth, igdbIdRequired, (req, res, next) => {
  *      - Games
  *    summary: Updates a game
  *    security:
- *      - BearerAuth
+ *      - BearerAuth: []
  *    parameters:
  *      - name: gameId
  *        in: path

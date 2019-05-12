@@ -747,7 +747,7 @@ router.put("/removewishlist", jwtAuth, (req, res, next) => {
  *      - Users
  *    summary: Updates a user
  *    security:
- *      - BearerAuth
+ *      - BearerAuth: []
  *    parameters:
  *      - name: userId
  *        in: path
@@ -855,7 +855,7 @@ router.put("/:id", jwtAuth, isValidId, (req, res, next) => {
  *      - Users
  *    summary: Retrieves a user
  *    security:
- *      - BearerAuth
+ *      - BearerAuth: []
  *    parameters:
  *      - name: userId
  *        in: path

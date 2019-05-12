@@ -37,6 +37,7 @@ function createAuthToken(user) {
  *                type: string
  *              password:
  *                type: string
+ *                format: password
  *    responses:
  *      200:
  *        description: Authentication token
@@ -88,7 +89,7 @@ const jwtAuth = passport.authenticate("jwt", {
  *      - Auth
  *    summary: Refreshes the authentication token
  *    security:
- *      - BearerAuth
+ *      - BearerAuth: []
  *    responses:
  *      200:
  *        description: Authentication token
