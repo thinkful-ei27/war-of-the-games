@@ -16,7 +16,7 @@ export function MenuItem(props) {
   return (
     <li className="menu-item nes-text is-primary">
       <Link
-        to={link}
+        to={link || ""}
         className="menu-item__link p-4"
         onClick={name === "Sign Out" ? () => logout() : null}
       >
