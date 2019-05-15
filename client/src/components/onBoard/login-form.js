@@ -87,6 +87,9 @@ export class LoginForm extends React.Component {
         </div>
         <div className="pipe-div">
           <img src={warpPipe} alt="warp-pipe" className="warp-pipe" />
+          <p>Test account:</p>
+          <p>Username: testaccount</p>
+          <p>Password: password22</p>
           <img src={pirhanaPipe} alt="pirhana-pipe" className="pirhana-pipe" />
         </div>
         <div className="bricks-onboarding-holder-4" />
