@@ -1,15 +1,16 @@
 import React from "react";
-import "../styles/gameInfo.css";
 import { connect } from "react-redux";
+import dialogPolyfill from "dialog-polyfill";
 import Avatar from "./Avatar";
 import requiresLogin from "../requires-login";
 import { updateUserProfilePic } from "../../actions/users";
+import "../styles/gameInfo.css";
 
 class AvatarCard extends React.Component {
   showModal = () => {
-    const modal = document.getElementById("dialog-default");
-    window.dialogPolyfill.registerDialog(modal);
-    modal.showModal();
+    const dialog = document.getElementById("dialog-default");
+    dialogPolyfill.registerDialog(dialog);
+    dialog.showModal();
   };
 
   hideModal = () => {
