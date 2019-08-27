@@ -70,8 +70,7 @@
   padding: 0;
 }
 
-.avatar-sprite {
-  cursor: pointer;
+.avatar-sprite__button {
   -webkit-transition: all 100ms ease-in;
   -moz-transition: all 100ms ease-in;
   transition: all 100ms ease-in;
@@ -80,7 +79,9 @@
   filter: brightness(1.8) grayscale(1) opacity(0.7);
 }
 
-.avatar-sprite:hover {
+.avatar-sprite__button:active,
+.avatar-sprite__button:focus,
+.avatar-sprite__button:hover {
   opacity: 0.9;
   -webkit-filter: none;
   -moz-filter: none;

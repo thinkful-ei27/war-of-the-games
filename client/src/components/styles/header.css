@@ -1,39 +1,22 @@
 .header-bar {
   margin: 15px;
   background-color: #5c94fc;
-  /* background-image: url('https://i.pinimg.com/originals/5e/93/44/5e93446c8e04d4eebb641b953266846c.jpg'); */
-
   color: white;
   display: flex;
   flex-direction: column;
 }
 
 .nav-container {
-  list-style: none;
   text-decoration: none;
-  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
   padding: 0;
-  /* justify-content: center; */
-  /* background-color: #c84c0c; */
 }
 
-.nav-button {
-  text-decoration: none;
-  color: white;
-}
-
-.nav-button:hover {
-  text-decoration: none;
-  color: blue;
-}
-
-.web-links {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.title {
-  color: black;
+@media (min-width: 768px) {
+  .nav-container {
+    display: flex;
+  }
 }
