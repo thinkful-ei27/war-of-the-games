@@ -10,6 +10,105 @@ const imagesApi = require("../utils/imagesApi");
 const { isValidId, requiresAdmin } = require("./validators");
 const { JWT_SECRET } = require("../config");
 
+/**
+ * @swagger
+ *
+ * components:
+ *  schemas:
+ *    Game:
+ *      type: object
+ *      required:
+ *        - name
+ *        - igdb
+ *        - coverUrl
+ *      properties:
+ *        id:
+ *          type: string
+ *          example: 5c9a959ba5d0dd09e07f45a7
+ *        name:
+ *          type: string
+ *          example: Super Mario 64
+ *        igdb:
+ *          type: object
+ *          properties:
+ *            id:
+ *              type: integer
+ *              format: int32
+ *              example: 1074
+ *            slug:
+ *              type: string
+ *              example: super-mario-64
+ *        createdAt:
+ *          type: string
+ *          format: date-time
+ *        updatedAt:
+ *          type: string
+ *          format: date-time
+ *        coverUrl:
+ *          type: string
+ *          example: https://images.igdb.com/igdb/image/upload/t_720p/scutr4p9gytl4txb2soy.jpg
+ *        cloudImage:
+ *          type: string
+ *          example: https://res.cloudinary.com/hjihgo1pd/image/upload/v1554169097/5c9a959ba5d0dd09e07f45a7.jpg
+ *        core:
+ *          type: boolean
+ *          default: false
+ *          example: true
+ *        firstReleaseDate:
+ *          type: integer
+ *          format: int32
+ *          example: 835488000
+ *        summary:
+ *          type: string
+ *          example: Mario is invited by Princess Peach to her castle, but once he arrives he finds out that Bowser has kidnapped her. Mario has to overcome many challenges and collect Power Stars hidden in the castle's paintings and walls to defeat Bowser and rescue Peach in this seminal 3D platformer.
+ *        similar_games:
+ *          type: array
+ *          items:
+ *            type: integer
+ *            format: int32
+ *            example: 1068
+ *        motivations:
+ *          type: array
+ *          items:
+ *            type: string
+ *            example: action
+ *        subMotivations:
+ *          type: array
+ *          items:
+ *            type: string
+ *            example: destruction
+ *        genres:
+ *          type: array
+ *          items:
+ *            type: object
+ *            properties:
+ *              _id:
+ *                type: string
+ *                example: 5ca6594c66e3f116a70c7aa8
+ *              id:
+ *                type: integer
+ *                format: int32
+ *                example: 8
+ *              name:
+ *                type: string
+ *                example: Platform
+ *        platforms:
+ *          type: array
+ *          items:
+ *            type: object
+ *            properties:
+ *              _id:
+ *                type: string
+ *                example: 5ca6594c66e3f116a70c7aac
+ *              id:
+ *                type: integer
+ *                format: int32
+ *                example: 4
+ *              name:
+ *                type: string
+ *                example: Nintendo 64
+ */
+
 const router = express.Router();
 const jwtAuth = passport.authenticate("jwt", {
   session: false,
@@ -48,6 +147,31 @@ const igdbIdRequired = (req, res, next) => {
   return next();
 };
 
+/**
+ * @swagger
+ *
+ * /games:
+ *  get:
+ *    tags:
+ *      - Games
+ *    summary: Returns games
+ *    parameters:
+ *      - name: slug
+ *        in: query
+ *        description: IGDB slug
+ *        schema:
+ *          type: string
+ *        example: super-mario-64
+ *    responses:
+ *      200:
+ *        description: A JSON array of games
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Game'
+ */
 router.get("/", (req, res, next) => {
   const { slug } = req.query;
   const filter = {};
@@ -76,6 +200,24 @@ router.get("/igdb/:slug", (req, res, next) => {
 });
 
 // GET /api/games/battle must go before GET /api/games/:id or else it will never get called.
+/**
+ * @swagger
+ *
+ * /games/battle:
+ *  get:
+ *    tags:
+ *      - Games
+ *    summary: Returns two games
+ *    responses:
+ *      200:
+ *        description: A JSON array of two games
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Game'
+ */
 router.get("/battle", (req, res, next) => {
   const filters = { firstReleaseDate: { $lt: sixMonthsAgo }, core: true };
   // Get user if authToken is included in request
@@ -113,6 +255,43 @@ router.get("/battle", (req, res, next) => {
     .catch(err => next(err));
 });
 
+/**
+ * @swagger
+ *
+ * /games/{gameId}:
+ *  get:
+ *    tags:
+ *      - Games
+ *    summary: Returns a game by ID.
+ *    parameters:
+ *      - name: gameId
+ *        in: path
+ *        required: true
+ *        description: Game ID
+ *        schema:
+ *          type: string
+ *    responses:
+ *      200:
+ *        description: game
+ *        content:
+ *          application/json:
+ *            schema:
+ *               $ref: '#/components/schemas/Game'
+ *      404:
+ *        description: Not Found error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  format: int32
+ *                  example: 404
+ *                message:
+ *                  type: string
+ *                  example: Not Found
+ */
 router.get("/:id", isValidId, (req, res, next) => {
   const { id } = req.params;
   let game;
@@ -156,6 +335,59 @@ router.get("/:id", isValidId, (req, res, next) => {
     .catch(err => next(err));
 });
 
+/**
+ * @swagger
+ *
+ * /games:
+ *  post:
+ *    tags:
+ *      - Games
+ *    summary: Creates a game
+ *    security:
+ *      - BearerAuth: []
+ *    requestBody:
+ *      description: IGDB ID
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: number
+ *    responses:
+ *      201:
+ *        description: game
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Game'
+ *      401:
+ *        description: Unauthorized error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: int
+ *                  format: int32
+ *                  example: 401
+ *                message:
+ *                  type: string
+ *                  example: Unauthorized
+ *      422:
+ *        description: Validation error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: integer
+ *                  format: int32
+ *                  example: 422
+ *                message:
+ *                  type: string
+ *                  example: Game already exists
+ */
 router.post("/", jwtAuth, igdbIdRequired, (req, res, next) => {
   const { igdbId } = req.body;
 
@@ -221,6 +453,52 @@ router.post("/", jwtAuth, igdbIdRequired, (req, res, next) => {
     });
 });
 
+/**
+ * @swagger
+ *
+ * /games/{gameId}:
+ *  put:
+ *    tags:
+ *      - Games
+ *    summary: Updates a game
+ *    security:
+ *      - BearerAuth: []
+ *    parameters:
+ *      - name: gameId
+ *        in: path
+ *        required: true
+ *        description: Game ID
+ *        schema:
+ *          type: string
+ *    requestBody:
+ *      description: IGDB ID
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: number
+ *    responses:
+ *      200:
+ *        description: updated game
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Game'
+ *      401:
+ *        description: Unauthorized error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: int
+ *                  format: int32
+ *                  example: 401
+ *                message:
+ *                  type: string
+ *                  example: Unauthorized
+ */
 router.put(
   "/:id",
   jwtAuth,

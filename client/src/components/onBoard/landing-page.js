@@ -40,6 +40,17 @@ export class LandingPage extends React.Component {
     return dispatch(updateVoteCount(voteCount));
   }
 
+  // eslint-disable-next-line consistent-return
+  componentDidUpdate(prevProps) {
+    const { dispatch, loggedIn } = this.props;
+    if (!prevProps.loggedIn && loggedIn) {
+      dispatch(updateProgressBar(true));
+      return dispatch(fetchGames()).then(() =>
+        dispatch(updateProgressBar(false))
+      );
+    }
+  }
+
   handleFetchFeedback(game) {
     const { dispatch } = this.props;
     dispatch(fetchFeedback(game));

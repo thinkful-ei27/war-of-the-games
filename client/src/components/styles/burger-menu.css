@@ -1,3 +1,13 @@
+.burger-menu__dialog {
+  display: flex;
+  flex-flow: column;
+}
+
+.burger-menu__dialog button {
+  align-self: flex-start;
+  margin: 1rem;
+}
+
 .burger-menu__button {
   background: transparent;
   border: 0;

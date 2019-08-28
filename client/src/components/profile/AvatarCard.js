@@ -1,15 +1,16 @@
 import React from "react";
-import "../styles/gameInfo.css";
 import { connect } from "react-redux";
+import dialogPolyfill from "dialog-polyfill";
 import Avatar from "./Avatar";
 import requiresLogin from "../requires-login";
 import { updateUserProfilePic } from "../../actions/users";
+import "../styles/gameInfo.css";
 
 class AvatarCard extends React.Component {
   showModal = () => {
-    const modal = document.getElementById("dialog-default");
-    window.dialogPolyfill.registerDialog(modal);
-    modal.showModal();
+    const dialog = document.getElementById("dialog-default");
+    dialogPolyfill.registerDialog(dialog);
+    dialog.showModal();
   };
 
   hideModal = () => {
@@ -19,14 +20,14 @@ class AvatarCard extends React.Component {
 
   updateProfilePic(e) {
     e.preventDefault();
-    const pic = e.currentTarget.id;
+    const pic = e.currentTarget.value;
     const { userId, dispatch } = this.props;
     dispatch(updateUserProfilePic(userId, pic));
     this.hideModal();
   }
 
   render() {
-    const { level, xpToNextLevel, initialPic } = this.props;
+    const { level, xpToNextLevel, initialPic, profilePic } = this.props;
     const classIconNames = [
       "nes-mario",
       "nes-ash",
@@ -42,13 +43,15 @@ class AvatarCard extends React.Component {
       "master-chief"
     ];
     const classMap = classIconNames.map(icon => (
-      <li
-        className="w-1/3 p-2 avatar-sprite"
-        onClick={e => this.updateProfilePic(e)}
-        id={icon}
-        key={`h_${icon}`}
-      >
-        <i className={`${icon}`} value={icon} />
+      <li className="w-1/3 p-2 avatar-sprite" id={icon} key={`h_${icon}`}>
+        <button
+          className="avatar-sprite__button"
+          onClick={e => this.updateProfilePic(e)}
+          type="button"
+          value={icon}
+        >
+          <i className={`${icon}`} />
+        </button>
       </li>
     ));
     return (
@@ -81,7 +84,7 @@ class AvatarCard extends React.Component {
               onClick={() => this.showModal()}
             >
               +
-              <Avatar profilePic={this.props.profilePic || initialPic} />
+              <Avatar profilePic={profilePic || initialPic} />
             </button>
           </p>
           <div className="">

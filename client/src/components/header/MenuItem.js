@@ -4,19 +4,20 @@ import { connect } from "react-redux";
 import { clearAuth } from "../../actions/auth";
 import { clearAuthToken } from "../../local-storage";
 import { nextTestSuccess } from "../../actions/onboarding";
+import "../styles/MenuItem.css";
 
 export function MenuItem(props) {
-  const { name, link } = props;
+  const { dispatch, name, link } = props;
   const logout = () => {
     props.dispatch(clearAuth());
     clearAuthToken();
-    this.props.dispatch(nextTestSuccess("test2"));
+    dispatch(nextTestSuccess("test2"));
   };
   return (
-    <li className="nes-text is-primary p-4">
+    <li className="menu-item nes-text is-primary">
       <Link
-        to={link}
-        className=""
+        to={link || ""}
+        className="menu-item__link p-4"
         onClick={name === "Sign Out" ? () => logout() : null}
       >
         {name}
