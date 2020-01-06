@@ -27,7 +27,7 @@
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.19.5",
     "moment": "^2.24.0",
-    "mongoose": "^5.5.2",
+    "mongoose": ">=5.7.5",
     "morgan": "^1.9.1",
     "nodemon": "^1.18.11",
     "passport": "^0.4.0",
