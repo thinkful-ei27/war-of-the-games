@@ -16,7 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "apicalypse": "^0.1.3",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "bcryptjs": "^2.4.3",
     "better-queue": "^3.8.10",
     "better-queue-memory": "^1.0.3",
