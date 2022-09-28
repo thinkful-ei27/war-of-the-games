@@ -29,7 +29,7 @@
     "moment": "^2.29.4",
     "mongoose": ">=5.7.5",
     "morgan": "^1.9.1",
-    "nodemon": "^1.18.11",
+    "nodemon": "^2.0.20",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
