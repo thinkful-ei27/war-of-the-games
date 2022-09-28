@@ -24,7 +24,7 @@
     "react-dom": "^16.8.5",
     "react-modal": "^3.8.1",
     "react-redux": "^6.0.1",
-    "react-router-dom": "^5.0.0",
+    "react-router-dom": "^5.3.3",
     "react-tooltip": "^3.10.0",
     "recharts": "^1.5.0",
     "redux": "^4.0.1",
