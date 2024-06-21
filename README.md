@@ -1,3 +1,5 @@
+_Note from Derek: It's been five years since any meaningful contribution was made to this project. I'm archiving the repository. If someone wants to take this project back up, they are welcome to unarchive it. Hope y'all are having successful careers!_
+
 ![War of the Games on an old PC monitor](./presentation/wotg-mock.jpg)
 
 # War of the Games
